@@ -1,0 +1,7 @@
+<AddinProject appVersion="2.6">
+	<Project platforms="Mac">
+		<AddinFile>bin/Release/MonoDevelop.RhinoDebug.dll</AddinFile>
+		<BuildFile>MonoDevelop.RhinoDebug.sln</BuildFile>
+		<BuildConfiguration>Release</BuildConfiguration>
+	</Project>
+</AddinProject>
