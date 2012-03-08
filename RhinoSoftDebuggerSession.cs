@@ -1,4 +1,4 @@
-// To build the add-in for MonoDevelop 2.6+
+// To build the add-in for MonoDevelop 2.8+
 // go to the build directory with terminal and run the following
 // /Applications/MonoDevelop.app/Contents/MacOS/mdtool setup pack MonoDevelop.RhinoDebug.dll
 //
@@ -26,15 +26,26 @@ namespace MonoDevelop.Debugger.Soft.Rhino
 		{
 			if( m_rhino_app!=null )
 				throw new InvalidOperationException("Rhino already started");
-			
-			//string userhome = System.Environment.GetFolderPath(Environment.SpecialFolder.Personal);
-			//string app_path = System.IO.Path.Combine(userhome, "dev/rhino/src4/rhino4/build/Debug/Rhino.app/Contents/MacOS/Rhino");
-			string app_path = "arch";
-			var psi = new ProcessStartInfo(app_path);
+
+      string process_path = dsi.GetApplicationPath();
+      string process_args = "";
+      if( process_path.StartsWith("arch ") )
+      {
+        process_args = process_path.Substring("arch ".Length).Trim();
+        process_path = "arch";
+      }
+      
+      MonoDevelop.Core.LoggingService.LogInfo("Starting Rhino for debugging");
+      if( dsi.ContainsCustomStartArgs )
+        MonoDevelop.Core.LoggingService.LogInfo("--custom start args = " + dsi.GetApplicationPath());
+
+      var psi = new ProcessStartInfo(process_path);
 			psi.UseShellExecute = false;
 			psi.RedirectStandardOutput = true;
 			psi.RedirectStandardError = true;
-      psi.Arguments = "-i386 /Applications/Rhinoceros.app/Contents/MacOS/Rhino";
+      psi.Arguments = process_args;
+      //psi.Arguments = "/Applications/Rhinoceros.app/Contents/MacOS/Rhino";
+      //psi.Arguments = "-i386 /Applications/Rhinoceros.app/Contents/MacOS/Rhino";
 			
       var args = (Mono.Debugging.Soft.SoftDebuggerRemoteArgs) dsi.StartArgs;
 			string envvar = string.Format("transport=dt_socket,address={0}:{1}", args.Address, assignedDebugPort);
