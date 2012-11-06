@@ -21,3 +21,6 @@ http://monodevelop.com/Developers/Articles/Creating_a_Simple_Add-in
 
 MoonLight SoftDebugger is very similar add-in
 https://github.com/mono/monodevelop/tree/master/main/src/addins/MonoDevelop.Debugger.Soft/MonoDevelop.Debugger.Soft.Moonlight
+
+May also be interesting to look at
+https://github.com/Tak/MonoDevelop.Debugger.Soft.Unity
