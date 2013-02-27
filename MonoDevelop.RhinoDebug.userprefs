@@ -1,20 +1,17 @@
 ﻿<Properties GitUserInfo="UsingGIT">
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Release" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="RhinoSoftDebuggerSession.cs">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Release" PreferredExecutionTarget="MonoDevelop.Default" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="MonoDevelop.RhinoDebug.addin.xml">
     <Files>
-      <File FileName="addin-project.xml" Line="6" Column="19" />
+      <File FileName="addin-project.xml" Line="6" Column="28" />
       <File FileName="AssemblyInfo.cs" Line="6" Column="1" />
-      <File FileName="MonoDevelop.RhinoDebug.addin.xml" Line="8" Column="20" />
+      <File FileName="MonoDevelop.RhinoDebug.addin.xml" Line="13" Column="29" />
       <File FileName="RhinoSoftDebuggerEngine.cs" Line="1" Column="1" />
-      <File FileName="RhinoSoftDebuggerSession.cs" Line="4" Column="1" />
+      <File FileName="RhinoSoftDebuggerSession.cs" Line="28" Column="40" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
         <State expanded="True">
-          <Node name="MonoDevelop.RhinoDebug" expanded="True">
-            <Node name="References" expanded="True" />
-            <Node name="RhinoSoftDebuggerSession.cs" selected="True" />
-          </Node>
+          <Node name="MonoDevelop.RhinoDebug" expanded="True" />
         </State>
       </Pad>
       <Pad Id="ClassPad">
