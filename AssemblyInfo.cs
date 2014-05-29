@@ -7,9 +7,9 @@ using System.Runtime.CompilerServices;
 [assembly: AssemblyTitle("MonoDevelop.RhinoDebug")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("")]
+[assembly: AssemblyCompany("Robert McNeel & Associates")]
 [assembly: AssemblyProduct("")]
-[assembly: AssemblyCopyright("steve")]
+[assembly: AssemblyCopyright("steve Baer")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 

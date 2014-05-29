@@ -1,6 +1,6 @@
 // To build the add-in for MonoDevelop 2.8+
 // go to the build directory with terminal and run the following
-// /Applications/MonoDevelop.app/Contents/MacOS/mdtool setup pack MonoDevelop.RhinoDebug.dll
+// /Applications/Xamarin Studio.app/Contents/MacOS/mdtool setup pack MonoDevelop.RhinoDebug.dll
 //
 // This will generate a .mpack file that you can distribute to users
 
@@ -21,7 +21,7 @@ namespace MonoDevelop.Debugger.Soft.Rhino
       StartListening(dsi, out assignedDebugPort);
 			StartRhinoProcess(dsi, assignedDebugPort);
 		}
-		
+
 		void StartRhinoProcess(RhinoDebuggerStartInfo dsi, int assignedDebugPort)
 		{
 			if( m_rhino_app!=null )
