@@ -1,4 +1,0 @@
-/Users/stevenbaer/dev/github/mcneel/RhinoMonodevelopAddin/obj/Release/.NETFramework,Version=v4.0.AssemblyAttribute.cs
-/Users/stevenbaer/dev/github/mcneel/RhinoMonodevelopAddin/obj/Release/MonoDevelop.RhinoDebug.MonoDevelop.RhinoDebug.addin.xml
-/Users/stevenbaer/dev/github/mcneel/RhinoMonodevelopAddin/bin/Release/MonoDevelop.RhinoDebug.dll
-/Users/stevenbaer/dev/github/mcneel/RhinoMonodevelopAddin/obj/Release/MonoDevelop.RhinoDebug.dll
