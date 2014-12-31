@@ -60,6 +60,7 @@
     <Compile Include="AssemblyInfo.cs" />
     <Compile Include="RhinoSoftDebuggerEngine.cs" />
     <Compile Include="RhinoSoftDebuggerSession.cs" />
+    <Compile Include="RhinoProjectServiceExtension.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

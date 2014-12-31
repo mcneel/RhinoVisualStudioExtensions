@@ -18,7 +18,12 @@
 		<DebuggerEngine
 			id="Mono.Debugger.Soft.Rhino"
 			name="Mono Soft Debugger for Rhinoceros"
-			features="Breakpoints, Pause, Stepping, DebugFile, Catchpoints"
+			features="Breakpoints, Pause, Stepping, Stop, DebugFile, Catchpoints"
 			type="MonoDevelop.Debugger.Soft.Rhino.RhinoSoftDebuggerEngine" />
 	</Extension>
+
+  <Extension path = "/MonoDevelop/ProjectModel/ProjectServiceExtensions">
+    <Class class = "MonoDevelop.RhinoDebug.RhinoProjectServiceExtension" />
+  </Extension>
+
 </Addin>
