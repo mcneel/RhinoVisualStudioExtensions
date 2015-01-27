@@ -3,8 +3,6 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>8.0.30703</ProductVersion>
-    <SchemaVersion>2.0</SchemaVersion>
     <ProjectTypeGuids>{7DBEB09D-BB9F-4D92-A141-A009135475EF};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <ProjectGuid>{E11789C7-BD3D-4BBE-86A1-8B5CEC452134}</ProjectGuid>
     <OutputType>Library</OutputType>
@@ -61,6 +59,7 @@
     <Compile Include="RhinoSoftDebuggerEngine.cs" />
     <Compile Include="RhinoSoftDebuggerSession.cs" />
     <Compile Include="RhinoProjectServiceExtension.cs" />
+    <Compile Include="RhinoDebuggerStartInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

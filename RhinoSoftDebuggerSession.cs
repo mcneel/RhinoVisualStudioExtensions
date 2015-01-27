@@ -1,4 +1,4 @@
-// To build the add-in for MonoDevelop 2.8+
+// To build the add-in for Xamarin Studio 5.7+
 // go to the build directory with terminal and run the following
 // /Applications/Xamarin Studio.app/Contents/MacOS/mdtool setup pack MonoDevelop.RhinoDebug.dll
 //
@@ -20,17 +20,8 @@ namespace MonoDevelop.Debugger.Soft.Rhino
       var dsi = startInfo as RhinoDebuggerStartInfo;
       int assignedDebugPort;
       StartListening(dsi, out assignedDebugPort);
-      StartRhinoProcess(dsi, assignedDebugPort);
-    }
 
-    protected override void OnStop()
-    {
-      EndRhinoProcess();
-      base.OnStop();
-    }
-
-    void StartRhinoProcess(RhinoDebuggerStartInfo dsi, int assignedDebugPort)
-    {
+      // Start the Rhinoceros.app process
       if (m_rhino_app != null)
         throw new InvalidOperationException("Rhino already started");
 
@@ -44,19 +35,23 @@ namespace MonoDevelop.Debugger.Soft.Rhino
       
       MonoDevelop.Core.LoggingService.LogInfo("Starting Rhino for debugging");
       if (dsi.ContainsCustomStartArgs)
+      {
         MonoDevelop.Core.LoggingService.LogInfo("--custom start args = " + dsi.GetApplicationPath());
-
+      }
       var psi = new ProcessStartInfo(process_path);
       psi.UseShellExecute = false;
       psi.RedirectStandardOutput = true;
       psi.RedirectStandardError = true;
       psi.Arguments = process_args;
-      //psi.Arguments = "/Applications/Rhinoceros.app/Contents/MacOS/Rhino";
-      //psi.Arguments = "-i386 /Applications/Rhinoceros.app/Contents/MacOS/Rhino";
 			
       var args = (Mono.Debugging.Soft.SoftDebuggerRemoteArgs)dsi.StartArgs;
       string envvar = string.Format("transport=dt_socket,address={0}:{1}", args.Address, assignedDebugPort);
       psi.EnvironmentVariables.Add("RHINO_SOFT_DEBUG", envvar);
+      if( !string.IsNullOrWhiteSpace(dsi.TargetDirectory ) )
+      {
+        psi.EnvironmentVariables.Add("RHINO_BIN_DIRECTORY", dsi.TargetDirectory);
+      }
+
 			
       m_rhino_app = Process.Start(psi);
       ConnectOutput(m_rhino_app.StandardOutput, false);
@@ -66,6 +61,12 @@ namespace MonoDevelop.Debugger.Soft.Rhino
       {
         EndSession();
       };
+    }
+
+    protected override void OnStop()
+    {
+      EndRhinoProcess();
+      base.OnStop();
     }
 
     protected override void EndSession()

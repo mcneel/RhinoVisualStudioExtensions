@@ -3,7 +3,7 @@
        author	 = "Robert McNeel and Associates"
        url       = "https://github.com/mcneel/RhinoMonodevelopAddin"
        description = "Mono Soft Debugger Support for Rhinoceros"
-       copyright   = "2014 Robert McNeel and Associates"
+       copyright   = "2015 Robert McNeel and Associates"
        category = "Debugging"
        version   = "5.0">
 	

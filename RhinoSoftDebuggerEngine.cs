@@ -1,5 +1,5 @@
 using System;
-using MonoDevelop.RhinoDebug;
+
 
 namespace MonoDevelop.Debugger.Soft.Rhino
 {
@@ -17,12 +17,19 @@ namespace MonoDevelop.Debugger.Soft.Rhino
     public override Mono.Debugging.Client.DebuggerStartInfo CreateDebuggerStartInfo(MonoDevelop.Core.Execution.ExecutionCommand cmd)
     {
       string start_args = String.Empty;
+      string bin_dir = String.Empty;
       var execution_cmd = cmd as MonoDevelop.Core.Execution.DotNetExecutionCommand;
       if (execution_cmd != null)
       {
         start_args = execution_cmd.Arguments;
+        string target = execution_cmd.Command;
+        if (!string.IsNullOrWhiteSpace(target) && System.IO.File.Exists(target))
+        {
+          bin_dir = System.IO.Path.GetDirectoryName(target);
+        }
       }
-      return new RhinoDebuggerStartInfo("Rhino", start_args);
+
+      return new RhinoDebuggerStartInfo("Rhino", start_args, bin_dir);
     }
 
     public override Mono.Debugging.Client.DebuggerSession CreateSession()
@@ -33,31 +40,6 @@ namespace MonoDevelop.Debugger.Soft.Rhino
     public override Mono.Debugging.Client.ProcessInfo[] GetAttachableProcesses()
     {
       return new Mono.Debugging.Client.ProcessInfo[0];
-    }
-  }
-
-  class RhinoDebuggerStartInfo : Mono.Debugging.Soft.SoftDebuggerStartInfo
-  {
-    string m_start_args;
-
-    public RhinoDebuggerStartInfo(string appName, string start_args)
-      : base(new Mono.Debugging.Soft.SoftDebuggerListenArgs(appName, System.Net.IPAddress.Loopback, 0))
-    {
-      m_start_args = start_args;
-    }
-
-    public bool ContainsCustomStartArgs
-    {
-      get
-      {
-        return !string.IsNullOrWhiteSpace(m_start_args);
-      }
-    }
-
-    public string GetApplicationPath()
-    {
-      return RhinoProjectServiceExtension.GetAppPath(m_start_args, "Contents/MacOS/Rhinoceros")
-        ?? RhinoProjectServiceExtension.GetAppPath(m_start_args, "Contents/MacOS/Rhino");
     }
   }
 }

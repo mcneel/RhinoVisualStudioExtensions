@@ -11,12 +11,10 @@ using System.Reflection;
 using System.IO;
 
 
-namespace MonoDevelop.RhinoDebug
+namespace MonoDevelop.Debugger.Soft.Rhino
 {
   public class RhinoProjectServiceExtension: ProjectServiceExtension
   {
-    const string SoftDebuggerName = "Mono Soft Debugger for Rhinoceros";
-
     public override void Execute(MonoDevelop.Core.IProgressMonitor monitor, IBuildTarget item, ExecutionContext context, ConfigurationSelector configuration)
     {
       if (base.CanExecute(item, context, configuration))
@@ -29,6 +27,7 @@ namespace MonoDevelop.RhinoDebug
       var project = item as DotNetProject;
       if (project != null)
       {
+        const string SoftDebuggerName = "Mono Soft Debugger for Rhinoceros";
         var config = project.GetConfiguration(configuration) as DotNetProjectConfiguration;
         var cmd = new DotNetExecutionCommand (config.CompiledOutputName);
         cmd.Arguments = config.CommandLineParameters;
@@ -91,6 +90,7 @@ namespace MonoDevelop.RhinoDebug
         appPath = Path.Combine(appPath, childPath);
       return Directory.Exists(appPath) || File.Exists(appPath) ? appPath : null;
     }
+
 
     static void CopyFiles(IBuildTarget item, ConfigurationSelector configuration)
     {
