@@ -61,20 +61,30 @@ namespace MonoDevelop.Debugger.Soft.Rhino
       return result;
     }
 
+    const string StandardInstallPath = "/Applications/Rhinoceros.app";
+
+    static string GetXcodePath()
+    {
+      var homePath = Environment.GetEnvironmentVariable("HOME");
+      var derivedDataPath = Path.Combine(homePath, "Library/Developer/Xcode/DerivedData");
+      if (!Directory.Exists(derivedDataPath))
+        return null;
+      var appPath = Directory.GetDirectories(derivedDataPath).FirstOrDefault(r => Path.GetFileName(r).StartsWith("MacRhino-", StringComparison.Ordinal));
+      if (appPath == null)
+        return null;
+      appPath = Path.Combine(appPath, "Build/Products/Debug/Rhinoceros.app");
+      if (!Directory.Exists(appPath))
+        return null;
+      return appPath;
+    }
+
     public static string GetAppPath(string parameters, string childPath)
     {
       string appPath;
       if (parameters != null && parameters.StartsWith("-xcode", StringComparison.Ordinal))
       {
         // get output path
-        var homePath = Environment.GetEnvironmentVariable("HOME");
-        var derivedDataPath = Path.Combine(homePath, "Library/Developer/Xcode/DerivedData");
-        if (!Directory.Exists(derivedDataPath))
-          return null;
-        appPath = Directory.GetDirectories(derivedDataPath).FirstOrDefault(r => Path.GetFileName(r).StartsWith("MacRhino-", StringComparison.Ordinal));
-        if (appPath == null)
-          return null;
-        appPath = Path.Combine(appPath, "Build/Products/Debug/Rhinoceros.app");
+        appPath = GetXcodePath();
       }
       else if (parameters != null && parameters.StartsWith("-app_path=", StringComparison.Ordinal))
       {
@@ -82,9 +92,13 @@ namespace MonoDevelop.Debugger.Soft.Rhino
         path = path.Trim(new char[]{ '\"', ' ' });
         appPath = path;
       }
+      else if (parameters != null && parameters.StartsWith("-app", StringComparison.Ordinal))
+      {
+        appPath = StandardInstallPath;
+      }
       else
       {
-        appPath = "/Applications/Rhinoceros.app";
+        appPath = GetXcodePath() ?? StandardInstallPath;
       }
       if (!string.IsNullOrEmpty(childPath))
         appPath = Path.Combine(appPath, childPath);

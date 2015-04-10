@@ -1,0 +1,14 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ExtensionModel>
+  <Extension path="/MonoDevelop/Debugging/DebuggerEngines">
+    <DebuggerEngine
+      id="Mono.Debugger.Soft.Rhino"
+      name="Mono Soft Debugger for Rhinoceros"
+      features="Breakpoints, Pause, Stepping, Stop, DebugFile, Catchpoints"
+      type="MonoDevelop.Debugger.Soft.Rhino.RhinoSoftDebuggerEngine" />
+  </Extension>
+
+  <Extension path = "/MonoDevelop/ProjectModel/ProjectServiceExtensions">
+    <Class class = "MonoDevelop.Debugger.Soft.Rhino.RhinoProjectServiceExtension" />
+  </Extension>
+</ExtensionModel>
