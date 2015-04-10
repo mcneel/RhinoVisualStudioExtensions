@@ -23,7 +23,7 @@
 	</Extension>
 
   <Extension path = "/MonoDevelop/ProjectModel/ProjectServiceExtensions">
-    <Class class = "MonoDevelop.RhinoDebug.RhinoProjectServiceExtension" />
+    <Class class = "MonoDevelop.Debugger.Soft.Rhino.RhinoProjectServiceExtension" />
   </Extension>
 
 </Addin>
