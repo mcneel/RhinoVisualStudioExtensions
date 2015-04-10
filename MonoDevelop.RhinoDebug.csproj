@@ -73,7 +73,6 @@
   <ItemGroup>
     <None Include="addin-project.xml" />
     <None Include="packages.config" />
-    <None Include="MonoDevelop.RhinoDebug.addin.xml" />
   </ItemGroup>
   <ProjectExtensions>
     <MonoDevelop>
