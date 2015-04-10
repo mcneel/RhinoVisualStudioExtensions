@@ -133,7 +133,7 @@ namespace MonoDevelop.Debugger.Soft.Rhino
     static bool IsRhinoProject(IBuildTarget item)
     {
       var project = item as DotNetProject;
-      return project != null && project.References.Any(r => r.Reference == "RhinoCommon" || r.Reference == "RhinoMac");
+      return project != null && project.References.Any(r => r.Reference == "RhinoCommon");
     }
 
     public override bool CanExecute(IBuildTarget item, ExecutionContext context, ConfigurationSelector configuration)
