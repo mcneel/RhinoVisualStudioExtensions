@@ -1,26 +1,23 @@
-MonoDevelop Add-In for debugging RhinoCommon plug-ins on OSX Rhino
+MonoDevelop Add-In for debugging RhinoCommon plug-ins on Rhino for Mac
 
-Notes
--------
-In order to debug, add a 'dummy' console application to your solution and use that to start the debugger.  I don't know how to tell MonoDevelop to run the debugger for a DLL project yet.
+Install Instructions
+--------------------
 
-I don't know exactly where to place the compiled DLL, but building to an mpack and then installing in MonoDevelop adding manager "from file" appears to work
+1. As of this writing, update to **Xamarin Studio 5.8.3**.
+1. Download [the latest release](https://github.com/mcneel/RhinoMonodevelopAddin/releases).
+1. Extract the downloaded zip file to get an .mpack
+1. Launch Xamarin Studio
+1. Navigate to **Xamarin Studio** > **Add-in manager...**
+2. Expand **Debugging**
+3. Uninstall all previous versions of the Mono Soft Debugger for Rhinoceros (BUT NOT the Mono Soft Debugger)
+1. Click **Install from file...** button
+1. Navigate to the mack file you extracted, then click **Open**
+1. Click **Install**
+1. Click **Close**
+1. Verify that "Mono Soft Debugger Support for Rhinoceros" exists under the Debugging section of the Installed tab of the Add-in Manager.
 
-For internal debug build of Rhino from Xcode
+Debugging Rhino
+---------------
 
-In MonoDevelop, right click on 'dummy' project and select Run With
+1. Right-click a project in Xamarin Studio, then click **Run With...** -> **Mono Soft Debugger for Rhinoceros** (maybe someday this can be renamed *Rhino Debugger* so it's easier to find)
 
-Create a custom mode for the Rhino Soft Debugger
-
-In the 'arguments' box enter
--app_path="/Users/steve/Library/Developer/Xcode/DerivedData/MacRhino-bqyvykanvglloidkhdqerybggumx/Build/Products/Debug/Rhinoceros.app/Contents/MacOS/Rhinoceros"
-
-Useful Links
--------
-http://monodevelop.com/Developers/Articles/Creating_a_Simple_Add-in
-
-MoonLight SoftDebugger is very similar add-in
-https://github.com/mono/monodevelop/tree/master/main/src/addins/MonoDevelop.Debugger.Soft/MonoDevelop.Debugger.Soft.Moonlight
-
-May also be interesting to look at
-https://github.com/Tak/MonoDevelop.Debugger.Soft.Unity
