@@ -4,7 +4,7 @@ using Mono.Addins.Description;
 
 [assembly:Addin(
   "MonoDevelop.Debugger.Soft.Rhino",
-	Version = "5.8.3.0"
+	Version = "5.8.3.1"
 )]
 
 [assembly:AddinName("Mono Soft Debugger Support for Rhinoceros")]
