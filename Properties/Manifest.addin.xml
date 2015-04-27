@@ -11,4 +11,13 @@
   <Extension path = "/MonoDevelop/ProjectModel/ProjectServiceExtensions">
     <Class class = "MonoDevelop.Debugger.Soft.Rhino.RhinoProjectServiceExtension" />
   </Extension>
+
+  <Extension path="/MonoDevelop/Ide/ProjectTemplates">
+    <ProjectTemplate id="Rhino-Plugin" file="Templates/RhinoPlugin.xpt.xml" />
+  </Extension>
+
+  <Extension path="/MonoDevelop/Ide/FileTemplates">
+    <FileTemplate id="Rhino-Command" file="Templates/Command.xft.xml" />
+  </Extension>
+
 </ExtensionModel>

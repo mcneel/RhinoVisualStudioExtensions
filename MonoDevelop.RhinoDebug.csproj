@@ -87,9 +87,17 @@
   </ProjectExtensions>
   <ItemGroup>
     <Folder Include="Properties\" />
+    <Folder Include="Templates\" />
   </ItemGroup>
   <ItemGroup>
     <AddinReference Include="MonoDevelop.Debugger" />
     <AddinReference Include="MonoDevelop.Debugger.Soft" />
+  </ItemGroup>
+  <ItemGroup>
+    <AddinFile Include="Templates\Command.cs" />
+    <AddinFile Include="Templates\Command.xft.xml" />
+    <AddinFile Include="Templates\RhinoPlugin.xpt.xml" />
+    <AddinFile Include="Templates\Plugin.cs" />
+    <AddinFile Include="Templates\AssemblyInfo.cs" />
   </ItemGroup>
 </Project>

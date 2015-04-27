@@ -1,0 +1,26 @@
+﻿<?xml version="1.0"?>
+<Template>
+  <TemplateConfiguration>
+    <_Name>Rhino Plugin</_Name>
+    <_Category>C#/Rhino</_Category>
+    <LanguageName>C#</LanguageName>
+    <_Description>A plugin for Rhinoceros.</_Description>
+  </TemplateConfiguration>
+  <Combine name="${ProjectName}" directory=".">
+    <Project name="${ProjectName}" directory="./${ProjectName}" type="DotNet">
+      <Options Target="Library" TargetFrameworkVersion="4.5" />
+      <Files>
+        <File name="Properties/AssemblyInfo.cs" AddStandardHeader="True" src="AssemblyInfo.cs" />
+        <FileTemplateReference TemplateID="Rhino-Command" name="${ProjectName}Command.cs" />
+        <File name="${ProjectName}Plugin.cs" AddStandardHeader="True" src="Plugin.cs" />
+      </Files>
+      <References>
+        <Reference type="Gac" refto="System" />
+        <Reference type="Gac" refto="System.Core" />
+        <Reference type="Assembly" refto="/Applications/Rhinoceros.app/Contents/Resources/RhinoCommon.dll" LocalCopy="False" />
+        <Reference type="Assembly" refto="/Applications/Rhinoceros.app/Contents/Resources/Rhino.UI.dll" LocalCopy="False" />
+        <Reference type="Assembly" refto="/Applications/Rhinoceros.app/Contents/Resources/Eto.dll" LocalCopy="False" />
+      </References>
+    </Project>
+  </Combine>
+</Template>
