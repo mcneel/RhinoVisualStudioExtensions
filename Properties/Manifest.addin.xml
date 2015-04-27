@@ -4,7 +4,7 @@
     <DebuggerEngine
       id="Mono.Debugger.Soft.Rhino"
       name="Mono Soft Debugger for Rhinoceros"
-      features="Breakpoints, Pause, Stepping, Stop, DebugFile, Catchpoints"
+      features="Breakpoints, Pause, Stepping, DebugFile, Catchpoints"
       type="MonoDevelop.Debugger.Soft.Rhino.RhinoSoftDebuggerEngine" />
   </Extension>
 

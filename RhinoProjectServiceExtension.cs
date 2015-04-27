@@ -47,13 +47,13 @@ namespace MonoDevelop.Debugger.Soft.Rhino
 
     public override bool GetNeedsBuilding(IBuildTarget item, ConfigurationSelector configuration)
     {
-      return base.GetNeedsBuilding(item, configuration) && item == IdeApp.ProjectOperations.CurrentSelectedBuildTarget;
+      return base.GetNeedsBuilding(item, configuration) && IdeApp.ProjectOperations != null && item == IdeApp.ProjectOperations.CurrentSelectedBuildTarget;
     }
 
     protected override BuildResult Build(IProgressMonitor monitor, IBuildTarget item, ConfigurationSelector configuration)
     {
       var result = base.Build(monitor, item, configuration);
-      if (!result.Failed && item == IdeApp.ProjectOperations.CurrentSelectedBuildTarget)
+      if (!result.Failed && IdeApp.ProjectOperations != null && item == IdeApp.ProjectOperations.CurrentSelectedBuildTarget)
       {
         // copy files over
         //CopyFiles(item, configuration);
