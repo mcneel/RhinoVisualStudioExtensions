@@ -19,5 +19,5 @@ Install Instructions
 Debugging Rhino
 ---------------
 
-1. Right-click a project in Xamarin Studio, then click **Run With...** -> **Mono Soft Debugger for Rhinoceros** (maybe someday this can be renamed *Rhino Debugger* so it's easier to find)
+1. Verify that **DebugStarterExe** is set as your Startup project (right-click the project in Xamarin Studio, then click **Set as Startup project**).  Click the **Run** button in the upper left-hand corner.
 
