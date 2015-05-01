@@ -3,7 +3,7 @@ MonoDevelop Add-In for debugging RhinoCommon plug-ins on Rhino for Mac
 Install Instructions
 --------------------
 
-1. As of this writing, update to **Xamarin Studio 5.8.3**.
+1. As of this writing, update to **Xamarin Studio 5.9**.
 1. Download [the latest release](https://github.com/mcneel/RhinoMonodevelopAddin/releases).
 1. Extract the downloaded zip file to get an .mpack
 1. Launch Xamarin Studio
