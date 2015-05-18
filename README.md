@@ -11,7 +11,7 @@ Install Instructions
 2. Expand **Debugging**
 3. Uninstall all previous versions of the Mono Soft Debugger for Rhinoceros (BUT NOT the Mono Soft Debugger)
 1. Click **Install from file...** button
-1. Navigate to the mack file you extracted, then click **Open**
+1. Navigate to the mpack file you extracted, then click **Open**
 1. Click **Install**
 1. Click **Close**
 1. Verify that "Mono Soft Debugger Support for Rhinoceros" exists under the Debugging section of the Installed tab of the Add-in Manager.
@@ -19,5 +19,6 @@ Install Instructions
 Debugging Rhino
 ---------------
 
-1. Verify that **DebugStarterExe** is set as your Startup project (right-click the project in Xamarin Studio, then click **Set as Startup project**).  Click the **Run** button in the upper left-hand corner.
+1. Click the **Run** button in the upper left-hand corner of Xamarin Studio
+1. **NOTE: For McNeel developers working with internal builds** Verify that **DebugStarterExe** is set as your Startup project (right-click the project in Xamarin Studio, then click **Set as Startup project**).  Click the **Run** button in the upper left-hand corner.
 
