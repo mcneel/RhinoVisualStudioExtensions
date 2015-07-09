@@ -27,7 +27,7 @@ namespace MonoDevelop.Debugger.Soft.Rhino
 
       string process_path = dsi.GetApplicationPath();
       string process_args = "";
-      if (process_path.StartsWith("arch "))
+      if (process_path.StartsWith("arch ", StringComparison.Ordinal))
       {
         process_args = process_path.Substring("arch ".Length).Trim();
         process_path = "arch";
@@ -52,7 +52,6 @@ namespace MonoDevelop.Debugger.Soft.Rhino
         psi.EnvironmentVariables.Add("RHINO_BIN_DIRECTORY", dsi.TargetDirectory);
       }
 
-			
       m_rhino_app = Process.Start(psi);
       ConnectOutput(m_rhino_app.StandardOutput, false);
       ConnectOutput(m_rhino_app.StandardError, true);

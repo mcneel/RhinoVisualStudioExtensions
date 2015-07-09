@@ -1,14 +1,13 @@
 ﻿using System;
 using Mono.Addins;
-using Mono.Addins.Description;
 
 [assembly:Addin(
   "MonoDevelop.Debugger.Soft.Rhino",
-	Version = "5.8.3.1"
+	Version = "5.9.4.0"
 )]
 
-[assembly:AddinName("Mono Soft Debugger Support for Rhinoceros")]
+[assembly:AddinName("Rhino Xamarin Studio Addin")]
 [assembly:AddinCategory("Debugging")]
-[assembly:AddinDescription("Mono Soft Debugger Support for Rhinoceros")]
+[assembly:AddinDescription("Rhino plugin templates and debugger")]
 [assembly:AddinAuthor("Robert McNeel and Associates")]
 [assembly:AddinUrl("https://github.com/mcneel/RhinoMonodevelopAddin")]

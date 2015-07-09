@@ -1,0 +1,14 @@
+﻿<?xml version="1.0"?>
+<Template>
+  <TemplateConfiguration>
+    <_Name>Empty RhinoCommon Command</_Name>
+    <Icon>md-text-file-icon</Icon>
+    <_Category>Rhinoceros</_Category>
+    <LanguageName>C#</LanguageName>
+    <_Description><![CDATA[A new RhinoCommon Command implemented in C#.]]></_Description>
+    <DefaultFilename>MyCommand</DefaultFilename>
+  </TemplateConfiguration>
+  <TemplateFiles>
+    <File name="${Name}.cs" AddStandardHeader="true" src="EmptyCommand.cs" />
+  </TemplateFiles>
+</Template>

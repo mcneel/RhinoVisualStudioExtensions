@@ -13,11 +13,21 @@
   </Extension>
 
   <Extension path="/MonoDevelop/Ide/ProjectTemplates">
-    <ProjectTemplate id="Rhino-Plugin" file="Templates/RhinoPlugin.xpt.xml" />
+    <ProjectTemplate id="Rhino.Plugin" file="Templates/Plugin.xpt.xml" />
   </Extension>
 
   <Extension path="/MonoDevelop/Ide/FileTemplates">
-    <FileTemplate id="Rhino-Command" file="Templates/Command.xft.xml" />
+    <FileTemplate id="Rhino.EmptyCommand" file="Templates/EmptyCommand.xft.xml" />
+  </Extension>
+
+  <Extension path="/MonoDevelop/Ide/ProjectTemplateWizards">
+    <Class id="MonoDevelop.RhinoDebug.PluginWizard" class="MonoDevelop.RhinoDebug.PluginWizard" />
+  </Extension>
+
+  <Extension path="/MonoDevelop/Ide/ProjectTemplateCategories/other">
+    <Category id="rhino" name="Rhinoceros">
+      <Category id="general" name="General" />
+    </Category>
   </Extension>
 
 </ExtensionModel>

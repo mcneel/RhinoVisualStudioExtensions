@@ -1,6 +1,18 @@
 using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
+using Rhino.PlugIns;
+
+// Plug-in Description Attributes - all of these are optional
+// These will show in Rhino's option dialog, in the tab Plug-ins
+[assembly: PlugInDescription(DescriptionType.Address, "-")]
+[assembly: PlugInDescription(DescriptionType.Country, "-")]
+[assembly: PlugInDescription(DescriptionType.Email, "-")]
+[assembly: PlugInDescription(DescriptionType.Phone, "-")]
+[assembly: PlugInDescription(DescriptionType.Fax, "-")]
+[assembly: PlugInDescription(DescriptionType.Organization, "${AuthorCompany}")]
+[assembly: PlugInDescription(DescriptionType.UpdateUrl, "-")]
+[assembly: PlugInDescription(DescriptionType.WebSite, "-")]
 
 // Information about this assembly is defined by the following attributes. 
 // Change them to the values specific to your project.
@@ -27,4 +39,4 @@ using System.Runtime.InteropServices;
 //[assembly: AssemblyKeyFile("")]
 
 // Rhino requires a Guid assigned to the assembly. Xamarin Studio can't insert a Guid in file templates automatically.
-[assembly: Guid("<insert guid here using Tools > Insert Guid>")]
+[assembly: Guid("${Guid1}")]
