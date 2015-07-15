@@ -26,8 +26,8 @@ For Developers
 --------------
 Building this project requires the **Addin Maker Add-in**.  You can install this from within Xamarin Studio by navigating to **Xamarin Studio** > **Add-in Manager...** > **Gallery** > **Addin Development** > **Addin Maker**.  Click the **Install** button.  **Quit** and **relaunch** Xamarin Studio.
 
-To build the add-in for Xamarin Studio 5.7+, go to the build directory with **Terminal** and run the following:
+To build the add-in for Xamarin Studio 5.7+, go to the build (/bin/Debug/) directory with **Terminal** and run the following:
 
-`/Applications/"Xamarin Studio.app"/Contents/MacOS/mdtool setup pack MonoDevelop.RhinoDebug.dll`
+`/Applications/Xamarin\ Studio.app/Contents/MacOS/mdtool setup pack MonoDevelop.RhinoDebug.dll`
 
 This will generate a **.mpack** file that you can distribute to users.
