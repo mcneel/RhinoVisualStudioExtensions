@@ -1,4 +1,4 @@
-# RhinoCommon Plugin Support Xamarin Studio Addin
+# RhinoCommon Xamarin Studio Addin
 
 Includes RhinoCommon Plugin template wizards and the Rhino debugger.
 
