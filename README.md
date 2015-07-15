@@ -22,3 +22,12 @@ Debugging Rhino
 1. Click the **Run** button in the upper left-hand corner of Xamarin Studio
 1. **NOTE: For McNeel developers working with internal builds** Verify that **DebugStarterExe** is set as your Startup project (right-click the project in Xamarin Studio, then click **Set as Startup project**).  Click the **Run** button in the upper left-hand corner.
 
+For Developers
+--------------
+Building this project requires the **Addin Maker Add-in**.  You can install this from within Xamarin Studio by navigating to **Xamarin Studio** > **Add-in Manager...** > **Gallery** > **Addin Development** > **Addin Maker**.  Click the **Install** button.  **Quit** and **relaunch** Xamarin Studio.
+
+To build the add-in for Xamarin Studio 5.7+, go to the build directory with **Terminal** and run the following:
+
+`/Applications/"Xamarin Studio.app"/Contents/MacOS/mdtool setup pack MonoDevelop.RhinoDebug.dll`
+
+This will generate a **.mpack** file that you can distribute to users.
