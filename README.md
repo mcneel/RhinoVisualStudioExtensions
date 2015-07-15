@@ -1,4 +1,6 @@
-MonoDevelop Add-In for debugging RhinoCommon plug-ins on Rhino for Mac
+# RhinoCommon Plugin Support Xamarin Studio Addin
+
+Includes RhinoCommon Plugin template wizards and the Rhino debugger.
 
 Install Instructions
 --------------------
