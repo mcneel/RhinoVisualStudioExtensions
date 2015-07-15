@@ -5,13 +5,13 @@ namespace MonoDevelop.Debugger.Soft.Rhino
   class RhinoDebuggerStartInfo : Mono.Debugging.Soft.SoftDebuggerStartInfo
   {
     string m_start_args;
-    string m_bin_dir;
 
-    public RhinoDebuggerStartInfo(string appName, string start_args, string binDir)
+    public RhinoDebuggerStartInfo(string appName, string startArgs, string binDir, string pluginPath)
       : base(new Mono.Debugging.Soft.SoftDebuggerListenArgs(appName, System.Net.IPAddress.Loopback, 0))
     {
-      m_start_args = start_args;
-      m_bin_dir = binDir;
+      m_start_args = startArgs;
+      PluginPath = pluginPath;
+      TargetDirectory = binDir;
     }
 
     public bool ContainsCustomStartArgs
@@ -33,10 +33,8 @@ namespace MonoDevelop.Debugger.Soft.Rhino
         ?? RhinoProjectServiceExtension.GetAppPath(m_start_args, "Contents/MacOS/Rhino");
     }
 
-    public string TargetDirectory
-    {
-      get { return m_bin_dir; }
-    }
+    public string TargetDirectory { get; private set; }
+    public string PluginPath { get; private set; }
   }
 }
 

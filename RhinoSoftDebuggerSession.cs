@@ -47,9 +47,13 @@ namespace MonoDevelop.Debugger.Soft.Rhino
       var args = (Mono.Debugging.Soft.SoftDebuggerRemoteArgs)dsi.StartArgs;
       string envvar = string.Format("transport=dt_socket,address={0}:{1}", args.Address, assignedDebugPort);
       psi.EnvironmentVariables.Add("RHINO_SOFT_DEBUG", envvar);
-      if( !string.IsNullOrWhiteSpace(dsi.TargetDirectory ) )
+      if( !string.IsNullOrEmpty(dsi.TargetDirectory ) )
       {
         psi.EnvironmentVariables.Add("RHINO_BIN_DIRECTORY", dsi.TargetDirectory);
+      }
+      if (!string.IsNullOrEmpty(dsi.PluginPath))
+      {
+        psi.EnvironmentVariables.Add("RHINO_PLUGIN_PATH", dsi.PluginPath);
       }
 
       m_rhino_app = Process.Start(psi);

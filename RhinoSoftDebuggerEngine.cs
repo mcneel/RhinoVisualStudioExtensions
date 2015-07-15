@@ -18,6 +18,7 @@ namespace MonoDevelop.Debugger.Soft.Rhino
     {
       string start_args = String.Empty;
       string bin_dir = String.Empty;
+      string plugin_path = String.Empty;
       var execution_cmd = cmd as MonoDevelop.Core.Execution.DotNetExecutionCommand;
       if (execution_cmd != null)
       {
@@ -25,11 +26,12 @@ namespace MonoDevelop.Debugger.Soft.Rhino
         string target = execution_cmd.Command;
         if (!string.IsNullOrWhiteSpace(target) && System.IO.File.Exists(target))
         {
+          plugin_path = target;
           bin_dir = System.IO.Path.GetDirectoryName(target);
         }
       }
 
-      return new RhinoDebuggerStartInfo("Rhino", start_args, bin_dir);
+      return new RhinoDebuggerStartInfo("Rhino", start_args, bin_dir, plugin_path);
     }
 
     public override Mono.Debugging.Client.DebuggerSession CreateSession()
