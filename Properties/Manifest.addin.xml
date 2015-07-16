@@ -3,7 +3,7 @@
   <Extension path="/MonoDevelop/Debugging/DebuggerEngines">
     <DebuggerEngine
       id="Mono.Debugger.Soft.Rhino"
-      name="Mono Soft Debugger for Rhinoceros"
+      name="RhinoCommon Plug-In Debugger"
       features="Breakpoints, Pause, Stepping, DebugFile, Catchpoints"
       type="MonoDevelop.Debugger.Soft.Rhino.RhinoSoftDebuggerEngine" />
   </Extension>

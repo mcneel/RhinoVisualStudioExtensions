@@ -10,23 +10,8 @@ using Eto.Forms;
 
 namespace ${namespace}
 {
-  [System.Runtime.InteropServices.Guid("${Guid2}")]
   public class ${EscapedIdentifier} : Rhino.Commands.Command
   {
-    public ${EscapedIdentifier}()
-    {
-      // Rhino only creates one instance of each command class defined in a
-      // plug-in, so it is safe to store a refence in a static property.
-      Instance = this;
-    }
-
-    ///<summary>The only instance of this command.</summary>
-    public static ${EscapedIdentifier} Instance
-    {
-      get;
-      private set;
-    }
-
     public override string EnglishName
     {
       get { return "${EscapedIdentifier}"; }
@@ -55,7 +40,7 @@ namespace ${namespace}
       {
         getPointAction.SetCommandPrompt("Please select the end point");
         getPointAction.SetBasePoint(pt0, true);
-        getPointAction.DynamicDraw += (sender, e) => e.Display.DrawLine(pt0, e.CurrentPoint, System.Drawing.Color.DarkRed);
+        getPointAction.DrawLineFromPoint(pt0, true);
         if (getPointAction.Get() != GetResult.Point)
         {
           RhinoApp.WriteLine("No end point was selected.");
@@ -68,7 +53,6 @@ namespace ${namespace}
       doc.Views.Redraw();
       RhinoApp.WriteLine("The {0} command added one line to the document.", EnglishName);
 
-      // ---
 
       return Result.Success;
     }

@@ -74,6 +74,7 @@
   <ItemGroup>
     <None Include="addin-project.xml" />
     <None Include="packages.config" />
+    <None Include="README.md" />
   </ItemGroup>
   <ProjectExtensions>
     <MonoDevelop>

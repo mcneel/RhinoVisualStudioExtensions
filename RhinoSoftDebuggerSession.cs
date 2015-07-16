@@ -1,9 +1,3 @@
-// To build the add-in for Xamarin Studio 5.7+
-// go to the build directory with terminal and run the following
-// /Applications/Xamarin Studio.app/Contents/MacOS/mdtool setup pack MonoDevelop.RhinoDebug.dll
-//
-// This will generate a .mpack file that you can distribute to users
-
 using System;
 using System.Diagnostics;
 

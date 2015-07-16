@@ -13,9 +13,18 @@ using System.IO;
 
 namespace MonoDevelop.Debugger.Soft.Rhino
 {
+  class RhinoCommonExecutionCommand : DotNetExecutionCommand
+  {
+    public DotNetProject Project { get; set; }
+    public RhinoCommonExecutionCommand(string outputname, DotNetProject project): base(outputname)
+    {
+      Project = project;
+    }
+  }
+
   public class RhinoProjectServiceExtension: ProjectServiceExtension
   {
-    public override void Execute(MonoDevelop.Core.IProgressMonitor monitor, IBuildTarget item, ExecutionContext context, ConfigurationSelector configuration)
+    public override void Execute(IProgressMonitor monitor, IBuildTarget item, ExecutionContext context, ConfigurationSelector configuration)
     {
       if (base.CanExecute(item, context, configuration))
       {
@@ -27,9 +36,9 @@ namespace MonoDevelop.Debugger.Soft.Rhino
       var project = item as DotNetProject;
       if (project != null)
       {
-        const string SoftDebuggerName = "Mono Soft Debugger for Rhinoceros";
+        const string SoftDebuggerName = RhinoSoftDebuggerEngine.DebuggerName;
         var config = project.GetConfiguration(configuration) as DotNetProjectConfiguration;
-        var cmd = new DotNetExecutionCommand (config.CompiledOutputName);
+        var cmd = new RhinoCommonExecutionCommand (config.CompiledOutputName, project);
         cmd.Arguments = config.CommandLineParameters;
         cmd.WorkingDirectory = Path.GetDirectoryName (config.CompiledOutputName);
         cmd.EnvironmentVariables = config.GetParsedEnvironmentVariables ();
@@ -104,32 +113,7 @@ namespace MonoDevelop.Debugger.Soft.Rhino
         appPath = Path.Combine(appPath, childPath);
       return Directory.Exists(appPath) || File.Exists(appPath) ? appPath : null;
     }
-
-
-    static void CopyFiles(IBuildTarget item, ConfigurationSelector configuration)
-    {
-      if (!IsRhinoProject(item))
-        return;
-      var project = item as DotNetProject;
-      if (project == null)
-        return;
-      var config = project.GetConfiguration(configuration) as DotNetProjectConfiguration;
-      if (config == null)
-        return;
-
-      var destPath = GetAppPath(config.CommandLineParameters, "Contents/Resources");
-      if (string.IsNullOrEmpty(destPath))
-        return;
-
-      var path = config.OutputDirectory;
-      var files = Directory.GetFiles(path);
-      foreach (var file in files)
-      {
-        var destFile = Path.Combine(destPath, Path.GetFileName(file));
-        File.Copy(file, destFile, true);
-      }
-    }
-
+      
     static bool IsRhinoProject(IBuildTarget item)
     {
       var project = item as DotNetProject;
