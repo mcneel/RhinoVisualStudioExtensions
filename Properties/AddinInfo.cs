@@ -3,7 +3,7 @@ using Mono.Addins;
 
 [assembly:Addin(
   "MonoDevelop.Debugger.Soft.Rhino",
-	Version = "5.9.5.0"
+	Version = "5.9.6.0"
 )]
 
 [assembly:AddinName("RhinoCommon Plugin Support")]

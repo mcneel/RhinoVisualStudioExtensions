@@ -6,6 +6,7 @@
     <LanguageName>C#</LanguageName>
     <_Description>A new RhinoCommon plug-in that can be easily debugged and can automatically launch Rhino.</_Description>
     <Wizard>MonoDevelop.RhinoDebug.PluginWizard</Wizard>
+    <Image id="rhinocommon-project" />
   </TemplateConfiguration>
   <Combine name="${ProjectName}" directory=".">
     <Project name="${ProjectName}" directory="./${ProjectName}" type="DotNet">

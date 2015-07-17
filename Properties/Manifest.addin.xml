@@ -30,4 +30,8 @@
     </Category>
   </Extension>
 
+  <Extension path="/MonoDevelop/Ide/TemplateImages">
+    <Image id="rhinocommon-project" resource="MonoDevelop.RhinoDebug.Templates.rhinocommon-project.png" />
+  </Extension>
+
 </ExtensionModel>

@@ -8,5 +8,6 @@ Used by the MonoDevelop Add-In Repository
 		<AddinFile>bin/Release/MonoDevelop.RhinoDebug.dll</AddinFile>
 		<BuildFile>MonoDevelop.RhinoDebug.sln</BuildFile>
 		<BuildConfiguration>Release</BuildConfiguration>
+    <Icon32>rhinocommon_addin.png</Icon32>
 	</Project>
 </AddinProject>

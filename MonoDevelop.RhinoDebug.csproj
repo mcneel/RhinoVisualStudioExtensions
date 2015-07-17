@@ -70,6 +70,10 @@
   <Import Project="packages\MonoDevelop.Addins.0.2.3\build\net40\MonoDevelop.Addins.targets" Condition="Exists('packages\MonoDevelop.Addins.0.2.3\build\net40\MonoDevelop.Addins.targets')" />
   <ItemGroup>
     <EmbeddedResource Include="Properties\Manifest.addin.xml" />
+    <EmbeddedResource Include="Templates\rhinocommon-project.png" />
+    <EmbeddedResource Include="Templates\rhinocommon-project%402x.png" />
+    <EmbeddedResource Include="rhinocommon_addin.png" />
+    <EmbeddedResource Include="rhinocommon_addin%402x.png" />
   </ItemGroup>
   <ItemGroup>
     <None Include="addin-project.xml" />
