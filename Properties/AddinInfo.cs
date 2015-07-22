@@ -3,9 +3,13 @@ using Mono.Addins;
 
 // This controls the final name of the .mpack file that is generated.
 // e.g.: the following becomes RhinoXamarinStudioAddIn_x.x.x.x.mpack.
+// The first three numbers of the version should match the currently
+// stable version of Xamarin Studio that this AddIn runs within.
+// Bump the final number on a released revision to this AddIn within
+// the same stable release of Xamarin Studio.
 [assembly:Addin(
   "RhinoXamarinStudioAddIn",
-	Version = "5.9.7.0"
+	Version = "5.9.4.0"
 )]
 
 // This controls the displayed name in the Xamarin Studio Add-In Manager...
