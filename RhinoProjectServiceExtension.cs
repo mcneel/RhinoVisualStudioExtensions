@@ -120,10 +120,16 @@ namespace MonoDevelop.Debugger.Soft.Rhino
       return project != null && project.References.Any(r => r.Reference == "RhinoCommon");
     }
 
+    static bool IsGrasshopperProject(IBuildTarget item)
+    {
+      var project = item as DotNetProject;
+      return project != null && project.References.Any(r => r.Reference == "Grasshopper");
+    }
+
     public override bool CanExecute(IBuildTarget item, ExecutionContext context, ConfigurationSelector configuration)
     {
       bool res = base.CanExecute(item, context, configuration);
-      return res || IsRhinoProject(item);
+      return res || IsRhinoProject(item) || IsGrasshopperProject(item);
     }
   }
 }

@@ -6,13 +6,14 @@ namespace MonoDevelop.Debugger.Soft.Rhino
   {
     string m_start_args;
 
-    public RhinoDebuggerStartInfo(string appName, string startArgs, string binDir, string pluginPath, string rhinocommonPath)
+    public RhinoDebuggerStartInfo(string appName, string startArgs, string binDir, string pluginPath, string rhinocommonPath, bool isGrasshopper)
       : base(new Mono.Debugging.Soft.SoftDebuggerListenArgs(appName, System.Net.IPAddress.Loopback, 0))
     {
       m_start_args = startArgs;
       PluginPath = pluginPath;
       TargetDirectory = binDir;
       RhinoCommonPath = rhinocommonPath;
+      IsGrasshopper = isGrasshopper;
     }
 
     public bool ContainsCustomStartArgs
@@ -53,6 +54,7 @@ namespace MonoDevelop.Debugger.Soft.Rhino
     public string TargetDirectory { get; private set; }
     public string PluginPath { get; private set; }
     public string RhinoCommonPath { get; private set; }
+    public bool IsGrasshopper { get; private set; }
   }
 }
 

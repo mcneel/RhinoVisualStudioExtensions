@@ -30,5 +30,5 @@ using Rhino.PlugIns;
 
 [assembly: AssemblyVersion("1.0.*")]
 
-// Rhino requires a Guid assigned to the assembly. Xamarin Studio can't insert a Guid in file templates automatically.
+// Rhino requires a Guid assigned to the assembly.
 [assembly: Guid("${Guid1}")]

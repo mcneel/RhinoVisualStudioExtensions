@@ -1,0 +1,14 @@
+﻿<?xml version="1.0"?>
+<Template>
+  <TemplateConfiguration>
+    <_Name>Empty Grasshopper Component</_Name>
+    <Icon>md-text-file-icon</Icon>
+    <_Category>Rhinoceros</_Category>
+    <LanguageName>C#</LanguageName>
+    <_Description><![CDATA[A new Grasshopper component implemented in C#.]]></_Description>
+    <DefaultFilename>MyComponent</DefaultFilename>
+  </TemplateConfiguration>
+  <TemplateFiles>
+    <File name="${Name}.cs" AddStandardHeader="true" src="EmptyComponent.cs" />
+  </TemplateFiles>
+</Template>

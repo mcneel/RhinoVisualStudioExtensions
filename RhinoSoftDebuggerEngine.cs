@@ -21,6 +21,7 @@ namespace MonoDevelop.Debugger.Soft.Rhino
       string bin_dir = String.Empty;
       string plugin_path = String.Empty;
       string rhinocommon_path = String.Empty;
+      bool isGrasshopper = false;
       var execution_cmd = cmd as RhinoCommonExecutionCommand;
       if (execution_cmd != null)
       {
@@ -40,13 +41,16 @@ namespace MonoDevelop.Debugger.Soft.Rhino
             if (reference.HintPath != null && reference.HintPath.Contains("RhinoCommon"))
             {
               rhinocommon_path = reference.HintPath;
-              break;
+            }
+            if (reference.HintPath != null && reference.HintPath.Contains("Grasshopper"))
+            {
+              isGrasshopper = true;
             }
           }
         }
       }
 
-      return new RhinoDebuggerStartInfo("Rhino", start_args, bin_dir, plugin_path, rhinocommon_path);
+      return new RhinoDebuggerStartInfo("Rhino", start_args, bin_dir, plugin_path, rhinocommon_path, isGrasshopper);
     }
 
     public override Mono.Debugging.Client.DebuggerSession CreateSession()

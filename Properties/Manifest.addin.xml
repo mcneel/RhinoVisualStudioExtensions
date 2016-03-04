@@ -13,15 +13,17 @@
   </Extension>
 
   <Extension path="/MonoDevelop/Ide/ProjectTemplates">
-    <ProjectTemplate id="Rhino.Plugin" file="Templates/Plugin.xpt.xml" />
+    <ProjectTemplate id="Rhino.Plugin" file="Templates/Rhino/Plugin.xpt.xml" />
+    <ProjectTemplate id="Grasshopper.Plugin" file="Templates/Grasshopper/Plugin.xpt.xml" />
   </Extension>
 
   <Extension path="/MonoDevelop/Ide/FileTemplates">
-    <FileTemplate id="Rhino.EmptyCommand" file="Templates/EmptyCommand.xft.xml" />
+    <FileTemplate id="Rhino.EmptyCommand" file="Templates/Rhino/EmptyCommand.xft.xml" />
+    <FileTemplate id="Grasshopper.EmptyComponent" file="Templates/Grasshopper/EmptyComponent.xft.xml" />
   </Extension>
 
   <Extension path="/MonoDevelop/Ide/ProjectTemplateWizards">
-    <Class id="MonoDevelop.RhinoDebug.PluginWizard" class="MonoDevelop.RhinoDebug.PluginWizard" />
+    <Class id="MonoDevelop.RhinoDebug.PluginWizard" class="MonoDevelop.RhinoDebug.Wizard.PluginWizard" />
   </Extension>
 
   <Extension path="/MonoDevelop/Ide/ProjectTemplateCategories/other">
@@ -31,7 +33,8 @@
   </Extension>
 
   <Extension path="/MonoDevelop/Ide/TemplateImages">
-    <Image id="rhinocommon-project" resource="MonoDevelop.RhinoDebug.Templates.rhinocommon-project.png" />
+    <Image id="rhinocommon-project" resource="MonoDevelop.RhinoDebug.Templates.Rhino.rhinocommon-project.png" />
+    <Image id="grasshopper-project" resource="MonoDevelop.RhinoDebug.Templates.Grasshopper.grasshopper-project.png" />
   </Extension>
 
 </ExtensionModel>

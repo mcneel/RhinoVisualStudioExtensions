@@ -5,7 +5,7 @@ Includes RhinoCommon Plugin template wizards and the Rhino debugger.
 Install Instructions
 --------------------
 
-1. As of this writing, update to **Xamarin Studio 5.9**.
+1. As of this writing, update to **Xamarin Studio 5.10**.
 1. Download [the latest release](https://github.com/mcneel/RhinoCommonXamarinStudioAddin/releases).
 1. Launch **Xamarin Studio**.
 1. Navigate to **Xamarin Studio** > **Add-in Manager...**
@@ -30,7 +30,7 @@ For Developers (of this AddIn)
 --------------
 Building this project requires the **Addin Maker Add-in**.  You can install this from within Xamarin Studio by navigating to **Xamarin Studio** > **Add-in Manager...** > **Gallery** > **Addin Development** > **Addin Maker**.  Click the **Install** button.  **Quit** and **relaunch** Xamarin Studio.
 
-To build the add-in for Xamarin Studio 5.7+, go to the build (/bin/Debug/) directory with **Terminal** and run the following:
+To build the add-in for Xamarin Studio 5.10+, go to the build (/bin/Debug/) directory with **Terminal** and run the following:
 
 `/Applications/Xamarin\ Studio.app/Contents/MacOS/mdtool setup pack MonoDevelop.RhinoDebug.dll`
 

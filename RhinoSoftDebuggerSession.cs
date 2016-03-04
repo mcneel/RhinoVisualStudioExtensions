@@ -47,7 +47,10 @@ namespace MonoDevelop.Debugger.Soft.Rhino
       }
       if (!string.IsNullOrEmpty(dsi.PluginPath))
       {
-        psi.EnvironmentVariables.Add("RHINO_PLUGIN_PATH", dsi.PluginPath);
+        if (dsi.IsGrasshopper)
+          psi.EnvironmentVariables.Add("GRASSHOPPER_PLUGINS", dsi.PluginPath);
+        else
+          psi.EnvironmentVariables.Add("RHINO_PLUGIN_PATH", dsi.PluginPath);
       }
 
       m_rhino_app = Process.Start(psi);

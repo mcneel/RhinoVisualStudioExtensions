@@ -13,9 +13,9 @@
       <Options Target="Library" TargetFrameworkVersion="4.5" />
       <Files>
         <File name="Properties/AssemblyInfo.cs" AddStandardHeader="True" src="AssemblyInfo.cs" />
-        <FileTemplateReference TemplateID="Rhino.EmptyCommand" name="${ProjectName}Command.cs" if="!ProvideCommandSample" />
-        <File name="${ProjectName}Command.cs" AddStandardHeader="True" src="SimpleCommand.cs" if="ProvideCommandSample"  />
-        <File name="${ProjectName}Plugin.cs" AddStandardHeader="True" src="Plugin.cs"  />
+        <FileTemplateReference TemplateID="Rhino.EmptyCommand" name="${ProjectName}Command.cs" if="!ProvideCodeSample" />
+        <File name="${ProjectName}Command.cs" AddStandardHeader="True" src="SimpleCommand.cs" if="ProvideCodeSample" />
+        <File name="${ProjectName}Plugin.cs" AddStandardHeader="True" src="Plugin.cs" />
       </Files>
       <References>
         <Reference type="Gac" refto="System" />
