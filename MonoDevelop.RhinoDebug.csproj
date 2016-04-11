@@ -115,8 +115,8 @@
     <AddinFile Include="Templates\Grasshopper\AssemblyInfo.cs" />
     <AddinFile Include="Templates\Grasshopper\EmptyComponent.cs" />
     <AddinFile Include="Templates\Grasshopper\EmptyComponent.xft.xml" />
-    <AddinFile Include="Templates\Grasshopper\Plugin.xpt.xml" />
     <AddinFile Include="Templates\Grasshopper\Info.cs" />
     <AddinFile Include="Templates\Grasshopper\SimpleComponent.cs" />
+    <AddinFile Include="Templates\Grasshopper\Component.xpt.xml" />
   </ItemGroup>
 </Project>

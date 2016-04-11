@@ -1,10 +1,10 @@
 ﻿<?xml version="1.0"?>
 <Template>
   <TemplateConfiguration>
-    <_Name>Grasshopper Plug-In</_Name>
+    <_Name>Grasshopper Component</_Name>
     <Category>other/rhino/general</Category>
     <LanguageName>C#</LanguageName>
-    <_Description>A new Grasshopper plug-in that can be easily debugged and can automatically launch Rhino.</_Description>
+    <_Description>A new Grasshopper Component that can be easily debugged and can automatically launch Rhino.</_Description>
     <Wizard>MonoDevelop.RhinoDebug.PluginWizard</Wizard>
     <Image id="grasshopper-project" />
   </TemplateConfiguration>

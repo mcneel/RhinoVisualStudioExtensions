@@ -14,7 +14,7 @@
 
   <Extension path="/MonoDevelop/Ide/ProjectTemplates">
     <ProjectTemplate id="Rhino.Plugin" file="Templates/Rhino/Plugin.xpt.xml" />
-    <ProjectTemplate id="Grasshopper.Plugin" file="Templates/Grasshopper/Plugin.xpt.xml" />
+    <ProjectTemplate id="Grasshopper.Component" file="Templates/Grasshopper/Component.xpt.xml" />
   </Extension>
 
   <Extension path="/MonoDevelop/Ide/FileTemplates">
