@@ -9,7 +9,7 @@
     <Image id="grasshopper-project" />
   </TemplateConfiguration>
   <Combine name="${ProjectName}" directory=".">
-    <Project name="${ProjectName}" directory="./${ProjectName}" type="DotNet">
+    <Project name="${ProjectName}" directory="./${ProjectName}">
       <Options Target="Library" TargetFrameworkVersion="4.5" />
       <Files>
         <File name="Properties/AssemblyInfo.cs" AddStandardHeader="True" src="AssemblyInfo.cs" />

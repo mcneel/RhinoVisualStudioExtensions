@@ -19,7 +19,7 @@ namespace MonoDevelop.RhinoDebug.Wizard
       get { return string.Empty; }
     }
 
-    protected override object CreateNativeWidget()
+    protected override object CreateNativeWidget<T> ()
     {
       var cb = new Gtk.CheckButton("Provide Code Sample");
       cb.TooltipText = "Check to provide a sample implementation for the command/component";

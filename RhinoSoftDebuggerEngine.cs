@@ -3,7 +3,7 @@ using System;
 
 namespace MonoDevelop.Debugger.Soft.Rhino
 {
-  public class RhinoSoftDebuggerEngine : DebuggerEngineBackend
+  public class RhinoSoftDebuggerEngine : SoftDebuggerEngine
   {
     public string Id { get { return "Mono.Debugger.Soft.Rhino"; } }
 
@@ -38,11 +38,11 @@ namespace MonoDevelop.Debugger.Soft.Rhino
           for (int i = 0; i < execution_cmd.Project.References.Count; i++)
           {
             var reference = execution_cmd.Project.References[i];
-            if (reference.HintPath != null && reference.HintPath.Contains("RhinoCommon"))
+            if (reference.HintPath != null && reference.HintPath.FileNameWithoutExtension == "RhinoCommon")
             {
               rhinocommon_path = reference.HintPath;
             }
-            if (reference.HintPath != null && reference.HintPath.Contains("Grasshopper"))
+            if (reference.HintPath != null && reference.HintPath.FileNameWithoutExtension  == "Grasshopper")
             {
               isGrasshopper = true;
             }

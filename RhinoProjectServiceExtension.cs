@@ -9,6 +9,9 @@ using Mono.Debugging.Client;
 using MonoDevelop.Debugger.Soft.Rhino;
 using System.Reflection;
 using System.IO;
+using MonoDevelop.Projects.MSBuild;
+using System.Threading.Tasks;
+using System.Collections.Generic;
 
 
 namespace MonoDevelop.Debugger.Soft.Rhino
@@ -22,114 +25,129 @@ namespace MonoDevelop.Debugger.Soft.Rhino
     }
   }
 
-  public class RhinoProjectServiceExtension: ProjectServiceExtension
+  public class RhinoProjectServiceExtension : ProjectExtension
   {
-    public override void Execute(IProgressMonitor monitor, IBuildTarget item, ExecutionContext context, ConfigurationSelector configuration)
+    protected override Task OnExecute (ProgressMonitor monitor, ExecutionContext context, ConfigurationSelector configuration)
     {
-      if (base.CanExecute(item, context, configuration))
-      {
-        // It is executable by default
-        base.Execute(monitor, item, context, configuration);
-        return;
+      if (base.OnGetCanExecute (context, configuration)) {
+        base.OnExecute (monitor, context, configuration);
       }
 
-      var project = item as DotNetProject;
-      if (project != null)
-      {
+      var project = Project as DotNetProject;
+      if (project != null) {
         const string SoftDebuggerName = RhinoSoftDebuggerEngine.DebuggerName;
-        var config = project.GetConfiguration(configuration) as DotNetProjectConfiguration;
-        var cmd = new RhinoCommonExecutionCommand (config.CompiledOutputName, project);
+        var config = project.GetConfiguration (configuration) as DotNetProjectConfiguration;
+        var cmd = new RhinoCommonExecutionCommand (project.GetOutputFileName (configuration), project);
         cmd.Arguments = config.CommandLineParameters;
         cmd.WorkingDirectory = Path.GetDirectoryName (config.CompiledOutputName);
         cmd.EnvironmentVariables = config.GetParsedEnvironmentVariables ();
         cmd.TargetRuntime = project.TargetRuntime;
-        cmd.UserAssemblyPaths = project.GetUserAssemblyPaths(configuration);
+        cmd.UserAssemblyPaths = project.GetUserAssemblyPaths (configuration);
 
-        var executionModes = Runtime.ProcessService.GetExecutionModes();
-        var executionMode = executionModes.SelectMany(r => r.ExecutionModes).FirstOrDefault(r => r.Id == SoftDebuggerName);
-        var console = context.ConsoleFactory.CreateConsole(false);
-        var operation = executionMode.ExecutionHandler.Execute(cmd, console);
-        monitor.CancelRequested += monitor2 => operation.Cancel();
-        operation.WaitForCompleted();
+        var executionModes = Runtime.ProcessService.GetExecutionModes ();
+        var executionMode = executionModes.SelectMany (r => r.ExecutionModes).FirstOrDefault (r => r.Id == SoftDebuggerName);
+        var console = context.ConsoleFactory.CreateConsole (new OperationConsoleFactory.CreateConsoleOptions (true));
+        var operation = executionMode.ExecutionHandler.Execute (cmd, console);
+        monitor.CancellationToken.Register (() => operation.Cancel ());
+        return operation.Task;
+      }
+      return null;
+    }
+
+    protected override FilePath OnGetOutputFileName (ConfigurationSelector configuration)
+    {
+      var output = base.OnGetOutputFileName (configuration);
+      if (!disableOutputNameChange && IsSupportedProject)
+        return output.ChangeExtension (PluginExtension);
+      return output;
+    }
+
+    bool IsSupportedProject {
+      get {
+        return Project.GetMcNeelProjectType() != null;
       }
     }
 
-    public override bool GetNeedsBuilding(IBuildTarget item, ConfigurationSelector configuration)
-    {
-      return base.GetNeedsBuilding(item, configuration) && IdeApp.ProjectOperations != null && item == IdeApp.ProjectOperations.CurrentSelectedBuildTarget;
+    string PluginExtension {
+      get {
+        return Project.GetMcNeelProjectType()?.GetExtension() ?? "dll";
+      }
     }
 
-    protected override BuildResult Build(IProgressMonitor monitor, IBuildTarget item, ConfigurationSelector configuration)
+    bool disableOutputNameChange;
+
+    protected override async Task<BuildResult> OnBuild (ProgressMonitor monitor, ConfigurationSelector configuration, OperationContext operationContext)
     {
-      var result = base.Build(monitor, item, configuration);
-      if (!result.Failed && IdeApp.ProjectOperations != null && item == IdeApp.ProjectOperations.CurrentSelectedBuildTarget)
-      {
-        // copy files over
-        //CopyFiles(item, configuration);
+      var result = await base.OnBuild (monitor, configuration, operationContext);
+
+      if (!result.Failed && IsSupportedProject) {
+        // rename plugin output to .rhi or .ghp
+        disableOutputNameChange = true;
+        var file = Project.GetOutputFileName (configuration);
+        disableOutputNameChange = false;
+        var ext = PluginExtension;
+
+        RenameOutputFile (file, file.ChangeExtension(ext));
+        RenameOutputFile (file.ChangeExtension(file.Extension + ".mdb"), file.ChangeExtension(ext + ".mdb"));
       }
       return result;
     }
 
-    const string StandardInstallPath = "/Applications/Rhinoceros.app";
-
-    static string GetXcodePath()
+    protected override async Task<BuildResult> OnClean (ProgressMonitor monitor, ConfigurationSelector configuration, OperationContext operationContext)
     {
-      var homePath = Environment.GetEnvironmentVariable("HOME");
-      var derivedDataPath = Path.Combine(homePath, "Library/Developer/Xcode/DerivedData");
-      if (!Directory.Exists(derivedDataPath))
-        return null;
-      var appPath = Directory.GetDirectories(derivedDataPath).FirstOrDefault(r => Path.GetFileName(r).StartsWith("MacRhino-", StringComparison.Ordinal));
-      if (appPath == null)
-        return null;
-      appPath = Path.Combine(appPath, "Build/Products/Debug/Rhinoceros.app");
-      if (!Directory.Exists(appPath))
-        return null;
-      return appPath;
+      if (IsSupportedProject) {
+        // clean up the renamed output files
+        var file = Project.GetOutputFileName (configuration);
+        var ext = PluginExtension;
+        var assemblyFile = file.ChangeExtension (ext);
+        if (File.Exists (assemblyFile))
+          File.Delete (assemblyFile);
+        var debugFile = file.ChangeExtension (ext + ".mdb");
+        if (File.Exists (debugFile))
+          File.Delete (debugFile);
+      }
+      return await base.OnClean (monitor, configuration, operationContext);
     }
 
-    public static string GetAppPath(string parameters, string childPath)
+    static void RenameOutputFile (FilePath file, FilePath output)
     {
-      string appPath;
-      if (parameters != null && parameters.StartsWith("-xcode", StringComparison.Ordinal))
-      {
-        // get output path
-        appPath = GetXcodePath();
-      }
-      else if (parameters != null && parameters.StartsWith("-app_path=", StringComparison.Ordinal))
-      {
-        string path = parameters.Substring("-app_path=".Length);
-        path = path.Trim(new char[]{ '\"', ' ' });
-        appPath = path;
-      }
-      else if (parameters != null && parameters.StartsWith("-app", StringComparison.Ordinal))
-      {
-        appPath = StandardInstallPath;
-      }
-      else
-      {
-        appPath = GetXcodePath() ?? StandardInstallPath;
-      }
-      if (!string.IsNullOrEmpty(childPath))
-        appPath = Path.Combine(appPath, childPath);
-      return Directory.Exists(appPath) || File.Exists(appPath) ? appPath : null;
+      if (File.Exists (output.FullPath))
+        File.Delete (output.FullPath);
+
+      File.Move (file.FullPath, output.FullPath);
     }
+
+    protected override ProjectFeatures OnGetSupportedFeatures ()
+    {
+      var features = base.OnGetSupportedFeatures ();
+      if (IsSupportedProject)
+        features |= ProjectFeatures.Execute;
+      return features;
+    }
+
+    protected override bool OnGetCanExecute (ExecutionContext context, ConfigurationSelector configuration)
+    {
+      bool res = base.OnGetCanExecute (context, configuration);
+      if (res)
+        return true;
+
+      var dotNetProject = Project as DotNetProject;
+      if (dotNetProject == null || !IsSupportedProject)
+        return false;
+
+      var config = dotNetProject.GetConfiguration (configuration) as DotNetProjectConfiguration;
+      if (config == null)
+        return false;
+
+      var cmd = dotNetProject.CreateExecutionCommand (configuration, config);
+      if (context.ExecutionTarget != null)
+        cmd.Target = context.ExecutionTarget;
+      if (context.ExecutionHandler == null)
+        return false;
       
-    static bool IsRhinoProject(IBuildTarget item)
-    {
-      var project = item as DotNetProject;
-      return project != null && project.References.Any(r => r.Reference == "RhinoCommon");
-    }
+      var result = context.ExecutionHandler.CanExecute (cmd);
 
-    static bool IsGrasshopperProject(IBuildTarget item)
-    {
-      var project = item as DotNetProject;
-      return project != null && project.References.Any(r => r.Reference == "Grasshopper");
-    }
-
-    public override bool CanExecute(IBuildTarget item, ExecutionContext context, ConfigurationSelector configuration)
-    {
-      bool res = base.CanExecute(item, context, configuration);
-      return res || IsRhinoProject(item) || IsGrasshopperProject(item);
+      return result;
     }
   }
 }

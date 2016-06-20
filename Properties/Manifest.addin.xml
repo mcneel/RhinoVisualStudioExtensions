@@ -8,7 +8,7 @@
       type="MonoDevelop.Debugger.Soft.Rhino.RhinoSoftDebuggerEngine" />
   </Extension>
 
-  <Extension path = "/MonoDevelop/ProjectModel/ProjectServiceExtensions">
+  <Extension path = "/MonoDevelop/ProjectModel/ProjectModelExtensions">
     <Class class = "MonoDevelop.Debugger.Soft.Rhino.RhinoProjectServiceExtension" />
   </Extension>
 

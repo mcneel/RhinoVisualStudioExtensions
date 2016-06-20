@@ -1,4 +1,7 @@
 ﻿using System;
+using System.IO;
+using System.Linq;
+using MonoDevelop.Projects;
 
 namespace MonoDevelop.Debugger.Soft.Rhino
 {
@@ -47,8 +50,8 @@ namespace MonoDevelop.Debugger.Soft.Rhino
 
       // The actual executable name changed in the past from Rhino to Rhinoceros.
       // Just check for both
-      return RhinoProjectServiceExtension.GetAppPath(m_start_args, "Contents/MacOS/Rhinoceros")
-        ?? RhinoProjectServiceExtension.GetAppPath(m_start_args, "Contents/MacOS/Rhino");
+      return Helpers.GetAppPath(m_start_args, "Contents/MacOS/Rhinoceros")
+        ?? Helpers.GetAppPath(m_start_args, "Contents/MacOS/Rhino");
     }
 
     public string TargetDirectory { get; private set; }
