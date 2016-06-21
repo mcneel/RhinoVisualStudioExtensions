@@ -70,7 +70,7 @@ namespace MonoDevelop.Debugger.Soft.Rhino
 
     string PluginExtension {
       get {
-        return Project.GetMcNeelProjectType()?.GetExtension() ?? "dll";
+        return Project.GetMcNeelProjectType()?.GetExtension() ?? ".dll";
       }
     }
 
@@ -87,8 +87,10 @@ namespace MonoDevelop.Debugger.Soft.Rhino
         disableOutputNameChange = false;
         var ext = PluginExtension;
 
-        RenameOutputFile (file, file.ChangeExtension(ext));
-        RenameOutputFile (file.ChangeExtension(file.Extension + ".mdb"), file.ChangeExtension(ext + ".mdb"));
+        if (file.Extension != ext) {
+          RenameOutputFile (file, file.ChangeExtension (ext));
+          RenameOutputFile (file.ChangeExtension (file.Extension + ".mdb"), file.ChangeExtension (ext + ".mdb"));
+        }
       }
       return result;
     }
@@ -97,14 +99,19 @@ namespace MonoDevelop.Debugger.Soft.Rhino
     {
       if (IsSupportedProject) {
         // clean up the renamed output files
+        disableOutputNameChange = true;
         var file = Project.GetOutputFileName (configuration);
+        disableOutputNameChange = false;
         var ext = PluginExtension;
-        var assemblyFile = file.ChangeExtension (ext);
-        if (File.Exists (assemblyFile))
-          File.Delete (assemblyFile);
-        var debugFile = file.ChangeExtension (ext + ".mdb");
-        if (File.Exists (debugFile))
-          File.Delete (debugFile);
+
+        if (file.Extension != ext) {
+          var assemblyFile = file.ChangeExtension (ext);
+          if (File.Exists (assemblyFile))
+            File.Delete (assemblyFile);
+          var debugFile = file.ChangeExtension (ext + ".mdb");
+          if (File.Exists (debugFile))
+            File.Delete (debugFile);
+        }
       }
       return await base.OnClean (monitor, configuration, operationContext);
     }

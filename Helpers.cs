@@ -3,17 +3,21 @@ using System.IO;
 using MonoDevelop.Projects;
 using System.Linq;
 using MonoDevelop.Core;
+using System.Collections.Generic;
 namespace MonoDevelop.Debugger.Soft.Rhino
 {
   enum McNeelProjectType
   {
-    Grasshopper,
-    Rhino
+    DebugStarter,
+    RhinoCommon,
+    Grasshopper
   }
 
   static class Helpers
   {
     const string StandardInstallPath = "/Applications/Rhinoceros.app";
+    const string GrasshopperReferenceName = "Grasshopper";
+    const string RhinoCommonReferenceName = "RhinoCommon";
 
     public static string GetXcodePath ()
     {
@@ -30,20 +34,15 @@ namespace MonoDevelop.Debugger.Soft.Rhino
       return appPath;
     }
 
-    static bool IsDevProjectReference (DotNetProject project, ProjectReference r)
-    {
-      return project.Name != "DebugStarter" && r.ReferenceType == ReferenceType.Project;
-      /*var devPath = FilePath.Build ("~", "Library", "Developer");
-      return r.HintPath.IsChildPathOf(devPath)*/;
-    }
-
     public static string GetExtension (this McNeelProjectType type)
     {
       switch (type) {
+      case McNeelProjectType.DebugStarter:
+        return ".dll";
       case McNeelProjectType.Grasshopper:
-        return "gha";
-      case McNeelProjectType.Rhino:
-        return "rhp";
+        return ".gha";
+      case McNeelProjectType.RhinoCommon:
+        return ".rhp";
       default:
         throw new NotSupportedException ();
       }
@@ -54,11 +53,27 @@ namespace MonoDevelop.Debugger.Soft.Rhino
       var project = item as DotNetProject;
       if (project == null)
         return null;
-      if (project.References.Any (r => r.Reference == "Grasshopper" && !IsDevProjectReference (project, r)))
+
+      // check grasshopper first as those projects reference both RhinoCommon and Grasshopper
+      var reference = project.References.FirstOrDefault (r => r.Reference == GrasshopperReferenceName);
+      if (reference == null)
+        reference = project.References.FirstOrDefault (r => r.Reference == RhinoCommonReferenceName);
+
+      if (reference == null)
+        return null;
+
+      // if it's a project reference (vs assembly), treat it as a debug starter so we don't rename the output
+      if (reference.ReferenceType == ReferenceType.Project)
+        return McNeelProjectType.DebugStarter;
+
+      switch (reference.Reference) {
+      case GrasshopperReferenceName:
         return McNeelProjectType.Grasshopper;
-      if (project.References.Any (r => r.Reference == "RhinoCommon" && !IsDevProjectReference (project, r)))
-        return McNeelProjectType.Rhino;
-      return null;
+      case RhinoCommonReferenceName:
+        return McNeelProjectType.RhinoCommon;
+      default:
+        return McNeelProjectType.DebugStarter;
+      }
     }
 
     public static string GetAppPath (string parameters, string childPath)

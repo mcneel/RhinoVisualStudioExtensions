@@ -9,7 +9,7 @@ using Mono.Addins;
 // the same stable release of Xamarin Studio.
 [assembly:Addin(
   "RhinoXamarinStudioAddIn",
-	Version = "6.0.0.0"
+	Version = "6.0.0.1"
 )]
 
 // This controls the displayed name in the Xamarin Studio Add-In Manager...
