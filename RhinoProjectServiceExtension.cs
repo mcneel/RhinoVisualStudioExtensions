@@ -34,7 +34,7 @@ namespace MonoDevelop.Debugger.Soft.Rhino
       }
 
       var project = Project as DotNetProject;
-      if (project != null) {
+      if (project != null && IsSupportedProject) {
         const string SoftDebuggerName = RhinoSoftDebuggerEngine.DebuggerName;
         var config = project.GetConfiguration (configuration) as DotNetProjectConfiguration;
         var cmd = new RhinoCommonExecutionCommand (project.GetOutputFileName (configuration), project);
