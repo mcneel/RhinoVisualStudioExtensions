@@ -30,7 +30,7 @@ namespace MonoDevelop.Debugger.Soft.Rhino
     protected override Task OnExecute (ProgressMonitor monitor, ExecutionContext context, ConfigurationSelector configuration)
     {
       if (base.OnGetCanExecute (context, configuration)) {
-        base.OnExecute (monitor, context, configuration);
+        return base.OnExecute (monitor, context, configuration);
       }
 
       var project = Project as DotNetProject;
