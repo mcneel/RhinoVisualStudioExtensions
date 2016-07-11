@@ -27,29 +27,38 @@ namespace MonoDevelop.Debugger.Soft.Rhino
 
   public class RhinoProjectServiceExtension : ProjectExtension
   {
-    protected override Task OnExecute (ProgressMonitor monitor, ExecutionContext context, ConfigurationSelector configuration)
+    protected override Task OnExecute(ProgressMonitor monitor, ExecutionContext context, ConfigurationSelector configuration)
     {
-      if (base.OnGetCanExecute (context, configuration)) {
-        return base.OnExecute (monitor, context, configuration);
+      if (base.OnGetCanExecute(context, configuration))
+      {
+        return base.OnExecute(monitor, context, configuration);
       }
 
-      var project = Project as DotNetProject;
-      if (project != null && IsSupportedProject) {
-        const string SoftDebuggerName = RhinoSoftDebuggerEngine.DebuggerName;
-        var config = project.GetConfiguration (configuration) as DotNetProjectConfiguration;
-        var cmd = new RhinoCommonExecutionCommand (project.GetOutputFileName (configuration), project);
-        cmd.Arguments = config.CommandLineParameters;
-        cmd.WorkingDirectory = Path.GetDirectoryName (config.CompiledOutputName);
-        cmd.EnvironmentVariables = config.GetParsedEnvironmentVariables ();
-        cmd.TargetRuntime = project.TargetRuntime;
-        cmd.UserAssemblyPaths = project.GetUserAssemblyPaths (configuration);
+      try
+      {
+        var project = Project as DotNetProject;
+        if (project != null && IsSupportedProject)
+        {
+          const string SoftDebuggerName = RhinoSoftDebuggerEngine.DebuggerName;
+          var config = project.GetConfiguration(configuration) as DotNetProjectConfiguration;
+          var cmd = new RhinoCommonExecutionCommand(project.GetOutputFileName(configuration), project);
+          cmd.Arguments = config.CommandLineParameters;
+          cmd.WorkingDirectory = Path.GetDirectoryName(config.CompiledOutputName);
+          cmd.EnvironmentVariables = config.GetParsedEnvironmentVariables();
+          cmd.TargetRuntime = project.TargetRuntime;
+          cmd.UserAssemblyPaths = project.GetUserAssemblyPaths(configuration);
 
-        var executionModes = Runtime.ProcessService.GetExecutionModes ();
-        var executionMode = executionModes.SelectMany (r => r.ExecutionModes).FirstOrDefault (r => r.Id == SoftDebuggerName);
-        var console = context.ConsoleFactory.CreateConsole (new OperationConsoleFactory.CreateConsoleOptions (true));
-        var operation = executionMode.ExecutionHandler.Execute (cmd, console);
-        monitor.CancellationToken.Register (() => operation.Cancel ());
-        return operation.Task;
+          var executionModes = Runtime.ProcessService.GetExecutionModes();
+          var executionMode = executionModes.SelectMany(r => r.ExecutionModes).FirstOrDefault(r => r.Id == SoftDebuggerName);
+          var console = context.ConsoleFactory.CreateConsole(new OperationConsoleFactory.CreateConsoleOptions(true));
+          var operation = executionMode.ExecutionHandler.Execute(cmd, console);
+          monitor.CancellationToken.Register(() => operation.Cancel());
+          return operation.Task;
+        }
+      }
+      catch (Exception ex)
+      {
+        monitor.ReportError($"An error occurred starting Rhino.\n{ex}", ex);
       }
       return null;
     }
@@ -76,44 +85,62 @@ namespace MonoDevelop.Debugger.Soft.Rhino
 
     bool disableOutputNameChange;
 
-    protected override async Task<BuildResult> OnBuild (ProgressMonitor monitor, ConfigurationSelector configuration, OperationContext operationContext)
+    protected override async Task<BuildResult> OnBuild(ProgressMonitor monitor, ConfigurationSelector configuration, OperationContext operationContext)
     {
-      var result = await base.OnBuild (monitor, configuration, operationContext);
+      var result = await base.OnBuild(monitor, configuration, operationContext);
 
-      if (!result.Failed && IsSupportedProject) {
-        // rename plugin output to .rhi or .ghp
-        disableOutputNameChange = true;
-        var file = Project.GetOutputFileName (configuration);
-        disableOutputNameChange = false;
-        var ext = PluginExtension;
+      try
+      {
+        if (!result.Failed && IsSupportedProject)
+        {
+          // rename plugin output to .rhi or .ghp
+          disableOutputNameChange = true;
+          var file = Project.GetOutputFileName(configuration);
+          disableOutputNameChange = false;
+          var ext = PluginExtension;
 
-        if (file.Extension != ext) {
-          RenameOutputFile (file, file.ChangeExtension (ext));
-          RenameOutputFile (file.ChangeExtension (file.Extension + ".mdb"), file.ChangeExtension (ext + ".mdb"));
+          if (file.Extension != ext)
+          {
+            RenameOutputFile(file, file.ChangeExtension(ext));
+            RenameOutputFile(file.ChangeExtension(file.Extension + ".mdb"), file.ChangeExtension(ext + ".mdb"));
+          }
         }
+      }
+      catch (Exception ex)
+      {
+        monitor.ReportError($"An error occurred renaming output files to .rhi/.ghp.\n{ex}", ex);
       }
       return result;
     }
 
-    protected override async Task<BuildResult> OnClean (ProgressMonitor monitor, ConfigurationSelector configuration, OperationContext operationContext)
+    protected override async Task<BuildResult> OnClean(ProgressMonitor monitor, ConfigurationSelector configuration, OperationContext operationContext)
     {
-      if (IsSupportedProject) {
-        // clean up the renamed output files
-        disableOutputNameChange = true;
-        var file = Project.GetOutputFileName (configuration);
-        disableOutputNameChange = false;
-        var ext = PluginExtension;
+      try
+      {
+        if (IsSupportedProject)
+        {
+          // clean up the renamed output files
+          disableOutputNameChange = true;
+          var file = Project.GetOutputFileName(configuration);
+          disableOutputNameChange = false;
+          var ext = PluginExtension;
 
-        if (file.Extension != ext) {
-          var assemblyFile = file.ChangeExtension (ext);
-          if (File.Exists (assemblyFile))
-            File.Delete (assemblyFile);
-          var debugFile = file.ChangeExtension (ext + ".mdb");
-          if (File.Exists (debugFile))
-            File.Delete (debugFile);
+          if (file.Extension != ext)
+          {
+            var assemblyFile = file.ChangeExtension(ext);
+            if (File.Exists(assemblyFile))
+              File.Delete(assemblyFile);
+            var debugFile = file.ChangeExtension(ext + ".mdb");
+            if (File.Exists(debugFile))
+              File.Delete(debugFile);
+          }
         }
       }
-      return await base.OnClean (monitor, configuration, operationContext);
+      catch (Exception ex)
+      {
+        monitor.ReportError($"An error occurred cleaning output files.\n{ex}", ex);
+      }
+      return await base.OnClean(monitor, configuration, operationContext);
     }
 
     static void RenameOutputFile (FilePath file, FilePath output)
@@ -121,7 +148,8 @@ namespace MonoDevelop.Debugger.Soft.Rhino
       if (File.Exists (output.FullPath))
         File.Delete (output.FullPath);
 
-      File.Move (file.FullPath, output.FullPath);
+      if (File.Exists(file.FullPath))
+        File.Move (file.FullPath, output.FullPath);
     }
 
     protected override ProjectFeatures OnGetSupportedFeatures ()
