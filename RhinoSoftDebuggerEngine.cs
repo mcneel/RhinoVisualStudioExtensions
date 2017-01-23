@@ -10,11 +10,6 @@ namespace MonoDevelop.Debugger.Soft.Rhino
     public const string DebuggerName = "RhinoCommon Plug-In Debugger";
     public string Name { get { return DebuggerName; } }
 
-    public override bool CanDebugCommand(MonoDevelop.Core.Execution.ExecutionCommand cmd)
-    {
-      return true;
-    }
-
     public override Mono.Debugging.Client.DebuggerStartInfo CreateDebuggerStartInfo(MonoDevelop.Core.Execution.ExecutionCommand cmd)
     {
       string start_args = String.Empty;

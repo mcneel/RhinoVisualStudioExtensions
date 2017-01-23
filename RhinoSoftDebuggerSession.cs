@@ -12,6 +12,10 @@ namespace MonoDevelop.Debugger.Soft.Rhino
     protected override void OnRun(Mono.Debugging.Client.DebuggerStartInfo startInfo)
     {
       var dsi = startInfo as RhinoDebuggerStartInfo;
+      if (dsi == null)
+      {
+        base.OnRun(startInfo);
+      }
       int assignedDebugPort;
       StartListening(dsi, out assignedDebugPort);
 
