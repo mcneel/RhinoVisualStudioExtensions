@@ -24,7 +24,7 @@ Debugging Rhino
 ---------------
 
 1. Click the **Run** button in the upper left-hand corner of Xamarin Studio.
-1. **NOTE: For developers working with RhinoWIP builds**: please see the [Debug in RhinoWIP (Mac)](http://developer.rhino3d.com/guides/rhinocommon/debug_rhinowip_mac/) guide.
+1. **NOTE: For developers working with RhinoWIP builds**: please see the [Debug in RhinoWIP (Mac)](http://developer.rhino3d.com/wip/guides/rhinocommon/debug-rhinowip-mac/) guide.
 
 For Developers (of this AddIn)
 --------------
