@@ -19,7 +19,7 @@ namespace MonoDevelop.Debugger.Soft.Rhino
   class RhinoCommonExecutionCommand : DotNetExecutionCommand
   {
     public DotNetProject Project { get; set; }
-    public RhinoCommonExecutionCommand(string outputname, DotNetProject project): base(outputname)
+    public RhinoCommonExecutionCommand(string outputname, DotNetProject project) : base(outputname)
     {
       Project = project;
     }
@@ -27,11 +27,25 @@ namespace MonoDevelop.Debugger.Soft.Rhino
 
   public class RhinoProjectServiceExtension : ProjectExtension
   {
-    protected override Task OnExecute(ProgressMonitor monitor, ExecutionContext context, ConfigurationSelector configuration)
+		protected override void OnBeginLoad()
+		{
+			base.OnBeginLoad();
+
+      RhinoGlobalProperties.RequiresMdb = false;
+		}
+		
+    protected override void OnEndLoad()
     {
-      if (base.OnGetCanExecute(context, configuration))
+			base.OnEndLoad();
+
+      SetRequiresMdb();
+		}
+
+    protected override Task OnExecute(ProgressMonitor monitor, ExecutionContext context, ConfigurationSelector configuration, SolutionItemRunConfiguration runConfiguration)
+    {
+      if (base.OnGetCanExecute(context, configuration, runConfiguration))
       {
-        return base.OnExecute(monitor, context, configuration);
+        return base.OnExecute(monitor, context, configuration, runConfiguration);
       }
 
       try
@@ -63,33 +77,44 @@ namespace MonoDevelop.Debugger.Soft.Rhino
       return null;
     }
 
-    protected override FilePath OnGetOutputFileName (ConfigurationSelector configuration)
+    protected override FilePath OnGetOutputFileName(ConfigurationSelector configuration)
     {
-      var output = base.OnGetOutputFileName (configuration);
+      var output = base.OnGetOutputFileName(configuration);
       if (!disableOutputNameChange && IsSupportedProject)
-        return output.ChangeExtension (PluginExtension);
+        return output.ChangeExtension(PluginExtension);
       return output;
     }
 
-    bool IsSupportedProject {
-      get {
-        return Project.GetMcNeelProjectType() != null;
+		bool IsSupportedProject => Project.GetMcNeelProjectType() != null;
+
+    bool IsRhinoV6 => Project.IsRhinoV6();
+
+    bool RequiresMdb
+    {
+      get
+      {
+        if (Project.ProjectProperties.GetValue<string>("RhinoVersion") == "5")
+          return true;
+        return !IsRhinoV6;
       }
     }
 
-    string PluginExtension {
-      get {
-        return Project.GetMcNeelProjectType()?.GetExtension() ?? ".dll";
-      }
-    }
+		string PluginExtension => Project.GetMcNeelProjectType()?.GetExtension() ?? ".dll";
 
     bool disableOutputNameChange;
 
+    void SetRequiresMdb()
+    {
+			if (IsSupportedProject)
+				RhinoGlobalProperties.RequiresMdb |= RequiresMdb;
+		}
+
     protected override async Task<BuildResult> OnBuild(ProgressMonitor monitor, ConfigurationSelector configuration, OperationContext operationContext)
     {
-      var result = await base.OnBuild(monitor, configuration, operationContext);
+      SetRequiresMdb();
+			var result = await base.OnBuild(monitor, configuration, operationContext);
 
-      try
+			try
       {
         if (!result.Failed && IsSupportedProject)
         {
@@ -102,7 +127,7 @@ namespace MonoDevelop.Debugger.Soft.Rhino
           if (file.Extension != ext)
           {
             RenameOutputFile(file, file.ChangeExtension(ext));
-            RenameOutputFile(file.ChangeExtension(file.Extension + ".mdb"), file.ChangeExtension(ext + ".mdb"));
+						RenameOutputFile(file.ChangeExtension(file.Extension + ".mdb"), file.ChangeExtension(ext + ".mdb"));
           }
         }
       }
@@ -117,10 +142,12 @@ namespace MonoDevelop.Debugger.Soft.Rhino
     {
       try
       {
+				SetRequiresMdb();
+				
         if (IsSupportedProject)
         {
-          // clean up the renamed output files
-          disableOutputNameChange = true;
+					// clean up the renamed output files
+					disableOutputNameChange = true;
           var file = Project.GetOutputFileName(configuration);
           disableOutputNameChange = false;
           var ext = PluginExtension;
@@ -130,7 +157,7 @@ namespace MonoDevelop.Debugger.Soft.Rhino
             var assemblyFile = file.ChangeExtension(ext);
             if (File.Exists(assemblyFile))
               File.Delete(assemblyFile);
-            var debugFile = file.ChangeExtension(ext + ".mdb");
+						var debugFile = file.ChangeExtension(ext + ".mdb");
             if (File.Exists(debugFile))
               File.Delete(debugFile);
           }
@@ -143,26 +170,28 @@ namespace MonoDevelop.Debugger.Soft.Rhino
       return await base.OnClean(monitor, configuration, operationContext);
     }
 
-    static void RenameOutputFile (FilePath file, FilePath output)
+    static void RenameOutputFile(FilePath file, FilePath output)
     {
-      if (File.Exists (output.FullPath))
-        File.Delete (output.FullPath);
-
       if (File.Exists(file.FullPath))
-        File.Move (file.FullPath, output.FullPath);
+      {
+        if (File.Exists(output.FullPath))
+          File.Delete(output.FullPath);
+
+        File.Move(file.FullPath, output.FullPath);
+      }
     }
 
-    protected override ProjectFeatures OnGetSupportedFeatures ()
+    protected override ProjectFeatures OnGetSupportedFeatures()
     {
-      var features = base.OnGetSupportedFeatures ();
+      var features = base.OnGetSupportedFeatures();
       if (IsSupportedProject)
         features |= ProjectFeatures.Execute;
       return features;
     }
 
-    protected override bool OnGetCanExecute (ExecutionContext context, ConfigurationSelector configuration)
+    protected override bool OnGetCanExecute(ExecutionContext context, ConfigurationSelector configuration, SolutionItemRunConfiguration runConfiguration)
     {
-      bool res = base.OnGetCanExecute (context, configuration);
+      bool res = base.OnGetCanExecute(context, configuration, runConfiguration);
       if (res)
         return true;
 
@@ -170,17 +199,19 @@ namespace MonoDevelop.Debugger.Soft.Rhino
       if (dotNetProject == null || !IsSupportedProject)
         return false;
 
-      var config = dotNetProject.GetConfiguration (configuration) as DotNetProjectConfiguration;
+      var config = dotNetProject.GetConfiguration(configuration) as DotNetProjectConfiguration;
       if (config == null)
         return false;
 
-      var cmd = dotNetProject.CreateExecutionCommand (configuration, config);
+
+			var projectRun = dotNetProject.GetDefaultRunConfiguration() as ProjectRunConfiguration;
+      var cmd = dotNetProject.CreateExecutionCommand(configuration, config, projectRun);
       if (context.ExecutionTarget != null)
         cmd.Target = context.ExecutionTarget;
       if (context.ExecutionHandler == null)
         return false;
-      
-      var result = context.ExecutionHandler.CanExecute (cmd);
+
+      var result = context.ExecutionHandler.CanExecute(cmd);
 
       return result;
     }
