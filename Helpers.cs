@@ -4,6 +4,8 @@ using MonoDevelop.Projects;
 using System.Linq;
 using MonoDevelop.Core;
 using System.Collections.Generic;
+using System.Reflection;
+using System.Diagnostics;
 namespace MonoDevelop.Debugger.Soft.Rhino
 {
   enum McNeelProjectType
@@ -47,6 +49,53 @@ namespace MonoDevelop.Debugger.Soft.Rhino
         throw new NotSupportedException ();
       }
     }
+
+    static object s_IsRhinoV6Key = new object();
+    public static bool IsRhinoV6(this IBuildTarget item)
+    {
+      var project = item as DotNetProject;
+      if (project == null)
+        return false;
+
+      var isv6 = project.ExtendedProperties[s_IsRhinoV6Key] as bool?;
+			if (isv6 != null)
+				return isv6.Value;
+
+			// check grasshopper first as those projects reference both RhinoCommon and Grasshopper
+			var reference = project.References.FirstOrDefault(r => r.Reference == GrasshopperReferenceName);
+			if (reference == null)
+				reference = project.References.FirstOrDefault(r => r.Reference == RhinoCommonReferenceName);
+
+      bool result = true;
+
+      if (reference?.ReferenceType == ReferenceType.Project)
+      {
+        // the reference is a project type, assume v6
+        // and in v5 we include our own props file
+        result = true;
+      }
+      else if (reference != null)
+      {
+        try
+        {
+          var absPath = project.GetAbsoluteChildPath(FilePath.Build(reference.HintPath));
+          if (File.Exists(absPath.FullPath))
+          {
+            var raw = File.ReadAllBytes(absPath.FullPath);
+            var asm = Assembly.ReflectionOnlyLoad(raw);
+            Console.WriteLine($"Found Rhino assembly version {asm.GetName().Version}");
+            result = asm.GetName().Version.Major == 6;
+          }
+        }
+        catch (Exception ex)
+        {
+					// ignore errors here!
+					Console.WriteLine($"Exception was thrown trying to read Rhino assembly version {ex}");
+				}
+      }
+      project.ExtendedProperties[s_IsRhinoV6Key] = result;
+      return result;
+		}
 
     public static McNeelProjectType? GetMcNeelProjectType (this IBuildTarget item)
     {
