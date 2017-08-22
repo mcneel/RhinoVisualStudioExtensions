@@ -87,17 +87,20 @@ namespace MonoDevelop.Debugger.Soft.Rhino
 
 		bool IsSupportedProject => Project.GetMcNeelProjectType() != null;
 
-    bool IsRhinoV6 => Project.IsRhinoV6();
+    int? RhinoVersion => Project.GetRhinoVersion();
 
-    bool RequiresMdb
+    bool IsPlugin
     {
       get
       {
-        if (Project.ProjectProperties.GetValue<string>("RhinoVersion") == "5")
+        if (Project.ProjectProperties.GetValue<bool>("RhinoPlugin"))
           return true;
-        return !IsRhinoV6;
+        // check for nuget package
+        return false;
       }
     }
+
+    bool RequiresMdb => RhinoVersion < 6;
 
 		string PluginExtension => Project.GetMcNeelProjectType()?.GetExtension() ?? ".dll";
 

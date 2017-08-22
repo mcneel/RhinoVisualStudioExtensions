@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="packages\MonoDevelop.Addins.0.3.16\build\net45\MonoDevelop.Addins.props" Condition="Exists('packages\MonoDevelop.Addins.0.3.16\build\net45\MonoDevelop.Addins.props')" />
+  <Import Project="packages\MonoDevelop.Addins.0.3.18\build\MonoDevelop.Addins.props" Condition="Exists('packages\MonoDevelop.Addins.0.3.18\build\MonoDevelop.Addins.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
@@ -11,6 +11,7 @@
     <AssemblyName>MonoDevelop.RhinoDebug</AssemblyName>
     <ProductVersion>8.0.30703</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>True</DebugSymbols>
@@ -103,5 +104,5 @@
     <AddinReference Include="MonoDevelop.Debugger.Soft" />
     <AddinReference Include="MonoDevelop.CSharpBinding" />
   </ItemGroup>
-  <Import Project="packages\MonoDevelop.Addins.0.3.16\build\net45\MonoDevelop.Addins.targets" Condition="Exists('packages\MonoDevelop.Addins.0.3.16\build\net45\MonoDevelop.Addins.targets')" />
+  <Import Project="packages\MonoDevelop.Addins.0.3.18\build\MonoDevelop.Addins.targets" Condition="Exists('packages\MonoDevelop.Addins.0.3.18\build\MonoDevelop.Addins.targets')" />
 </Project>

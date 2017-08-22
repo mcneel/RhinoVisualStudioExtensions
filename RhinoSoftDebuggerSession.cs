@@ -24,6 +24,10 @@ namespace MonoDevelop.Debugger.Soft.Rhino
         throw new InvalidOperationException("Rhino already started");
 
       string process_path = dsi.GetApplicationPath();
+
+      if (string.IsNullOrEmpty(process_path))
+        throw new InvalidOperationException("Could not find the correct Rhinoceros.app to start");
+      
       string process_args = "";
       if (process_path.StartsWith("arch ", StringComparison.Ordinal))
       {
