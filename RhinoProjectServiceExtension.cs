@@ -25,21 +25,21 @@ namespace MonoDevelop.Debugger.Soft.Rhino
     }
   }
 
-  public class RhinoProjectServiceExtension : ProjectExtension
+  public class RhinoProjectServiceExtension : DotNetProjectExtension
   {
-		protected override void OnBeginLoad()
-		{
-			base.OnBeginLoad();
+    protected override void OnBeginLoad()
+    {
+      base.OnBeginLoad();
 
       RhinoGlobalProperties.RequiresMdb = false;
-		}
-		
+    }
+
     protected override void OnEndLoad()
     {
-			base.OnEndLoad();
+      base.OnEndLoad();
 
       SetRequiresMdb();
-		}
+    }
 
     protected override Task OnExecute(ProgressMonitor monitor, ExecutionContext context, ConfigurationSelector configuration, SolutionItemRunConfiguration runConfiguration)
     {
@@ -73,8 +73,9 @@ namespace MonoDevelop.Debugger.Soft.Rhino
       catch (Exception ex)
       {
         monitor.ReportError($"An error occurred starting Rhino.\n{ex}", ex);
+        return null; // is this correct??  I can't seem to get VS on Mac to actually show the error.
       }
-      return null;
+      return base.OnExecute(monitor, context, configuration, runConfiguration);
     }
 
     protected override FilePath OnGetOutputFileName(ConfigurationSelector configuration)
@@ -205,7 +206,6 @@ namespace MonoDevelop.Debugger.Soft.Rhino
       var config = dotNetProject.GetConfiguration(configuration) as DotNetProjectConfiguration;
       if (config == null)
         return false;
-
 
 			var projectRun = dotNetProject.GetDefaultRunConfiguration() as ProjectRunConfiguration;
       var cmd = dotNetProject.CreateExecutionCommand(configuration, config, projectRun);

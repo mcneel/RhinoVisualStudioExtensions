@@ -9,7 +9,7 @@ using System.Runtime.CompilerServices;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Robert McNeel & Associates")]
 [assembly: AssemblyProduct("")]
-[assembly: AssemblyCopyright("2015 Robert McNeel and Associates")]
+[assembly: AssemblyCopyright("2018 Robert McNeel and Associates")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 

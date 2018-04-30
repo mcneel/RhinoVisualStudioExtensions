@@ -4,3 +4,5 @@ obj/
 
 *.userprefs
 packages
+.vs
+Thumbs.db

@@ -21,11 +21,11 @@
         <Reference type="Gac" refto="System" />
         <Reference type="Gac" refto="System.Core" />
         <Reference type="Gac" refto="System.Drawing" />
-        <Reference type="Assembly" refto="/Applications/RhinoWIP.app/Contents/Resources/ManagedPlugIns/GrasshopperPlugin.rhp/Grasshopper.dll" LocalCopy="False" />
-        <Reference type="Assembly" refto="/Applications/RhinoWIP.app/Contents/Resources/ManagedPlugIns/GrasshopperPlugin.rhp/GH_IO.dll" LocalCopy="False" />
-        <Reference type="Assembly" refto="/Applications/RhinoWIP.app/Contents/Resources/RhinoCommon.dll" LocalCopy="False" />
-        <Reference type="Assembly" refto="/Applications/RhinoWIP.app/Contents/Resources/Rhino.UI.dll" LocalCopy="False" />
-        <Reference type="Assembly" refto="/Applications/RhinoWIP.app/Contents/Resources/Eto.dll" LocalCopy="False" />
+        <Reference type="Assembly" refto="/Applications/Rhinoceros.app/Contents/Resources/ManagedPlugIns/GrasshopperPlugin.rhp/Grasshopper.dll" LocalCopy="False" />
+        <Reference type="Assembly" refto="/Applications/Rhinoceros.app/Contents/Resources/ManagedPlugIns/GrasshopperPlugin.rhp/GH_IO.dll" LocalCopy="False" />
+        <Reference type="Assembly" refto="/Applications/Rhinoceros.app/Contents/Resources/RhinoCommon.dll" LocalCopy="False" />
+        <Reference type="Assembly" refto="/Applications/Rhinoceros.app/Contents/Resources/Rhino.UI.dll" LocalCopy="False" />
+        <Reference type="Assembly" refto="/Applications/Rhinoceros.app/Contents/Resources/Eto.dll" LocalCopy="False" />
       </References>
     </Project>
   </Combine>
