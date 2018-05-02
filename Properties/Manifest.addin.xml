@@ -37,4 +37,7 @@
     <Image id="grasshopper-project" resource="MonoDevelop.RhinoDebug.Templates.Grasshopper.grasshopper-project.png" />
   </Extension>
 
+  <Extension path = "/MonoDevelop/Ide/FileTemplateTypes">
+    <FileTemplateType name = "RhinoFile" class = "MonoDevelop.RhinoDebug.RhinoFileTemplate"/>
+  </Extension>
 </ExtensionModel>

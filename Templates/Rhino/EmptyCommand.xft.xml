@@ -9,6 +9,6 @@
     <DefaultFilename>MyCommand</DefaultFilename>
   </TemplateConfiguration>
   <TemplateFiles>
-    <File name="${Name}.cs" AddStandardHeader="true" src="EmptyCommand.cs" />
+    <RhinoFile name="${Name}.cs" AddStandardHeader="true" src="EmptyCommand.cs" />
   </TemplateFiles>
 </Template>

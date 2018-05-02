@@ -47,6 +47,7 @@
     <Compile Include="Wizard\ProvideSampleControl.cs" />
     <Compile Include="Helpers.cs" />
     <Compile Include="RhinoGlobalProperties.cs" />
+    <Compile Include="RhinoFileTemplate.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

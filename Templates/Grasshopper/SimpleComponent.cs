@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 
 using Grasshopper;
@@ -7,7 +7,7 @@ using Rhino.Geometry;
 
 namespace ${Namespace}
 {
-  public class ${ProjectName}Component : GH_Component
+  public class ${EscapedIdentifier} : GH_Component
   {
     /// <summary>
     /// Each implementation of GH_Component must provide a public 
@@ -16,8 +16,8 @@ namespace ${Namespace}
     /// Subcategory the panel. If you use non-existing tab or panel names, 
     /// new tabs/panels will automatically be created.
     /// </summary>
-    public ${ProjectName}Component()
-      : base("${ProjectName}", "ASpi",
+    public ${EscapedIdentifier}()
+      : base("${EscapedIdentifier}", "ASpi",
         "Construct an Archimedean, or arithmetic, spiral given its radii and number of turns.",
         "Curve", "Primitive")
     {
