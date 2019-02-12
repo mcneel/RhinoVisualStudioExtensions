@@ -25,9 +25,6 @@ namespace MonoDevelop.Debugger.Soft.Rhino
       ExecutablePath = cmd.ExecutablePath;
     }
 
-    public bool ContainsCustomStartArgs => !string.IsNullOrWhiteSpace(Arguments);
-
-
     public string ApplicationPath { get; private set; }
     public string ExecutablePath { get; private set; }
     public string TargetDirectory { get; private set; }

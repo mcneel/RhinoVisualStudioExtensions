@@ -35,12 +35,12 @@ namespace MonoDevelop.Debugger.Soft.Rhino
         process_args = process_path.Substring("arch ".Length).Trim();
         process_path = "arch";
       }
-      
+
+      process_args += " " + dsi.Arguments;
+
       MonoDevelop.Core.LoggingService.LogInfo("Starting Rhino for debugging");
-      if (dsi.ContainsCustomStartArgs)
-      {
-        MonoDevelop.Core.LoggingService.LogInfo("--custom start app = " + dsi.ApplicationPath);
-      }
+      MonoDevelop.Core.LoggingService.LogInfo("Start app = " + dsi.ApplicationPath);
+
       var psi = new ProcessStartInfo(process_path);
       psi.UseShellExecute = false;
       psi.RedirectStandardOutput = true;
