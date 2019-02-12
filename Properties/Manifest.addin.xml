@@ -1,13 +1,21 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 <ExtensionModel>
+  <Extension path="/MonoDevelop/Core/ExecutionHandlers">
+    <ExecutionHandler id="Rhino" class="MonoDevelop.Debugger.Soft.Rhino.RhinoExecutionHandler" insertbefore="Platform" />
+  </Extension>
+  
+  <Extension path = "/MonoDevelop/Ide/RunConfigurationEditors">
+    <Class class="MonoDevelop.Ide.Projects.OptionPanels.AssemblyRunConfigurationEditor" runConfigurationType="MonoDevelop.Debugger.Soft.Rhino.RhinoRunConfiguration" />
+  </Extension>
+  
   <Extension path="/MonoDevelop/Debugging/DebuggerEngines">
     <DebuggerEngine
       id="Mono.Debugger.Soft.Rhino"
       name="RhinoCommon Plug-In Debugger"
-      features="Breakpoints, Pause, Stepping, DebugFile, Catchpoints"
+      features="Breakpoints, Pause, Stepping, DebugFile, ConditionalBreakpoints, Tracepoints, Catchpoints, Disassembly"
       type="MonoDevelop.Debugger.Soft.Rhino.RhinoSoftDebuggerEngine" />
   </Extension>
-
+  
   <Extension path = "/MonoDevelop/ProjectModel/ProjectModelExtensions">
     <Class class = "MonoDevelop.Debugger.Soft.Rhino.RhinoProjectServiceExtension" />
   </Extension>

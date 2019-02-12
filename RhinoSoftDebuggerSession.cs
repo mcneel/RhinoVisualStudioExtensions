@@ -1,10 +1,11 @@
 using System;
 using System.Diagnostics;
+using Mono.Debugging.Soft;
 
 namespace MonoDevelop.Debugger.Soft.Rhino
 {
 
-  public class RhinoSoftDebuggerSession : Mono.Debugging.Soft.SoftDebuggerSession
+  public class RhinoSoftDebuggerSession : SoftDebuggerSession
   {
     Process m_rhino_app;
     const string DEFAULT_PROFILE = "monodevelop-rhino-debug";
@@ -23,7 +24,7 @@ namespace MonoDevelop.Debugger.Soft.Rhino
       if (m_rhino_app != null)
         throw new InvalidOperationException("Rhino already started");
 
-      string process_path = dsi.GetApplicationPath();
+      string process_path = dsi.ExecutablePath;
 
       if (string.IsNullOrEmpty(process_path))
         throw new InvalidOperationException("Could not find the correct Rhinoceros.app to start");
@@ -38,7 +39,7 @@ namespace MonoDevelop.Debugger.Soft.Rhino
       MonoDevelop.Core.LoggingService.LogInfo("Starting Rhino for debugging");
       if (dsi.ContainsCustomStartArgs)
       {
-        MonoDevelop.Core.LoggingService.LogInfo("--custom start args = " + dsi.GetApplicationPath());
+        MonoDevelop.Core.LoggingService.LogInfo("--custom start app = " + dsi.ApplicationPath);
       }
       var psi = new ProcessStartInfo(process_path);
       psi.UseShellExecute = false;
@@ -48,20 +49,15 @@ namespace MonoDevelop.Debugger.Soft.Rhino
 			
       var args = (Mono.Debugging.Soft.SoftDebuggerRemoteArgs)dsi.StartArgs;
       string envvar = string.Format("transport=dt_socket,address={0}:{1}", args.Address, assignedDebugPort);
-      psi.EnvironmentVariables.Add("RHINO_SOFT_DEBUG", envvar);
-      if( !string.IsNullOrEmpty(dsi.TargetDirectory ) )
+      psi.EnvironmentVariables["RHINO_SOFT_DEBUG"] = envvar;
+
+      foreach (var env in dsi.EnvironmentVariables)
       {
-        psi.EnvironmentVariables.Add("RHINO_BIN_DIRECTORY", dsi.TargetDirectory);
-      }
-      if (!string.IsNullOrEmpty(dsi.PluginPath))
-      {
-        if (dsi.IsGrasshopper)
-          psi.EnvironmentVariables.Add("GRASSHOPPER_PLUGINS", dsi.PluginPath);
-        else
-          psi.EnvironmentVariables.Add("RHINO_PLUGIN_PATH", dsi.PluginPath);
+        psi.EnvironmentVariables[env.Key] = env.Value;
       }
 
       m_rhino_app = Process.Start(psi);
+
       ConnectOutput(m_rhino_app.StandardOutput, false);
       ConnectOutput(m_rhino_app.StandardError, true);
       m_rhino_app.EnableRaisingEvents = true;
@@ -71,22 +67,16 @@ namespace MonoDevelop.Debugger.Soft.Rhino
       };
     }
 
-    protected override void OnStop()
-    {
-      EndRhinoProcess();
-      base.OnStop();
-    }
-
     protected override void EndSession()
     {
-      EndRhinoProcess();
       base.EndSession();
+      EndRhinoProcess();
     }
 
     protected override void OnExit()
     {
-      EndRhinoProcess();
       base.OnExit();
+      EndRhinoProcess();
     }
 
     void EndRhinoProcess()

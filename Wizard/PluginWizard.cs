@@ -10,12 +10,14 @@ namespace MonoDevelop.RhinoDebug.Wizard
     public override string Id { get { return "MonoDevelop.RhinoDebug.PluginWizard"; } }
 
     public bool ProvideCodeSample { get; set; } = true;
+    public int RhinoVersion { get; set; } = 5;
 
     public override void ConfigureWizard()
     {
       base.ConfigureWizard();
 
       Parameters["ProvideCodeSample"] = ProvideCodeSample.ToString();
+      Parameters["v" + RhinoVersion] = true.ToString();
 
       // provide some guid's for our templates
       for (int i = 0; i < 10; i++)
@@ -27,6 +29,7 @@ namespace MonoDevelop.RhinoDebug.Wizard
     public override IEnumerable<ProjectConfigurationControl> GetFinalPageControls()
     {
       yield return new ProvideSampleControl(this);
+      yield return new RhinoVersionControl(this);
     }
 
     public override int TotalPages

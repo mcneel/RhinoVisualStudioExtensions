@@ -18,92 +18,24 @@ namespace MonoDevelop.Debugger.Soft.Rhino
 
   static class Helpers
   {
-    const string StandardInstallPath = "/Applications/Rhinoceros.app";
-    const string GrasshopperReferenceName = "Grasshopper";
-    const string RhinoCommonReferenceName = "RhinoCommon";
+    public const string StandardInstallPath = "/Applications/Rhinoceros.app";
+    public const string StandardInstallWipPath = "/Applications/RhinoWIP.app";
+    public const string GrasshopperReferenceName = "Grasshopper";
+    public const string RhinoCommonReferenceName = "RhinoCommon";
+    public const int DefaultRhinoVersion = 5;
 
-    public static string GetXcodeDerivedDataPath (string targetDirectory)
+    public static string GetExtension(this McNeelProjectType type)
     {
-      var homePath = Environment.GetEnvironmentVariable ("HOME");
-      var derivedDataPath = Path.Combine (homePath, "Library", "Developer", "Xcode", "DerivedData");
-      if (!Directory.Exists (derivedDataPath))
-        return null;
-
-      var dataPaths = Directory.GetDirectories(derivedDataPath).Where(r => Path.GetFileName(r).StartsWith("MacRhino-", StringComparison.Ordinal));
-      foreach (var dataPath in dataPaths)
+      switch (type)
       {
-        if (dataPath == null)
-          continue;
-
-        // load up info.plist to get WorkspacePath and compare with our target directory
-        try
-        {
-          var infoPath = Path.Combine(dataPath, "info.plist");
-          var doc = new XmlDocument();
-          doc.Load(infoPath);
-          var workspacePath = doc.SelectSingleNode("plist/dict/key[.='WorkspacePath']/following-sibling::string[1]")?.InnerText;
-
-          var workspaceDir = new DirectoryInfo(workspacePath);
-          if (!workspaceDir.Exists)
-            continue;
-
-          var commonPath = FindCommonPath(Path.DirectorySeparatorChar, new[] { workspacePath, targetDirectory });
-					
-          // assume the workspacePath points to MacRhino.xcodeproj, so check based on its parent folder, which should be src4.
-          if (commonPath == workspaceDir.Parent?.Parent?.FullName)
-          {
-						var appPath = Path.Combine(dataPath, "Build", "Products", "Debug", "Rhinoceros.app");
-
-            if (Directory.Exists(appPath))
-              return appPath;
-					}
-        }
-        catch
-        {
-          continue;
-        }
-      }
-      return null;
-    }
-
-		public static string FindCommonPath(char separator, IEnumerable<string> paths)
-		{
-			string commonPath = String.Empty;
-			var separatedPaths = paths
-			  .First(str => str.Length == paths.Max(st2 => st2.Length))
-			  .Split(new [] { separator }, StringSplitOptions.RemoveEmptyEntries)
-			  .ToList();
-
-			foreach (string segment in separatedPaths)
-			{
-				if (commonPath.Length == 0 && paths.All(str => str.StartsWith(segment, StringComparison.Ordinal)))
-				{
-					commonPath = segment;
-				}
-				else if (paths.All(str => str.StartsWith(commonPath + separator + segment, StringComparison.Ordinal)))
-				{
-					commonPath += separator + segment;
-				}
-				else
-				{
-					break;
-				}
-			}
-
-			return commonPath;
-		}
-
-		public static string GetExtension (this McNeelProjectType type)
-    {
-      switch (type) {
-      case McNeelProjectType.DebugStarter:
-        return ".dll";
-      case McNeelProjectType.Grasshopper:
-        return ".gha";
-      case McNeelProjectType.RhinoCommon:
-        return ".rhp";
-      default:
-        throw new NotSupportedException ();
+        case McNeelProjectType.DebugStarter:
+          return ".dll";
+        case McNeelProjectType.Grasshopper:
+          return ".gha";
+        case McNeelProjectType.RhinoCommon:
+          return ".rhp";
+        default:
+          throw new NotSupportedException();
       }
     }
 
@@ -114,9 +46,9 @@ namespace MonoDevelop.Debugger.Soft.Rhino
       if (project == null)
         return null;
 
-			var isv6 = project.ExtendedProperties[s_RhinoVersionKey] as int?;
-			if (isv6 != null)
-				return isv6.Value;
+      var isv6 = project.ExtendedProperties[s_RhinoVersionKey] as int?;
+      if (isv6 != null)
+        return isv6.Value;
 
       if (int.TryParse(project.ProjectProperties.GetValue<string>("RhinoVersion"), out var ver))
       {
@@ -124,10 +56,10 @@ namespace MonoDevelop.Debugger.Soft.Rhino
         return ver;
       }
 
-			// check grasshopper first as those projects reference both RhinoCommon and Grasshopper
-			var reference = project.References.FirstOrDefault(r => r.Reference == GrasshopperReferenceName);
-			if (reference == null)
-				reference = project.References.FirstOrDefault(r => r.Reference == RhinoCommonReferenceName);
+      // check grasshopper first as those projects reference both RhinoCommon and Grasshopper
+      var reference = project.References.FirstOrDefault(r => r.Reference == GrasshopperReferenceName);
+      if (reference == null)
+        reference = project.References.FirstOrDefault(r => r.Reference == RhinoCommonReferenceName);
 
       int? result = null;
 
@@ -152,24 +84,41 @@ namespace MonoDevelop.Debugger.Soft.Rhino
         }
         catch (Exception ex)
         {
-					// ignore errors here!
-					Console.WriteLine($"Exception was thrown trying to read Rhino assembly version {ex}");
-				}
+          // ignore errors here!
+          Console.WriteLine($"Exception was thrown trying to read Rhino assembly version {ex}");
+        }
       }
       project.ExtendedProperties[s_RhinoVersionKey] = result;
       return result;
-		}
+    }
 
-    public static McNeelProjectType? GetMcNeelProjectType (this IBuildTarget item)
+    public static McNeelProjectType? GetMcNeelProjectType(this IBuildTarget item)
     {
       var project = item as DotNetProject;
       if (project == null)
         return null;
 
+      var rhinoProperty = project.ProjectProperties.GetProperty("RhinoPlugin");
+      if (rhinoProperty != null)
+      {
+        if (rhinoProperty.GetValue<bool>())
+          return McNeelProjectType.RhinoCommon;
+      }
+      var ghProperty = project.ProjectProperties.GetProperty("GrasshopperComponent");
+      if (ghProperty != null)
+      {
+        if (ghProperty.GetValue<bool>())
+          return McNeelProjectType.Grasshopper;
+      }
+
+      // only auto-detect if the project has not specified something explicitly
+      if (rhinoProperty != null || ghProperty != null)
+        return null;
+
       // check grasshopper first as those projects reference both RhinoCommon and Grasshopper
-      var reference = project.References.FirstOrDefault (r => r.Reference == GrasshopperReferenceName);
+      var reference = project.References.FirstOrDefault(r => r.Reference == GrasshopperReferenceName);
       if (reference == null)
-        reference = project.References.FirstOrDefault (r => r.Reference == RhinoCommonReferenceName);
+        reference = project.References.FirstOrDefault(r => r.Reference == RhinoCommonReferenceName);
 
       if (reference == null)
         return null;
@@ -178,34 +127,15 @@ namespace MonoDevelop.Debugger.Soft.Rhino
       if (reference.ReferenceType == ReferenceType.Project)
         return McNeelProjectType.DebugStarter;
 
-      switch (reference.Reference) {
-      case GrasshopperReferenceName:
-        return McNeelProjectType.Grasshopper;
-      case RhinoCommonReferenceName:
-        return McNeelProjectType.RhinoCommon;
-      default:
-        return McNeelProjectType.DebugStarter;
+      switch (reference.Reference)
+      {
+        case GrasshopperReferenceName:
+          return McNeelProjectType.Grasshopper;
+        case RhinoCommonReferenceName:
+          return McNeelProjectType.RhinoCommon;
+        default:
+          return McNeelProjectType.DebugStarter;
       }
-    }
-
-    public static string GetAppPath (string parameters, string childPath, string targetDirectory)
-    {
-      string appPath;
-      if (parameters != null && parameters.StartsWith ("-xcode", StringComparison.Ordinal)) {
-        // get output path
-        appPath = GetXcodeDerivedDataPath (targetDirectory);
-      } else if (parameters != null && parameters.StartsWith ("-app_path=", StringComparison.Ordinal)) {
-        string path = parameters.Substring ("-app_path=".Length);
-        path = path.Trim (new char [] { '\"', ' ' });
-        appPath = path;
-      } else if (parameters != null && parameters.StartsWith ("-app", StringComparison.Ordinal)) {
-        appPath = StandardInstallPath;
-      } else {
-        appPath = GetXcodeDerivedDataPath (targetDirectory) ?? StandardInstallPath;
-      }
-      if (!string.IsNullOrEmpty (childPath))
-        appPath = Path.Combine (appPath, childPath);
-      return Directory.Exists (appPath) || File.Exists (appPath) ? appPath : null;
     }
   }
 }

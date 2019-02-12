@@ -28,7 +28,7 @@ namespace MonoDevelop.Debugger.Soft.Rhino
         if (s_requiresMdb != value)
         {
           s_requiresMdb = value;
-          instance.GlobalPropertiesChanged?.Invoke(instance, EventArgs.Empty);
+          Runtime.RunInMainThread(() => instance.GlobalPropertiesChanged?.Invoke(instance, EventArgs.Empty));
         }
       }
     }
