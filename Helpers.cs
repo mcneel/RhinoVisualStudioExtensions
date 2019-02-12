@@ -11,6 +11,7 @@ namespace MonoDevelop.Debugger.Soft.Rhino
 {
   enum McNeelProjectType
   {
+    None,
     DebugStarter,
     RhinoCommon,
     Grasshopper
@@ -24,10 +25,14 @@ namespace MonoDevelop.Debugger.Soft.Rhino
     public const string RhinoCommonReferenceName = "RhinoCommon";
     public const int DefaultRhinoVersion = 5;
 
+    public const string RhinoPluginTypeProperty = "RhinoPluginType";
+    public const string RhinoLauncherProperty = "RhinoMacLauncher";
+
     public static string GetExtension(this McNeelProjectType type)
     {
       switch (type)
       {
+        case McNeelProjectType.None:
         case McNeelProjectType.DebugStarter:
           return ".dll";
         case McNeelProjectType.Grasshopper:
@@ -92,28 +97,67 @@ namespace MonoDevelop.Debugger.Soft.Rhino
       return result;
     }
 
-    public static McNeelProjectType? GetMcNeelProjectType(this IBuildTarget item)
+    public static McNeelProjectType? GetPluginProjectType(this IBuildTarget item)
     {
       var project = item as DotNetProject;
       if (project == null)
         return null;
 
-      var rhinoProperty = project.ProjectProperties.GetProperty("RhinoPlugin");
-      if (rhinoProperty != null)
+      var pluginType = project.ProjectProperties.GetValue(RhinoPluginTypeProperty);
+      if (pluginType == null)
+        return null;
+
+      // project has explicitly set the plugin type
+      switch (pluginType.ToLowerInvariant())
       {
-        if (rhinoProperty.GetValue<bool>())
-          return McNeelProjectType.RhinoCommon;
-      }
-      var ghProperty = project.ProjectProperties.GetProperty("GrasshopperComponent");
-      if (ghProperty != null)
-      {
-        if (ghProperty.GetValue<bool>())
+        case "gha":
+        case "grasshopper":
           return McNeelProjectType.Grasshopper;
+        case "rhp":
+        case "rhino":
+          return McNeelProjectType.RhinoCommon;
+        case "dev":
+          return McNeelProjectType.DebugStarter;
+        case "none":
+          return McNeelProjectType.None;
+      }
+      return null;
+    }
+
+    public static string DetectApplicationPath(this IBuildTarget item, string binDir, int rhinoVersion)
+    {
+      var appPath = GetXcodeDerivedDataPath(binDir);
+
+      // todo: detect version of Rhinoceros.app instead of assuming it is v5
+
+      if (appPath == null && rhinoVersion > Helpers.DefaultRhinoVersion && Directory.Exists(Helpers.StandardInstallWipPath))
+        appPath = Helpers.StandardInstallWipPath;
+      if (appPath == null)
+        appPath = Helpers.StandardInstallPath;
+
+      return appPath;
+    }
+
+    public static McNeelProjectType? GetMcNeelProjectType(this IBuildTarget item, bool useProjectProperty = true)
+    {
+      var project = item as DotNetProject;
+      if (project == null)
+        return null;
+
+      // only library types
+      if (project.CompileTarget != CompileTarget.Library)
+        return null;
+
+      if (useProjectProperty)
+      {
+        var type = GetPluginProjectType(item);
+        if (type != null)
+          return type;
+        if (type == McNeelProjectType.None)
+          return null;
       }
 
-      // only auto-detect if the project has not specified something explicitly
-      if (rhinoProperty != null || ghProperty != null)
-        return null;
+      // auto-detect the type of project based on the references
 
       // check grasshopper first as those projects reference both RhinoCommon and Grasshopper
       var reference = project.References.FirstOrDefault(r => r.Reference == GrasshopperReferenceName);
@@ -137,6 +181,78 @@ namespace MonoDevelop.Debugger.Soft.Rhino
           return McNeelProjectType.DebugStarter;
       }
     }
+
+    public static string GetXcodeDerivedDataPath(string targetDirectory)
+    {
+      var homePath = Environment.GetEnvironmentVariable("HOME");
+      var derivedDataPath = Path.Combine(homePath, "Library", "Developer", "Xcode", "DerivedData");
+      if (!Directory.Exists(derivedDataPath))
+        return null;
+
+      var dataPaths = Directory.GetDirectories(derivedDataPath).Where(r => Path.GetFileName(r).StartsWith("MacRhino-", StringComparison.Ordinal));
+      foreach (var dataPath in dataPaths)
+      {
+        if (dataPath == null)
+          continue;
+
+        // load up info.plist to get WorkspacePath and compare with our target directory
+        try
+        {
+          var infoPath = Path.Combine(dataPath, "info.plist");
+          var doc = new XmlDocument();
+          doc.Load(infoPath);
+          var workspacePath = doc.SelectSingleNode("plist/dict/key[.='WorkspacePath']/following-sibling::string[1]")?.InnerText;
+
+          var workspaceDir = new DirectoryInfo(workspacePath);
+          if (!workspaceDir.Exists)
+            continue;
+
+          var commonPath = FindCommonPath(Path.DirectorySeparatorChar, new[] { workspacePath, targetDirectory });
+
+          // assume the workspacePath points to MacRhino.xcodeproj, so check based on its parent folder, which should be src4.
+          if (commonPath == workspaceDir.Parent?.Parent?.FullName)
+          {
+            var appPath = Path.Combine(dataPath, "Build", "Products", "Debug", "Rhinoceros.app");
+
+            if (Directory.Exists(appPath))
+              return appPath;
+          }
+        }
+        catch
+        {
+          continue;
+        }
+      }
+      return null;
+    }
+
+    public static string FindCommonPath(char separator, IEnumerable<string> paths)
+    {
+      string commonPath = String.Empty;
+      var separatedPaths = paths
+        .First(str => str.Length == paths.Max(st2 => st2.Length))
+        .Split(new[] { separator }, StringSplitOptions.RemoveEmptyEntries)
+        .ToList();
+
+      foreach (string segment in separatedPaths)
+      {
+        if (commonPath.Length == 0 && paths.All(str => str.StartsWith(segment, StringComparison.Ordinal)))
+        {
+          commonPath = segment;
+        }
+        else if (paths.All(str => str.StartsWith(commonPath + separator + segment, StringComparison.Ordinal)))
+        {
+          commonPath += separator + segment;
+        }
+        else
+        {
+          break;
+        }
+      }
+
+      return commonPath;
+    }
+
   }
 }
 

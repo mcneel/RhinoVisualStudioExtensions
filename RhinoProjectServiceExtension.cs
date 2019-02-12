@@ -33,6 +33,11 @@ namespace MonoDevelop.Debugger.Soft.Rhino
       SetRequiresMdb();
     }
 
+    protected override DotNetProjectFlags OnGetDotNetProjectFlags()
+    {
+      return base.OnGetDotNetProjectFlags() | DotNetProjectFlags.IsLibrary;
+    }
+
     protected override Task OnExecuteCommand(ProgressMonitor monitor, ExecutionContext context, ConfigurationSelector configuration, ExecutionCommand executionCommand)
     {
       if (IsSupportedProject)
@@ -187,7 +192,7 @@ namespace MonoDevelop.Debugger.Soft.Rhino
             if (File.Exists(debugFile))
               File.Delete(debugFile);
 
-            debugFile = file.ChangeExtension(".pdb");
+            debugFile = file.ChangeExtension(ext + ".pdb");
             if (File.Exists(debugFile))
               File.Delete(debugFile);
           }

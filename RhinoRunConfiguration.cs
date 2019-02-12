@@ -25,11 +25,6 @@ namespace MonoDevelop.Debugger.Soft.Rhino
     public RhinoRunConfiguration(string name) : base(name)
     {
     }
-
-    protected override void OnCopyFrom(ProjectRunConfiguration config, bool isRename)
-    {
-      base.OnCopyFrom(config, isRename);
-    }
   }
 }
 

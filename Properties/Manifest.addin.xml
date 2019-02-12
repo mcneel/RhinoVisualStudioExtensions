@@ -19,6 +19,13 @@
   <Extension path = "/MonoDevelop/ProjectModel/ProjectModelExtensions">
     <Class class = "MonoDevelop.Debugger.Soft.Rhino.RhinoProjectServiceExtension" />
   </Extension>
+    
+  <Extension path = "/MonoDevelop/ProjectModel/Gui/ItemOptionPanels/Build">
+    <Section id="Rhino" _label="Rhino">
+      <Panel id = "RhinoOptionsPanel" _label = "Rhino Options" class = "MonoDevelop.Debugger.Soft.Rhino.OptionPanels.RhinoOptionsPanel"/>
+    </Section>
+  </Extension>
+                
 
   <Extension path="/MonoDevelop/Ide/ProjectTemplates">
     <ProjectTemplate id="Rhino.Plugin" file="Templates/Rhino/Plugin.xpt.xml" />

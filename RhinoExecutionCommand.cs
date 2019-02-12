@@ -11,6 +11,7 @@ namespace MonoDevelop.Debugger.Soft.Rhino
   class RhinoExecutionCommand : ProcessExecutionCommand
   {
     string _applicationPath;
+    string _executablePath;
 
     public DotNetProject Project { get; set; }
 
@@ -26,7 +27,7 @@ namespace MonoDevelop.Debugger.Soft.Rhino
 
     public string ApplicationPath => _applicationPath ?? (_applicationPath = GetApplicationPath());
 
-    public string ExecutablePath => Path.Combine(ApplicationPath, "Contents/MacOS/Rhinoceros");
+    public string ExecutablePath => _executablePath ?? (_executablePath = GetExecutablePath(ApplicationPath));
 
     public RhinoExecutionCommand(DotNetProject project, string workingDirectory, string outputname, string startArguments, IDictionary<string, string> environmentVariables)
     {
@@ -71,11 +72,41 @@ namespace MonoDevelop.Debugger.Soft.Rhino
       }
     }
 
+    string GetExecutablePath(string applicationPath)
+    {
+      var executablePath = Path.Combine(applicationPath, "Contents", "MacOS", "Rhinoceros");
+      if (File.Exists(executablePath))
+        return executablePath;
+
+      // old versions of v5 use this executable
+      executablePath = Path.Combine(applicationPath, "Contents", "MacOS", "Rhino");
+      if (File.Exists(executablePath))
+        return executablePath;
+
+      return null;
+    }
+
     /// <summary>
     /// Full path to the Rhinoceros executable to start
     /// </summary>
     string GetApplicationPath()
     {
+      var launcher = Project.ProjectProperties.GetValue(Helpers.RhinoLauncherProperty);
+      if (launcher != null)
+      {
+        switch (launcher.ToLowerInvariant())
+        {
+          case "xcode":
+            return Helpers.GetXcodeDerivedDataPath(BinDir);
+          case "app":
+            return Helpers.StandardInstallPath;
+          case "wip":
+            return Helpers.StandardInstallWipPath;
+        }
+        if (!string.IsNullOrEmpty(launcher))
+          return launcher;
+      }
+
       // always attempt to run the Rhino that contains the RhinoCommon we are referencing first
       // only command line args can override this behavior
 
@@ -84,6 +115,7 @@ namespace MonoDevelop.Debugger.Soft.Rhino
         var fileinfo = new System.IO.FileInfo(RhinoCommonPath);
         if (fileinfo.Exists)
         {
+          // old v5 way of referencing assemblies, new way is to use nuget packages instead.
           var contents_dir = fileinfo.Directory.Parent;
           string path = System.IO.Path.Combine(contents_dir.FullName, "MacOS", "Rhinoceros");
           if (System.IO.File.Exists(path))
@@ -95,7 +127,7 @@ namespace MonoDevelop.Debugger.Soft.Rhino
       if (Arguments != null && Arguments.StartsWith("-xcode", StringComparison.Ordinal))
       {
         // get output path
-        appPath = GetXcodeDerivedDataPath(BinDir);
+        appPath = Helpers.GetXcodeDerivedDataPath(BinDir);
       }
       else if (Arguments != null && Arguments.StartsWith("-app_path=", StringComparison.Ordinal))
       {
@@ -113,89 +145,21 @@ namespace MonoDevelop.Debugger.Soft.Rhino
       }
       else
       {
-        appPath = GetXcodeDerivedDataPath(BinDir);
-        if (appPath == null && RhinoVersion > Helpers.DefaultRhinoVersion)
-          appPath = Helpers.StandardInstallWipPath;
-        if (appPath == null)
-          appPath = Helpers.StandardInstallPath;
+        appPath = Project.DetectApplicationPath(BinDir, RhinoVersion);
       }
-      return Directory.Exists(appPath) || File.Exists(appPath) ? appPath : null;
-    }
-
-
-    public static string GetXcodeDerivedDataPath(string targetDirectory)
-    {
-      var homePath = Environment.GetEnvironmentVariable("HOME");
-      var derivedDataPath = Path.Combine(homePath, "Library", "Developer", "Xcode", "DerivedData");
-      if (!Directory.Exists(derivedDataPath))
+      if (appPath == null)
         return null;
 
-      var dataPaths = Directory.GetDirectories(derivedDataPath).Where(r => Path.GetFileName(r).StartsWith("MacRhino-", StringComparison.Ordinal));
-      foreach (var dataPath in dataPaths)
-      {
-        if (dataPath == null)
-          continue;
+      if (!Directory.Exists(appPath))
+        return null;
 
-        // load up info.plist to get WorkspacePath and compare with our target directory
-        try
-        {
-          var infoPath = Path.Combine(dataPath, "info.plist");
-          var doc = new XmlDocument();
-          doc.Load(infoPath);
-          var workspacePath = doc.SelectSingleNode("plist/dict/key[.='WorkspacePath']/following-sibling::string[1]")?.InnerText;
+      // check for the executable that should exist
+      var executablePath = GetExecutablePath(appPath);
+      if (executablePath == null || !File.Exists(executablePath))
+        return null;
 
-          var workspaceDir = new DirectoryInfo(workspacePath);
-          if (!workspaceDir.Exists)
-            continue;
-
-          var commonPath = FindCommonPath(Path.DirectorySeparatorChar, new[] { workspacePath, targetDirectory });
-
-          // assume the workspacePath points to MacRhino.xcodeproj, so check based on its parent folder, which should be src4.
-          if (commonPath == workspaceDir.Parent?.Parent?.FullName)
-          {
-            var appPath = Path.Combine(dataPath, "Build", "Products", "Debug", "Rhinoceros.app");
-
-            if (Directory.Exists(appPath))
-              return appPath;
-          }
-        }
-        catch
-        {
-          continue;
-        }
-      }
-      return null;
+      return appPath;
     }
-
-    public static string FindCommonPath(char separator, IEnumerable<string> paths)
-    {
-      string commonPath = String.Empty;
-      var separatedPaths = paths
-        .First(str => str.Length == paths.Max(st2 => st2.Length))
-        .Split(new[] { separator }, StringSplitOptions.RemoveEmptyEntries)
-        .ToList();
-
-      foreach (string segment in separatedPaths)
-      {
-        if (commonPath.Length == 0 && paths.All(str => str.StartsWith(segment, StringComparison.Ordinal)))
-        {
-          commonPath = segment;
-        }
-        else if (paths.All(str => str.StartsWith(commonPath + separator + segment, StringComparison.Ordinal)))
-        {
-          commonPath += separator + segment;
-        }
-        else
-        {
-          break;
-        }
-      }
-
-      return commonPath;
-    }
-
-
-
   }
 }
 

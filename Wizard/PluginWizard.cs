@@ -7,7 +7,7 @@ namespace MonoDevelop.RhinoDebug.Wizard
 {
   public class PluginWizard : TemplateWizard
   {
-    public override string Id { get { return "MonoDevelop.RhinoDebug.PluginWizard"; } }
+    public override string Id => "MonoDevelop.RhinoDebug.PluginWizard";
 
     public bool ProvideCodeSample { get; set; } = true;
     public int RhinoVersion { get; set; } = 5;
@@ -32,10 +32,7 @@ namespace MonoDevelop.RhinoDebug.Wizard
       yield return new RhinoVersionControl(this);
     }
 
-    public override int TotalPages
-    {
-      get { return 0; }
-    }
+    public override int TotalPages => 0;
 
     public override WizardPage GetPage(int pageNumber)
     {
