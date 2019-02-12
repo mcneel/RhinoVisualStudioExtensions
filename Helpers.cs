@@ -7,7 +7,7 @@ using System.Collections.Generic;
 using System.Reflection;
 using System.Diagnostics;
 using System.Xml;
-namespace MonoDevelop.Debugger.Soft.Rhino
+namespace MonoDevelop.RhinoDebug
 {
   enum McNeelProjectType
   {

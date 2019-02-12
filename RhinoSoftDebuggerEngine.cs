@@ -1,7 +1,8 @@
-using System;
+﻿using System;
 using MonoDevelop.Core.Execution;
+using MonoDevelop.Debugger.Soft;
 
-namespace MonoDevelop.Debugger.Soft.Rhino
+namespace MonoDevelop.RhinoDebug
 {
   public class RhinoSoftDebuggerEngine : SoftDebuggerEngine
   {

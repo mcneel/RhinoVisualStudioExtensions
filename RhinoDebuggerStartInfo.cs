@@ -4,7 +4,7 @@ using System.Linq;
 using MonoDevelop.Projects;
 using System.Collections.Generic;
 
-namespace MonoDevelop.Debugger.Soft.Rhino
+namespace MonoDevelop.RhinoDebug
 {
   class RhinoDebuggerStartInfo : Mono.Debugging.Soft.SoftDebuggerStartInfo
   {

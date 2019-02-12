@@ -3,7 +3,7 @@ using MonoDevelop.Ide.Gui.Dialogs;
 using MonoDevelop.Projects;
 
 
-namespace MonoDevelop.Debugger.Soft.Rhino
+namespace MonoDevelop.RhinoDebug
 {
   internal class RhinoRunConfigurationEditor : MonoDevelop.Ide.Projects.OptionPanels.RunConfigurationPanel
   {

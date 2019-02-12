@@ -4,7 +4,7 @@ using Mono.Addins;
 using MonoDevelop.Core;
 using MonoDevelop.Projects.MSBuild;
 
-namespace MonoDevelop.Debugger.Soft.Rhino
+namespace MonoDevelop.RhinoDebug
 {
   [Extension("/MonoDevelop/ProjectModel/MSBuildGlobalPropertyProviders")]
   public class RhinoGlobalProperties : IMSBuildGlobalPropertyProvider

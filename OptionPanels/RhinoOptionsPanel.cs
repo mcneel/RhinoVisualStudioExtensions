@@ -5,7 +5,7 @@ using MonoDevelop.Components;
 using MonoDevelop.Ide.Gui.Dialogs;
 using MonoDevelop.Projects;
 
-namespace MonoDevelop.Debugger.Soft.Rhino.OptionPanels
+namespace MonoDevelop.RhinoDebug.OptionPanels
 {
   internal class RhinoOptionsPanel : ItemOptionsPanel
   {

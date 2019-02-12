@@ -3,7 +3,7 @@ using System.Linq;
 using MonoDevelop.Core;
 using MonoDevelop.Core.Execution;
 
-namespace MonoDevelop.Debugger.Soft.Rhino
+namespace MonoDevelop.RhinoDebug
 {
   public class RhinoExecutionHandler : NativePlatformExecutionHandler
   {

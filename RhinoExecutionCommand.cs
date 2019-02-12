@@ -6,7 +6,7 @@ using System.IO;
 using System.Linq;
 using System.Xml;
 
-namespace MonoDevelop.Debugger.Soft.Rhino
+namespace MonoDevelop.RhinoDebug
 {
   class RhinoExecutionCommand : ProcessExecutionCommand
   {

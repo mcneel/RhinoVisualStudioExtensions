@@ -1,8 +1,8 @@
-using System;
+﻿using System;
 using System.Diagnostics;
 using Mono.Debugging.Soft;
 
-namespace MonoDevelop.Debugger.Soft.Rhino
+namespace MonoDevelop.RhinoDebug
 {
 
   public class RhinoSoftDebuggerSession : SoftDebuggerSession

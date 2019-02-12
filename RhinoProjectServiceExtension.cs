@@ -6,7 +6,7 @@ using MonoDevelop.Debugger;
 using MonoDevelop.Ide;
 using MonoDevelop.Core.Execution;
 using Mono.Debugging.Client;
-using MonoDevelop.Debugger.Soft.Rhino;
+using MonoDevelop.RhinoDebug;
 using System.Reflection;
 using System.IO;
 using MonoDevelop.Projects.MSBuild;
@@ -14,7 +14,7 @@ using System.Threading.Tasks;
 using System.Collections.Generic;
 
 
-namespace MonoDevelop.Debugger.Soft.Rhino
+namespace MonoDevelop.RhinoDebug
 {
 
   public class RhinoProjectServiceExtension : DotNetProjectExtension
