@@ -12,17 +12,37 @@ using System.IO;
 using MonoDevelop.Projects.MSBuild;
 using System.Threading.Tasks;
 using System.Collections.Generic;
-
+using System.Diagnostics;
 
 namespace MonoDevelop.RhinoDebug
 {
 
   public class RhinoProjectServiceExtension : DotNetProjectExtension
   {
+    Lazy<McNeelProjectType?> detectedType;
+    Lazy<McNeelProjectType?> projectType;
+
+    public RhinoProjectServiceExtension()
+    {
+      RefreshRhinoProjectType();
+    }
+
+    McNeelProjectType? LookupDetectedProjectType() => Project.DetectMcNeelProjectType();
+    McNeelProjectType? LookupSpecifiedProjectType() => Project.GetPluginProjectType();
+
+    internal McNeelProjectType? RhinoPluginType => projectType.Value ?? detectedType.Value;
+
+    void RefreshRhinoProjectType()
+    {
+      detectedType = new Lazy<McNeelProjectType?>(LookupDetectedProjectType);
+      projectType = new Lazy<McNeelProjectType?>(LookupSpecifiedProjectType);
+    }
+
     protected override void OnBeginLoad()
     {
       base.OnBeginLoad();
 
+      RefreshRhinoProjectType();
       RhinoGlobalProperties.RequiresMdb = false;
     }
 
@@ -33,17 +53,38 @@ namespace MonoDevelop.RhinoDebug
       SetRequiresMdb();
     }
 
+    protected override void OnReferencedAssembliesChanged()
+    {
+      base.OnReferencedAssembliesChanged();
+      var wasSupported = IsSupportedProject;
+      RefreshRhinoProjectType();
+      if (wasSupported != IsSupportedProject)
+      {
+        //Project.ClearCachedData();
+        Project.NeedsReload = true;
+
+        Project.NotifyExecutionTargetsChanged();
+        Project.NotifyRunConfigurationsChanged();
+        Project.RefreshExtensions();
+
+        Trace.WriteLine($"{Project.Name}: RhinoPluginType: {RhinoPluginType}");
+      }
+    }
+
     protected override DotNetProjectFlags OnGetDotNetProjectFlags()
     {
+      if (!IsSupportedProject)
+        return base.OnGetDotNetProjectFlags();
+
       return base.OnGetDotNetProjectFlags() | DotNetProjectFlags.IsLibrary;
     }
 
     protected override Task OnExecuteCommand(ProgressMonitor monitor, ExecutionContext context, ConfigurationSelector configuration, ExecutionCommand executionCommand)
     {
-      if (IsSupportedProject)
-        return OnExecuteRhinoCommand(monitor, context, configuration, executionCommand);
+      if (!IsSupportedProject)
+        return base.OnExecuteCommand(monitor, context, configuration, executionCommand);
 
-      return base.OnExecuteCommand(monitor, context, configuration, executionCommand);
+      return OnExecuteRhinoCommand(monitor, context, configuration, executionCommand);
     }
 
     async Task OnExecuteRhinoCommand(ProgressMonitor monitor, ExecutionContext context, ConfigurationSelector configuration, ExecutionCommand executionCommand)
@@ -51,11 +92,10 @@ namespace MonoDevelop.RhinoDebug
       bool externalConsole = false;
       bool pauseConsole = false;
 
-      var rhinoExecutionCommand = executionCommand as RhinoExecutionCommand;
-      if (rhinoExecutionCommand != null)
+      if (executionCommand is RhinoExecutionCommand rhinoExecutionCommand)
       {
-        //externalConsole = rhinoExecutionCommand.ExternalConsole;
-        //pauseConsole = rhinoExecutionCommand.PauseConsoleOutput;
+        externalConsole = rhinoExecutionCommand.ExternalConsole;
+        pauseConsole = rhinoExecutionCommand.PauseConsoleOutput;
       }
 
       OperationConsole console = externalConsole ? context.ExternalConsoleFactory.CreateConsole(!pauseConsole, monitor.CancellationToken)
@@ -80,19 +120,29 @@ namespace MonoDevelop.RhinoDebug
 
     protected override FilePath OnGetOutputFileName(ConfigurationSelector configuration)
     {
+      if (!IsSupportedProject)
+        return base.OnGetOutputFileName(configuration);
+
       var output = base.OnGetOutputFileName(configuration);
-      if (!disableOutputNameChange && IsSupportedProject)
+      if (!disableOutputNameChange)
         return output.ChangeExtension(PluginExtension);
       return output;
     }
 
-		bool IsSupportedProject => Project.GetMcNeelProjectType() != null;
+		bool IsSupportedProject
+    {
+      get
+      {
+        var type = RhinoPluginType;
+        return type != null && type != McNeelProjectType.None;
+      }
+    }
 
     int? RhinoVersion => Project.GetRhinoVersion();
 
     bool RequiresMdb => RhinoVersion < 6;
 
-		string PluginExtension => Project.GetMcNeelProjectType()?.GetExtension() ?? ".dll";
+		string PluginExtension => RhinoPluginType?.GetExtension() ?? ".dll";
 
     bool disableOutputNameChange;
 
@@ -104,12 +154,15 @@ namespace MonoDevelop.RhinoDebug
 
     protected override async Task<BuildResult> OnBuild(ProgressMonitor monitor, ConfigurationSelector configuration, OperationContext operationContext)
     {
+      if (!IsSupportedProject)
+        return await base.OnBuild(monitor, configuration, operationContext);
+
       SetRequiresMdb();
 			var result = await base.OnBuild(monitor, configuration, operationContext);
 
 			try
       {
-        if (!result.Failed && IsSupportedProject)
+        if (!result.Failed)
         {
           // rename plugin output to .rhi or .ghp
           disableOutputNameChange = true;
@@ -134,17 +187,18 @@ namespace MonoDevelop.RhinoDebug
 
     protected override ProjectRunConfiguration OnCreateRunConfiguration(string name)
     {
+      if (!IsSupportedProject)
+        return base.OnCreateRunConfiguration(name);
+
       return new RhinoRunConfiguration(name);
     }
 
     protected override ExecutionCommand OnCreateExecutionCommand(ConfigurationSelector configSel, DotNetProjectConfiguration configuration, ProjectRunConfiguration runConfiguration)
     {
-      if (IsSupportedProject)
-      {
-        return CreateRhinoExecutionCommand(configSel, configuration, runConfiguration);
-      }
+      if (!IsSupportedProject)
+        return base.OnCreateExecutionCommand(configSel, configuration, runConfiguration);
 
-      return base.OnCreateExecutionCommand(configSel, configuration, runConfiguration);
+      return CreateRhinoExecutionCommand(configSel, configuration, runConfiguration);
     }
 
 
@@ -157,45 +211,48 @@ namespace MonoDevelop.RhinoDebug
       else
         outputFileName = Project.GetOutputFileName(configuration.Selector);
 
-
       // find the rhino to use!
-      return new RhinoExecutionCommand(
+      var cmd = new RhinoExecutionCommand(
         Project,
+        RhinoPluginType.Value,
         string.IsNullOrEmpty(rhinoRunConfiguration?.StartWorkingDirectory) ? Project.BaseDirectory : rhinoRunConfiguration.StartWorkingDirectory,
         outputFileName,
         rhinoRunConfiguration?.StartArguments,
         rhinoRunConfiguration?.EnvironmentVariables
       );
+      cmd.ExternalConsole = rhinoRunConfiguration?.ExternalConsole ?? false;
+      cmd.PauseConsoleOutput = rhinoRunConfiguration?.PauseConsoleOutput ?? false;
+      return cmd;
     }
 
     protected override async Task<BuildResult> OnClean(ProgressMonitor monitor, ConfigurationSelector configuration, OperationContext operationContext)
     {
+      if (!IsSupportedProject)
+        return await base.OnClean(monitor, configuration, operationContext);
+
       try
       {
 				SetRequiresMdb();
 				
-        if (IsSupportedProject)
+				// clean up the renamed output files
+				disableOutputNameChange = true;
+        var file = Project.GetOutputFileName(configuration);
+        disableOutputNameChange = false;
+        var ext = PluginExtension;
+
+        if (file.Extension != ext)
         {
-					// clean up the renamed output files
-					disableOutputNameChange = true;
-          var file = Project.GetOutputFileName(configuration);
-          disableOutputNameChange = false;
-          var ext = PluginExtension;
+          var assemblyFile = file.ChangeExtension(ext);
+          if (File.Exists(assemblyFile))
+            File.Delete(assemblyFile);
 
-          if (file.Extension != ext)
-          {
-            var assemblyFile = file.ChangeExtension(ext);
-            if (File.Exists(assemblyFile))
-              File.Delete(assemblyFile);
+					var debugFile = file.ChangeExtension(ext + ".mdb");
+          if (File.Exists(debugFile))
+            File.Delete(debugFile);
 
-						var debugFile = file.ChangeExtension(ext + ".mdb");
-            if (File.Exists(debugFile))
-              File.Delete(debugFile);
-
-            debugFile = file.ChangeExtension(ext + ".pdb");
-            if (File.Exists(debugFile))
-              File.Delete(debugFile);
-          }
+          debugFile = file.ChangeExtension(ext + ".pdb");
+          if (File.Exists(debugFile))
+            File.Delete(debugFile);
         }
       }
       catch (Exception ex)
@@ -216,14 +273,21 @@ namespace MonoDevelop.RhinoDebug
       }
     }
 
-    protected override ProjectFeatures OnGetSupportedFeatures()
+    protected override bool OnGetCanExecute(ExecutionContext context, ConfigurationSelector configuration, SolutionItemRunConfiguration runConfiguration)
     {
-      var features = base.OnGetSupportedFeatures();
-      if (IsSupportedProject)
-        features |= ProjectFeatures.Execute;
-      return features;
+      if (!IsSupportedProject)
+        return base.OnGetCanExecute(context, configuration, runConfiguration);
+
+      return true;
     }
 
+    protected override ProjectFeatures OnGetSupportedFeatures()
+    {
+      if (!IsSupportedProject)
+        return base.OnGetSupportedFeatures();
+
+      return base.OnGetSupportedFeatures() | ProjectFeatures.RunConfigurations | ProjectFeatures.Execute;
+    }
   }
 }
 

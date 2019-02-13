@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using MonoDevelop.Components;
 using MonoDevelop.Ide.Gui.Dialogs;
 using MonoDevelop.Projects;
@@ -13,8 +14,7 @@ namespace MonoDevelop.RhinoDebug.OptionPanels
 
     public override bool IsVisible()
     {
-      return ConfiguredProject.GetMcNeelProjectType(false) != null
-      || ConfiguredProject.ProjectProperties.GetProperty(Helpers.RhinoPluginTypeProperty) != null;
+      return ConfiguredProject.DetectMcNeelProjectType() != null || ConfiguredProject.GetPluginProjectType() != null;
     }
 
     public override Control CreatePanelWidget()
@@ -160,7 +160,7 @@ namespace MonoDevelop.RhinoDebug.OptionPanels
 
     public RhinoOptionsPanelWidget(DotNetProject project, IEnumerable<ItemConfiguration> configurations)
     {
-      supportsDevelopment = project.GetMcNeelProjectType() == McNeelProjectType.DebugStarter;
+      supportsDevelopment = project.AsFlavor<RhinoProjectServiceExtension>()?.RhinoPluginType == McNeelProjectType.DebugStarter;
 
       if (supportsDevelopment)
         currentLauncherEntries = currentLauncherEntries.Concat(debugLauncherEntries).ToArray();
@@ -221,7 +221,7 @@ namespace MonoDevelop.RhinoDebug.OptionPanels
     {
       if (pluginTypeCombo.Active == 0) // autodetect
       {
-        var detectedType = project.GetMcNeelProjectType(false);
+        var detectedType = project.DetectMcNeelProjectType();
         if (detectedType != null)
         {
           autodetectedTypeLabel.Markup = $"Detected: <b>{GetTypeLabel(detectedType.Value)}</b>";
@@ -258,26 +258,27 @@ namespace MonoDevelop.RhinoDebug.OptionPanels
       //PackStart(heading, false, false, 0);
 
 
-      var table = new Gtk.Table(3, 3, false);
+      var table = new Gtk.Table(3, 2, false);
       table.RowSpacing = 6;
       table.ColumnSpacing = 6;
 
-      table.Attach(new Gtk.Label("Plugin Type:") { Xalign = 1 }, 0, 1, 0, 1);
-      table.Attach(AutoSized(6, pluginTypeCombo, autodetectedTypeLabel), 1, 2, 0, 1);
-
-      table.Attach(new Gtk.Label("Launcher:") { Xalign = 1 }, 0, 1, 1, 2);
-      table.Attach(AutoSized(6, launcherCombo), 1, 2, 1, 2);
-
-      table.Attach(new Gtk.Label(), 0, 1, 2, 3);
-      table.Attach(customLauncherEntry, 1, 2, 2, 3);
+      AddRow(table, 0, "Plugin Type:", AutoSized(6, pluginTypeCombo, autodetectedTypeLabel));
+      AddRow(table, 1, "Launcher:", AutoSized(6, launcherCombo));
+      AddRow(table, 2, "", customLauncherEntry); // add browse button?
 
       // indent
       optionsBox.PackStart(new Gtk.Label { WidthRequest = 18 }, false, false, 0);
-      optionsBox.PackStart(table, false, true, 0);
+      optionsBox.PackStart(table, true, true, 0);
 
       PackStart(optionsBox, true, true, 0);
 
       ShowAll();
+    }
+
+    void AddRow(Gtk.Table table, uint row, string label, Gtk.Widget widget)
+    {
+      table.Attach(new Gtk.Label(label ?? string.Empty) { Xalign = 1 }, 0, 1, row, row + 1, Gtk.AttachOptions.Shrink, Gtk.AttachOptions.Shrink, 0, 0);
+      table.Attach(widget, 1, 2, row, row + 1, Gtk.AttachOptions.Expand | Gtk.AttachOptions.Fill, Gtk.AttachOptions.Shrink, 0, 0);
     }
 
     Gtk.HBox AutoSized(int spacing, params Gtk.Widget[] widgets)
