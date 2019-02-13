@@ -4,7 +4,7 @@ using Mono.Addins;
 using MonoDevelop.Core;
 using MonoDevelop.Projects.MSBuild;
 
-namespace MonoDevelop.Debugger.Soft.Rhino
+namespace MonoDevelop.RhinoDebug
 {
   [Extension("/MonoDevelop/ProjectModel/MSBuildGlobalPropertyProviders")]
   public class RhinoGlobalProperties : IMSBuildGlobalPropertyProvider
@@ -28,7 +28,7 @@ namespace MonoDevelop.Debugger.Soft.Rhino
         if (s_requiresMdb != value)
         {
           s_requiresMdb = value;
-          instance.GlobalPropertiesChanged?.Invoke(instance, EventArgs.Empty);
+          Runtime.RunInMainThread(() => instance.GlobalPropertiesChanged?.Invoke(instance, EventArgs.Empty));
         }
       }
     }

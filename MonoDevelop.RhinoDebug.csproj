@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="packages\MonoDevelop.Addins.0.4.4\build\MonoDevelop.Addins.props" Condition="Exists('packages\MonoDevelop.Addins.0.4.4\build\MonoDevelop.Addins.props')" />
+  <Import Project="packages\MonoDevelop.Addins.0.4.7\build\MonoDevelop.Addins.props" Condition="Exists('packages\MonoDevelop.Addins.0.4.7\build\MonoDevelop.Addins.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
@@ -12,7 +12,7 @@
     <ProductVersion>8.0.30703</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
-    <MDCoreVersionOverride>7.3</MDCoreVersionOverride>
+    <MDCoreVersionOverride>7.7</MDCoreVersionOverride>
     <CreatePackage>True</CreatePackage>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -45,9 +45,14 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Wizard\PluginWizard.cs" />
     <Compile Include="Wizard\ProvideSampleControl.cs" />
-    <Compile Include="Helpers.cs" />
     <Compile Include="RhinoGlobalProperties.cs" />
     <Compile Include="RhinoFileTemplate.cs" />
+    <Compile Include="RhinoRunConfiguration.cs" />
+    <Compile Include="RhinoExecutionCommand.cs" />
+    <Compile Include="RhinoExecutionHandler.cs" />
+    <Compile Include="Helpers.cs" />
+    <Compile Include="Wizard\RhinoVersionControl.cs" />
+    <Compile Include="OptionPanels\RhinoOptionsPanel.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
@@ -63,24 +68,6 @@
     <None Include="addin-project.xml" />
     <None Include="README.md" />
     <None Include="packages.config" />
-  </ItemGroup>
-  <ProjectExtensions>
-    <MonoDevelop>
-      <Properties>
-        <Policies>
-          <TextStylePolicy inheritsSet="null" scope="text/x-csharp" />
-          <CSharpFormattingPolicy IndentBlock="True" IndentBraces="False" IndentSwitchSection="True" IndentSwitchCaseSection="True" LabelPositioning="OneLess" NewLinesForBracesInTypes="True" NewLinesForBracesInMethods="True" NewLinesForBracesInProperties="True" NewLinesForBracesInAccessors="True" NewLinesForBracesInAnonymousMethods="True" NewLinesForBracesInControlBlocks="True" NewLinesForBracesInAnonymousTypes="True" NewLinesForBracesInObjectCollectionArrayInitializers="True" NewLinesForBracesInLambdaExpressionBody="True" NewLineForElse="True" NewLineForCatch="True" NewLineForFinally="True" NewLineForMembersInObjectInit="True" NewLineForMembersInAnonymousTypes="True" NewLineForClausesInQuery="True" SpacingAfterMethodDeclarationName="False" SpaceWithinMethodDeclarationParenthesis="False" SpaceBetweenEmptyMethodDeclarationParentheses="False" SpaceAfterMethodCallName="False" SpaceWithinMethodCallParentheses="False" SpaceBetweenEmptyMethodCallParentheses="False" SpaceAfterControlFlowStatementKeyword="True" SpaceWithinExpressionParentheses="False" SpaceWithinCastParentheses="False" SpaceWithinOtherParentheses="False" SpaceAfterCast="False" SpacesIgnoreAroundVariableDeclaration="False" SpaceBeforeOpenSquareBracket="False" SpaceBetweenEmptySquareBrackets="False" SpaceWithinSquareBrackets="False" SpaceAfterColonInBaseTypeDeclaration="True" SpaceAfterComma="True" SpaceAfterDot="False" SpaceAfterSemicolonsInForStatement="True" SpaceBeforeColonInBaseTypeDeclaration="True" SpaceBeforeComma="False" SpaceBeforeDot="False" SpaceBeforeSemicolonsInForStatement="False" SpacingAroundBinaryOperator="Single" WrappingPreserveSingleLine="True" WrappingKeepStatementsOnSingleLine="True" PlaceSystemDirectiveFirst="True" scope="text/x-csharp" />
-          <TextStylePolicy FileWidth="120" RemoveTrailingWhitespace="True" NoTabsAfterNonTabs="False" EolMarker="Native" TabWidth="2" TabsToSpaces="True" IndentWidth="2" scope="text/plain" />
-        </Policies>
-      </Properties>
-    </MonoDevelop>
-  </ProjectExtensions>
-  <ItemGroup>
-    <Folder Include="Properties\" />
-    <Folder Include="Templates\" />
-    <Folder Include="Templates\Rhino\" />
-    <Folder Include="Templates\Grasshopper\" />
-    <Folder Include="Wizard\" />
   </ItemGroup>
   <ItemGroup>
     <AddinFile Include="Templates\Rhino\AssemblyInfo.cs" />
@@ -101,5 +88,8 @@
     <AddinReference Include="MonoDevelop.Debugger.Soft" />
     <AddinReference Include="MonoDevelop.CSharpBinding" />
   </ItemGroup>
-  <Import Project="packages\MonoDevelop.Addins.0.4.4\build\MonoDevelop.Addins.targets" Condition="Exists('packages\MonoDevelop.Addins.0.4.4\build\MonoDevelop.Addins.targets')" />
+  <ItemGroup>
+    <Folder Include="OptionPanels\" />
+  </ItemGroup>
+  <Import Project="packages\MonoDevelop.Addins.0.4.7\build\MonoDevelop.Addins.targets" Condition="Exists('packages\MonoDevelop.Addins.0.4.7\build\MonoDevelop.Addins.targets')" />
 </Project>

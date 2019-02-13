@@ -6,7 +6,7 @@ using MonoDevelop.Debugger;
 using MonoDevelop.Ide;
 using MonoDevelop.Core.Execution;
 using Mono.Debugging.Client;
-using MonoDevelop.Debugger.Soft.Rhino;
+using MonoDevelop.RhinoDebug;
 using System.Reflection;
 using System.IO;
 using MonoDevelop.Projects.MSBuild;
@@ -14,16 +14,8 @@ using System.Threading.Tasks;
 using System.Collections.Generic;
 
 
-namespace MonoDevelop.Debugger.Soft.Rhino
+namespace MonoDevelop.RhinoDebug
 {
-  class RhinoCommonExecutionCommand : DotNetExecutionCommand
-  {
-    public DotNetProject Project { get; set; }
-    public RhinoCommonExecutionCommand(string outputname, DotNetProject project) : base(outputname)
-    {
-      Project = project;
-    }
-  }
 
   public class RhinoProjectServiceExtension : DotNetProjectExtension
   {
@@ -41,41 +33,49 @@ namespace MonoDevelop.Debugger.Soft.Rhino
       SetRequiresMdb();
     }
 
-    protected override Task OnExecute(ProgressMonitor monitor, ExecutionContext context, ConfigurationSelector configuration, SolutionItemRunConfiguration runConfiguration)
+    protected override DotNetProjectFlags OnGetDotNetProjectFlags()
     {
-      if (base.OnGetCanExecute(context, configuration, runConfiguration))
+      return base.OnGetDotNetProjectFlags() | DotNetProjectFlags.IsLibrary;
+    }
+
+    protected override Task OnExecuteCommand(ProgressMonitor monitor, ExecutionContext context, ConfigurationSelector configuration, ExecutionCommand executionCommand)
+    {
+      if (IsSupportedProject)
+        return OnExecuteRhinoCommand(monitor, context, configuration, executionCommand);
+
+      return base.OnExecuteCommand(monitor, context, configuration, executionCommand);
+    }
+
+    async Task OnExecuteRhinoCommand(ProgressMonitor monitor, ExecutionContext context, ConfigurationSelector configuration, ExecutionCommand executionCommand)
+    {
+      bool externalConsole = false;
+      bool pauseConsole = false;
+
+      var rhinoExecutionCommand = executionCommand as RhinoExecutionCommand;
+      if (rhinoExecutionCommand != null)
       {
-        return base.OnExecute(monitor, context, configuration, runConfiguration);
+        //externalConsole = rhinoExecutionCommand.ExternalConsole;
+        //pauseConsole = rhinoExecutionCommand.PauseConsoleOutput;
       }
 
-      try
-      {
-        var project = Project as DotNetProject;
-        if (project != null && IsSupportedProject)
-        {
-          const string SoftDebuggerName = RhinoSoftDebuggerEngine.DebuggerName;
-          var config = project.GetConfiguration(configuration) as DotNetProjectConfiguration;
-          var cmd = new RhinoCommonExecutionCommand(project.GetOutputFileName(configuration), project);
-          cmd.Arguments = config.CommandLineParameters;
-          cmd.WorkingDirectory = Path.GetDirectoryName(config.CompiledOutputName);
-          cmd.EnvironmentVariables = config.GetParsedEnvironmentVariables();
-          cmd.TargetRuntime = project.TargetRuntime;
-          cmd.UserAssemblyPaths = project.GetUserAssemblyPaths(configuration);
+      OperationConsole console = externalConsole ? context.ExternalConsoleFactory.CreateConsole(!pauseConsole, monitor.CancellationToken)
+        : context.ConsoleFactory.CreateConsole(OperationConsoleFactory.CreateConsoleOptions.Default.WithTitle(Project.Name), monitor.CancellationToken);
 
-          var executionModes = Runtime.ProcessService.GetExecutionModes();
-          var executionMode = executionModes.SelectMany(r => r.ExecutionModes).FirstOrDefault(r => r.Id == SoftDebuggerName);
-          var console = context.ConsoleFactory.CreateConsole(new OperationConsoleFactory.CreateConsoleOptions(true));
-          var operation = executionMode.ExecutionHandler.Execute(cmd, console);
-          monitor.CancellationToken.Register(() => operation.Cancel());
-          return operation.Task;
+      using (console)
+      {
+        ProcessAsyncOperation asyncOp = context.ExecutionHandler.Execute(executionCommand, console);
+
+        try
+        {
+          using (var stopper = monitor.CancellationToken.Register(asyncOp.Cancel))
+            await asyncOp.Task;
+
+          monitor.Log.WriteLine(GettextCatalog.GetString("The application exited with code: {0}", asyncOp.ExitCode));
+        }
+        catch (OperationCanceledException)
+        {
         }
       }
-      catch (Exception ex)
-      {
-        monitor.ReportError($"An error occurred starting Rhino.\n{ex}", ex);
-        return null; // is this correct??  I can't seem to get VS on Mac to actually show the error.
-      }
-      return base.OnExecute(monitor, context, configuration, runConfiguration);
     }
 
     protected override FilePath OnGetOutputFileName(ConfigurationSelector configuration)
@@ -89,17 +89,6 @@ namespace MonoDevelop.Debugger.Soft.Rhino
 		bool IsSupportedProject => Project.GetMcNeelProjectType() != null;
 
     int? RhinoVersion => Project.GetRhinoVersion();
-
-    bool IsPlugin
-    {
-      get
-      {
-        if (Project.ProjectProperties.GetValue<bool>("RhinoPlugin"))
-          return true;
-        // check for nuget package
-        return false;
-      }
-    }
 
     bool RequiresMdb => RhinoVersion < 6;
 
@@ -132,6 +121,7 @@ namespace MonoDevelop.Debugger.Soft.Rhino
           {
             RenameOutputFile(file, file.ChangeExtension(ext));
 						RenameOutputFile(file.ChangeExtension(file.Extension + ".mdb"), file.ChangeExtension(ext + ".mdb"));
+            RenameOutputFile(file.ChangeExtension(".pdb"), file.ChangeExtension(ext + ".pdb"));
           }
         }
       }
@@ -140,6 +130,42 @@ namespace MonoDevelop.Debugger.Soft.Rhino
         monitor.ReportError($"An error occurred renaming output files to .rhi/.ghp.\n{ex}", ex);
       }
       return result;
+    }
+
+    protected override ProjectRunConfiguration OnCreateRunConfiguration(string name)
+    {
+      return new RhinoRunConfiguration(name);
+    }
+
+    protected override ExecutionCommand OnCreateExecutionCommand(ConfigurationSelector configSel, DotNetProjectConfiguration configuration, ProjectRunConfiguration runConfiguration)
+    {
+      if (IsSupportedProject)
+      {
+        return CreateRhinoExecutionCommand(configSel, configuration, runConfiguration);
+      }
+
+      return base.OnCreateExecutionCommand(configSel, configuration, runConfiguration);
+    }
+
+
+    RhinoExecutionCommand CreateRhinoExecutionCommand(ConfigurationSelector configSel, DotNetProjectConfiguration configuration, ProjectRunConfiguration runConfiguration)
+    {
+      FilePath outputFileName;
+      var rhinoRunConfiguration = runConfiguration as RhinoRunConfiguration;
+      if (rhinoRunConfiguration?.StartAction == AssemblyRunConfiguration.StartActions.Program)
+        outputFileName = rhinoRunConfiguration.StartProgram;
+      else
+        outputFileName = Project.GetOutputFileName(configuration.Selector);
+
+
+      // find the rhino to use!
+      return new RhinoExecutionCommand(
+        Project,
+        string.IsNullOrEmpty(rhinoRunConfiguration?.StartWorkingDirectory) ? Project.BaseDirectory : rhinoRunConfiguration.StartWorkingDirectory,
+        outputFileName,
+        rhinoRunConfiguration?.StartArguments,
+        rhinoRunConfiguration?.EnvironmentVariables
+      );
     }
 
     protected override async Task<BuildResult> OnClean(ProgressMonitor monitor, ConfigurationSelector configuration, OperationContext operationContext)
@@ -161,7 +187,12 @@ namespace MonoDevelop.Debugger.Soft.Rhino
             var assemblyFile = file.ChangeExtension(ext);
             if (File.Exists(assemblyFile))
               File.Delete(assemblyFile);
+
 						var debugFile = file.ChangeExtension(ext + ".mdb");
+            if (File.Exists(debugFile))
+              File.Delete(debugFile);
+
+            debugFile = file.ChangeExtension(ext + ".pdb");
             if (File.Exists(debugFile))
               File.Delete(debugFile);
           }
@@ -193,31 +224,6 @@ namespace MonoDevelop.Debugger.Soft.Rhino
       return features;
     }
 
-    protected override bool OnGetCanExecute(ExecutionContext context, ConfigurationSelector configuration, SolutionItemRunConfiguration runConfiguration)
-    {
-      bool res = base.OnGetCanExecute(context, configuration, runConfiguration);
-      if (res)
-        return true;
-
-      var dotNetProject = Project as DotNetProject;
-      if (dotNetProject == null || !IsSupportedProject)
-        return false;
-
-      var config = dotNetProject.GetConfiguration(configuration) as DotNetProjectConfiguration;
-      if (config == null)
-        return false;
-
-			var projectRun = dotNetProject.GetDefaultRunConfiguration() as ProjectRunConfiguration;
-      var cmd = dotNetProject.CreateExecutionCommand(configuration, config, projectRun);
-      if (context.ExecutionTarget != null)
-        cmd.Target = context.ExecutionTarget;
-      if (context.ExecutionHandler == null)
-        return false;
-
-      var result = context.ExecutionHandler.CanExecute(cmd);
-
-      return result;
-    }
   }
 }
 

@@ -1,16 +1,31 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 <ExtensionModel>
+  <Extension path="/MonoDevelop/Core/ExecutionHandlers">
+    <ExecutionHandler id="Rhino" class="MonoDevelop.RhinoDebug.RhinoExecutionHandler" insertbefore="Platform" />
+  </Extension>
+  
+  <Extension path = "/MonoDevelop/Ide/RunConfigurationEditors">
+    <Class class="MonoDevelop.Ide.Projects.OptionPanels.AssemblyRunConfigurationEditor" runConfigurationType="MonoDevelop.RhinoDebug.RhinoRunConfiguration" />
+  </Extension>
+  
   <Extension path="/MonoDevelop/Debugging/DebuggerEngines">
     <DebuggerEngine
       id="Mono.Debugger.Soft.Rhino"
       name="RhinoCommon Plug-In Debugger"
-      features="Breakpoints, Pause, Stepping, DebugFile, Catchpoints"
-      type="MonoDevelop.Debugger.Soft.Rhino.RhinoSoftDebuggerEngine" />
+      features="Breakpoints, Pause, Stepping, DebugFile, ConditionalBreakpoints, Tracepoints, Catchpoints, Disassembly"
+      type="MonoDevelop.RhinoDebug.RhinoSoftDebuggerEngine" />
   </Extension>
-
+  
   <Extension path = "/MonoDevelop/ProjectModel/ProjectModelExtensions">
-    <Class class = "MonoDevelop.Debugger.Soft.Rhino.RhinoProjectServiceExtension" />
+    <Class class = "MonoDevelop.RhinoDebug.RhinoProjectServiceExtension" />
   </Extension>
+    
+  <Extension path = "/MonoDevelop/ProjectModel/Gui/ItemOptionPanels/Build">
+    <Section id="Rhino" _label="Rhino">
+      <Panel id = "RhinoOptionsPanel" _label = "Rhino Options" class = "MonoDevelop.RhinoDebug.OptionPanels.RhinoOptionsPanel"/>
+    </Section>
+  </Extension>
+                
 
   <Extension path="/MonoDevelop/Ide/ProjectTemplates">
     <ProjectTemplate id="Rhino.Plugin" file="Templates/Rhino/Plugin.xpt.xml" />
