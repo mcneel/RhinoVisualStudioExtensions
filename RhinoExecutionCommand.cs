@@ -13,9 +13,11 @@ namespace MonoDevelop.RhinoDebug
     string _applicationPath;
     string _executablePath;
 
-    public DotNetProject Project { get; set; }
+    public bool ExternalConsole { get; set; }
 
-    public bool IsGrasshopper { get; set; }
+    public bool PauseConsoleOutput { get; set; }
+
+    public DotNetProject Project { get; set; }
 
     public string RhinoCommonPath { get; set; }
 
@@ -25,28 +27,28 @@ namespace MonoDevelop.RhinoDebug
 
     public int RhinoVersion { get; set; }
 
+    public McNeelProjectType RhinoPluginType { get; set; }
+
     public string ApplicationPath => _applicationPath ?? (_applicationPath = GetApplicationPath());
 
     public string ExecutablePath => _executablePath ?? (_executablePath = GetExecutablePath(ApplicationPath));
 
-    public RhinoExecutionCommand(DotNetProject project, string workingDirectory, string outputname, string startArguments, IDictionary<string, string> environmentVariables)
+    public RhinoExecutionCommand(DotNetProject project, McNeelProjectType pluginType, string workingDirectory, string outputname, string startArguments, IDictionary<string, string> environmentVariables)
     {
       Project = project;
       Arguments = startArguments;
       WorkingDirectory = workingDirectory;
       Command = outputname;
       RhinoVersion = project.GetRhinoVersion() ?? Helpers.DefaultRhinoVersion;
+      RhinoPluginType = pluginType;
 
       for (int i = 0; i < Project.References.Count; i++)
       {
+        // old way of finding app by using the path to RhinoCommon.dll
         var reference = Project.References[i];
         if (reference.HintPath != null && reference.HintPath.FileNameWithoutExtension == Helpers.RhinoCommonReferenceName)
         {
           RhinoCommonPath = reference.HintPath;
-        }
-        if (reference.HintPath != null && reference.HintPath.FileNameWithoutExtension == Helpers.GrasshopperReferenceName)
-        {
-          IsGrasshopper = true;
         }
       }
 
@@ -65,9 +67,9 @@ namespace MonoDevelop.RhinoDebug
       }
       if (!string.IsNullOrEmpty(PluginPath))
       {
-        if (IsGrasshopper)
+        if (RhinoPluginType == McNeelProjectType.Grasshopper)
           EnvironmentVariables["GRASSHOPPER_PLUGINS"] = PluginPath;
-        else
+        else if (RhinoPluginType == McNeelProjectType.RhinoCommon)
           EnvironmentVariables["RHINO_PLUGIN_PATH"] = PluginPath;
       }
     }

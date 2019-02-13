@@ -7,6 +7,10 @@ using System.Collections.Generic;
 using System.Reflection;
 using System.Diagnostics;
 using System.Xml;
+using System.Threading.Tasks;
+using System.Threading;
+using MonoDevelop.Ide.Templates;
+
 namespace MonoDevelop.RhinoDebug
 {
   enum McNeelProjectType
@@ -93,6 +97,25 @@ namespace MonoDevelop.RhinoDebug
           Console.WriteLine($"Exception was thrown trying to read Rhino assembly version {ex}");
         }
       }
+
+      if (result == null)
+      {
+        foreach (var projectItem in project.Items.OfType<ProjectItem>().Where(r => r.ItemName == "PackageReference"))
+        {
+          if (projectItem.Include == GrasshopperReferenceName
+            || projectItem.Include == RhinoCommonReferenceName)
+            {
+            var version = projectItem.Metadata.GetValue("Version");
+            var idx = version?.IndexOf('.') ?? -1;
+            if (idx > 0)
+            {
+              if (int.TryParse(version.Substring(0, idx), out var r))
+                result = r;
+            }
+            break;
+          }
+        }
+      }
       project.ExtendedProperties[s_RhinoVersionKey] = result;
       return result;
     }
@@ -137,8 +160,7 @@ namespace MonoDevelop.RhinoDebug
 
       return appPath;
     }
-
-    public static McNeelProjectType? GetMcNeelProjectType(this IBuildTarget item, bool useProjectProperty = true)
+    public static McNeelProjectType? DetectMcNeelProjectType(this IBuildTarget item)
     {
       var project = item as DotNetProject;
       if (project == null)
@@ -148,38 +170,51 @@ namespace MonoDevelop.RhinoDebug
       if (project.CompileTarget != CompileTarget.Library)
         return null;
 
-      if (useProjectProperty)
-      {
-        var type = GetPluginProjectType(item);
-        if (type != null)
-          return type;
-        if (type == McNeelProjectType.None)
-          return null;
-      }
-
-      // auto-detect the type of project based on the references
+      // auto-detect the type of project based on the references/packages
+      McNeelProjectType? type = null;
 
       // check grasshopper first as those projects reference both RhinoCommon and Grasshopper
-      var reference = project.References.FirstOrDefault(r => r.Reference == GrasshopperReferenceName);
-      if (reference == null)
-        reference = project.References.FirstOrDefault(r => r.Reference == RhinoCommonReferenceName);
-
-      if (reference == null)
-        return null;
-
-      // if it's a project reference (vs assembly), treat it as a debug starter so we don't rename the output
-      if (reference.ReferenceType == ReferenceType.Project)
-        return McNeelProjectType.DebugStarter;
-
-      switch (reference.Reference)
+      foreach (var reference in project.References)
       {
-        case GrasshopperReferenceName:
-          return McNeelProjectType.Grasshopper;
-        case RhinoCommonReferenceName:
-          return McNeelProjectType.RhinoCommon;
-        default:
-          return McNeelProjectType.DebugStarter;
+        if (reference.ReferenceType == ReferenceType.Project)
+        {
+          if (reference.Reference == RhinoCommonReferenceName)
+            return McNeelProjectType.DebugStarter;
+        }
+        else
+        {
+          if (reference.Reference == GrasshopperReferenceName)
+          {
+            type = McNeelProjectType.Grasshopper;
+            // if we find grasshopper reference, we detect it as a grasshopper plugin
+            break;
+          }
+          if (reference.Reference == RhinoCommonReferenceName)
+          {
+            type = McNeelProjectType.RhinoCommon;
+            // found rhinocommon, but keep searching for grasshopper if it exists
+          }
+        }
       }
+      if (type != null)
+        return type;
+
+      // check for  packages (e.g. if you are using a sdk-style library)
+      // only check one level deep, so you need to reference the package directly
+      foreach (var reference in project.Items.OfType<ProjectItem>().Where(r => r.ItemName == "PackageReference"))
+      {
+        if (reference.Include == GrasshopperReferenceName)
+        {
+          type = McNeelProjectType.Grasshopper;
+          break;
+        }
+        if (reference.Include == RhinoCommonReferenceName)
+        {
+          type = McNeelProjectType.RhinoCommon;
+          // found rhinocommon, but keep searching for grasshopper if it exists
+        }
+      }
+      return type;
     }
 
     public static string GetXcodeDerivedDataPath(string targetDirectory)
