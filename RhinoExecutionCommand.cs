@@ -53,10 +53,10 @@ namespace MonoDevelop.RhinoDebug
       }
 
       string target = Command;
-      if (!string.IsNullOrWhiteSpace(target) && System.IO.File.Exists(target))
+      if (!string.IsNullOrWhiteSpace(target) && File.Exists(target))
       {
         PluginPath = target;
-        BinDir = System.IO.Path.GetDirectoryName(target);
+        BinDir = Path.GetDirectoryName(target);
       }
 
       EnvironmentVariables = environmentVariables != null ? new Dictionary<string, string>(environmentVariables) : new Dictionary<string, string>();
@@ -114,14 +114,25 @@ namespace MonoDevelop.RhinoDebug
 
       if (string.IsNullOrEmpty(Arguments) && !string.IsNullOrEmpty(RhinoCommonPath))
       {
-        var fileinfo = new System.IO.FileInfo(RhinoCommonPath);
+        var fileinfo = new FileInfo(RhinoCommonPath);
         if (fileinfo.Exists)
         {
-          // old v5 way of referencing assemblies, new way is to use nuget packages instead.
+          var dir = fileinfo.Directory;
+          // old v5 way of referencing assemblies directly in the .app folder, new way is to use nuget packages instead.
+
+          // scan up directory tree for an .app, then test if it's Rhino by finding the executable
+          while (dir != null)
+          {
+            if (dir.Name.EndsWith(".app", StringComparison.Ordinal))
+            {
+              string path = Path.Combine(dir.FullName, "Contents", "MacOS", "Rhinoceros");
+              if (File.Exists(path))
+                return dir.FullName;
+            }
+            dir = dir.Parent;
+          }
           var contents_dir = fileinfo.Directory.Parent;
-          string path = System.IO.Path.Combine(contents_dir.FullName, "MacOS", "Rhinoceros");
-          if (System.IO.File.Exists(path))
-            return path;
+
         }
       }
 
