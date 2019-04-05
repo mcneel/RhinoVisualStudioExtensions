@@ -12,7 +12,7 @@
     <ProductVersion>8.0.30703</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
-    <MDCoreVersionOverride>7.7</MDCoreVersionOverride>
+    <MDCoreVersionOverride>8.0</MDCoreVersionOverride>
     <CreatePackage>True</CreatePackage>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
