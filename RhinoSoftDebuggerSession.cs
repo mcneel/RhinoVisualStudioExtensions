@@ -16,9 +16,8 @@ namespace MonoDevelop.RhinoDebug
       if (dsi == null)
       {
         base.OnRun(startInfo);
+        return;
       }
-      int assignedDebugPort;
-      StartListening(dsi, out assignedDebugPort);
 
       // Start the Rhinoceros.app process
       if (m_rhino_app != null)
@@ -27,8 +26,11 @@ namespace MonoDevelop.RhinoDebug
       string process_path = dsi.ExecutablePath;
 
       if (string.IsNullOrEmpty(process_path))
-        throw new InvalidOperationException("Could not find the correct Rhinoceros.app to start");
-      
+        throw new InvalidOperationException($"Could not find the correct Rhinoceros.app to start for v{dsi.RhinoVersion}.\n\nEither install the required version, or set the path of the application in Project Options > Rhino > Launcher.");
+
+      int assignedDebugPort;
+      StartListening(dsi, out assignedDebugPort);
+
       string process_args = "";
       if (process_path.StartsWith("arch ", StringComparison.Ordinal))
       {

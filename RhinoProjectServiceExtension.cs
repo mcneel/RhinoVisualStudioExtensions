@@ -278,6 +278,11 @@ namespace MonoDevelop.RhinoDebug
       if (!IsSupportedProject)
         return base.OnGetCanExecute(context, configuration, runConfiguration);
 
+      // need to call base regardless to set context.RunConfiguration properly.
+      // this is probably a flaw in the API design, we really shouldn't need this (it wasn't required with the old API).
+      // without this, the breakpoint options dialog does not allow you to set conditions, etc.
+      base.OnGetCanExecute(context, configuration, runConfiguration);
+
       return true;
     }
 

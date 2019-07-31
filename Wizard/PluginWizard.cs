@@ -10,7 +10,7 @@ namespace MonoDevelop.RhinoDebug.Wizard
     public override string Id => "MonoDevelop.RhinoDebug.PluginWizard";
 
     public bool ProvideCodeSample { get; set; } = true;
-    public int RhinoVersion { get; set; } = 5;
+    public int RhinoVersion { get; set; } = 6;
 
     public override void ConfigureWizard()
     {

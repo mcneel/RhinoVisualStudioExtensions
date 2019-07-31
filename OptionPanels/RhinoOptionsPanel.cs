@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Threading;
 using MonoDevelop.Components;
 using MonoDevelop.Ide.Gui.Dialogs;
@@ -36,6 +37,7 @@ namespace MonoDevelop.RhinoDebug.OptionPanels
     Gtk.ComboBox launcherCombo;
     Gtk.Entry customLauncherEntry;
     Gtk.Label autodetectedTypeLabel;
+    Gtk.Label bundleInformationLabel;
     bool pluginTypeChanged;
     bool launcherChanged;
     DotNetProject project;
@@ -215,22 +217,45 @@ namespace MonoDevelop.RhinoDebug.OptionPanels
           customLauncherEntry.Text = Helpers.GetXcodeDerivedDataPath(outputFileName);
           break;
       }
+
+    }
+
+    void SetBundleVersionLabel()
+    {
+      if (!string.IsNullOrEmpty(customLauncherEntry.Text))
+      {
+        var version = Helpers.GetVersionOfAppBundle(customLauncherEntry.Text);
+        var versionString = version == null ? "unknown" : version.ToString();
+        bundleInformationLabel.Markup = $"Application Version: <b>{versionString}</b>";
+      }
+      else
+        bundleInformationLabel.Text = string.Empty;
     }
 
     void SetAutodetectLabel()
     {
+      var sbInfo = new StringBuilder();
       if (pluginTypeCombo.Active == 0) // autodetect
       {
         var detectedType = project.DetectMcNeelProjectType();
         if (detectedType != null)
         {
-          autodetectedTypeLabel.Markup = $"Detected: <b>{GetTypeLabel(detectedType.Value)}</b>";
+          sbInfo.Append($"Type: <b>{GetTypeLabel(detectedType.Value)}</b>");
         }
       }
-      else
+
+      var detectedVersion = project.GetRhinoVersion();
+      if (detectedVersion != null)
       {
-        autodetectedTypeLabel.Text = string.Empty;
+        if (sbInfo.Length > 0)
+          sbInfo.Append(", ");
+        sbInfo.Append($"Version: <b>{detectedVersion.Value}</b>");
       }
+
+      if (sbInfo.Length > 0)
+        sbInfo.Insert(0, "Detected ");
+
+      autodetectedTypeLabel.Markup = sbInfo.ToString();
     }
 
     void Build()
@@ -248,23 +273,27 @@ namespace MonoDevelop.RhinoDebug.OptionPanels
       launcherCombo = new Gtk.ComboBox(currentLauncherEntries);
 
       customLauncherEntry = new Gtk.Entry();
+      customLauncherEntry.Changed += (sender, e) => SetBundleVersionLabel();
 
       var optionsBox = new Gtk.HBox();
 
       autodetectedTypeLabel = new Gtk.Label();
+
+      bundleInformationLabel = new Gtk.Label();
 
       // layout
 
       //PackStart(heading, false, false, 0);
 
 
-      var table = new Gtk.Table(3, 2, false);
+      var table = new Gtk.Table(4, 2, false);
       table.RowSpacing = 6;
       table.ColumnSpacing = 6;
 
       AddRow(table, 0, "Plugin Type:", AutoSized(6, pluginTypeCombo, autodetectedTypeLabel));
       AddRow(table, 1, "Launcher:", AutoSized(6, launcherCombo));
       AddRow(table, 2, "", customLauncherEntry); // add browse button?
+      AddRow(table, 3, "", AutoSized(0, bundleInformationLabel));
 
       // indent
       optionsBox.PackStart(new Gtk.Label { WidthRequest = 18 }, false, false, 0);

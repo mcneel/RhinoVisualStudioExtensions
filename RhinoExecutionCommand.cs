@@ -76,6 +76,9 @@ namespace MonoDevelop.RhinoDebug
 
     string GetExecutablePath(string applicationPath)
     {
+      if (string.IsNullOrEmpty(applicationPath))
+        return null;
+
       var executablePath = Path.Combine(applicationPath, "Contents", "MacOS", "Rhinoceros");
       if (File.Exists(executablePath))
         return executablePath;

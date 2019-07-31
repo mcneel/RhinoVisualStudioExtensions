@@ -10,6 +10,7 @@ using System.Xml;
 using System.Threading.Tasks;
 using System.Threading;
 using MonoDevelop.Ide.Templates;
+using Foundation;
 
 namespace MonoDevelop.RhinoDebug
 {
@@ -25,9 +26,10 @@ namespace MonoDevelop.RhinoDebug
   {
     public const string StandardInstallPath = "/Applications/Rhinoceros.app";
     public const string StandardInstallWipPath = "/Applications/RhinoWIP.app";
+    public const string StandardInstallBetaPath = "/Applications/RhinoBETA.app";
     public const string GrasshopperReferenceName = "Grasshopper";
     public const string RhinoCommonReferenceName = "RhinoCommon";
-    public const int DefaultRhinoVersion = 5;
+    public const int DefaultRhinoVersion = 6;
 
     public const string RhinoPluginTypeProperty = "RhinoPluginType";
     public const string RhinoLauncherProperty = "RhinoMacLauncher";
@@ -149,17 +151,92 @@ namespace MonoDevelop.RhinoDebug
 
     public static string DetectApplicationPath(this IBuildTarget item, string binDir, int rhinoVersion)
     {
+      // check the derived data folders if they were built from the same code tree
       var appPath = GetXcodeDerivedDataPath(binDir);
 
-      // todo: detect version of Rhinoceros.app instead of assuming it is v5
-
-      if (appPath == null && rhinoVersion > Helpers.DefaultRhinoVersion && Directory.Exists(Helpers.StandardInstallWipPath))
-        appPath = Helpers.StandardInstallWipPath;
       if (appPath == null)
-        appPath = Helpers.StandardInstallPath;
+      {
+        // find all rhinos on the system
+        
+        var foundRhino = FindAllRhinos()
+          .Where(r => r.Version?.Major == rhinoVersion) // version can be null for development builds
+          .OrderByDescending(r => r.Version) // find the latest/greatest
+          .FirstOrDefault();
+
+        appPath = foundRhino?.Path;
+      }
+      //if (appPath == null && rhinoVersion > DefaultRhinoVersion && Directory.Exists(StandardInstallWipPath))
+        //appPath = StandardInstallWipPath;
+      //if (appPath == null)
+      //  appPath = StandardInstallPath;
 
       return appPath;
     }
+
+    class RhinoInfo
+    {
+      public string Path { get; set; }
+      public Version Version { get; set; }
+    }
+
+    static IEnumerable<RhinoInfo> FindAllRhinos()
+    {
+      return FindAllRhinoPaths().Select(r => new RhinoInfo { Path = r, Version = GetVersionOfAppBundle(r) });
+    }
+
+    static IEnumerable<string> FindAllRhinoPaths()
+    {
+      if (Directory.Exists(StandardInstallPath))
+        yield return StandardInstallPath;
+
+      if (Directory.Exists(StandardInstallWipPath))
+        yield return StandardInstallWipPath;
+
+      if (Directory.Exists(StandardInstallBetaPath))
+        yield return StandardInstallBetaPath;
+
+      // get all other ones!
+      var urls = CoreServices.LaunchServices.GetApplicationUrlsForBundleIdentifier("com.mcneel.rhinoceros");
+      if (urls != null)
+      {
+        var paths = urls.Where(r => r.IsFileUrl).Select(r => r.FilePathUrl.Path).ToList();
+
+        // find ones in /Applications folder first
+        var applicationPaths = paths.Where(r => r.StartsWith("/Applications/", StringComparison.OrdinalIgnoreCase)).ToList();
+        foreach (var path in applicationPaths)
+          yield return path;
+
+        // then use the others
+        var otherPaths = paths.Where(r => !applicationPaths.Contains(r));
+        foreach (var path in otherPaths)
+          yield return path;
+
+      }
+    }
+
+    static NSString s_VersionKey = new NSString("CFBundleVersion");
+    static NSString s_ShortVersionKey = new NSString("CFBundleShortVersionString");
+
+    public static Version GetVersionOfAppBundle(string appBundlePath)
+    {
+      if (!Directory.Exists(appBundlePath))
+        return null;
+
+      using (var bundle = NSBundle.FromPath(appBundlePath))
+      {
+        var info = bundle?.InfoDictionary;
+        if (info == null)
+          return null;
+        var versionString = info.ObjectForKey(s_VersionKey) as NSString;
+        if (versionString != null && Version.TryParse(versionString, out var version))
+          return version;
+        var shortVersionString = info.ObjectForKey(s_ShortVersionKey) as NSString;
+        if (shortVersionString != null && Version.TryParse(shortVersionString, out version))
+          return version;
+        return null;
+      }
+    }
+
     public static McNeelProjectType? DetectMcNeelProjectType(this IBuildTarget item)
     {
       var project = item as DotNetProject;

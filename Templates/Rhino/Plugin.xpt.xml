@@ -26,7 +26,8 @@
                 <Reference type="Assembly" refto="/Applications/Rhinoceros.app/Contents/Resources/Eto.dll" LocalCopy="False" if="!v6" />
             </References>
             <Packages>
-                <Package ID="RhinoCommon" Version="6.12.19029.6381" if="v6" />
+                <Package ID="RhinoCommon" Version="6.16.19190.7001" if="v6" />
+                <Package ID="RhinoCommon" Version="7.0.19197.10155-wip" if="v7" />
             </Packages>
         </Project>
     </Combine>

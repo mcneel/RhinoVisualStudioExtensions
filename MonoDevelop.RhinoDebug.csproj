@@ -11,7 +11,7 @@
     <AssemblyName>MonoDevelop.RhinoDebug</AssemblyName>
     <ProductVersion>8.0.30703</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <MDCoreVersionOverride>8.0</MDCoreVersionOverride>
     <CreatePackage>True</CreatePackage>
   </PropertyGroup>
@@ -87,6 +87,7 @@
     <AddinReference Include="MonoDevelop.Debugger" />
     <AddinReference Include="MonoDevelop.Debugger.Soft" />
     <AddinReference Include="MonoDevelop.CSharpBinding" />
+    <AddinReference Include="MonoDevelop.MacPlatform" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="OptionPanels\" />

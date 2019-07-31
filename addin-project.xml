@@ -3,7 +3,7 @@ Used by the MonoDevelop Add-In Repository
   http://monodevelop.com/Developers/Articles/Publishing_an_Addin
   http://addins.monodevelop.com/Source/AddinProjectHelp?projectId=1
 -->
-<AddinProject appVersion="7.7">
+<AddinProject appVersion="8.0">
 	<Project platforms="Mac">
 		<AddinFile>bin/Release/MonoDevelop.RhinoDebug.dll</AddinFile>
 		<BuildFile>MonoDevelop.RhinoDebug.sln</BuildFile>
