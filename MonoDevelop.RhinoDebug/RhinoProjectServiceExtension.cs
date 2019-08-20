@@ -140,7 +140,7 @@ namespace MonoDevelop.RhinoDebug
 
     int? RhinoVersion => Project.GetRhinoVersion();
 
-    bool RequiresMdb => RhinoVersion < 6;
+    bool RequiresMdb => RhinoPluginType != McNeelProjectType.None && RhinoVersion < 6;
 
 		string PluginExtension => RhinoPluginType?.GetExtension() ?? ".dll";
 

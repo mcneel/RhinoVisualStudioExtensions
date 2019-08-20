@@ -1,4 +1,4 @@
-﻿namespace ${Namespace}
+﻿namespace MyRhino
 {	
   ///<summary>
   /// <para>Every RhinoCommon .rhp assembly must have one and only one PlugIn-derived
@@ -8,12 +8,12 @@
   /// attributes in AssemblyInfo.cs (you might need to click "Project" ->
   /// "Show All Files" to see it in the "Solution Explorer" window).</para>
   ///</summary>
-  public class ${ProjectName}Plugin : Rhino.PlugIns.PlugIn
-	{	
-    ///<summary>Gets the only instance of the ${ProjectName}Plugin plug-in.</summary>
-    public static ${ProjectName}Plugin Instance { get; private set; }
+  public class MyRhinoPlugin : Rhino.PlugIns.PlugIn
+	{
+    ///<summary>Gets the only instance of the MyRhinoPlugin plug-in.</summary>
+    public static MyRhinoPlugin Instance { get; private set; }
 
-    public ${ProjectName}Plugin()
+    public MyRhinoPlugin()
 		{
       Instance = this;
 		}

@@ -25,13 +25,26 @@
       <Panel id = "RhinoOptionsPanel" _label = "Rhino Options" class = "MonoDevelop.RhinoDebug.OptionPanels.RhinoOptionsPanel"/>
     </Section>
   </Extension>
-                
-
-  <Extension path="/MonoDevelop/Ide/ProjectTemplates">
-    <ProjectTemplate id="Rhino.Plugin" file="Templates/Rhino/Plugin.xpt.xml" />
-    <ProjectTemplate id="Grasshopper.Component" file="Templates/Grasshopper/Component.xpt.xml" />
+              
+  <Extension path="/MonoDevelop/Ide/Templates">
+    <Template
+      id="Rhino.Plugin"
+      path="Templates/Rhino.Templates.1.0.0.nupkg"
+      imageId="rhinocommon-project"
+      wizard="MonoDevelop.RhinoDebug.PluginWizard"
+      category="other/rhino/general"
+      supportedParameters="IncludeSample,Rhino5Location,v5,v6,v7"
+      />
+    <Template
+      id="Grasshopper.Component"
+      path="Templates/Rhino.Templates.1.0.0.nupkg"
+      imageId="grasshopper-project"
+      wizard="MonoDevelop.RhinoDebug.PluginWizard"
+      category="other/rhino/general"
+      supportedParameters="IncludeSample,Rhino5Location,v5,v6,v7"
+      />
   </Extension>
-
+  
   <Extension path="/MonoDevelop/Ide/FileTemplates">
     <FileTemplate id="Rhino.EmptyCommand" file="Templates/Rhino/EmptyCommand.xft.xml" />
     <FileTemplate id="Grasshopper.EmptyComponent" file="Templates/Grasshopper/EmptyComponent.xft.xml" />

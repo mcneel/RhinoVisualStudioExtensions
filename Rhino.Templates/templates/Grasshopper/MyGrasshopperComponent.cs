@@ -5,10 +5,11 @@ using Grasshopper;
 using Grasshopper.Kernel;
 using Rhino.Geometry;
 
-namespace ${Namespace}
+namespace MyGrasshopper
 {
-  public class ${EscapedIdentifier} : GH_Component
+  public class MyGrasshopperComponent : GH_Component
   {
+#if IncludeSample
     /// <summary>
     /// Each implementation of GH_Component must provide a public 
     /// constructor without any arguments.
@@ -16,8 +17,8 @@ namespace ${Namespace}
     /// Subcategory the panel. If you use non-existing tab or panel names, 
     /// new tabs/panels will automatically be created.
     /// </summary>
-    public ${EscapedIdentifier}()
-      : base("${EscapedIdentifier}", "ASpi",
+    public MyGrasshopperComponent()
+      : base("MyGrasshopperComponent", "ASpi",
         "Construct an Archimedean, or arithmetic, spiral given its radii and number of turns.",
         "Curve", "Primitive")
     {
@@ -133,10 +134,47 @@ namespace ${Namespace}
     /// each of which can be combined with the GH_Exposure.obscure flag, which 
     /// ensures the component will only be visible on panel dropdowns.
     /// </summary>
-    public override GH_Exposure Exposure
+    public override GH_Exposure Exposure => GH_Exposure.primary;
+
+#else
+    /// <summary>
+    /// Each implementation of GH_Component must provide a public 
+    /// constructor without any arguments.
+    /// Category represents the Tab in which the component will appear, 
+    /// Subcategory the panel. If you use non-existing tab or panel names, 
+    /// new tabs/panels will automatically be created.
+    /// </summary>
+    public MyGrasshopperComponent()
+      : base("MyGrasshopperComponent", "Nickname",
+        "MyGrasshopperComponent description",
+        "Category", "Subcategory")
     {
-      get { return GH_Exposure.primary; }
     }
+
+    /// <summary>
+    /// Registers all the input parameters for this component.
+    /// </summary>
+    protected override void RegisterInputParams(GH_Component.GH_InputParamManager pManager)
+    {
+    }
+
+    /// <summary>
+    /// Registers all the output parameters for this component.
+    /// </summary>
+    protected override void RegisterOutputParams(GH_Component.GH_OutputParamManager pManager)
+    {
+    }
+
+    /// <summary>
+    /// This is the method that actually does the work.
+    /// </summary>
+    /// <param name="DA">The DA object can be used to retrieve data from input parameters and 
+    /// to store data in output parameters.</param>
+    protected override void SolveInstance(IGH_DataAccess DA)
+    {
+    }
+
+#endif
 
     /// <summary>
     /// Provides an Icon for every component that will be visible in the User Interface.
@@ -145,7 +183,7 @@ namespace ${Namespace}
     protected override System.Drawing.Bitmap Icon
     {
       get
-      { 
+      {
         // You can add image files to your project resources and access them like this:
         //return Resources.IconForThisComponent;
         return null;
@@ -157,9 +195,6 @@ namespace ${Namespace}
     /// It is vital this Guid doesn't change otherwise old ghx files 
     /// that use the old ID will partially fail during loading.
     /// </summary>
-    public override Guid ComponentGuid
-    {
-      get { return new Guid("${Guid3}"); }
-    }
+    public override Guid ComponentGuid => new Guid("e79cd2b5-cb9c-4d08-93ec-446cc1f6d923");
   }
 }

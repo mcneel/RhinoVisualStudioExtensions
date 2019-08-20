@@ -157,13 +157,8 @@ namespace MonoDevelop.RhinoDebug
       if (appPath == null)
       {
         // find all rhinos on the system
-        
-        var foundRhino = FindAllRhinos()
-          .Where(r => r.Version?.Major == rhinoVersion) // version can be null for development builds
-          .OrderByDescending(r => r.Version) // find the latest/greatest
-          .FirstOrDefault();
 
-        appPath = foundRhino?.Path;
+        appPath = FindRhinoWithVersion(rhinoVersion);
       }
       //if (appPath == null && rhinoVersion > DefaultRhinoVersion && Directory.Exists(StandardInstallWipPath))
         //appPath = StandardInstallWipPath;
@@ -177,6 +172,15 @@ namespace MonoDevelop.RhinoDebug
     {
       public string Path { get; set; }
       public Version Version { get; set; }
+    }
+
+    public static string FindRhinoWithVersion(int rhinoVersion)
+    {
+      var foundRhino = FindAllRhinos()
+        .Where(r => r.Version?.Major == rhinoVersion) // version can be null for development builds
+        .OrderByDescending(r => r.Version) // find the latest/greatest
+        .FirstOrDefault();
+      return foundRhino?.Path;
     }
 
     static IEnumerable<RhinoInfo> FindAllRhinos()

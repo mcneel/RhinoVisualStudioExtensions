@@ -1,8 +1,8 @@
 bin/
 obj/
 *.pidb
-
 *.userprefs
 packages
 .vs
 Thumbs.db
+artifacts

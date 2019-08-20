@@ -5,20 +5,20 @@ using Rhino.Geometry;
 using Rhino.Input;
 using Rhino.Input.Custom;
 using Rhino.UI;
+#if IncludeSample
 using Eto.Drawing;
 using Eto.Forms;
+#endif
 
-namespace ${namespace}
+namespace MyRhino
 {
-  public class ${EscapedIdentifier} : Rhino.Commands.Command
+  public class MyRhinoCommand : Rhino.Commands.Command
   {
-    public override string EnglishName
-    {
-      get { return "${EscapedIdentifier}"; }
-    }
+    public override string EnglishName => "MyRhinoCommand";
 
     protected override Result RunCommand(Rhino.RhinoDoc doc, RunMode mode)
     {
+#if IncludeSample
       // TODO: start here modifying the behaviour of your command.
       // ---
       RhinoApp.WriteLine("The {0} command will add a line right now.", EnglishName);
@@ -55,6 +55,11 @@ namespace ${namespace}
 
 
       return Result.Success;
+#else
+      // TODO: start here modifying the behaviour of your command.
+
+      return Result.Success;
+#endif
     }
   }
 }

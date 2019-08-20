@@ -27,8 +27,8 @@ namespace MonoDevelop.RhinoDebug.Wizard
       rb7.Toggled += (sender, e) => { if (rb7.Active) wizard.RhinoVersion = 7; };
 
       box.Spacing = 2;
-      box.PackStart(rb6, false, true, 0);
       box.PackStart(rb5, false, true, 0);
+      box.PackStart(rb6, false, true, 0);
       box.PackStart(rb7, false, true, 0);
 
 

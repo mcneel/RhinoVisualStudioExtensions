@@ -16,8 +16,9 @@ namespace MonoDevelop.RhinoDebug.Wizard
     {
       base.ConfigureWizard();
 
-      Parameters["ProvideCodeSample"] = ProvideCodeSample.ToString();
-      Parameters["v" + RhinoVersion] = true.ToString();
+      Parameters["IncludeSample"] = ProvideCodeSample.ToString();
+      Parameters["RhinoVersion"] = RhinoVersion.ToString();
+      Parameters["Rhino5Location"] = Helpers.FindRhinoWithVersion(5);
 
       // provide some guid's for our templates
       for (int i = 0; i < 10; i++)
