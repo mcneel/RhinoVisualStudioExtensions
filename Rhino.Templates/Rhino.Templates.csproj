@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project Sdk="Microsoft.NET.Sdk">
+	<PropertyGroup>
+		<PackageType>Template</PackageType>
+		<PackageId>Rhino.Templates</PackageId>
+		<PackageVersion>1.0.0</PackageVersion>
+		<Authors>McNeel</Authors>
+		<Description>Project and File templates for Rhinoceros</Description>
+		
+		<TargetFramework>netstandard2.0</TargetFramework>
+		<ContentTargetFolders>content</ContentTargetFolders>
+    
+    <EnableDefaultItems>false</EnableDefaultItems>
+		<GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+		<NoBuild>True</NoBuild>
+		<IncludeBuildOutput>False</IncludeBuildOutput>
+		<GenerateAssemblyInfo>False</GenerateAssemblyInfo>
+		<GenerateAssemblyVersion>False</GenerateAssemblyVersion>
+		<DisableImplicitFrameworkReferences>True</DisableImplicitFrameworkReferences>
+	</PropertyGroup>
+
+	<ItemGroup>
+    <Content Include="templates\**\*" Exclude="templates\**\bin\**;templates\**\obj\**" />
+		<Content Remove="**\.*DS_Store" />
+		<Content Remove="**\.vs\**\*" />
+		<Content Remove="**\*.userprefs" />
+		<Content Remove="**\packages\**\*" />
+		<Content Remove="**\*.user" />
+		<Content Remove="templates\NuGet.Config" />
+		<Content Remove="templates\Directory.*" />
+    
+    <Compile Remove="**\*" />
+	</ItemGroup>
+</Project>
