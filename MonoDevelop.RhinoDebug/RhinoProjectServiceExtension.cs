@@ -38,6 +38,16 @@ namespace MonoDevelop.RhinoDebug
       projectType = new Lazy<McNeelProjectType?>(LookupSpecifiedProjectType);
     }
 
+    protected override void OnModified(SolutionItemModifiedEventArgs args)
+    {
+      base.OnModified(args);
+      if (args.Any(r => r.Hint == Helpers.RhinoPluginTypeProperty))
+      {
+        // refresh the rhino project type
+        RefreshRhinoProjectType();
+      }
+    }
+
     protected override void OnBeginLoad()
     {
       base.OnBeginLoad();
