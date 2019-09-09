@@ -148,6 +148,7 @@ namespace MonoDevelop.RhinoDebug.OptionPanels
           project.ProjectProperties.RemoveProperty(Helpers.RhinoPluginTypeProperty);
 
         project.NeedsReload = true;
+        project.NotifyModified(Helpers.RhinoPluginTypeProperty);
       }
 
       if (launcherChanged)
@@ -157,6 +158,7 @@ namespace MonoDevelop.RhinoDebug.OptionPanels
           project.ProjectProperties.SetValue(Helpers.RhinoLauncherProperty, launcherType);
         else
           project.ProjectProperties.RemoveProperty(Helpers.RhinoLauncherProperty);
+        project.NotifyModified(Helpers.RhinoLauncherProperty);
       }
     }
 
