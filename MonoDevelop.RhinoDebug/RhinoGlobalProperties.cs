@@ -43,8 +43,9 @@ namespace MonoDevelop.RhinoDebug
       if (!RequiresMdb)
         return s_emptyDictionary;
 
-      // in mono 5.0, it only generates mdb's if using mcs so that means no C#7.
+      // in mono 5.0, it only generates mdb's if using mcs so switch to that compiler
       return properties ?? (properties = new Dictionary<string, string> {
+          { "LangVersion" , "7.2" }, // mcs only supports up to C# v7.2 currently..
           { "CscToolExe" , "mcs.exe" },
           { "_DebugFileExt" , ".mdb" }
         });
