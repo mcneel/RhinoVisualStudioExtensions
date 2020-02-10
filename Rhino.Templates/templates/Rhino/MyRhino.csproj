@@ -2,7 +2,6 @@
 	
   <PropertyGroup>
     <TargetFramework>net45</TargetFramework>
-    <RootNamespace>MyRhino</RootNamespace>
     <Version>1.0</Version>
     <Title>MyRhino</Title>
     <Description>Description of MyRhino</Description>

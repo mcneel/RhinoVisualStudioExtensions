@@ -6,12 +6,12 @@ using Rhino.Input;
 using Rhino.Input.Custom;
 using Rhino.UI;
 
-namespace MyRhino
+namespace ${Namespace}
 {
   [System.Runtime.InteropServices.Guid("${Guid2}")]
-  public class MyRhinoCommand : Rhino.Commands.Command
+  public class ${EscapedIdentifier} : Rhino.Commands.Command
   {
-    public MyRhinoCommand()
+    public ${EscapedIdentifier}()
     {
       // Rhino only creates one instance of each command class defined in a
       // plug-in, so it is safe to store a refence in a static property.
@@ -19,9 +19,9 @@ namespace MyRhino
     }
 
     ///<summary>The only instance of this command.</summary>
-    public static MyRhinoCommand Instance { get; private set; }
+    public static ${EscapedIdentifier} Instance { get; private set; }
 
-    public override string EnglishName => "MyRhinoCommand";
+    public override string EnglishName => "${EscapedIdentifier}";
 
     protected override Result RunCommand(Rhino.RhinoDoc doc, RunMode mode)
     {
