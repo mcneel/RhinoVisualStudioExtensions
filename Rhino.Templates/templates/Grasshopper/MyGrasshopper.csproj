@@ -2,7 +2,6 @@
 	
   <PropertyGroup>
     <TargetFramework>net45</TargetFramework>
-    <RootNamespace>MyGrasshopper</RootNamespace>
     <Version>1.0</Version>
     <Title>MyGrasshopper</Title>
     <Description>Description of MyGrasshopper</Description>
