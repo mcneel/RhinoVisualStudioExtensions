@@ -3,15 +3,17 @@
 # top-most EditorConfig file
 root = true
 
+[*]
+indent_style = space
+indent_size = 4
+
 # use spaces by default for everything
 [*.{cs,vb}]
 indent_style = space
 indent_size = 4
-tab_size = 4
 charset=utf-8-bom
 spaces_around_brackets = none
 
-[*]
+[*.{csproj,vbproj,proj,targets,props}]
 indent_style = space
 indent_size = 2
-tab_size = 2

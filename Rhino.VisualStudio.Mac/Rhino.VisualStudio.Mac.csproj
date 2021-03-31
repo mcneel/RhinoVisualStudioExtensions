@@ -1,0 +1,51 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net472</TargetFramework>
+    <AssemblyTitle>Rhino.VisualStudio.Mac</AssemblyTitle>
+    <Company>Robert McNeel &amp; Associates</Company>
+    <Copyright>2021 Robert McNeel and Associates</Copyright>
+    <MDCoreVersionOverride>8.8</MDCoreVersionOverride>
+    <CreatePackage>True</CreatePackage>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="MonoDevelop.Addins" Version="0.4.7" />
+    <PackageReference Include="Eto.Forms" Version="2.5.11-dev" />
+    <PackageReference Include="Eto.Platform.XamMac2" Version="2.5.11-dev" />
+  </ItemGroup>
+  <ItemGroup>
+    <AddinReference Include="MonoDevelop.CSharpBinding" />
+    <AddinReference Include="MonoDevelop.Debugger" />
+    <AddinReference Include="MonoDevelop.Debugger.Soft" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Remove="Templates\**\*.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <AddinFile Include="Templates\Rhino\EmptyCommand.cs" />
+    <AddinFile Include="Templates\Rhino\EmptyCommand.xft.xml" />
+    <AddinFile Include="Templates\Grasshopper\EmptyComponent.cs" />
+    <AddinFile Include="Templates\Grasshopper\EmptyComponent.xft.xml" />
+    <AddinFile Include="..\artifacts\bin\Rhino.Templates\$(Configuration)\Rhino.Templates.$(PackageVersion).nupkg">
+      <Link>Templates\Rhino.Templates.nupkg</Link>
+    </AddinFile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Remove="Templates\**\*" />
+    <None Remove="rhinocommon_addin.png" />
+    <None Remove="rhinocommon_addin@2x.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="rhinocommon_addin.png" />
+    <EmbeddedResource Include="rhinocommon_addin@2x.png" />
+    <EmbeddedResource Include="Templates\**\*.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Rhino.VisualStudio\Rhino.VisualStudio.csproj" />
+    <ProjectReference Include="..\Rhino.Templates\Rhino.Templates.csproj">
+      <ReferenceOutputAssembly>False</ReferenceOutputAssembly>
+      <Private>False</Private>
+    </ProjectReference>
+  </ItemGroup>
+
+
+</Project>

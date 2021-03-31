@@ -3,9 +3,8 @@
 	<PropertyGroup>
 		<PackageType>Template</PackageType>
 		<PackageId>Rhino.Templates</PackageId>
-		<PackageVersion>1.0.0</PackageVersion>
 		<Authors>McNeel</Authors>
-		<Description>Project and File templates for Rhinoceros</Description>
+		<Description>Project and File templates for Rhino</Description>
 		
 		<TargetFramework>netstandard2.0</TargetFramework>
 		<ContentTargetFolders>content</ContentTargetFolders>
@@ -17,18 +16,104 @@
 		<GenerateAssemblyInfo>False</GenerateAssemblyInfo>
 		<GenerateAssemblyVersion>False</GenerateAssemblyVersion>
 		<DisableImplicitFrameworkReferences>True</DisableImplicitFrameworkReferences>
+    <CopyBuildOutputToOutputDirectory>False</CopyBuildOutputToOutputDirectory>
+    <CopyOutputSymbolsToOutputDirectory>False</CopyOutputSymbolsToOutputDirectory>
+		<SuppressDependenciesWhenPacking>True</SuppressDependenciesWhenPacking>
+    <NoWarn>8021</NoWarn>
 	</PropertyGroup>
 
 	<ItemGroup>
-    <Content Include="templates\**\*" Exclude="templates\**\bin\**;templates\**\obj\**" />
+		<None Include="content\Directory.*" />
+    <None Include="content\*\.template.config" />
+    <Content Include="content\**\*">
+			<PackagePath>%(RelativeDir)%(Filename)%(Extension)</PackagePath>
+		</Content>
+		<Content Remove="**\bin\**\*" />
+		<Content Remove="**\obj\**\*" />
 		<Content Remove="**\.*DS_Store" />
 		<Content Remove="**\.vs\**\*" />
 		<Content Remove="**\*.userprefs" />
-		<Content Remove="**\packages\**\*" />
 		<Content Remove="**\*.user" />
-		<Content Remove="templates\NuGet.Config" />
-		<Content Remove="templates\Directory.*" />
-    
-    <Compile Remove="**\*" />
+		<Content Remove="content\CSRhino\.template.config\.editorconfig" />
+		<Content Remove="content\NuGet.Config" />
+		<Content Remove="content\Directory.*" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Content Update="content\CSCommand\.template.config\template.json">
+	    <PackagePath>%(RelativeDir)%(Filename)%(Extension)</PackagePath>
+	  </Content>
+	  <Content Update="content\CSComponent\.template.config\template.json">
+	    <PackagePath>%(RelativeDir)%(Filename)%(Extension)</PackagePath>
+	  </Content>
+	  <Content Update="content\CSGrasshopper\.template.config\ide.host.json">
+	    <PackagePath>%(RelativeDir)%(Filename)%(Extension)</PackagePath>
+	  </Content>
+	  <Content Update="content\CSZooPlugIn\.template.config\ide.host.json">
+	    <PackagePath>%(RelativeDir)%(Filename)%(Extension)</PackagePath>
+	  </Content>
+	  <Content Update="content\VBCommand\.template.config\template.json">
+	    <PackagePath>%(RelativeDir)%(Filename)%(Extension)</PackagePath>
+	  </Content>
+	  <Content Update="content\VBComponent\MyComponent.1.vb">
+	    <PackagePath>%(RelativeDir)%(Filename)%(Extension)</PackagePath>
+	  </Content>
+	  <Content Update="content\VBGrasshopper\.template.config\ide.host.json">
+	    <PackagePath>%(RelativeDir)%(Filename)%(Extension)</PackagePath>
+	  </Content>
+	  <Content Update="content\VBRhino\.template.config\ide.host.json">
+	    <PackagePath>%(RelativeDir)%(Filename)%(Extension)</PackagePath>
+	  </Content>
+	  <Content Update="content\VBZooPlugIn\.template.config\dotnetcli.host.json">
+	    <PackagePath>%(RelativeDir)%(Filename)%(Extension)</PackagePath>
+	  </Content>
+	  <Content Update="content\VBZooPlugIn\.template.config\ide.host.json">
+	    <PackagePath>%(RelativeDir)%(Filename)%(Extension)</PackagePath>
+	  </Content>
+	  <Content Update="content\VBZooPlugIn\.template.config\template.json">
+	    <PackagePath>%(RelativeDir)%(Filename)%(Extension)</PackagePath>
+	  </Content>
+	  <Content Update="content\VBZooPlugIn\MyZooPlugin.1.vbproj">
+	    <PackagePath>%(RelativeDir)%(Filename)%(Extension)</PackagePath>
+	  </Content>
+	  <Content Update="content\VBZooPlugIn\MyZooPlugin__1.vb">
+	    <PackagePath>%(RelativeDir)%(Filename)%(Extension)</PackagePath>
+	  </Content>
+	  <Content Update="content\VBZooPlugIn\Properties\AssemblyInfo.vb">
+	    <PackagePath>%(RelativeDir)%(Filename)%(Extension)</PackagePath>
+	  </Content>
+	  <Content Update="content\VBRhino\.template.config\dotnetcli.host.json">
+	    <PackagePath>%(RelativeDir)%(Filename)%(Extension)</PackagePath>
+	  </Content>
+	  <Content Update="content\VBRhino\.template.config\template.json">
+	    <PackagePath>%(RelativeDir)%(Filename)%(Extension)</PackagePath>
+	  </Content>
+	  <Content Update="content\VBRhino\EmbeddedResources\plugin-digitize.ico">
+	    <PackagePath>%(RelativeDir)%(Filename)%(Extension)</PackagePath>
+	  </Content>
+	  <Content Update="content\VBRhino\EmbeddedResources\plugin-export.ico">
+	    <PackagePath>%(RelativeDir)%(Filename)%(Extension)</PackagePath>
+	  </Content>
+	  <Content Update="content\VBRhino\EmbeddedResources\plugin-import.ico">
+	    <PackagePath>%(RelativeDir)%(Filename)%(Extension)</PackagePath>
+	  </Content>
+	  <Content Update="content\VBRhino\EmbeddedResources\plugin-render.ico">
+	    <PackagePath>%(RelativeDir)%(Filename)%(Extension)</PackagePath>
+	  </Content>
+	  <Content Update="content\VBRhino\EmbeddedResources\plugin-utility.ico">
+	    <PackagePath>%(RelativeDir)%(Filename)%(Extension)</PackagePath>
+	  </Content>
+	  <Content Update="content\VBRhino\MyRhino.1.vbproj">
+	    <PackagePath>%(RelativeDir)%(Filename)%(Extension)</PackagePath>
+	  </Content>
+	  <Content Update="content\VBRhino\MyRhino__1Command.vb">
+	    <PackagePath>%(RelativeDir)%(Filename)%(Extension)</PackagePath>
+	  </Content>
+	  <Content Update="content\VBRhino\MyRhino__1Plugin.vb">
+	    <PackagePath>%(RelativeDir)%(Filename)%(Extension)</PackagePath>
+	  </Content>
+	  <Content Update="content\VBRhino\Properties\AssemblyInfo.vb">
+	    <PackagePath>%(RelativeDir)%(Filename)%(Extension)</PackagePath>
+	  </Content>
 	</ItemGroup>
 </Project>

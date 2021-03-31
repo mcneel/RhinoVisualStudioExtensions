@@ -1,0 +1,73 @@
+﻿{
+    "$schema": "http://json.schemastore.org/template",
+    "author": "McNeel",
+    "classifications": [ "Rhino", "Zoo" ],
+    "name": "Zoo Plug-In for Rhinoceros",
+    "description": "A C# project to build a Rhino Zoo plugin.\n\nThis requires Zoo to be installed on your machine.\nAlso, remember to copy the ID from your Rhinoceros plug-in before continuing.",
+    "identity": "Rhino.ZooPlugin.VB",
+    "groupIdentity": "Rhino.ZooPlugin",
+    "shortName": "zooplugin",
+    "tags": {
+        "language": "VB",
+        "type": "project"
+    },
+    "sourceName": "MyZooPlugin.1",
+    "preferNameDirectory": true,
+    "symbols": {
+        "ZooPluginPath": {
+            "type": "parameter",
+            "description": "Path to ZooPlugin.dll",
+            "datatype": "string",
+            "replaces": "C:\\Program Files (x86)\\Zoo 7\\ZooPlugin.dll"
+        },
+        "RhinoPluginId": {
+            "type": "parameter",
+            "description": "Guid of your rhino plugin",
+            "replaces": "e732f81d-a24e-42ed-8aa8-1852c7e719cb",
+            "defaultValue": "[insert plugin guid here]"
+        },
+        "PluginClassName": {
+            "type": "parameter",
+            "description": "Name of the plugin class.",
+            "datatype": "text",
+            "replaces": "MyZooPlugin__1",
+            "fileRename": "MyZooPlugin__1"
+        },
+        "HostIdentifier": {
+            "type": "bind",
+            "binding": "HostIdentifier"
+        }
+    },
+    "sources": [
+        {
+            "modifiers": [
+                {
+                    "condition": "PluginClassName == 'MyZooPlugin__1'",
+                    "rename": {
+                        "MyZooPlugin__1.vb": "MyZooPlugin.1.vb"
+                    }
+                }
+            ]
+        }
+    ],
+    "primaryOutputs": [
+        { "path": "MyZooPlugin.1.vbproj" },
+        { "path": "MyZooPlugin__1.vb" }
+    ],
+    "guids": [
+        "fb15f2ec-86d8-472f-b303-9d846c512ff0",
+        "54a5720c-89ea-423d-9c93-97ed1b43fe9d"
+    ],
+    "postActions": [
+        {
+            "condition": "(HostIdentifier != \"dotnetcli\" && HostIdentifier != \"dotnetcli-preview\")",
+            "description": "Opens the command in the editor",
+            "manualInstructions": [],
+            "actionId": "84C0DA21-51C8-4541-9940-6CA19AF04EE6",
+            "args": {
+                "files": "1"
+            },
+            "continueOnError": true
+        }
+    ]
+}

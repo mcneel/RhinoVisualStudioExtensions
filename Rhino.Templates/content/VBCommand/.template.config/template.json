@@ -1,0 +1,43 @@
+﻿{
+    "$schema": "http://json.schemastore.org/template",
+    "author": "McNeel",
+    "classifications": [ "Rhino", "RhinoCommon" ],
+    "name": "RhinoCommon Command",
+    "identity": "Rhino.Plugin.File.VB",
+    "groupIdentity": "Rhino.Plugin.File",
+    "shortName": "rhinocommand",
+    "tags": {
+        "language": "VB",
+        "type": "item"
+    },
+    "sourceName": "MyCommand.1",
+    "symbols": {
+        "Namespace": {
+            "description": "Namespace for the generated files",
+            "replaces": "MyNamespace",
+            "type": "parameter"
+        },
+
+        "HostIdentifier": {
+            "type": "bind",
+            "binding": "HostIdentifier"
+        }
+    },
+    "primaryOutputs": [
+        {
+            "path": "MyCommand.1.vb"
+        }
+    ],
+    "postActions": [
+        {
+            "condition": "(HostIdentifier != \"dotnetcli\" && HostIdentifier != \"dotnetcli-preview\")",
+            "description": "Opens the command in the editor",
+            "manualInstructions": [],
+            "actionId": "84C0DA21-51C8-4541-9940-6CA19AF04EE6",
+            "args": {
+                "files": "0"
+            },
+            "continueOnError": true
+        }
+    ]
+}

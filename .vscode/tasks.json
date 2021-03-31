@@ -1,0 +1,66 @@
+{
+    // See https://go.microsoft.com/fwlink/?LinkId=733558
+    // for the documentation about the tasks.json format
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "build-mac",
+            "type": "shell",
+            "command": "msbuild",
+            "args": [
+                "/restore",
+                "/v:Minimal",
+                "/property:GenerateFullPaths=true",
+                "/consoleloggerparameters:NoSummary",
+                "${workspaceFolder}/Rhino.VisualStudio.Mac/Rhino.VisualStudio.Mac.csproj"
+            ],
+            "group": "build",
+            "presentation": {
+                "clear": true
+            },
+            "problemMatcher": "$msCompile"
+        },
+        {
+            "label": "build-windows",
+            "type": "shell",
+            "command": "msbuild",
+            "args": [
+                "/restore",
+                "/v:Minimal",
+                "/property:GenerateFullPaths=true",
+                "/consoleloggerparameters:NoSummary",
+                "${workspaceFolder}/Rhino.VisualStudio.Windows/Rhino.VisualStudio.Windows.csproj"
+            ],
+            "group": "build",
+            "presentation": {
+                "clear": true
+            },
+            "problemMatcher": "$msCompile"
+        },
+        {
+            "label": "build-templates",
+            "type": "shell",
+            "command": "dotnet",
+            "args": [
+                "build",
+                "/p:GenerateFullPaths=true",
+                "/consoleloggerparameters:NoSummary",
+                "${workspaceFolder}/Rhino.Templates/Rhino.Templates.csproj"
+            ],
+            "problemMatcher": "$msCompile",
+            "presentation": {
+                "clear": true
+            }
+        },
+        {
+            "label": "generate-templates",
+            "type": "shell",
+            "dependsOn": "build-templates",
+            "command": "dotnet build ${workspaceFolder}/build/GenerateTemplates.proj",
+            "problemMatcher": "$msCompile",
+            "presentation": {
+                "clear": true
+            }
+        },
+    ]
+}

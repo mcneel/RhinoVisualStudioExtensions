@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PackageManifest Version="2.0.0" xmlns="http://schemas.microsoft.com/developer/vsx-schema/2011" xmlns:d="http://schemas.microsoft.com/developer/vsx-schema-design/2011">
+    <Metadata>
+        <Identity Id="F9D86CA0-D45A-42B6-ABA4-77AE7471C34F" Version="7.5.0.0" Language="en-US" Publisher="Robert McNeel &amp; Associates" />
+        <DisplayName>RhinoCommon and Grasshopper templates for Rhino 7</DisplayName>
+        <Description xml:space="preserve">Adds plug-in, command and zoo wizards for RhinoCommon and Grasshopper projects. This includes digitizer, render, import and export plug-ins. Makes setting up debugging easier and automatically references RhinoCommon.dll. Rhino 7 is a requirement for this wizard to operate correctly.
+
+For more information about RhinoCommon, see the Rhino wiki website at
+http://www.rhino3d.com/go/rhinocommon_guide .
+
+For support about this wizard, write on the McNeel Discourse website at http://discourse.mcneel.com/ 
+
+Copyright (c) 2016-2021 Robert McNeel and Associates. All rights reserved.</Description>
+        <License>license.rtf</License>
+        <GettingStartedGuide>http://www.rhino3d.com/go/rhinocommon_guide</GettingStartedGuide>
+        <Icon>icon.ico</Icon>
+        <PreviewImage>rhino.png</PreviewImage>
+        <Tags>rhinocommon grasshopper</Tags>
+    </Metadata>
+    <Installation>
+        <InstallationTarget Id="Microsoft.VisualStudio.Community" Version="[16.0,)" />
+    </Installation>
+    <Dependencies>
+        <Dependency Id="Microsoft.Framework.NDP" DisplayName="Microsoft .NET Framework" d:Source="Manual" Version="[4.7.2,)" />
+        <Dependency d:Source="Installed" Id="3B5EAFB3-87E4-4986-8924-D24DF860D894" DisplayName="Microsoft Visual Studio Template Engine" Version="[16.4.457.38025,)" />
+    </Dependencies>
+    <Assets>
+        <Asset Type="Microsoft.VisualStudio.ProjectTemplate" Path="Templates\Project" />
+        <Asset Type="Microsoft.VisualStudio.ItemTemplate" Path="Templates\Item" />
+        <Asset Type="Microsoft.VisualStudio.VsPackage" d:Source="File" Path="template.pkgdef" />
+        <Asset Type="Microsoft.VisualStudio.VsPackage" d:Source="Project" d:ProjectName="%CurrentProject%" Path="|%CurrentProject%;PkgdefProjectOutputGroup|" />
+        <Asset Type="Microsoft.VisualStudio.Assembly" d:Source="Project" d:ProjectName="%CurrentProject%" Path="|%CurrentProject%|" AssemblyName="|%CurrentProject%;AssemblyName|" />
+    </Assets>
+    <Prerequisites>
+        <Prerequisite Id="Microsoft.VisualStudio.Component.CoreEditor" Version="[16.0,)" DisplayName="Visual Studio core editor" />
+    </Prerequisites>
+</PackageManifest>

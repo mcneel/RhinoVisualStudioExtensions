@@ -1,0 +1,96 @@
+<Project ToolsVersion="15.0" DefaultTargets="GenerateTemplates" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+
+  <Import Project="..\Directory.Build.props" />
+
+  <PropertyGroup>
+    <ArtifactsDir>$(MSBuildThisFileDirectory)\..\artifacts\</ArtifactsDir>
+    <TemplateDir>$(ArtifactsDir)templates\</TemplateDir>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <RhinoVersion Include="6" />
+    <RhinoVersion Include="7" />
+    <RhinoVersion Include="8" />
+
+    <Language Include="CS" Value="" />
+    <Language Include="VB" Value="-lang VB" />
+
+    <TeplatePackage Include="$(ArtifactsDir)bin\Rhino.Templates\Debug\Rhino.Templates.$(PackageVersion).nupkg" />
+  </ItemGroup>
+
+  <Target Name="CleanTemplates">
+    <RemoveDir Directories="$(TemplateDir)"/>
+    
+    <!-- install the current version of the templates -->
+    <Exec Command="dotnet new -i @(TeplatePackage)" />
+  </Target>
+
+  <Target Name="GenerateTemplates" DependsOnTargets="CleanTemplates;ZooTemplates;RhinoCommonTemplates;GrasshopperTemplates;" > 
+  </Target>
+
+  <Target Name="RhinoCommonTemplates">
+    <!-- generate RhinoCommon templates -->
+    <ItemGroup>
+      <PluginType Include="Digitize" Value="-t digitize" />
+      <PluginType Include="Export" Value="-t export" />
+      <PluginType Include="Import" Value="-t import" />
+      <PluginType Include="Render" Value="-t render" />
+      <PluginType Include="Utility-Sample" Value="-t utility --include-sample" />
+      <PluginType Include="Utility" Value="-t utility" />
+
+      <Options1 Include="*" VersionId="%(RhinoVersion.Identity)" Version="%(RhinoVersion.Identity)" />
+      <Options Include="@(Options1)" TypeId="%(PluginType.Identity)" Type="%(PluginType.Value)" />
+      
+      <Options Update="@(Options)" OutputDir="RhinoCommon/%(TypeId)%(VersionId)/" />
+    </ItemGroup>
+
+    <!-- <Message Text="dotnet new rhino %(Options.Type) -v %(Options.Version) -o $(TemplateDir)%(OutputDir)" Importance="high" /> -->
+    <Exec Command="dotnet new rhino %(Options.Type) -v %(Version) -o $(TemplateDir)%(OutputDir)" />
+    
+    <!-- Test specifying class names for command and plugin -->
+    <Exec Command="dotnet new rhino -command SomeCommand -plugin AwesomePlugin -o $(TemplateDir)RhinoCommon/CustomNames" />
+
+  </Target>
+
+  <Target Name="GrasshopperTemplates">
+    <!-- generate Grasshopper templates -->
+    <ItemGroup>
+      <IncludeSample Include="Plain" Value="" />
+      <IncludeSample Include="Sample" Value="-sample" />
+
+      <WithName Include="DefaultName" Value="" />
+      <WithName Include="CustonName" Value='-component MyComponentClassName -cname "MyComponent Name" -nick MyNickname -desc MyDescription -cat MyCategory -sub MySubcategory --addon-display-name="My Addon Name"' />
+
+      <GHOptions1 Include="*" VersionId="%(RhinoVersion.Identity)" Version="%(RhinoVersion.Identity)" />
+      <GHOptions2 Include="@(GHOptions1)" WithNameId="%(WithName.Identity)" WithName="%(WithName.Value)" />
+      <GHOptions3 Include="@(GHOptions2)" LanguageId="%(Language.Identity)" Language="%(Language.Value)" />
+      <GHOptions Include="@(GHOptions3)" SampleId="%(IncludeSample.Identity)" Sample="%(IncludeSample.Value)" />
+      
+      <GHOptions Update="@(GHOptions)" OutputDir="Grasshopper/%(SampleId)%(WithNameId)%(LanguageId)%(VersionId)/" />
+    </ItemGroup>
+
+    <!-- <Message Text="dotnet new grasshopper %(GHOptions.Sample) -v %(Version) -o $(TemplateDir)%(OutputDir)" Importance="high" /> -->
+    <Exec Command="dotnet new grasshopper %(GHOptions.Sample) %(WithName) -v %(Version) %(Language) -o $(TemplateDir)%(OutputDir)" />
+
+  </Target>
+
+  <Target Name="ZooTemplates">
+    <!-- generate Zoo templates -->
+    <ItemGroup>
+      <WithGuid Include="NoId" Value="" />
+      <WithGuid Include="WithId" Value="-id '6de6ee41-f436-4f23-bed2-2e3ac65ffd47'" />
+
+      <WithPath Include="DefaultPath" Value="" />
+      <WithPath Include="WithPath" Value="-zoo 'c:\My\Custom\ZooPlugin.dll'" />
+
+      <ZooOptions1 Include="*" WithGuidId="%(WithGuid.Identity)" WithGuid="%(WithGuid.Value)" />
+      <ZooOptions2 Include="@(ZooOptions1)" WithPathId="%(WithPath.Identity)" WithPath="%(WithPath.Value)" />
+      
+      <ZooOptions Include="@(ZooOptions2)" OutputDir="ZooPlugin/MyZoo%(WithGuidId)%(WithPathId)/" />
+    </ItemGroup>
+
+    <!-- <Message Text="dotnet new zooplugin %(ZooOptions.WithGuid) %(WithPath) -o $(TemplateDir)%(OutputDir)" Importance="high" /> -->
+    <Exec Command="dotnet new zooplugin %(ZooOptions.WithGuid) %(WithPath) -o $(TemplateDir)%(OutputDir)" />
+  </Target>
+
+</Project>

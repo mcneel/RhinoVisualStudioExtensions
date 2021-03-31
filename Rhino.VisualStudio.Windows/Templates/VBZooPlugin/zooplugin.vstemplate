@@ -1,0 +1,43 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<VSTemplate Version="3.0.0" Type="ProjectGroup" xmlns="http://schemas.microsoft.com/developer/vstemplate/2005" xmlns:sdk="http://schemas.microsoft.com/developer/vstemplate-sdkextension/2010">
+    <TemplateData>
+        <Name>Zoo Plug-In for Rhino 7 (VB)</Name>
+        <Description xml:space="preserve">A VB project to build a Rhino Zoo plugin.
+
+This requires Zoo 7.0 to be installed on your machine.
+Also, remember to copy the ID from your Rhino plug-in before continuing.</Description>
+        <SortOrder>20</SortOrder>
+
+        <TemplateID>Rhino.ZooPlugin.VB</TemplateID>
+        <ProjectType>VisualBasic</ProjectType>
+        <PlatformTag>Windows</PlatformTag>
+        <ProjectTypeTag>Desktop</ProjectTypeTag>
+        <ProjectTypeTag>Rhino</ProjectTypeTag>
+        <LanguageTag>VisualBasic</LanguageTag>
+        <Icon>icon.ico</Icon>
+        <DefaultName>MyZooPlugin</DefaultName>
+
+        <CreateNewFolder>true</CreateNewFolder>
+        <ProvideDefaultName>true</ProvideDefaultName>
+        <LocationField>Enabled</LocationField>
+        <EnableLocationBrowseButton>true</EnableLocationBrowseButton>
+    </TemplateData>
+    <TemplateContent>
+        <ProjectCollection/>
+        <CustomParameters>
+            <CustomParameter Name = "$language$" Value="VB" />
+            <CustomParameter Name = "$uistyle$" Value="none"/>
+            <CustomParameter Name = "$groupid$" Value="Rhino.ZooPlugin" />
+            <CustomParameter Name="SideWaffleNewProjNode" Value="Project\VisualBasic\Rhino"/>
+            <CustomParameter Name="SupportedParameters" Value="ExecutableLocation"/>
+        </CustomParameters>
+    </TemplateContent>
+    <WizardExtension>
+        <Assembly>Rhino.VisualStudio.Windows, Version=7.5.0.0, Culture=neutral, PublicKeyToken=null</Assembly>
+        <FullClassName>Rhino.VisualStudio.Windows.Wizard.ZooPluginWizard</FullClassName>
+    </WizardExtension>
+    <WizardExtension>
+        <Assembly>Microsoft.VisualStudio.TemplateEngine.Wizard, Version=1.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</Assembly>
+        <FullClassName>Microsoft.VisualStudio.TemplateEngine.Wizard.TemplateEngineWizard</FullClassName>
+    </WizardExtension>
+</VSTemplate>
