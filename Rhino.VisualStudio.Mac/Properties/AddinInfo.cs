@@ -2,13 +2,13 @@
 using Mono.Addins;
 
 // This controls the final name of the .mpack file that is generated.
-// e.g.: the following becomes RhinoVisualStudioExtension_x.x.x.x.mpack.
+// e.g.: the following becomes Rhino.VisualStudio.Mac_x.x.x.x.mpack.
 // The first three numbers of the version should match the currently
 // stable version of Xamarin Studio that this AddIn runs within.
 // Bump the final number on a released revision to this AddIn within
 // the same stable release of Xamarin Studio.
 [assembly:Addin(
-  "RhinoVisualStudioExtension",
+  "Rhino.VisualStudio.Mac",
 	Version = "8.9.5.0"
 )]
 
