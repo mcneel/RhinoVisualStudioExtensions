@@ -1,0 +1,23 @@
+{
+  // Use IntelliSense to learn about possible attributes.
+  // Hover to view descriptions of existing attributes.
+  // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Mac",
+      "type": "mono",
+      "request": "launch",
+      "preLaunchTask": "build-mac",
+      "program": "/Applications/Visual Studio.app/Contents/Resources/lib/monodevelop/bin/VisualStudio.exe",
+      "passDebugOptionsViaEnvironmentVariable": true,
+      "args": [
+        "--no-redirect"
+      ],
+      "env": {
+        "MONODEVELOP_CONSOLE_LOG_LEVEL": "All",
+        "MONODEVELOP_DEV_ADDINS": "${workspaceFolder}/artifacts/bin/Rhino.VisualStudio.Mac/Debug/net472/"
+      }
+    }
+  ]
+}

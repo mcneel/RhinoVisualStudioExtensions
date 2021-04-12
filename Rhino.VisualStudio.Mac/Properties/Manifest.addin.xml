@@ -1,0 +1,88 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ExtensionModel>
+  <Extension path="/MonoDevelop/Core/ExecutionHandlers">
+    <ExecutionHandler id="Rhino" class="Rhino.VisualStudio.Mac.RhinoExecutionHandler" insertbefore="Platform" />
+  </Extension>
+  
+  <Extension path = "/MonoDevelop/Ide/RunConfigurationEditors">
+    <Class class="MonoDevelop.Ide.Projects.OptionPanels.AssemblyRunConfigurationEditor" runConfigurationType="Rhino.VisualStudio.Mac.RhinoRunConfiguration" />
+  </Extension>
+  
+  <Extension path="/MonoDevelop/Debugging/DebuggerEngines">
+    <DebuggerEngine
+      id="Mono.Debugger.Soft.Rhino"
+      name="RhinoCommon Plug-In Debugger"
+      features="Breakpoints, Pause, Stepping, DebugFile, ConditionalBreakpoints, Tracepoints, Catchpoints, Disassembly"
+      type="Rhino.VisualStudio.Mac.RhinoSoftDebuggerEngine" />
+  </Extension>
+  
+  <Extension path = "/MonoDevelop/ProjectModel/ProjectModelExtensions">
+    <Class class = "Rhino.VisualStudio.Mac.RhinoProjectServiceExtension" />
+  </Extension>
+    
+  <Extension path = "/MonoDevelop/ProjectModel/Gui/ItemOptionPanels/Build">
+    <Section id="Rhino" _label="Rhino">
+      <Panel id = "RhinoOptionsPanel" _label = "Rhino Options" class = "Rhino.VisualStudio.Mac.OptionPanels.RhinoOptionsPanel"/>
+    </Section>
+  </Extension>
+              
+  <Extension path="/MonoDevelop/Ide/Templates">
+    <Template
+      id="Rhino.Plugin.CS"
+      path="Templates/Rhino.Templates.nupkg"
+      imageId="rhinocommon-project"
+      wizard="Rhino.VisualStudio.Mac.RhinoCommonWizard"
+      category="other/rhino/general"
+      supportedParameters=""
+      />
+    <Template
+      id="Rhino.Plugin.VB"
+      path="Templates/Rhino.Templates.nupkg"
+      imageId="rhinocommon-project"
+      wizard="Rhino.VisualStudio.Mac.RhinoCommonWizard"
+      category="other/rhino/general"
+      supportedParameters=""
+      />
+    <Template
+      id="Grasshopper.Component.CS"
+      path="Templates/Rhino.Templates.nupkg"
+      imageId="grasshopper-project"
+      wizard="Rhino.VisualStudio.Mac.GrasshopperWizard"
+      category="other/rhino/general"
+      supportedParameters=""
+      />
+    <Template
+      id="Grasshopper.Component.VB"
+      path="Templates/Rhino.Templates.nupkg"
+      imageId="grasshopper-project"
+      wizard="Rhino.VisualStudio.Mac.GrasshopperWizard"
+      category="other/rhino/general"
+      supportedParameters=""
+      />
+  </Extension>
+  
+  <Extension path="/MonoDevelop/Ide/FileTemplates">
+    <FileTemplate id="Rhino.EmptyCommand" file="Templates/Rhino/EmptyCommand.xft.xml" />
+    <FileTemplate id="Grasshopper.EmptyComponent" file="Templates/Grasshopper/EmptyComponent.xft.xml" />
+  </Extension>
+
+  <Extension path="/MonoDevelop/Ide/ProjectTemplateWizards">
+    <Class id="Rhino.VisualStudio.Mac.RhinoCommonWizard" class="Rhino.VisualStudio.Mac.Wizard.RhinoCommonWizard" />
+    <Class id="Rhino.VisualStudio.Mac.GrasshopperWizard" class="Rhino.VisualStudio.Mac.Wizard.GrasshopperWizard" />
+  </Extension>
+
+  <Extension path="/MonoDevelop/Ide/ProjectTemplateCategories/other">
+    <Category id="rhino" name="Rhinoceros">
+      <Category id="general" name="General" />
+    </Category>
+  </Extension>
+
+  <Extension path="/MonoDevelop/Ide/TemplateImages">
+    <Image id="rhinocommon-project" resource="Rhino.VisualStudio.Mac.Templates.Rhino.rhinocommon-project.png" />
+    <Image id="grasshopper-project" resource="Rhino.VisualStudio.Mac.Templates.Grasshopper.grasshopper-project.png" />
+  </Extension>
+
+  <Extension path = "/MonoDevelop/Ide/FileTemplateTypes">
+    <FileTemplateType name = "RhinoFile" class = "Rhino.VisualStudio.Mac.RhinoFileTemplate"/>
+  </Extension>
+</ExtensionModel>

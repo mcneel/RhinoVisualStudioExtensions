@@ -1,0 +1,43 @@
+﻿{
+    "$schema": "http://json.schemastore.org/template",
+    "author": "McNeel",
+    "classifications": [ "Rhino", "Grasshopper" ],
+    "name": "Grasshopper Component",
+    "identity": "Grasshopper.Component.File.VB",
+    "groupIdentity": "Grasshopper.Component.File",
+    "shortName": "ghcomponent",
+    "tags": {
+        "language": "VB",
+        "type": "item"
+    },
+    "sourceName": "MyComponent.1",
+    "symbols": {
+        "Namespace": {
+            "description": "Namespace for the generated files",
+            "replaces": "MyNamespace",
+            "type": "parameter"
+        },
+
+        "HostIdentifier": {
+            "type": "bind",
+            "binding": "HostIdentifier"
+        }
+    },
+    "primaryOutputs": [
+        {
+            "path": "MyComponent1.vb"
+        }
+    ],
+    "postActions": [
+        {
+            "condition": "(HostIdentifier != \"dotnetcli\" && HostIdentifier != \"dotnetcli-preview\")",
+            "description": "Opens the command in the editor",
+            "manualInstructions": [],
+            "actionId": "84C0DA21-51C8-4541-9940-6CA19AF04EE6",
+            "args": {
+                "files": "0"
+            },
+            "continueOnError": true
+        }
+    ]
+}

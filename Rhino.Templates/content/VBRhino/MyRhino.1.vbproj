@@ -1,0 +1,33 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+	
+  <PropertyGroup>
+    <TargetFramework Condition="$(RhinoVersion) == '6'">net45</TargetFramework>
+    <TargetFramework Condition="$(RhinoVersion) != '6'">net48</TargetFramework>
+    <Version>1.0</Version>
+    <Title>MyRhino.1</Title>
+    <Description>Description of MyRhino.1</Description>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="EmbeddedResources\**\*" />
+  </ItemGroup>
+  
+  <ItemGroup>
+    <PackageReference Include="Microsoft.NetFramework.ReferenceAssemblies" Version="1.0.0" />
+    <PackageReference Include="RhinoCommon" Version="6.34.21034.7001" Condition="$(RhinoVersion) == '6'" IncludeAssets="compile;build" />
+    <PackageReference Include="RhinoCommon" Version="7.4.21078.1001" Condition="$(RhinoVersion) == '7'" IncludeAssets="compile;build" />
+    <PackageReference Include="RhinoCommon" Version="8.0.21096.12305-wip" Condition="$(RhinoVersion) == '8'" IncludeAssets="compile;build" />
+  </ItemGroup>
+  
+  <PropertyGroup Condition="$(Configuration) == 'Debug' AND $([MSBuild]::IsOSPlatform(Windows))">
+    <StartProgram>C:\Program Files\Rhino 7\System\Rhino.exe</StartProgram>
+    <StartArguments></StartArguments>
+    <StartAction>Program</StartAction>
+  </PropertyGroup>
+
+  <Target Name="RenameAssembly" AfterTargets="AfterBuild">
+    <Move SourceFiles="$(TargetPath)" DestinationFiles="$(TargetDir)$(TargetName).rhp" />
+    <Move SourceFiles="$(TargetDir)$(TargetName).pdb" DestinationFiles="$(TargetDir)$(TargetName).rhp.pdb" Condition="$([MSBuild]::IsOSPlatform(OSX))" />
+  </Target>
+
+</Project>

@@ -1,0 +1,8 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net48</TargetFramework>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="C:\Program Files (x86)\Zoo 7\ZooPlugin.dll" Private="False" />
+  </ItemGroup>
+</Project>
