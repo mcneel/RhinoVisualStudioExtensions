@@ -4,8 +4,19 @@
 		<PackageType>Template</PackageType>
 		<PackageId>Rhino.Templates</PackageId>
 		<Authors>McNeel</Authors>
-		<Description>Project and File templates for Rhino</Description>
-		
+    <Title>RhinoCommon and Grasshopper templates</Title>
+		<Description>RhinoCommon and Grasshopper templates for Rhino.
+  
+  To install the templates in this package, run 'dotnet new --install Rhino.Templates'.
+   </Description>
+    <Authors>Robert McNeel and Associates</Authors>
+    <Copyright>Copyright (c) 1997-2021 Robert McNeel and Associates</Copyright>
+    <PackageIcon>rhinocommon.png</PackageIcon>
+    <PackageTags>rhino3d rhino rhinocommon grasshopper</PackageTags>
+    <PackageProjectUrl>https://developer.rhino3d.com/guides/rhinocommon/</PackageProjectUrl>
+    <RepositoryType>git</RepositoryType>
+    <RepositoryUrl>https://github.com/mcneel/RhinoVisualStudioExtensions.git</RepositoryUrl>
+	
 		<TargetFramework>netstandard2.0</TargetFramework>
 		<ContentTargetFolders>content</ContentTargetFolders>
     
@@ -23,6 +34,7 @@
 	</PropertyGroup>
 
 	<ItemGroup>
+    <None Include="rhinocommon.png" Pack="true" PackagePath=""/>
 		<None Include="content\Directory.*" />
     <None Include="content\*\.template.config" />
     <Content Include="content\**\*">
