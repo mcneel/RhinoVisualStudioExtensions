@@ -37,7 +37,10 @@ Using dotnet new
 
 2. Create a new folder for your project:
 
-    `mkdir MyNewRhinoPlugin`
+    ```
+    mkdir MyNewRhinoPlugin
+    cd MyNewRhinoPlugin
+    ```
 
 3. Show options for the templates: 
 
