@@ -25,4 +25,4 @@ using Mono.Addins;
 [assembly:AddinAuthor("Robert McNeel and Associates")]
 
 // The link used by the More Info button in the Xamarin Studio Add-In Manager...
-[assembly:AddinUrl("https://github.com/mcneel/RhinoVisualStudioExtension")]
+[assembly:AddinUrl("https://github.com/mcneel/RhinoVisualStudioExtensions")]
