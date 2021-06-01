@@ -19,7 +19,7 @@
             <CustomParameter Name = "$language$" Value="VB" />
             <CustomParameter Name = "$uistyle$" Value="none"/>
             <CustomParameter Name = "$groupid$" Value="Grasshopper.Component.File" />
-            <CustomParameter Name="SideWaffleNewProjNode" Value="Item\VisualBasic\Rhino"/>
+            <CustomParameter Name="SideWaffleNewProjNode" Value="Item\VisualBasic\Rhinoceros"/>
         </CustomParameters>
     </TemplateContent>
     <WizardExtension>

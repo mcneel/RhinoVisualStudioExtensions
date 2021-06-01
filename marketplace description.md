@@ -1,24 +1,19 @@
 RhinoCommon and Grasshopper template wizards for Rhino 7
 
+
 ## RhinoCommon templates:
 
-*   **C# Plugin** - Provides a C# project with a PlugIn-derived class and a Command-derived class.
-*   **C# Command** - Adds a single command class item.
+*   **RhinoCommon Plugin** - Provides a project with a PlugIn-derived class and a Command-derived class.
+*   **RhinoCommon Command** - Adds a single command class item.
 
-*   **Vb.Net Plugin** - Provides a C# project with a PlugIn-derived class and a Command-derived class.
-*   **Vb.Net Command** - Adds a single command class item.
-
-*   **C# and Vb.Net Zoo Plug-ins** - Adds a single project with a Zoo plug-in (requires Zoo to be installed).
+*   **Zoo Plug-ins** - Adds a single project with a Zoo plug-in (requires Zoo to be installed).
 
 To load the resulting .rhp file, open Rhino. Explore to the _bin/_ output folder in the solution. Then, drag-and-drop that file onto Rhino.
 
 ## Grasshopper templates:
 
-*   **C# Add-on** - Provides a C# project with a GH_Component-derived class and a GH_AssemblyInfo-derived class.
-*   **C# Component** - Adds a single component class item.
-
-*   **Vb.Net Add-on** - Provides a Vb.Net project with a GH_Component-derived class and a GH_AssemblyInfo-derived class.
-*   **Vb.Net Component** - Adds a single component class item.
+*   **Grasshopper Assembly** - Provides a project with a GH_Component-derived class and a GH_AssemblyInfo-derived class.
+*   **Grasshopper Component** - Adds a single component class item.
 
 Download the Grasshopper SDK with the Rhino `_GrasshopperGetSDKDocumentation` command, or obtain the .chm file from the Related links section below here.
 
@@ -26,7 +21,7 @@ In order to load the result .gha file, you can use the `_GrasshopperDeveloperSet
 
 ## Features
 
-This extension provides add-on and component wizards for RhinoCommon and Grasshopper projects. For RhinoCommon project templates, this includes utility, digitizier, import and export plug-ins. For Grasshopper project templates, this includes a spiral for an Archimedean spiral component. 
+This extension provides add-on and component wizards for RhinoCommon and Grasshopper projects for C# and VB.NET. For RhinoCommon project templates, this includes utility, digitizier, import and export plug-ins. For Grasshopper project templates, this includes a spiral for an Archimedean spiral component. 
 
 It makes setting up debugging easier and automatically references the RhinoCommon and/or Grasshopper NuGet packages. Rhino and Grasshopper are requirements for this wizard to operate correctly.
 

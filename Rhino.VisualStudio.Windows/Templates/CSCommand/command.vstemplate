@@ -19,7 +19,7 @@
             <CustomParameter Name = "$language$" Value="C#" />
             <CustomParameter Name = "$uistyle$" Value="none"/>
             <CustomParameter Name = "$groupid$" Value="Rhino.Plugin.File" />
-            <CustomParameter Name="SideWaffleNewProjNode" Value="Item\CSharp\Rhino"/>
+            <CustomParameter Name="SideWaffleNewProjNode" Value="Item\CSharp\Rhinoceros"/>
         </CustomParameters>
     </TemplateContent>
     <WizardExtension>
