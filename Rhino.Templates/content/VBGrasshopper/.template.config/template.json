@@ -86,6 +86,24 @@
             "replaces": "ComponentSubcategory",
             "defaultValue": "Subcategory"
         },
+        
+        "UseWpf": {
+          "type": "parameter",
+          "description": "Enable to use WPF designer in VS (Windows only)",
+          "datatype": "bool",
+          "defaultValue": "false"
+        },
+        "UseWinForms": {
+          "type": "parameter",
+          "description": "Enable to use Windows Forms designer in VS (Windows only)",
+          "datatype": "bool",
+          "defaultValue": "false"
+        },
+        "UseWindowsDesktop": {
+          "type": "computed",
+          "value": "UseWpf || UseWinForms"
+        },
+        
         "HostIdentifier": {
             "type": "bind",
             "binding": "HostIdentifier"

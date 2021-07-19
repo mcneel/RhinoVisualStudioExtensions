@@ -1,41 +1,49 @@
 {
-    "$schema": "http://json.schemastore.org/dotnetcli.host",
-    "symbolInfo": {
-        "IncludeSample": {
-            "longName": "include-sample",
-            "shortName": "sample"
-        },
-        "RhinoVersion": {
-            "longName": "version",
-            "shortName": "v"
-        },
-        "AddonDisplayName": {
-            "longName": "addon-display-name",
-            "shortName": "addon-name"
-        },
-        "ComponentClassName": {
-            "longName": "component-class",
-            "shortName": "component"
-        },
-        "ComponentName": {
-            "longName": "component-name",
-            "shortName": "cname"
-        },
-        "ComponentNickname": {
-            "longName": "nickname",
-            "shortName": "nick"
-        },
-        "ComponentDescription": {
-            "longName": "description",
-            "shortName": "desc"
-        },
-        "ComponentCategory": {
-            "longName": "category",
-            "shortName": "cat"
-        },
-        "ComponentSubcategory": {
-            "longName": "subcategory",
-            "shortName": "sub"
-        }
+  "$schema": "http://json.schemastore.org/dotnetcli.host",
+  "symbolInfo": {
+    "IncludeSample": {
+      "longName": "include-sample",
+      "shortName": "sample"
+    },
+    "RhinoVersion": {
+      "longName": "version",
+      "shortName": "v"
+    },
+    "AddonDisplayName": {
+      "longName": "addon-display-name",
+      "shortName": "addon-name"
+    },
+    "ComponentClassName": {
+      "longName": "component-class",
+      "shortName": "component"
+    },
+    "ComponentName": {
+      "longName": "component-name",
+      "shortName": "cname"
+    },
+    "ComponentNickname": {
+      "longName": "nickname",
+      "shortName": "nick"
+    },
+    "ComponentDescription": {
+      "longName": "description",
+      "shortName": "desc"
+    },
+    "ComponentCategory": {
+      "longName": "category",
+      "shortName": "cat"
+    },
+    "ComponentSubcategory": {
+      "longName": "subcategory",
+      "shortName": "sub"
+    },
+    "UseWpf": {
+      "longName": "include-wpf",
+      "shortName": "wpf"
+    },
+    "UseWinForms": {
+      "longName": "include-winforms",
+      "shortName": "wf"
     }
+  }
 }

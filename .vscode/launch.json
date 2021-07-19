@@ -18,6 +18,17 @@
         "MONODEVELOP_CONSOLE_LOG_LEVEL": "All",
         "MONODEVELOP_DEV_ADDINS": "${workspaceFolder}/artifacts/bin/Rhino.VisualStudio.Mac/Debug/net472/"
       }
+    },
+    {
+        "name": "Windows",
+        "type": "clr",
+        "request": "launch",
+        "preLaunchTask": "build-windows",
+        "program": "C:\\Program Files (x86)\\Microsoft Visual Studio\\2019\\Professional\\Common7\\IDE\\devenv.exe",
+        "args": [
+            "/RootSuffix",
+            "Exp"
+        ],
     }
   ]
 }

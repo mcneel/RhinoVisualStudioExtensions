@@ -110,7 +110,6 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="index.html" />
     <Content Include="rhino.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       <IncludeInVSIX>true</IncludeInVSIX>

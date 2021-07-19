@@ -28,6 +28,9 @@
             "path": "MyComponent.1.cs"
         }
     ],
+    "guids": [
+        "FDC62C6D-7C03-412D-8FF8-B76439197730"
+    ],
     "postActions": [
         {
             "condition": "(HostIdentifier != \"dotnetcli\" && HostIdentifier != \"dotnetcli-preview\")",

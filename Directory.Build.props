@@ -5,7 +5,7 @@
     <BaseOutputPath>$(BasePath)artifacts\bin\$(MSBuildProjectName)\</BaseOutputPath>
     <BaseIntermediateOutputPath>$(BasePath)artifacts\obj\$(OS)\$(MSBuildProjectName)\</BaseIntermediateOutputPath>
 
-    <Version>7.5.0.1</Version>
-    <PackageVersion>7.5.0</PackageVersion>
+    <Version>7.5.0.4</Version> <!-- PSST. Hey Curtis. Update Rhino.VisualStudio.Windows\source.extension.vsixmanifest too -->
+    <PackageVersion>$(Version)</PackageVersion>
   </PropertyGroup>
 </Project>

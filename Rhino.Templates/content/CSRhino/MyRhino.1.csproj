@@ -1,5 +1,9 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
-	
+﻿<!--#if (UseWindowsDesktop)-->
+<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
+<!--#else-->
+<Project Sdk="Microsoft.NET.Sdk">
+<!--#endif-->
+
   <PropertyGroup>
     <TargetFramework Condition="$(RhinoVersion) == '6'">net45</TargetFramework>
     <TargetFramework Condition="$(RhinoVersion) != '6'">net48</TargetFramework>
@@ -7,6 +11,8 @@
     <Title>MyRhino.1</Title>
     <Description>Description of MyRhino.1</Description>
     <TargetExt>.rhp</TargetExt>
+    <UseWpf Condition="$(UseWpf) == 'True'">true</UseWpf>
+    <UseWindowsForms Condition="$(UseWinForms) == 'True'">true</UseWindowsForms>
   </PropertyGroup>
 
   <ItemGroup>

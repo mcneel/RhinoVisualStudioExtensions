@@ -100,6 +100,23 @@
             "datatype": "text",
             "replaces": "MyFileDescription"
         },
+        
+        "UseWpf": {
+          "type": "parameter",
+          "description": "Enable to use WPF designer in VS (Windows only)",
+          "datatype": "bool",
+          "defaultValue": "false"
+        },
+        "UseWinForms": {
+          "type": "parameter",
+          "description": "Enable to use Windows Forms designer in VS (Windows only)",
+          "datatype": "bool",
+          "defaultValue": "false"
+        },
+        "UseWindowsDesktop": {
+          "type": "computed",
+          "value": "UseWpf || UseWinForms"
+        },
 
         "TypeUtility": {
             "type": "computed",

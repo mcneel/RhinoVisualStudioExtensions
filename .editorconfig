@@ -14,6 +14,6 @@ indent_size = 4
 charset=utf-8-bom
 spaces_around_brackets = none
 
-[*.{csproj,vbproj,proj,targets,props}]
+[*.{csproj,vbproj,proj,targets,props,json}]
 indent_style = space
 indent_size = 2

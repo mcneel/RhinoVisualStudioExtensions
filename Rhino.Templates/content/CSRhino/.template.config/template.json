@@ -1,186 +1,203 @@
 ﻿{
-    "$schema": "http://json.schemastore.org/template",
-    "author": "McNeel",
-    "classifications": [ "Rhino", "RhinoCommon" ],
-    "name": "RhinoCommon Plug-In",
-    "description": "A new RhinoCommon plug-in that can be easily debugged and automatically launch Rhino.",
-    "identity": "Rhino.Plugin.CS",
-    "groupIdentity": "Rhino.Plugin",
-    "shortName": "rhino",
-    "tags": {
-        "language": "C#",
-        "type": "project"
-    },
-    "sourceName": "MyRhino.1",
-    "preferNameDirectory": true,
-    "symbols": {
-        "PluginType": {
-          "type": "parameter",
-          "datatype": "choice",
-          "description": "Type of plugin to create",
-          "defaultValue": "utility",
-          "replaces": "utility",
-          "choices": [
-            {
-              "choice": "utility",
-              "description": "A generic utility plug-in"
-            },
-            {
-              "choice": "digitize",
-              "description": "A digitizer plug-in"
-            },
-            {
-              "choice": "render",
-              "description": "A rendering plug-in"
-            },
-            {
-              "choice": "import",
-              "description": "A file import plug-in"
-            },
-            {
-              "choice": "export",
-              "description": "A file export plug-in"
-            }
-          ]
+  "$schema": "http://json.schemastore.org/template",
+  "author": "McNeel",
+  "classifications": [ "Rhino", "RhinoCommon" ],
+  "name": "RhinoCommon Plug-In",
+  "description": "A new RhinoCommon plug-in that can be easily debugged and automatically launch Rhino.",
+  "identity": "Rhino.Plugin.CS",
+  "groupIdentity": "Rhino.Plugin",
+  "shortName": "rhino",
+  "tags": {
+    "language": "C#",
+    "type": "project"
+  },
+  "sourceName": "MyRhino.1",
+  "preferNameDirectory": true,
+  "symbols": {
+    "PluginType": {
+      "type": "parameter",
+      "datatype": "choice",
+      "description": "Type of plugin to create",
+      "defaultValue": "utility",
+      "replaces": "utility",
+      "choices": [
+        {
+          "choice": "utility",
+          "description": "A generic utility plug-in"
         },
-        "IncludeSample": {
-            "type": "parameter",
-            "description": "Include code sample (for utility plugins only).",
-            "dataType": "bool",
-            "defaultValue": "false"
+        {
+          "choice": "digitize",
+          "description": "A digitizer plug-in"
         },
-        "RhinoVersion": {
-            "type": "parameter",
-            "description": "Version of Rhino",
-            "datatype": "choice",
-            "defaultValue": "7",
-            "choices": [
-                {
-                    "choice": "6",
-                    "description": "Version 6"
-                },
-                {
-                    "choice": "7",
-                    "description": "Version 7"
-                },
-                {
-                    "choice": "8",
-                    "description": "Version 8 (WIP)"
-                }
-            ]
+        {
+          "choice": "render",
+          "description": "A rendering plug-in"
         },
-        "RhinoLocation": {
-          "type": "parameter",
-          "description": "Location of Rhino.exe, usually C:\\Program Files\\Rhino 7\\System\\Rhino.exe",
-          "replaces": "C:\\Program Files\\Rhino 7\\System\\Rhino.exe"
+        {
+          "choice": "import",
+          "description": "A file import plug-in"
         },
-        "CommandClassName": {
-          "type": "parameter",
-          "description": "Name of the command class.",
-          "datatype": "text",
-          "replaces": "MyRhino__1Command",
-          "fileRename": "MyRhino__1Command"
-        },
-        "PluginClassName": {
-          "type": "parameter",
-          "description": "Name of the plugin class.",
-          "datatype": "text",
-          "replaces": "MyRhino__1Plugin",
-          "fileRename": "MyRhino__1Plugin"
-        },
-        "FileExtension": {
-          "type": "parameter",
-          "description": "Extension for file import/export plugin types (e.g. 'myext')",
-          "datatype": "text",
-          "replaces": "myext"
-        },
-        "FileDescription": {
-          "type": "parameter",
-          "description": "Description of the file for import/export types",
-          "datatype": "text",
-          "replaces": "MyFileDescription"
-        },
-
-        "TypeUtility": {
-          "type": "computed",
-          "value": "PluginType == \"utility\""
-        },
-        "TypeDigitize": {
-          "type": "computed",
-          "value": "PluginType == \"digitize\""
-        },
-        "TypeRender": {
-          "type": "computed",
-          "value": "PluginType == \"render\""
-        },
-        "TypeImport": {
-          "type": "computed",
-          "value": "PluginType == \"import\""
-        },
-        "TypeExport": {
-          "type": "computed",
-          "value": "PluginType == \"export\""
-        },
-        "HostIdentifier": {
-          "type": "bind",
-          "binding": "HostIdentifier"
+        {
+          "choice": "export",
+          "description": "A file export plug-in"
         }
+      ]
     },
-    "sources": [
-      {
-        "modifiers": [
-          {
-            "condition": "PluginType != 'utility'",
-            "exclude": [ "EmbeddedResources/plugin-utility.ico" ]
-          },
-          {
-            "condition": "PluginType != 'digitize'",
-            "exclude": [ "EmbeddedResources/plugin-digitize.ico" ]
-          },
-          {
-            "condition": "PluginType != 'render'",
-            "exclude": [ "EmbeddedResources/plugin-render.ico" ]
-          },
-          {
-            "condition": "PluginType != 'import'",
-            "exclude": [ "EmbeddedResources/plugin-import.ico" ]
-          },
-          {
-            "condition": "PluginType != 'export'",
-            "exclude": [ "EmbeddedResources/plugin-export.ico" ]
-          },
-          {
-            "condition": "CommandClassName == 'MyRhino__1Command'",
-            "rename": {
-              "MyRhino__1Command.cs": "MyRhino.1Command.cs"
-            }
-          },
-          {
-            "condition": "PluginClassName == 'MyRhino__1Plugin'",
-            "rename": {
-              "MyRhino__1Plugin.cs": "MyRhino.1Plugin.cs"
-            }
-          }
-        ]
-      }
-    ],
-    "primaryOutputs": [
-        { "path": "MyRhino.1.csproj" },
-        { "path": "MyRhino__1Command.cs" }
-    ],
-    "guids": [
-        "ee4e2b39-d96b-4e4c-8f9d-9b6561e61b64"
-    ],
-    "postActions": [
-      {
-        "condition": "(HostIdentifier != \"dotnetcli\" && HostIdentifier != \"dotnetcli-preview\")",
-        "description": "Opens the command in the editor",
-        "manualInstructions": [],
-        "actionId": "84C0DA21-51C8-4541-9940-6CA19AF04EE6",
-        "args": {
-          "files": "1"
+    "IncludeSample": {
+      "type": "parameter",
+      "description": "Include code sample (for utility plugins only).",
+      "dataType": "bool",
+      "defaultValue": "false"
+    },
+    "RhinoVersion": {
+      "type": "parameter",
+      "description": "Version of Rhino",
+      "datatype": "choice",
+      "defaultValue": "7",
+      "choices": [
+        {
+          "choice": "6",
+          "description": "Version 6"
         },
-        "continueOnError": true
-      }
-    ]
+        {
+          "choice": "7",
+          "description": "Version 7"
+        },
+        {
+          "choice": "8",
+          "description": "Version 8 (WIP)"
+        }
+      ]
+    },
+    "RhinoLocation": {
+      "type": "parameter",
+      "description": "Location of Rhino.exe, usually C:\\Program Files\\Rhino 7\\System\\Rhino.exe",
+      "replaces": "C:\\Program Files\\Rhino 7\\System\\Rhino.exe"
+    },
+    "CommandClassName": {
+      "type": "parameter",
+      "description": "Name of the command class.",
+      "datatype": "text",
+      "replaces": "MyRhino__1Command",
+      "fileRename": "MyRhino__1Command"
+    },
+    "PluginClassName": {
+      "type": "parameter",
+      "description": "Name of the plugin class.",
+      "datatype": "text",
+      "replaces": "MyRhino__1Plugin",
+      "fileRename": "MyRhino__1Plugin"
+    },
+    "FileExtension": {
+      "type": "parameter",
+      "description": "Extension for file import/export plugin types (e.g. 'myext')",
+      "datatype": "text",
+      "replaces": "myext"
+    },
+    "FileDescription": {
+      "type": "parameter",
+      "description": "Description of the file for import/export types",
+      "datatype": "text",
+      "replaces": "MyFileDescription"
+    },
+    
+    "UseWpf": {
+      "type": "parameter",
+      "description": "Enable to use WPF designer in VS (Windows only)",
+      "datatype": "bool",
+      "defaultValue": "false"
+    },
+    "UseWinForms": {
+      "type": "parameter",
+      "description": "Enable to use Windows Forms designer in VS (Windows only)",
+      "datatype": "bool",
+      "defaultValue": "false"
+    },
+    "UseWindowsDesktop": {
+      "type": "computed",
+      "value": "UseWpf || UseWinForms"
+    },
+
+    "TypeUtility": {
+      "type": "computed",
+      "value": "PluginType == \"utility\""
+    },
+    "TypeDigitize": {
+      "type": "computed",
+      "value": "PluginType == \"digitize\""
+    },
+    "TypeRender": {
+      "type": "computed",
+      "value": "PluginType == \"render\""
+    },
+    "TypeImport": {
+      "type": "computed",
+      "value": "PluginType == \"import\""
+    },
+    "TypeExport": {
+      "type": "computed",
+      "value": "PluginType == \"export\""
+    },
+    "HostIdentifier": {
+      "type": "bind",
+      "binding": "HostIdentifier"
+    }
+  },
+  "sources": [
+    {
+      "modifiers": [
+        {
+          "condition": "PluginType != 'utility'",
+          "exclude": [ "EmbeddedResources/plugin-utility.ico" ]
+        },
+        {
+          "condition": "PluginType != 'digitize'",
+          "exclude": [ "EmbeddedResources/plugin-digitize.ico" ]
+        },
+        {
+          "condition": "PluginType != 'render'",
+          "exclude": [ "EmbeddedResources/plugin-render.ico" ]
+        },
+        {
+          "condition": "PluginType != 'import'",
+          "exclude": [ "EmbeddedResources/plugin-import.ico" ]
+        },
+        {
+          "condition": "PluginType != 'export'",
+          "exclude": [ "EmbeddedResources/plugin-export.ico" ]
+        },
+        {
+          "condition": "CommandClassName == 'MyRhino__1Command'",
+          "rename": {
+            "MyRhino__1Command.cs": "MyRhino.1Command.cs"
+          }
+        },
+        {
+          "condition": "PluginClassName == 'MyRhino__1Plugin'",
+          "rename": {
+            "MyRhino__1Plugin.cs": "MyRhino.1Plugin.cs"
+          }
+        }
+      ]
+    }
+  ],
+  "primaryOutputs": [
+    { "path": "MyRhino.1.csproj" },
+    { "path": "MyRhino__1Command.cs" }
+  ],
+  "guids": [
+    "ee4e2b39-d96b-4e4c-8f9d-9b6561e61b64"
+  ],
+  "postActions": [
+    {
+      "condition": "(HostIdentifier != \"dotnetcli\" && HostIdentifier != \"dotnetcli-preview\")",
+      "description": "Opens the command in the editor",
+      "manualInstructions": [],
+      "actionId": "84C0DA21-51C8-4541-9940-6CA19AF04EE6",
+      "args": {
+        "files": "1"
+      },
+      "continueOnError": true
+    }
+  ]
 }

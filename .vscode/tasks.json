@@ -10,6 +10,7 @@
             "args": [
                 "/restore",
                 "/v:Minimal",
+                // "/p:Configuration=Release",
                 "/property:GenerateFullPaths=true",
                 "/consoleloggerparameters:NoSummary",
                 "${workspaceFolder}/Rhino.VisualStudio.Mac/Rhino.VisualStudio.Mac.csproj"

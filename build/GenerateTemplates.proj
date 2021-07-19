@@ -15,6 +15,10 @@
     <Language Include="CS" Value="" />
     <Language Include="VB" Value="-lang VB" />
 
+    <Desktop Include="Cross" Value="" />
+    <Desktop Include="Wpf" Value="-wpf" />
+    <Desktop Include="WinForms" Value="-wf" />
+
     <TeplatePackage Include="$(ArtifactsDir)bin\Rhino.Templates\Debug\Rhino.Templates.$(PackageVersion).nupkg" />
   </ItemGroup>
 
@@ -25,7 +29,7 @@
     <Exec Command="dotnet new -i @(TeplatePackage)" />
   </Target>
 
-  <Target Name="GenerateTemplates" DependsOnTargets="CleanTemplates;ZooTemplates;RhinoCommonTemplates;GrasshopperTemplates;" > 
+  <Target Name="GenerateTemplates" DependsOnTargets="CleanTemplates;GrasshopperTemplates;ZooTemplates;RhinoCommonTemplates;" > 
   </Target>
 
   <Target Name="RhinoCommonTemplates">
@@ -38,14 +42,15 @@
       <PluginType Include="Utility-Sample" Value="-t utility --include-sample" />
       <PluginType Include="Utility" Value="-t utility" />
 
-      <Options1 Include="*" VersionId="%(RhinoVersion.Identity)" Version="%(RhinoVersion.Identity)" />
+      <Options2 Include="*" DesktopId="%(Desktop.Identity)" Desktop="%(Desktop.Value)" />
+      <Options1 Include="@(Options2)" VersionId="%(RhinoVersion.Identity)" Version="%(RhinoVersion.Identity)" />
       <Options Include="@(Options1)" TypeId="%(PluginType.Identity)" Type="%(PluginType.Value)" />
       
-      <Options Update="@(Options)" OutputDir="RhinoCommon/%(TypeId)%(VersionId)/" />
+      <Options Update="@(Options)" OutputDir="RhinoCommon/%(TypeId)%(VersionId)%(DesktopId)/" />
     </ItemGroup>
 
     <!-- <Message Text="dotnet new rhino %(Options.Type) -v %(Options.Version) -o $(TemplateDir)%(OutputDir)" Importance="high" /> -->
-    <Exec Command="dotnet new rhino %(Options.Type) -v %(Version) -o $(TemplateDir)%(OutputDir)" />
+    <Exec Command="dotnet new rhino %(Options.Type) -v %(Version) %(Desktop) -o $(TemplateDir)%(OutputDir)" />
     
     <!-- Test specifying class names for command and plugin -->
     <Exec Command="dotnet new rhino -command SomeCommand -plugin AwesomePlugin -o $(TemplateDir)RhinoCommon/CustomNames" />
@@ -61,16 +66,17 @@
       <WithName Include="DefaultName" Value="" />
       <WithName Include="CustonName" Value='-component MyComponentClassName -cname "MyComponent Name" -nick MyNickname -desc MyDescription -cat MyCategory -sub MySubcategory --addon-display-name="My Addon Name"' />
 
-      <GHOptions1 Include="*" VersionId="%(RhinoVersion.Identity)" Version="%(RhinoVersion.Identity)" />
-      <GHOptions2 Include="@(GHOptions1)" WithNameId="%(WithName.Identity)" WithName="%(WithName.Value)" />
-      <GHOptions3 Include="@(GHOptions2)" LanguageId="%(Language.Identity)" Language="%(Language.Value)" />
-      <GHOptions Include="@(GHOptions3)" SampleId="%(IncludeSample.Identity)" Sample="%(IncludeSample.Value)" />
+      <GHOptions4 Include="*" DesktopId="%(Desktop.Identity)" Desktop="%(Desktop.Value)" />
+      <GHOptions3 Include="@(GHOptions4)" VersionId="%(RhinoVersion.Identity)" Version="%(RhinoVersion.Identity)" />
+      <GHOptions2 Include="@(GHOptions3)" WithNameId="%(WithName.Identity)" WithName="%(WithName.Value)" />
+      <GHOptions1 Include="@(GHOptions2)" LanguageId="%(Language.Identity)" Language="%(Language.Value)" />
+      <GHOptions Include="@(GHOptions1)" SampleId="%(IncludeSample.Identity)" Sample="%(IncludeSample.Value)" />
       
-      <GHOptions Update="@(GHOptions)" OutputDir="Grasshopper/%(SampleId)%(WithNameId)%(LanguageId)%(VersionId)/" />
+      <GHOptions Update="@(GHOptions)" OutputDir="Grasshopper/%(SampleId)%(WithNameId)%(LanguageId)%(VersionId)%(DesktopId)/" />
     </ItemGroup>
 
     <!-- <Message Text="dotnet new grasshopper %(GHOptions.Sample) -v %(Version) -o $(TemplateDir)%(OutputDir)" Importance="high" /> -->
-    <Exec Command="dotnet new grasshopper %(GHOptions.Sample) %(WithName) -v %(Version) %(Language) -o $(TemplateDir)%(OutputDir)" />
+    <Exec Command="dotnet new grasshopper %(GHOptions.Sample) %(WithName) -v %(Version) %(Desktop) %(Language) -o $(TemplateDir)%(OutputDir)" />
 
   </Target>
 

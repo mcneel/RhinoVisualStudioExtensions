@@ -1,4 +1,8 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+﻿<!--#if (UseWindowsDesktop)-->
+<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
+<!--#else-->
+<Project Sdk="Microsoft.NET.Sdk">
+<!--#endif-->
 	
   <PropertyGroup>
     <TargetFramework Condition="$(RhinoVersion) == '6'">net45</TargetFramework>
@@ -6,6 +10,8 @@
     <Version>1.0</Version>
     <AssemblyTitle>MyGrasshopper.1</AssemblyTitle>
     <Description>Description of MyGrasshopper.1</Description>
+    <UseWpf Condition="$(UseWpf) == 'True'">true</UseWpf>
+    <UseWindowsForms Condition="$(UseWinForms) == 'True'">true</UseWindowsForms>
   </PropertyGroup>
   
   <ItemGroup>
