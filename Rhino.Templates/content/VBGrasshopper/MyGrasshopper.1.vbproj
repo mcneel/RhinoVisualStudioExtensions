@@ -16,9 +16,9 @@
   
   <ItemGroup>
     <PackageReference Include="Microsoft.NetFramework.ReferenceAssemblies" Version="1.0.0" />
-    <PackageReference Include="Grasshopper" Version="6.34.21034.7001" Condition="$(RhinoVersion) == '6'" IncludeAssets="compile;build" />
-    <PackageReference Include="Grasshopper" Version="7.4.21078.1001" Condition="$(RhinoVersion) == '7'" IncludeAssets="compile;build" />
-    <PackageReference Include="Grasshopper" Version="8.0.21096.12305-wip" Condition="$(RhinoVersion) == '8'" IncludeAssets="compile;build" />
+    <PackageReference Include="Grasshopper" Version="6.35.21222.17001" Condition="$(RhinoVersion) == '6'" IncludeAssets="compile;build" />
+    <PackageReference Include="Grasshopper" Version="7.13.21348.13001" Condition="$(RhinoVersion) == '7'" IncludeAssets="compile;build" />
+    <PackageReference Include="Grasshopper" Version="8.0.21348.12305-wip" Condition="$(RhinoVersion) == '8'" IncludeAssets="compile;build" />
   </ItemGroup>
   
   <PropertyGroup Condition="$(Configuration) == 'Debug' AND $([MSBuild]::IsOSPlatform(Windows))">

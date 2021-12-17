@@ -10,7 +10,7 @@
             "args": [
                 "/restore",
                 "/v:Minimal",
-                // "/p:Configuration=Release",
+                "/p:Configuration=${input:configuration}",
                 "/property:GenerateFullPaths=true",
                 "/consoleloggerparameters:NoSummary",
                 "${workspaceFolder}/Rhino.VisualStudio.Mac/Rhino.VisualStudio.Mac.csproj"
@@ -22,15 +22,34 @@
             "problemMatcher": "$msCompile"
         },
         {
-            "label": "build-windows",
+            "label": "build-windows-2019",
             "type": "shell",
-            "command": "msbuild",
+            "command": "${input:msbuild}",
             "args": [
                 "/restore",
                 "/v:Minimal",
+                "/p:Configuration=${input:configuration}",
                 "/property:GenerateFullPaths=true",
                 "/consoleloggerparameters:NoSummary",
-                "${workspaceFolder}/Rhino.VisualStudio.Windows/Rhino.VisualStudio.Windows.csproj"
+                "${workspaceFolder}/Rhino.VisualStudio.Windows.2019/Rhino.VisualStudio.Windows.2019.csproj"
+            ],
+            "group": "build",
+            "presentation": {
+                "clear": true
+            },
+            "problemMatcher": "$msCompile"
+        },
+        {
+            "label": "build-windows-2022",
+            "type": "shell",
+            "command": "${input:msbuild}",
+            "args": [
+                "/restore",
+                "/v:Minimal",
+                "/p:Configuration=${input:configuration}",
+                "/property:GenerateFullPaths=true",
+                "/consoleloggerparameters:NoSummary",
+                "${workspaceFolder}/Rhino.VisualStudio.Windows.2022/Rhino.VisualStudio.Windows.2022.csproj"
             ],
             "group": "build",
             "presentation": {
@@ -44,6 +63,7 @@
             "command": "dotnet",
             "args": [
                 "build",
+                "/p:Configuration=${input:configuration}",
                 "/p:GenerateFullPaths=true",
                 "/consoleloggerparameters:NoSummary",
                 "${workspaceFolder}/Rhino.Templates/Rhino.Templates.csproj"
@@ -63,5 +83,39 @@
                 "clear": true
             }
         },
+        {
+          "label": "build-all",
+          "dependsOn": [
+            "build-templates",
+            "build-windows-2019",
+            "build-windows-2022"
+          ],
+          "dependsOrder": "sequence",
+          "problemMatcher": "$msCompile",
+          "presentation": {
+              "clear": true
+          }
+      }
+    ],
+    "inputs": [
+      {
+        "id": "msbuild",
+        "type": "command",
+        "command": "shellCommand.execute",
+        "args": {
+          "command": "\"%ProgramFiles(x86)%\\Microsoft Visual Studio\\Installer\\vswhere.exe\" -version \"[16,18)\" -latest -products * -requires Microsoft.Component.MSBuild -find MSBuild\\**\\Bin\\MSBuild.exe",
+          "useFirstResult": "true"
+        }
+      },
+      {
+        "type": "pickString",
+        "id": "configuration",
+        "description": "Build Configuration (press escape to continue without building)",
+        "options": [
+          "Debug",
+          "Release"
+        ],
+        "default": "Debug"
+      }
     ]
 }

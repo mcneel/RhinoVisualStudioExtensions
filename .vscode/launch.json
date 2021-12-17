@@ -20,15 +20,28 @@
       }
     },
     {
-        "name": "Windows",
-        "type": "clr",
-        "request": "launch",
-        "preLaunchTask": "build-windows",
-        "program": "C:\\Program Files (x86)\\Microsoft Visual Studio\\2019\\Professional\\Common7\\IDE\\devenv.exe",
-        "args": [
-            "/RootSuffix",
-            "Exp"
-        ],
+      "name": "Windows 2019",
+      "type": "clr",
+      "request": "launch",
+      "preLaunchTask": "build-windows-2019",
+      "program": "C:\\Program Files (x86)\\Microsoft Visual Studio\\2019\\Professional\\Common7\\IDE\\devenv.exe",
+      // "targetArchitecture": "x86",
+      "args": [
+        "/RootSuffix",
+        "Exp"
+      ],
+    },
+    {
+      "name": "Windows 2022",
+      "type": "clr",
+      "request": "launch",
+      "preLaunchTask": "build-windows-2022",
+      "program": "C:\\Program Files\\Microsoft Visual Studio\\2022\\Professional\\Common7\\IDE\\devenv.exe",
+      // "targetArchitecture": "x86",
+      "args": [
+        "/RootSuffix",
+        "Exp"
+      ],
     }
   ]
 }
