@@ -43,6 +43,5 @@ Copyright (c) 2016-2021 Robert McNeel and Associates. All rights reserved.</Desc
         <Prerequisite Id="Microsoft.VisualStudio.Component.CoreEditor" Version="[17.0,)" DisplayName="Visual Studio core editor" />
         <Prerequisite Id="Microsoft.VisualStudio.Component.ManagedDesktop.Prerequisites" Version="[17.0,)" DisplayName=".NET desktop development tools" />
         <Prerequisite Id="Microsoft.Net.Component.4.8.SDK" Version="[17.0,)" DisplayName=".NET Framework 4.8 SDK" />
-        <Prerequisite Id="3B5EAFB3-87E4-4986-8924-D24DF860D894" DisplayName="Microsoft Visual Studio Template Engine" Version="[17.0,)" />
     </Prerequisites>
 </PackageManifest>
