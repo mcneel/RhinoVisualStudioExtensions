@@ -24,7 +24,7 @@
         {
             "label": "build-windows-2019",
             "type": "shell",
-            "command": "${input:msbuild}",
+            "command": "${input:msbuild2019}",
             "args": [
                 "/restore",
                 "/v:Minimal",
@@ -42,7 +42,7 @@
         {
             "label": "build-windows-2022",
             "type": "shell",
-            "command": "${input:msbuild}",
+            "command": "${input:msbuild2022}",
             "args": [
                 "/restore",
                 "/v:Minimal",
@@ -99,11 +99,20 @@
     ],
     "inputs": [
       {
-        "id": "msbuild",
+        "id": "msbuild2019",
         "type": "command",
         "command": "shellCommand.execute",
         "args": {
-          "command": "\"%ProgramFiles(x86)%\\Microsoft Visual Studio\\Installer\\vswhere.exe\" -version \"[16,18)\" -latest -products * -requires Microsoft.Component.MSBuild -find MSBuild\\**\\Bin\\MSBuild.exe",
+          "command": "\"%ProgramFiles(x86)%\\Microsoft Visual Studio\\Installer\\vswhere.exe\" -version \"[16,17)\" -latest -products * -requires Microsoft.Component.MSBuild -find MSBuild\\**\\Bin\\MSBuild.exe",
+          "useFirstResult": "true"
+        }
+      },
+      {
+        "id": "msbuild2022",
+        "type": "command",
+        "command": "shellCommand.execute",
+        "args": {
+          "command": "\"%ProgramFiles(x86)%\\Microsoft Visual Studio\\Installer\\vswhere.exe\" -version \"[17,18)\" -latest -products * -requires Microsoft.Component.MSBuild -find MSBuild\\**\\Bin\\MSBuild.exe",
           "useFirstResult": "true"
         }
       },

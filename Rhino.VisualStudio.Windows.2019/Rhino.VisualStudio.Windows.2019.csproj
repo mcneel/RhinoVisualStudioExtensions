@@ -101,7 +101,7 @@
     <PackageReference Include="Microsoft.VisualStudio.TemplateWizardInterface">
       <Version>16.10.31320.204</Version>
     </PackageReference>
-    <PackageReference Include="Microsoft.VSSDK.BuildTools" Version="17.0.5232" PrivateAssets="all" />
+    <PackageReference Include="Microsoft.VSSDK.BuildTools" Version="16.11.35" PrivateAssets="all" />
     <PackageReference Include="Microsoft.VSSDK.Vsixsigntool">
       <Version>16.2.29116.78</Version>
     </PackageReference>
