@@ -1,16 +1,46 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFramework>net472</TargetFramework>
     <AssemblyTitle>Rhino.VisualStudio.Mac</AssemblyTitle>
     <Company>Robert McNeel &amp; Associates</Company>
-    <Copyright>2021 Robert McNeel and Associates</Copyright>
-    <MDCoreVersionOverride>8.8</MDCoreVersionOverride>
+    <Copyright>2022 Robert McNeel and Associates</Copyright>
     <CreatePackage>True</CreatePackage>
+    <DefineConstants>MAC;VS$(VSVersion)</DefineConstants>
+
+    <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
+    <AppendTargetFrameworkToOutputPath>False</AppendTargetFrameworkToOutputPath>
+    <BaseOutputPath>$(BaseOutputPath)$(VSVersion)\</BaseOutputPath>
+    <IntermediateOutputPath>$(BaseIntermediateOutputPath)$(VSVersion)\</IntermediateOutputPath>
+    <Title>Eto.DevExtension.VisualStudio.Mac.$(VSVersion)</Title>
   </PropertyGroup>
-  <ItemGroup>
+  
+  <PropertyGroup Condition="$(VSVersion) == '2019'">
+    <TargetFramework>net472</TargetFramework>
+    <MonoDevelopVersion>8.0</MonoDevelopVersion>
+    <MDBinDir Condition="$(MDBinDir) == '' AND Exists('/Applications/Visual Studio (2019).app/Contents/Resources/lib/monodevelop/bin')">/Applications/Visual Studio (2019).app/Contents/Resources/lib/monodevelop/bin</MDBinDir>
+    <MDBinDir Condition="$(MDBinDir) == '' AND Exists('/Applications/Visual Studio 2019.app/Contents/Resources/lib/monodevelop/bin')">/Applications/Visual Studio 2019.app/Contents/Resources/lib/monodevelop/bin</MDBinDir>
+  </PropertyGroup>
+  <ItemGroup Condition="$(VSVersion) == '2019'">
     <PackageReference Include="MonoDevelop.Addins" Version="0.4.7" />
-    <PackageReference Include="Eto.Forms" Version="2.5.11-dev" />
-    <PackageReference Include="Eto.Platform.XamMac2" Version="2.5.11-dev" />
+    <PackageReference Include="Microsoft.VisualStudio.SDK" Version="16.0.206" ExcludeAssets="runtime">
+      <IncludeAssets>compile;build;native;contentfiles;analyzers;buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Microsoft.NETFramework.ReferenceAssemblies" Version="1.0.3" PrivateAssets="all" />
+    <PackageReference Include="Eto.Platform.XamMac2" Version="2.7.1" />
+    <PackageReference Include="System.Collections.Immutable" Version="5.0.0" />
+  </ItemGroup>
+
+  <PropertyGroup Condition="$(VSVersion) == '2022'">
+    <TargetFramework>net6.0-macos</TargetFramework>
+    <MonoDevelopVersion>17.3</MonoDevelopVersion>
+  </PropertyGroup>
+  <ItemGroup Condition="$(VSVersion) == '2022'">
+    <PackageReference Include="Microsoft.VisualStudioMac.Sdk" Version="17.0.0" ExcludeAssets="runtime"/>
+    <PackageReference Include="Eto.Platform.macOS" Version="2.7.1" />
+    <PackageReference Include="System.Collections.Immutable" Version="6.0.0" />
+  </ItemGroup>
+  
+  <ItemGroup>
+    <PackageReference Include="Eto.Forms" Version="2.7.1" />
   </ItemGroup>
   <ItemGroup>
     <AddinReference Include="MonoDevelop.CSharpBinding" />
@@ -25,7 +55,7 @@
     <AddinFile Include="Templates\Rhino\EmptyCommand.xft.xml" />
     <AddinFile Include="Templates\Grasshopper\EmptyComponent.cs" />
     <AddinFile Include="Templates\Grasshopper\EmptyComponent.xft.xml" />
-    <AddinFile Include="..\artifacts\bin\Rhino.Templates\$(Configuration)\Rhino.Templates.$(PackageVersion).nupkg">
+    <AddinFile Include="$(ArtifactsDir)bin\Rhino.Templates\$(Configuration)\Rhino.Templates.$(PackageVersion).nupkg">
       <Link>Templates\Rhino.Templates.nupkg</Link>
     </AddinFile>
   </ItemGroup>
@@ -46,6 +76,14 @@
       <Private>False</Private>
     </ProjectReference>
   </ItemGroup>
+
+  <Target Name="RenameMpack" AfterTargets="PackageAddin">
+    <PropertyGroup>
+      <MPackName>$(ArtifactsDir)$(Configuration)\$(Title)-$(PackageVersion).mpack</MPackName>
+    </PropertyGroup>
+    <Delete Files="$(MPackName)" />
+    <Move SourceFiles="$(PackageFile)" DestinationFiles="$(MPackName)" />
+  </Target>
 
 
 </Project>
