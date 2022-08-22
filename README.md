@@ -5,19 +5,19 @@ Includes RhinoCommon and Grasshopper template wizards for Visual Studio on Windo
 Manual Install Instructions (Mac)
 ---------------------------------
 
-1. As of this writing, update to **Visual Studio for Mac 8.9.5**.
-1. Download [the latest .mpack release](https://github.com/mcneel/RhinoVisualStudioExtensions/releases).
-1. Launch **Visual Studio for Mac**.
-1. Navigate to **Visual Studio** > **Extensions...**
-1. Expand **Debugging**
-1. **Uninstall** all previous versions of the **RhinoCommon Plugin Support**.  If none are installed, you can ignore the next two steps (skip to step 9).
-1. **Quit** and **Restart** Visual Studio for Mac.
-1. Navigate to **Visual Studio** > **Extensions...** again.
-1. Click **Install from file...** button in the lower-left corner.
-1. Navigate to the mpack file you downloaded in step 1, then click **Open**.
-1. Click **Install**.  The plugin should install.
-1. **Quit** and **Restart** Visual Studio for Mac.
-1. Navigate to **Visual Studio** > **Extensions..** > **Install** tab.  Verify that **RhinoCommon Plugin Support** exists under the **Debugging** category.  If it's there, you have successfully installed the extension and you are **DONE**.
+1. As of this writing, update to **Visual Studio for Mac 2022 v17.3 or later**.
+2. Download [the latest .mpack release](https://github.com/mcneel/RhinoVisualStudioExtensions/releases).
+3. Launch **Visual Studio for Mac**.
+4. Navigate to **Visual Studio** > **Extensions...**
+5. Click on the **Installed** tab
+6. **Uninstall** all previous versions of the **RhinoCommon Plugin Support**.  If none are installed, you can ignore the next two steps (skip to step 9).
+7. **Quit** and **Restart** Visual Studio for Mac.
+8. Navigate to **Visual Studio** > **Extensions...** again.
+9. Click **Install from file...** button in the lower-left corner.
+10. Navigate to the mpack file you downloaded in step 1, then click **Open**.
+11. Click **Install**.  The plugin should install.
+12. **Quit** and **Restart** Visual Studio for Mac.
+13. Navigate to **Visual Studio** > **Extensions..** > **Installed** tab.  Verify that **RhinoCommon Plugin Support** is listed.  If it's there, you have successfully installed the extension and you are **DONE**.
 
 Manual Install Instructions (Windows)
 -------------------------------------
