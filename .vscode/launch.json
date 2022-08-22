@@ -5,25 +5,41 @@
   "version": "0.2.0",
   "configurations": [
     {
-      "name": "Mac",
+      "name": "Rhino.VisualStudio.Mac.2019",
       "type": "mono",
       "request": "launch",
-      "preLaunchTask": "build-mac",
-      "program": "/Applications/Visual Studio.app/Contents/Resources/lib/monodevelop/bin/VisualStudio.exe",
+      "preLaunchTask": "build-2019",
+      "program": ".",
+      "runtimeExecutable": "/Applications/Visual Studio (2019).app/Contents/MacOS/VisualStudio",
       "passDebugOptionsViaEnvironmentVariable": true,
       "args": [
         "--no-redirect"
       ],
       "env": {
         "MONODEVELOP_CONSOLE_LOG_LEVEL": "All",
-        "MONODEVELOP_DEV_ADDINS": "${workspaceFolder}/artifacts/bin/Rhino.VisualStudio.Mac/Debug/net472/"
+        "MONODEVELOP_DEV_ADDINS": "${workspaceFolder}/artifacts/bin/Rhino.VisualStudio.Mac/2019/${config:var.configuration}/"
       }
     },
     {
-      "name": "Windows 2019",
+      "name": "Rhino.VisualStudio.Mac.2022",
+      "type": "coreclr",
+      "request": "launch",
+      "preLaunchTask": "build-2022",
+      "program": "/Applications/Visual Studio.app/Contents/MacOS/VisualStudio",
+      "args": [
+        "--no-redirect"
+      ],
+      "env": {
+        "MONODEVELOP_CONSOLE_LOG_LEVEL": "All",
+        "MONODEVELOP_DEV_ADDINS": "${workspaceFolder}/artifacts/bin/Rhino.VisualStudio.Mac/2022/${config:var.configuration}/"
+      },
+      "justMyCode": false
+    },
+    {
+      "name": "Rhino.VisualStudio.Windows.2019",
       "type": "clr",
       "request": "launch",
-      "preLaunchTask": "build-windows-2019",
+      "preLaunchTask": "build-2019",
       "program": "C:\\Program Files (x86)\\Microsoft Visual Studio\\2019\\Professional\\Common7\\IDE\\devenv.exe",
       // "targetArchitecture": "x86",
       "args": [
@@ -32,10 +48,10 @@
       ],
     },
     {
-      "name": "Windows 2022",
+      "name": "Rhino.VisualStudio.Windows.2022",
       "type": "clr",
       "request": "launch",
-      "preLaunchTask": "build-windows-2022",
+      "preLaunchTask": "build-2022",
       "program": "C:\\Program Files\\Microsoft Visual Studio\\2022\\Professional\\Common7\\IDE\\devenv.exe",
       // "targetArchitecture": "x86",
       "args": [

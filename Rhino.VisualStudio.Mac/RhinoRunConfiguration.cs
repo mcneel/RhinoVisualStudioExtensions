@@ -5,26 +5,21 @@ using MonoDevelop.Projects;
 
 namespace Rhino.VisualStudio.Mac
 {
-  internal class RhinoRunConfigurationEditor : MonoDevelop.Ide.Projects.OptionPanels.RunConfigurationPanel
-  {
-    public override Control CreatePanelWidget()
+    internal class RhinoRunConfigurationEditor : MonoDevelop.Ide.Projects.OptionPanels.RunConfigurationPanel
     {
-      return base.CreatePanelWidget();
+        public override Control CreatePanelWidget()
+        {
+            return base.CreatePanelWidget();
+        }
     }
 
-    public override void Initialize(OptionsDialog dialog, object dataObject)
+    internal class RhinoRunConfiguration : AssemblyRunConfiguration
     {
-      base.Initialize(dialog, dataObject);
-    }
-  }
+        public override bool CanRunLibrary => true;
 
-  internal class RhinoRunConfiguration : AssemblyRunConfiguration
-  {
-    public override bool CanRunLibrary => true;
-
-    public RhinoRunConfiguration(string name) : base(name)
-    {
+        public RhinoRunConfiguration(string name) : base(name)
+        {
+        }
     }
-  }
 }
 

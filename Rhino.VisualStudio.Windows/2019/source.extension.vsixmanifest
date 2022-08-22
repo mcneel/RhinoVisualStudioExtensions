@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PackageManifest Version="2.0.0" xmlns="http://schemas.microsoft.com/developer/vsx-schema/2011" xmlns:d="http://schemas.microsoft.com/developer/vsx-schema-design/2011">
     <Metadata>
-        <Identity Id="FE5E3652-EEDC-4A36-AE44-9061466EBEE7" Version="7.13.0.0" Language="en-US" Publisher="McNeel" />
+        <Identity Id="F9D86CA0-D45A-42B6-ABA4-77AE7471C34F" Version="7.21.0.0" Language="en-US" Publisher="McNeel" />
         <DisplayName>RhinoCommon and Grasshopper templates for Rhino 7</DisplayName>
         <Description xml:space="preserve">Adds plug-in, command and zoo wizards for RhinoCommon and Grasshopper projects. This includes digitizer, render, import and export plug-ins. Makes setting up debugging easier and automatically references RhinoCommon.dll. Rhino 7 is a requirement for this wizard to operate correctly.
 
@@ -10,7 +10,7 @@ http://www.rhino3d.com/go/rhinocommon_guide .
 
 For support about this wizard, write on the McNeel Discourse website at http://discourse.mcneel.com/ 
 
-Copyright (c) 2016-2021 Robert McNeel and Associates. All rights reserved.</Description>
+Copyright (c) 2016-2022 Robert McNeel and Associates. All rights reserved.</Description>
         <License>license.rtf</License>
         <GettingStartedGuide>http://www.rhino3d.com/go/rhinocommon_guide</GettingStartedGuide>
         <Icon>icon.ico</Icon>
@@ -18,19 +18,13 @@ Copyright (c) 2016-2021 Robert McNeel and Associates. All rights reserved.</Desc
         <Tags>rhinocommon grasshopper</Tags>
     </Metadata>
     <Installation>
-        <InstallationTarget Id="Microsoft.VisualStudio.Community" Version="[17.0,)">
-            <ProductArchitecture>amd64</ProductArchitecture>
-        </InstallationTarget>
-        <InstallationTarget Id="Microsoft.VisualStudio.Enterprise" Version="[17.0,)">
-            <ProductArchitecture>amd64</ProductArchitecture>
-        </InstallationTarget>
-        <InstallationTarget Id="Microsoft.VisualStudio.Pro" Version="[17.0,)">
-            <ProductArchitecture>amd64</ProductArchitecture>
-        </InstallationTarget>
+        <InstallationTarget Id="Microsoft.VisualStudio.Community" Version="[16.0,17.0)" />
+        <InstallationTarget Id="Microsoft.VisualStudio.Enterprise" Version="[16.0,17.0)" />
+        <InstallationTarget Id="Microsoft.VisualStudio.Pro" Version="[16.0,17.0)" />
     </Installation>
     <Dependencies>
         <Dependency Id="Microsoft.Framework.NDP" DisplayName="Microsoft .NET Framework" d:Source="Manual" Version="[4.8,)" />
-        <Dependency d:Source="Installed" Id="3B5EAFB3-87E4-4986-8924-D24DF860D894" DisplayName="Microsoft Visual Studio Template Engine" Version="[17.0,)" />
+        <Dependency d:Source="Installed" Id="3B5EAFB3-87E4-4986-8924-D24DF860D894" DisplayName="Microsoft Visual Studio Template Engine" Version="[16.4.457.38025,)" />
     </Dependencies>
     <Assets>
         <Asset Type="Microsoft.VisualStudio.ProjectTemplate" Path="Templates\Project" />
@@ -40,8 +34,8 @@ Copyright (c) 2016-2021 Robert McNeel and Associates. All rights reserved.</Desc
         <Asset Type="Microsoft.VisualStudio.Assembly" d:Source="Project" d:ProjectName="%CurrentProject%" Path="|%CurrentProject%|" AssemblyName="|%CurrentProject%;AssemblyName|" />
     </Assets>
     <Prerequisites>
-        <Prerequisite Id="Microsoft.VisualStudio.Component.CoreEditor" Version="[17.0,)" DisplayName="Visual Studio core editor" />
-        <Prerequisite Id="Microsoft.VisualStudio.Component.ManagedDesktop.Prerequisites" Version="[17.0,)" DisplayName=".NET desktop development tools" />
-        <Prerequisite Id="Microsoft.Net.Component.4.8.SDK" Version="[17.0,)" DisplayName=".NET Framework 4.8 SDK" />
+        <Prerequisite Id="Microsoft.VisualStudio.Component.CoreEditor" Version="[16.0,)" DisplayName="Visual Studio core editor" />
+        <Prerequisite Id="Microsoft.VisualStudio.Component.ManagedDesktop.Prerequisites" Version="[16.0,)" DisplayName=".NET desktop development tools" />
+        <Prerequisite Id="Microsoft.Net.Component.4.8.SDK" Version="[16.0,)" DisplayName=".NET Framework 4.8 SDK" />
     </Prerequisites>
 </PackageManifest>

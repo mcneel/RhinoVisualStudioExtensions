@@ -1,21 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <VSTemplate Version="3.0.0" Type="ProjectGroup" xmlns="http://schemas.microsoft.com/developer/vstemplate/2005" xmlns:sdk="http://schemas.microsoft.com/developer/vstemplate-sdkextension/2010">
     <TemplateData>
-        <Name>RhinoCommon Plug-In for Rhino 7 (VB)</Name>
-        <Description>A new RhinoCommon plug-in that can be easily debugged and automatically launch Rhino</Description>
+        <Name>Grasshopper Assembly for Rhino 7 (C#)</Name>
+        <Description>A new Grasshopper Assembly that can be easily debugged and automatically launch Rhino.</Description>
         <NumberOfParentCategoriesToRollUp>1</NumberOfParentCategoriesToRollUp>
 
         <SortOrder>20</SortOrder>
 
-        <TemplateID>Rhino.Plugin.VB</TemplateID>
-        <ProjectType>VisualBasic</ProjectType>
+        <TemplateID>Grasshopper.Component.CS</TemplateID>
+        <ProjectType>CSharp</ProjectType>
         <PlatformTag>Windows</PlatformTag>
         <PlatformTag>macOS</PlatformTag>
         <ProjectTypeTag>Desktop</ProjectTypeTag>
         <ProjectTypeTag>Rhino</ProjectTypeTag>
-        <LanguageTag>VisualBasic</LanguageTag>
+        <LanguageTag>CSharp</LanguageTag>
         <Icon>icon.ico</Icon>
-        <DefaultName>MyRhinoPlugin</DefaultName>
+        <DefaultName>MyGrasshopperAssembly</DefaultName>
 
         <CreateNewFolder>true</CreateNewFolder>
         <ProvideDefaultName>true</ProvideDefaultName>
@@ -25,16 +25,16 @@
     <TemplateContent>
         <ProjectCollection/>
         <CustomParameters>
-            <CustomParameter Name = "$language$" Value="VB" />
+            <CustomParameter Name = "$language$" Value="C#" />
             <CustomParameter Name = "$uistyle$" Value="none"/>
-            <CustomParameter Name = "$groupid$" Value="Rhino.Plugin" />
-            <CustomParameter Name="SideWaffleNewProjNode" Value="Project\VisualBasic\Rhino"/>
+            <CustomParameter Name = "$groupid$" Value="Grasshopper.Component" />
+            <CustomParameter Name="SideWaffleNewProjNode" Value="Project\CSharp\Rhino"/>
             <CustomParameter Name="SupportedParameters" Value="ExecutableLocation;WindowsDesktop"/>
         </CustomParameters>
     </TemplateContent>
     <WizardExtension>
-        <Assembly>Rhino.VisualStudio.Windows, Version=7.5.0.0, Culture=neutral, PublicKeyToken=null</Assembly>
-        <FullClassName>Rhino.VisualStudio.Windows.Wizard.RhinoWizard</FullClassName>
+        <Assembly>Rhino.VisualStudio.Windows, Version=7.21.0.0, Culture=neutral, PublicKeyToken=null</Assembly>
+        <FullClassName>Rhino.VisualStudio.Windows.Wizard.GrasshopperWizard</FullClassName>
     </WizardExtension>
     <WizardExtension>
         <Assembly>Microsoft.VisualStudio.TemplateEngine.Wizard, Version=1.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</Assembly>

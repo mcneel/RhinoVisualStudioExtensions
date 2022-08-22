@@ -10,7 +10,7 @@
   To install the templates in this package, run 'dotnet new --install Rhino.Templates'.
    </Description>
     <Authors>Robert McNeel and Associates</Authors>
-    <Copyright>Copyright (c) 1997-2021 Robert McNeel and Associates</Copyright>
+    <Copyright>Copyright (c) 1997-2022 Robert McNeel and Associates</Copyright>
     <PackageIcon>rhinocommon.png</PackageIcon>
     <PackageTags>rhino3d rhino rhinocommon grasshopper</PackageTags>
     <PackageProjectUrl>https://developer.rhino3d.com/guides/rhinocommon/</PackageProjectUrl>

@@ -4,35 +4,48 @@ using Eto.Forms;
 
 namespace Rhino.VisualStudio.Mac
 {
-	public static class EtoInitializer
-	{
-    static bool initialized;
-		public static void Initialize()
-		{
-			if (initialized)
-				return;
+    public static class EtoInitializer
+    {
+        static readonly object Cell_Key = new object();
+        static bool initialized;
+        public static void Initialize()
+        {
+            if (initialized)
+                return;
 
-			initialized = true;
+            initialized = true;
 
-			try
-			{
-				var platform = Platform.Instance;
-				if (platform == null)
-				{
-					platform = new Eto.Mac.Platform();
-					Platform.Initialize(platform);
-				}
+#if VS2019
+            // VS 2019 for Mac is dumb and GC's things even though they're still in use.
+            Style.Add<Eto.Mac.Forms.Controls.TextBoxHandler>(null, h =>
+            {
+                h.Widget.Properties[Cell_Key] = h.Control.Cell;
+            });
+            Style.Add<Eto.Mac.Forms.Controls.GroupBoxHandler>(null, h =>
+            {
+                h.Widget.Properties[Cell_Key] = h.Control.ContentView;
+            });
+#endif
 
-				platform.LoadAssembly(typeof(EtoInitializer).Assembly);
+            try
+            {
+                var platform = Platform.Instance;
+                if (platform == null)
+                {
+                    platform = new Eto.Mac.Platform();
+                    Platform.Initialize(platform);
+                }
 
-				if (Application.Instance == null)
-					new Application().Attach();
+                platform.LoadAssembly(typeof(EtoInitializer).Assembly);
 
-			}
-			catch (Exception ex)
-			{
-				Console.WriteLine($"{ex}");
-			}
-		}
-	}
+                if (Application.Instance == null)
+                    new Application().Attach();
+
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"{ex}");
+            }
+        }
+    }
 }
