@@ -11,6 +11,7 @@
         "args": [
           "/restore",
           "/v:Minimal",
+          "/p:Configuration=${input:configuration}",
           "/p:VSVersion=2019",
           "/bl:${workspaceFolder}/artifacts/log/Rhino.VisualStudio.Mac.2019.binlog",
           "${workspaceFolder}/Rhino.VisualStudio.Mac/Rhino.VisualStudio.Mac.csproj",
@@ -21,6 +22,7 @@
         "args": [
           "/restore",
           "/v:Minimal",
+          "/p:Configuration=${input:configuration}",
           "/p:VSVersion=2019",
           "${workspaceFolder}/Rhino.VisualStudio.Windows/Rhino.VisualStudio.Windows.csproj",
         ],
@@ -41,6 +43,7 @@
         "args": [
           "build",
           "/p:VSVersion=2022",
+          "/p:Configuration=${input:configuration}",
           "/bl:${workspaceFolder}/artifacts/log/Rhino.VisualStudio.Mac.2022.binlog",
           "${workspaceFolder}/Rhino.VisualStudio.Mac/Rhino.VisualStudio.Mac.csproj",
         ],
@@ -50,6 +53,7 @@
         "args": [
           "/restore",
           "/v:Minimal",
+          "/p:Configuration=${input:configuration}",
           "/p:VSVersion=2022",
           "${workspaceFolder}/Rhino.VisualStudio.Windows/Rhino.VisualStudio.Windows.csproj",
         ],

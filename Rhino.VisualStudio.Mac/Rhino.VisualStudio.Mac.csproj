@@ -10,7 +10,7 @@
     <AppendTargetFrameworkToOutputPath>False</AppendTargetFrameworkToOutputPath>
     <BaseOutputPath>$(BaseOutputPath)$(VSVersion)\</BaseOutputPath>
     <IntermediateOutputPath>$(BaseIntermediateOutputPath)$(VSVersion)\</IntermediateOutputPath>
-    <Title>Eto.DevExtension.VisualStudio.Mac.$(VSVersion)</Title>
+    <Title>Rhino.VisualStudio.Mac.$(VSVersion)</Title>
   </PropertyGroup>
   
   <PropertyGroup Condition="$(VSVersion) == '2019'">
