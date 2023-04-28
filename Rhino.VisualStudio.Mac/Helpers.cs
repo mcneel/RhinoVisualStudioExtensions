@@ -102,12 +102,14 @@ namespace Rhino.VisualStudio.Mac
                     var absPath = project.GetAbsoluteChildPath(FilePath.Build(reference.HintPath));
                     if (File.Exists(absPath.FullPath))
                     {
-                        using var stream = File.OpenRead(absPath.FullPath);
-                        var reader = new PEReader(stream);
-                        var metadataReader = reader.GetMetadataReader();
-                        var version = metadataReader.GetAssemblyDefinition().Version;
-                        Console.WriteLine($"Found Rhino assembly version {version}");
-                        result = version.Major;
+                        using (var stream = File.OpenRead(absPath.FullPath))
+                        {
+                            var reader = new PEReader(stream);
+                            var metadataReader = reader.GetMetadataReader();
+                            var version = metadataReader.GetAssemblyDefinition().Version;
+                            Console.WriteLine($"Found Rhino assembly version {version}");
+                            result = version.Major;
+                        }
                     }
                 }
                 catch (Exception ex)
