@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PackageManifest Version="2.0.0" xmlns="http://schemas.microsoft.com/developer/vsx-schema/2011" xmlns:d="http://schemas.microsoft.com/developer/vsx-schema-design/2011">
     <Metadata>
-        <Identity Id="FE5E3652-EEDC-4A36-AE44-9061466EBEE7" Version="7.21.0.0" Language="en-US" Publisher="McNeel" />
+        <Identity Id="FE5E3652-EEDC-4A36-AE44-9061466EBEE7" Version="7.28.0.0" Language="en-US" Publisher="McNeel" />
         <DisplayName>RhinoCommon and Grasshopper templates for Rhino 7</DisplayName>
         <Description xml:space="preserve">Adds plug-in, command and zoo wizards for RhinoCommon and Grasshopper projects. This includes digitizer, render, import and export plug-ins. Makes setting up debugging easier and automatically references RhinoCommon.dll. Rhino 7 is a requirement for this wizard to operate correctly.
 
@@ -26,6 +26,15 @@ Copyright (c) 2016-2022 Robert McNeel and Associates. All rights reserved.</Desc
         </InstallationTarget>
         <InstallationTarget Id="Microsoft.VisualStudio.Pro" Version="[17.0,)">
             <ProductArchitecture>amd64</ProductArchitecture>
+        </InstallationTarget>
+        <InstallationTarget Id="Microsoft.VisualStudio.Community" Version="[17.0,)">
+            <ProductArchitecture>arm64</ProductArchitecture>
+        </InstallationTarget>
+        <InstallationTarget Id="Microsoft.VisualStudio.Enterprise" Version="[17.0,)">
+            <ProductArchitecture>arm64</ProductArchitecture>
+        </InstallationTarget>
+        <InstallationTarget Id="Microsoft.VisualStudio.Pro" Version="[17.0,)">
+            <ProductArchitecture>arm64</ProductArchitecture>
         </InstallationTarget>
     </Installation>
     <Dependencies>

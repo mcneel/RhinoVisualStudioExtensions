@@ -10,6 +10,7 @@ using Eto.Forms;
 using Eto.Drawing;
 using Eto.Mac;
 using CoreGraphics;
+using System.Collections.ObjectModel;
 
 namespace Rhino.VisualStudio.Mac.OptionPanels
 {
@@ -33,7 +34,7 @@ namespace Rhino.VisualStudio.Mac.OptionPanels
 
         public override bool IsVisible()
         {
-            return ConfiguredProject.DetectMcNeelProjectType() != null || ConfiguredProject.GetPluginProjectType() != null;
+            return ConfiguredProject.DetectMcNeelProjectType(false) != null || ConfiguredProject.GetPluginProjectType() != null;
         }
         
         public class EtoContainerView : AppKit.NSView
@@ -86,6 +87,8 @@ namespace Rhino.VisualStudio.Mac.OptionPanels
     {
         DropDown pluginTypeCombo;
         DropDown launcherCombo;
+        DropDown versionSelect;
+        Panel versionSelectPanel;
         TextBox customLauncherEntry;
         Button browseButton;
         Panel autodetectedTypeLabel;
@@ -95,42 +98,66 @@ namespace Rhino.VisualStudio.Mac.OptionPanels
         DotNetProject project;
         bool supportsDevelopment;
         string[] currentLauncherEntries = defaultLauncherEntries;
-        static string[] typeEntries = { "Autodetect", "Rhino Plugin", "Grasshopper Component", "Library" };
+        ObservableCollection<string> rhinoVersions = new ObservableCollection<string>();
+        string[] typeEntries = { "Rhino Plugin", "Grasshopper Component", "Library" };
         static string[] defaultLauncherEntries = { "Autodetect", /*"Rhinoceros", "RhinoWIP",*/ "Custom" };
         static string[] debugLauncherEntries = { "XCode" };
 
-        string GetSelectedPluginType()
+        string GetSelectedPluginExtension()
         {
             switch (pluginTypeCombo.SelectedIndex)
             {
                 case 0:
-                    return null;
+                    return ".rhp";
                 case 1:
-                    return "rhp";
+                    return ".gha";
                 case 2:
-                    return "gha";
+                    return null;
                 case 3:
+                    return typeEntries[pluginTypeCombo.SelectedIndex];
                 default:
-                    return "none";
+                    return null;
             }
         }
 
         int GetPluginComboIndex()
         {
             var type = project.GetPluginProjectType();
+            if (type == null)
+                type = project.DetectMcNeelProjectType(true);
             if (type != null)
             {
                 switch (type.Value)
                 {
                     case McNeelProjectType.None:
-                        return 3;
-                    case McNeelProjectType.RhinoCommon:
-                        return 1;
-                    case McNeelProjectType.Grasshopper:
                         return 2;
+                    case McNeelProjectType.RhinoCommon:
+                        return 0;
+                    case McNeelProjectType.Grasshopper:
+                        return 1;
                 }
             }
-            return 0;
+            var targetExt = project.ProjectProperties.GetValue("TargetExt")?.ToLowerInvariant();
+            if (!string.IsNullOrEmpty(targetExt) && targetExt != ".dll" && typeEntries.Length > 3)
+            {
+                return 3;
+            }
+            return 2;
+        }
+        
+        int GetRhinoVersionIndex()
+        {
+            var ver = project.ProjectProperties.GetValue(Helpers.RhinoLauncherProperty);
+            if (string.IsNullOrEmpty(ver) || !int.TryParse(ver, out var version))
+                return 0; // auto
+
+            ver = ver.Trim();
+            var index = rhinoVersions.IndexOf(ver);
+            if (index != -1)
+                return index;
+                
+            rhinoVersions.Add(ver);
+            return rhinoVersions.Count - 1;
         }
 
         int GetLauncherComboIndex()
@@ -147,6 +174,8 @@ namespace Rhino.VisualStudio.Mac.OptionPanels
                     case "xcode":
                         return supportsDevelopment ? 2 : 0;
                     default:
+                        if (int.TryParse(type, out var version))
+                            return 0;
                         // custom
                         return 1;
                 }
@@ -177,7 +206,11 @@ namespace Rhino.VisualStudio.Mac.OptionPanels
             {
                 default:
                 case 0:
-                    return null;
+                    var selectedVersionIndex = versionSelect.SelectedIndex;
+                    if (selectedVersionIndex == 0)
+                        return null;
+                        
+                    return rhinoVersions[selectedVersionIndex];
                 // case 1:
                 //   return "app";
                 // case 2:
@@ -193,14 +226,19 @@ namespace Rhino.VisualStudio.Mac.OptionPanels
         {
             if (pluginTypeChanged)
             {
-                var pluginType = GetSelectedPluginType();
+                var pluginType = GetSelectedPluginExtension();
+                
+                // don't use the RhinoPluginType property anymore, use TargetExt exclusively
+                project.ProjectProperties.RemoveProperty(Helpers.RhinoPluginTypeProperty);
+
                 if (pluginType != null)
-                    project.ProjectProperties.SetValue(Helpers.RhinoPluginTypeProperty, pluginType);
+                    project.ProjectProperties.SetValue("TargetExt", pluginType);
                 else
-                    project.ProjectProperties.RemoveProperty(Helpers.RhinoPluginTypeProperty);
+                    project.ProjectProperties.RemoveProperty("TargetExt");
 
                 project.NeedsReload = true;
                 project.NotifyModified(Helpers.RhinoPluginTypeProperty);
+                project.NotifyModified("TargetExt");
             }
 
             if (launcherChanged)
@@ -221,6 +259,16 @@ namespace Rhino.VisualStudio.Mac.OptionPanels
             if (supportsDevelopment)
                 currentLauncherEntries = currentLauncherEntries.Concat(debugLauncherEntries).ToArray();
 
+            rhinoVersions.Add("Auto");
+            foreach (var version in Helpers.RhinoVersions)
+            {
+                var rhinoPath = Helpers.FindRhinoWithVersion(version);
+                if (!string.IsNullOrEmpty(rhinoPath))
+                {
+                    rhinoVersions.Add(version.ToString());
+                }
+            }
+
             this.project = project;
             Build();
 
@@ -232,18 +280,35 @@ namespace Rhino.VisualStudio.Mac.OptionPanels
             };
             SetAutodetectLabel();
 
+            versionSelect.SelectedIndex = GetRhinoVersionIndex();
+            versionSelect.SelectedIndexChanged += (sender, e) =>
+            {
+                launcherChanged = true;
+                UpdateCustomLauncherInfo();
+            };
 
+            launcherCombo.SelectedIndex = GetLauncherComboIndex();
             launcherCombo.SelectedIndexChanged += (sender, e) =>
             {
                 launcherChanged = true;
-                SetCustomLauncherText();
+                UpdateCustomLauncherInfo();
             };
-            launcherCombo.SelectedIndex = GetLauncherComboIndex();
-            SetCustomLauncherText();
+            UpdateCustomLauncherInfo();
+        }
+        
+        int GetSelectedRhinoVersion()
+        {
+            if (launcherCombo.SelectedIndex == 0 && versionSelect.SelectedIndex > 0 && int.TryParse((string)versionSelect.SelectedValue, out var ver))
+            {
+                return ver;
+            }
+            return project.GetRhinoVersion() ?? Helpers.DefaultRhinoVersion;
         }
 
-        void SetCustomLauncherText()
+        void UpdateCustomLauncherInfo()
         {
+            versionSelectPanel.Visible = launcherCombo.SelectedIndex == 0; // auto
+
             var enableCustom = launcherCombo.SelectedIndex == 1;
             customLauncherEntry.ReadOnly = !enableCustom;
             browseButton.Enabled = enableCustom;
@@ -252,7 +317,8 @@ namespace Rhino.VisualStudio.Mac.OptionPanels
             {
                 case 0:
                     // auto detect
-                    var version = project.GetRhinoVersion() ?? Helpers.DefaultRhinoVersion;
+                    versionSelectPanel.Visible = true;
+                    var version = GetSelectedRhinoVersion();
                     var appPath = project.DetectApplicationPath(outputFileName, version);
                     customLauncherEntry.Text = appPath;
                     break;
@@ -293,15 +359,6 @@ namespace Rhino.VisualStudio.Mac.OptionPanels
         void SetAutodetectLabel()
         {
             var sbInfo = new List<Eto.Forms.Control>();
-            if (pluginTypeCombo.SelectedIndex == 0) // autodetect
-            {
-                var detectedType = project.DetectMcNeelProjectType();
-                if (detectedType != null)
-                {
-                    sbInfo.Add("Type: ");
-                    sbInfo.Add(Bold(GetTypeLabel(detectedType.Value)));
-                }
-            }
 
             var detectedVersion = project.GetRhinoVersion();
             if (detectedVersion != null)
@@ -332,9 +389,20 @@ namespace Rhino.VisualStudio.Mac.OptionPanels
             //heading.UseMarkup = true;
             //heading.Xalign = 0;
 
+            var targetExt = project.ProjectProperties.GetValue("TargetExt")?.ToLowerInvariant();
+            if (!string.IsNullOrEmpty(targetExt))
+            {
+                if (targetExt != ".gha" && targetExt != ".rhp" && targetExt != ".dll")
+                {
+                    typeEntries = typeEntries.Concat("Other").ToArray();
+                }
+            }
+
             pluginTypeCombo = new DropDown { DataStore = typeEntries };
 
             launcherCombo = new DropDown { DataStore = currentLauncherEntries };
+
+            versionSelect = new DropDown { DataStore = rhinoVersions };
 
             customLauncherEntry = new TextBox();
             customLauncherEntry.TextChanged += (sender, e) => SetBundleVersionLabel();
@@ -363,8 +431,9 @@ namespace Rhino.VisualStudio.Mac.OptionPanels
                 }
             };
 
+            versionSelectPanel = AutoSized(6, "Version:", versionSelect);
             AddRow(table, 0, "Plugin Type:", AutoSized(6, pluginTypeCombo, autodetectedTypeLabel));
-            AddRow(table, 1, "Launcher:", AutoSized(6, launcherCombo));
+            AddRow(table, 1, "Launcher:", AutoSized(6, launcherCombo, versionSelectPanel));
             AddRow(table, 2, "", AutoExpanded(6, customLauncherEntry, browseButton)); // add browse button?
             AddRow(table, 3, "", AutoSized(0, bundleInformationLabel));
 

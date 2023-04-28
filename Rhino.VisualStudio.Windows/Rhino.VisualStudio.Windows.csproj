@@ -138,7 +138,7 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Eto.Platform.Wpf" Version="2.7.1" />
+    <PackageReference Include="Eto.Platform.Wpf" Version="2.7.5" />
   </ItemGroup>
   <ItemGroup>
     <Page Include="theme\WindowStyles.xaml">
@@ -161,10 +161,10 @@
     </When>
     <When Condition="$(VSVersion) == '2022'">
       <ItemGroup>
-        <PackageReference Include="Microsoft.VisualStudio.SDK" Version="17.0.32112.339" ExcludeAssets="runtime">
+        <PackageReference Include="Microsoft.VisualStudio.SDK" Version="17.5.33428.388" ExcludeAssets="runtime">
           <IncludeAssets>compile; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
         </PackageReference>
-        <PackageReference Include="Microsoft.VSSDK.BuildTools" Version="17.3.2093">
+        <PackageReference Include="Microsoft.VSSDK.BuildTools" Version="17.5.4072">
           <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
           <PrivateAssets>all</PrivateAssets>
         </PackageReference>

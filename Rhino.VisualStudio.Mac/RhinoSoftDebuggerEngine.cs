@@ -4,32 +4,32 @@ using MonoDevelop.Debugger.Soft;
 
 namespace Rhino.VisualStudio.Mac
 {
-  public class RhinoSoftDebuggerEngine : SoftDebuggerEngine
-  {
-    public string Id => "Mono.Debugger.Soft.Rhino";
-
-    public const string DebuggerName = "RhinoCommon Plug-In Debugger";
-
-    public string Name => DebuggerName;
-
-    public override bool CanDebugCommand(ExecutionCommand cmd)
+    public class RhinoSoftDebuggerEngine : SoftDebuggerEngine
     {
-      return cmd is RhinoExecutionCommand;
-    }
+        public string Id => "Mono.Debugger.Soft.Rhino";
 
-    public override Mono.Debugging.Client.DebuggerStartInfo CreateDebuggerStartInfo(ExecutionCommand c)
-    {
-      return new RhinoDebuggerStartInfo((RhinoExecutionCommand)c);
-    }
+        public const string DebuggerName = "RhinoCommon Plug-In Debugger";
 
-    public override Mono.Debugging.Client.DebuggerSession CreateSession()
-    {
-      return new RhinoSoftDebuggerSession();
-    }
+        public string Name => DebuggerName;
 
-    public override Mono.Debugging.Client.ProcessInfo[] GetAttachableProcesses()
-    {
-      return new Mono.Debugging.Client.ProcessInfo[0];
+        public override bool CanDebugCommand(ExecutionCommand cmd)
+        {
+            return cmd is RhinoExecutionCommand rhinocmd && rhinocmd.RhinoVersion <= 7;
+        }
+
+        public override Mono.Debugging.Client.DebuggerStartInfo CreateDebuggerStartInfo(ExecutionCommand c)
+        {
+            return new RhinoDebuggerStartInfo((RhinoExecutionCommand)c);
+        }
+
+        public override Mono.Debugging.Client.DebuggerSession CreateSession()
+        {
+            return new RhinoSoftDebuggerSession();
+        }
+
+        public override Mono.Debugging.Client.ProcessInfo[] GetAttachableProcesses()
+        {
+            return new Mono.Debugging.Client.ProcessInfo[0];
+        }
     }
-  }
 }

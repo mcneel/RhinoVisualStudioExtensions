@@ -25,22 +25,22 @@
       <IncludeAssets>compile;build;native;contentfiles;analyzers;buildtransitive</IncludeAssets>
     </PackageReference>
     <PackageReference Include="Microsoft.NETFramework.ReferenceAssemblies" Version="1.0.3" PrivateAssets="all" />
-    <PackageReference Include="Eto.Platform.XamMac2" Version="2.7.1" />
+    <PackageReference Include="Eto.Platform.XamMac2" Version="2.7.5" />
     <PackageReference Include="System.Collections.Immutable" Version="5.0.0" />
   </ItemGroup>
 
   <PropertyGroup Condition="$(VSVersion) == '2022'">
-    <TargetFramework>net6.0-macos</TargetFramework>
+    <TargetFramework>net7.0-macos</TargetFramework>
     <MonoDevelopVersion>17.3</MonoDevelopVersion>
   </PropertyGroup>
   <ItemGroup Condition="$(VSVersion) == '2022'">
-    <PackageReference Include="Microsoft.VisualStudioMac.Sdk" Version="17.0.0" ExcludeAssets="runtime"/>
-    <PackageReference Include="Eto.Platform.macOS" Version="2.7.1" />
+    <PackageReference Include="Microsoft.VisualStudioMac.Sdk" Version="17.0.0" ExcludeAssets="runtime" />
+    <PackageReference Include="Eto.Platform.macOS" Version="2.7.5" />
     <PackageReference Include="System.Collections.Immutable" Version="6.0.0" />
   </ItemGroup>
   
   <ItemGroup>
-    <PackageReference Include="Eto.Forms" Version="2.7.1" />
+    <PackageReference Include="Eto.Forms" Version="2.7.5" />
   </ItemGroup>
   <ItemGroup>
     <AddinReference Include="MonoDevelop.CSharpBinding" />

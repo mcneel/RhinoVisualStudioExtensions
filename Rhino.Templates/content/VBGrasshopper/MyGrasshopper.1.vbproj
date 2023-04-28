@@ -21,12 +21,6 @@
     <PackageReference Include="Grasshopper" Version="8.0.21348.12305-wip" Condition="$(RhinoVersion) == '8'" IncludeAssets="compile;build" />
   </ItemGroup>
   
-  <PropertyGroup Condition="$(Configuration) == 'Debug' AND $([MSBuild]::IsOSPlatform(Windows))">
-    <StartProgram>C:\Program Files\Rhino 7\System\Rhino.exe</StartProgram>
-    <StartArguments></StartArguments>
-    <StartAction>Program</StartAction>
-  </PropertyGroup>
-  
   <Target Name="RenameAssembly" AfterTargets="AfterBuild">
       <Move SourceFiles="$(TargetPath)" DestinationFiles="$(TargetDir)$(TargetName).gha" />
       <Move SourceFiles="$(TargetDir)$(TargetName).pdb" DestinationFiles="$(TargetDir)$(TargetName).gha.pdb" Condition="$([MSBuild]::IsOSPlatform(OSX))" />
