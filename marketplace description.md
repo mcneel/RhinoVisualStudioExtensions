@@ -1,4 +1,4 @@
-RhinoCommon and Grasshopper template wizards for Rhino 7
+RhinoCommon and Grasshopper template wizards for Rhinoceros 3D
 
 
 ## RhinoCommon templates:
@@ -27,7 +27,7 @@ It makes setting up debugging easier and automatically references the RhinoCommo
 
 ## Related Links
 
-- [RhinoCommon samples](http://www.rhino3d.com/go/rhinocommon_guide)
+- [RhinoCommon samples](https://developer.rhino3d.com/guides/)
 - [RhinoCommon documentation](http://www.rhino3d.com/5/rhinocommon/)
 - [Grasshopper CHM help file](http://download.mcneel.com/s3b/mcneel/grasshopper/1.0/sdk/en/GrasshopperSDK.chm)
 

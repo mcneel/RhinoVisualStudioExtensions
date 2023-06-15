@@ -1,10 +1,11 @@
 ﻿using Eto.Forms;
 using Eto.Drawing;
 using System;
+using Rhino.VisualStudio.Controls;
 
 namespace Rhino.VisualStudio
 {
-    public class GrasshopperOptionsPanel : BasePageView
+    public class GrasshopperOptionsPanel : BaseRhinoPageView
     {
         public GrasshopperOptionsPanel(bool showProjectName)
         {
@@ -51,12 +52,6 @@ namespace Rhino.VisualStudio
             var rhinoLocationInvalid = new Label { Text = "Could not find Rhino.exe at the specified location.", TextColor = Global.Theme.ErrorForeground };
             rhinoLocationInvalid.BindDataContext(c => c.Visible, (BaseLocationWizardViewModel m) => m.IsLocationInvalid);
 
-            // wpf/winforms desktop
-            var useWpf = new CheckBox { Text = "Use WPF" };
-            useWpf.BindDataContext(c => c.Checked, (RhinoCommonOptionsViewModel m) => m.UseWpf);
-
-            var useWinForms = new CheckBox { Text = "Use Windows Forms" };
-            useWinForms.BindDataContext(c => c.Checked, (RhinoCommonOptionsViewModel m) => m.UseWinForms);
 
             // styles
             Styles.Add<GroupBox>(null, g => g.Padding = padding);
@@ -76,7 +71,8 @@ namespace Rhino.VisualStudio
             layout.EndVertical();
 
             // type group
-            layout.BeginGroup("First component");
+            layout.BeginVertical();
+            layout.Add(new PanelSeparator("First component"));;
             layout.AddRow("Name", componentNameTextBox);
             layout.AddRow("Nickname", componentNicknameTextBox);
             layout.BeginHorizontal();
@@ -90,31 +86,27 @@ namespace Rhino.VisualStudio
             layout.EndVertical();
             layout.AddRow("Description", componentDescriptionTextBox);
 
-            layout.EndGroup();
-
-            layout.BeginGroup("Options");
-            layout.Add(provideCommandSampleCheckBox);
-            layout.EndGroup();
-
-            var windowsDesktopUIGroup = layout.BeginGroup("Windows UI");
-            layout.BeginVertical();
-            layout.Add(useWinForms);
-            layout.Add(useWpf);
             layout.EndVertical();
-            layout.Add("Note: These options will limit the project to only run/compile on Windows.\nEto.Forms is included by default for cross-platform UI.");
-            layout.EndGroup();
 
-            var executableLocationGroup = layout.BeginGroup("Rhino.exe location");
-            layout.AddColumn(rhinoLocation, rhinoLocationInvalid);
-            layout.EndGroup();
+            layout.BeginVertical();
+            layout.Add(new PanelSeparator("Options"));
+            AddRhinoVersion(layout);
+            layout.Add(provideCommandSampleCheckBox);
+            layout.EndVertical();
+
+            AddWindowsUI(layout);
+
+            AddRhinoLocation(layout);
 
             Content = layout;
 
-            Load += (sender, e) =>
-            {
-                executableLocationGroup.GroupBox.BindDataContext(c => c.Visible, (BaseLocationWizardViewModel m) => m.ShowExecutableLocation);
-                windowsDesktopUIGroup.GroupBox.BindDataContext(c => c.Visible, (BaseDesktopWizardViewModel m) => m.ShowWindowsDesktop);
-            };
+            var information = new DynamicLayout();
+            information.AddSpace();
+            AddRhinoDownloadInfo(information);
+            information.AddSpace();
+
+            Information = information;
+
         }
     }
 }

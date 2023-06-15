@@ -1,6 +1,7 @@
 ﻿using Eto.Forms;
 using Eto.Drawing;
 using System;
+using Rhino.VisualStudio.Controls;
 
 namespace Rhino.VisualStudio
 {
@@ -51,7 +52,8 @@ namespace Rhino.VisualStudio
       layout.EndVertical();
 
       // type group
-      layout.BeginGroup("Linked ID");
+      layout.BeginVertical();
+      layout.Add(new PanelSeparator("Linked ID"));
       layout.AddCentered(@"The unique identifier, or PlugInId, of your existing Rhino plug-in.
 - C++ SDK: returned by the CRhinoPlugIn::PlugInID() override.
 - old.NET SDK: the value returned by MRhinoPlugIn.PlugInID().
@@ -62,11 +64,12 @@ namespace Rhino.VisualStudio
       layout.AddColumn(rhinoPluginId, rhinoPluginIdValid);
       layout.EndHorizontal();
       layout.EndVertical();
-      layout.EndGroup();
+      layout.EndVertical();
 
-      var executableLocationGroup = layout.BeginGroup("ZooPlugin.dll location");
+      var executableLocationGroup = layout.BeginVertical();
+      layout.Add(new PanelSeparator("ZooPlugin.dll location"));
       layout.AddColumn(zooLocation, zooLocationInvalid);
-      layout.EndGroup();
+      layout.EndVertical();
 
       Content = layout;
 

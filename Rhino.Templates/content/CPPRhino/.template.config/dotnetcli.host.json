@@ -1,0 +1,40 @@
+{
+  "$schema": "http://json.schemastore.org/dotnetcli.host",
+  "symbolInfo": {
+    "PluginType": {
+      "longName": "pluginType",
+      "shortName": "pt"
+    },
+    "IncludeSample": {
+      "longName": "include-sample",
+      "shortName": "sample"
+    },
+    "RhinoVersion": {
+      "longName": "version",
+      "shortName": "version"
+    },
+    "CommandClassName": {
+      "shortName": "command"
+    },
+    "PluginClassName": {
+      "shortName": "plugin"
+    },
+    "FileDescription": {
+      "longName": "file-description",
+      "shortName": "desc"
+    },
+    "FileExtension": {
+      "longName": "file-extension",
+      "shortName": "ext"
+    },
+    "Automation": {
+      "longName": "automation"
+    },
+    "Sockets": {
+      "longName": "sockets"
+    },
+    "SDL": {
+      "longName": "sdl"
+    }
+  }
+}

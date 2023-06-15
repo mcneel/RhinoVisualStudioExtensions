@@ -1,0 +1,236 @@
+﻿{
+  "$schema": "http://json.schemastore.org/template",
+  "author": "McNeel",
+  "classifications": [ "Rhino" ],
+  "name": "Rhino 3D C++ Plug-In (Windows only)",
+  "description": "Build plug-ins for Rhino 3D using the C++ SDK",
+  "identity": "Rhino.Plugin.CPP",
+  "groupIdentity": "Rhino.Plugin.Cpp",
+  "shortName": "cpprhino",
+  "tags": {
+    "language": "cpp",
+    "type": "project"
+  },
+  "sourceName": "MyRhino.1",
+  "preferNameDirectory": true,
+  "symbols": {
+    "PluginType": {
+      "type": "parameter",
+      "datatype": "choice",
+      "description": "Type of plugin to create",
+      "defaultValue": "utility",
+      "replaces": "utility",
+      "choices": [
+        {
+          "choice": "utility",
+          "description": "A generic utility plug-in"
+        },
+        {
+          "choice": "digitize",
+          "description": "A digitizer plug-in"
+        },
+        {
+          "choice": "render",
+          "description": "A rendering plug-in"
+        },
+        {
+          "choice": "import",
+          "description": "A file import plug-in"
+        },
+        {
+          "choice": "export",
+          "description": "A file export plug-in"
+        }
+      ]
+    },
+    "IncludeSample": {
+      "type": "parameter",
+      "description": "Include code sample (for utility plugins only).",
+      "dataType": "bool",
+      "defaultValue": "false"
+    },
+    "RhinoVersion": {
+      "type": "parameter",
+      "description": "Version of Rhino",
+      "datatype": "choice",
+      "defaultValue": "7",
+      "choices": [
+        {
+          "choice": "7",
+          "description": "Version 7"
+        },
+        {
+          "choice": "8",
+          "description": "Version 8 (WIP)"
+        }
+      ]
+    },
+    "Automation": {
+      "type": "parameter",
+      "description": "Exposes DLL objects to scripting tools and other applications.",
+      "datatype": "bool",
+      "defaultValue": "false"
+    },
+    "Sockets": {
+      "type": "parameter",
+      "description": "Includes support for MFC Windows Sockets in the DLL.",
+      "datatype": "bool",
+      "defaultValue": "false"
+    },
+    "SDL": {
+      "type": "parameter",
+      "description": "Enable additional Security Development Lifecycle (SDL) checks.",
+      "datatype": "bool",
+      "defaultValue": "true"
+    },
+    "CommandClassName": {
+      "type": "parameter",
+      "description": "Name of the command class.",
+      "datatype": "text",
+      "replaces": "CommandMyRhino__1"
+    },
+    "PluginClassName": {
+      "type": "parameter",
+      "description": "Name of the plugin class.",
+      "datatype": "text",
+      "replaces": "MyRhino__1PlugIn",
+      "fileRename": "MyRhino__1PlugIn"
+    },
+    "FileExtension": {
+      "type": "parameter",
+      "description": "Extension for file import/export plugin types (e.g. 'myext')",
+      "datatype": "text",
+      "replaces": "myext"
+    },
+    "FileDescription": {
+      "type": "parameter",
+      "description": "Description of the file for import/export types",
+      "datatype": "text",
+      "replaces": "MyFileDescription"
+    },
+    
+    "TypeUtility": {
+      "type": "computed",
+      "value": "PluginType == \"utility\""
+    },
+    "TypeDigitize": {
+      "type": "computed",
+      "value": "PluginType == \"digitize\""
+    },
+    "TypeRender": {
+      "type": "computed",
+      "value": "PluginType == \"render\""
+    },
+    "TypeImport": {
+      "type": "computed",
+      "value": "PluginType == \"import\""
+    },
+    "TypeExport": {
+      "type": "computed",
+      "value": "PluginType == \"export\""
+    },
+    "HostIdentifier": {
+      "type": "bind",
+      "binding": "HostIdentifier"
+    },
+    "copyrightYear": {
+      "type": "generated",
+      "generator": "now",
+      "replaces": "2023",
+      "parameters": {
+        "format": "yyyy"
+      }
+    }
+  },
+  "sources": [
+    {
+      "modifiers": [
+        {
+          "rename": {
+            "MyRhino.1.vcxproj.user_file": "MyRhino.1.vcxproj.user"
+          }
+        },
+        {
+          "condition": "PluginType != 'utility'",
+          "exclude": [ "res/Utility.ico" ]
+        },
+        {
+          "condition": "PluginType != 'digitize'",
+          "exclude": [ "res/Digitizer.ico" ]
+        },
+        {
+          "condition": "PluginType != 'render'",
+          "exclude": [ 
+            "res/Render.ico",
+            "MyRhino.1EventWatcher.h",
+            "MyRhino.1EventWatcher.cpp",
+            "MyRhino.1Material.h",
+            "MyRhino.1Material.cpp",
+            "MyRhino.1MaterialSection.h",
+            "MyRhino.1MaterialSection.cpp",
+            "MyRhino.1RdkPlugIn.h",
+            "MyRhino.1RdkPlugIn.cpp",
+            "MyRhino.1SdkRender.h",
+            "MyRhino.1SdkRender.cpp"
+           ]
+        },
+        {
+          "condition": "PluginType != 'import'",
+          "exclude": [ "res/Import.ico" ]
+        },
+        {
+          "condition": "PluginType != 'export'",
+          "exclude": [ "res/Export.ico" ]
+        },
+        {
+          "condition": "!Automation",
+          "exclude": [ "MyRhino.1.idl" ]
+        },
+        {
+          "condition": "PluginType == 'import'",
+          "rename": { "res/Import.ico": "res/MyRhino.1.ico" }
+        },
+        {
+          "condition": "PluginType == 'export'",
+          "rename": { "res/Export.ico": "res/MyRhino.1.ico" }
+        },
+        {
+          "condition": "PluginType == 'utility'",
+          "rename": { "res/Utility.ico": "res/MyRhino.1.ico" }
+        },
+        {
+          "condition": "PluginType == 'digitize'",
+          "rename": { "res/Digitizer.ico": "res/MyRhino.1.ico" }
+        },
+        {
+          "condition": "PluginType == 'render'",
+          "rename": { "res/Render.ico": "res/MyRhino.1.ico" }
+        }
+      ]
+    }
+  ],
+  "primaryOutputs": [
+    { "path": "cmdMyRhino.1.cpp" },
+    { "path": "MyRhino.1.vcxproj" }
+  ],
+  "guids": [
+    "4FFB7B14-A8B1-4E8B-B431-671248EA137B",
+    "C5E2B8AA-DBC9-4935-9FEF-4CE141D0DE4D",
+    "80A47E60-E77D-4299-BA1F-F84B53304756",
+    "FDA47E8B-9A7C-4E36-A91A-62347D5828FA",
+    "F31C1E52-8156-44DB-B912-0F86B8766E78",
+    "C9B426F6-A09A-410E-842E-296D084AE6A7"
+  ],
+  "postActions": [
+    {
+      "condition": "(HostIdentifier != \"dotnetcli\" && HostIdentifier != \"dotnetcli-preview\")",
+      "description": "Opens the command in the editor",
+      "manualInstructions": [],
+      "actionId": "84C0DA21-51C8-4541-9940-6CA19AF04EE6",
+      "args": {
+        "files": "1"
+      },
+      "continueOnError": true
+    }
+  ]
+}

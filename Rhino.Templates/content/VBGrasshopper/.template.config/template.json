@@ -6,7 +6,7 @@
         "Grasshopper"
     ],
     "name": "Grasshopper Assembly",
-    "description": "A new Grasshopper Assembly that can be easily debugged and automatically launch Rhino.",
+    "description": "A new Grasshopper Assembly that can be easily debugged in Rhino.",
     "identity": "Grasshopper.Component.VB",
     "groupIdentity": "Grasshopper.Component",
     "shortName": "grasshopper",

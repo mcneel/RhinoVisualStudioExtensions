@@ -1,0 +1,10 @@
+// MyRhino.1.idl : type library source for MyRhino.1.dll
+// This file will be processed by the MIDL compiler to produce the
+// type library (MyRhino.1.tlb).
+
+[ uuid(C5E2B8AA-DBC9-4935-9FEF-4CE141D0DE4D), version(1.0) ]
+library MyRhino__1
+{
+	importlib("stdole32.tlb");
+	importlib("stdole2.tlb");
+};

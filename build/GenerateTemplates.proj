@@ -8,10 +8,11 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <RhinoVersion Include="6" />
-    <RhinoVersion Include="7" />
+    <!-- <RhinoVersion Include="6" /> -->
     <RhinoVersion Include="8" />
+    <RhinoVersion Include="7" />
 
+    <Language Include="cpp" Value="" />
     <Language Include="CS" Value="" />
     <Language Include="VB" Value="-lang VB" />
 
@@ -19,28 +20,81 @@
     <Desktop Include="Wpf" Value="-wpf" />
     <Desktop Include="WinForms" Value="-wf" />
 
-    <TeplatePackage Include="$(ArtifactsDir)bin\Rhino.Templates\Debug\Rhino.Templates.$(PackageVersion).nupkg" />
+    <TemplatePackage Include="$(ArtifactsDir)bin\Rhino.Templates\Debug\Rhino.Templates.$(PackageVersion).nupkg" />
   </ItemGroup>
+  
+  <Target Name="GetVSMSBuild">
+    <Exec Command="&quot;%ProgramFiles(x86)%\Microsoft Visual Studio\Installer\vswhere.exe&quot; -version &quot;[16,17)&quot; -latest -products * -requires Microsoft.Component.MSBuild -find MSBuild\**\Bin\MSBuild.exe"
+          ConsoleToMSBuild="true">
+      <Output TaskParameter="ConsoleOutput" PropertyName="VSMSBuild" />
+    </Exec>
+    <PropertyGroup>
+      <VSMSBuild>&quot;$(VSMSBuild)&quot;</VSMSBuild>
+    </PropertyGroup>
+  </Target>
 
   <Target Name="CleanTemplates">
     <RemoveDir Directories="$(TemplateDir)"/>
     
     <!-- install the current version of the templates -->
-    <Exec Command="dotnet new -i @(TeplatePackage)" />
+    <Exec Command="dotnet new uninstall Rhino.Templates" IgnoreExitCode="True" />
+    <Exec Command="dotnet new install @(TemplatePackage)" />
   </Target>
 
-  <Target Name="GenerateTemplates" DependsOnTargets="CleanTemplates;GrasshopperTemplates;ZooTemplates;RhinoCommonTemplates;" > 
+  <Target Name="GenerateTemplates" DependsOnTargets="CleanTemplates;CppRhinoTemplates" > 
   </Target>
+  
+  <Target Name="CppRhinoTemplates" DependsOnTargets="GetVSMSBuild">
+    <!-- generate Rhino C++ templates -->
+    <ItemGroup>
+      <PluginType Include="Digitize" Value="-pt digitize" />
+      <PluginType Include="Export" Value="-pt export" />
+      <PluginType Include="Import" Value="-pt import" />
+      <PluginType Include="Render" Value="-pt render" />
+      <PluginType Include="Utility-Sample" Value="-pt utility --include-sample" />
+      <PluginType Include="Utility" Value="-pt utility" />
+
+      <!-- Test all the different options -->
+      <PluginOptions Include="Default" Value="" />
+      <PluginOptions Include="Automation" Value="--automation" />
+      <PluginOptions Include="Sockets" Value="--sockets" />
+      <PluginOptions Include="NoSDL" Value="--sdl=false" />
+      <PluginOptions Include="AutomationSockets" Value="--automation --sockets" />
+
+      <!-- Test using a different custom command and plugin name -->
+      <CustomName Include="DefaultName" Value="" PathSuffix="" />
+      <CustomName Include="CustomName" Value="-command SomeCommand -plugin AwesomePlugin" PathSuffix="_CustomName" />
+
+      <!-- Stitch everything together -->
+      <Options1 Include="*" TypeId="%(PluginType.Identity)" Type="%(PluginType.Value)" />
+      <Options2 Include="@(Options1)" PluginOptionsId="%(PluginOptions.Identity)" PluginOptions="%(PluginOptions.Value)" />
+      <Options3 Include="@(Options2)" VersionId="%(RhinoVersion.Identity)" Version="--version %(RhinoVersion.Identity)" />
+      <Options Include="@(Options3)" CustomNameId="%(CustomName.Identity)" CustomName="%(CustomName.Value)" PathSuffix="%(CustomName.PathSuffix)" />
+      
+      <!-- Set the output directory -->
+      <Options Update="@(Options)" OutputDir="CppRhino/%(TypeId)%(VersionId)%(PluginOptionsId)%(PathSuffix)/" />
+
+      <!-- Commands to generate then build -->
+      <Options Update="@(Options)" GenerateCommand="dotnet new cpprhino %(Options.Type) %(Version) %(PluginOptions) %(CustomName) -o &quot;$(TemplateDir)%(OutputDir)&quot;" />
+      <!-- <Options Update="@(Options)" BuildCommand="&amp;&amp; cd &quot;$(TemplateDir)%(OutputDir)&quot; &amp;&amp; $(VSMSBuild) /p:Platform=x64" /> -->
+      <Options Update="@(Options)" Command="%(Options.GenerateCommand) %(Options.BuildCommand)" />
+      
+    </ItemGroup>
+
+    <Exec Command="%(Options.Command)" />
+    
+  </Target>
+  
 
   <Target Name="RhinoCommonTemplates">
     <!-- generate RhinoCommon templates -->
     <ItemGroup>
-      <PluginType Include="Digitize" Value="-t digitize" />
-      <PluginType Include="Export" Value="-t export" />
-      <PluginType Include="Import" Value="-t import" />
-      <PluginType Include="Render" Value="-t render" />
-      <PluginType Include="Utility-Sample" Value="-t utility --include-sample" />
-      <PluginType Include="Utility" Value="-t utility" />
+      <PluginType Include="Digitize" Value="-pt digitize" />
+      <PluginType Include="Export" Value="-pt export" />
+      <PluginType Include="Import" Value="-pt import" />
+      <PluginType Include="Render" Value="-pt render" />
+      <PluginType Include="Utility-Sample" Value="-pt utility --include-sample" />
+      <PluginType Include="Utility" Value="-pt utility" />
 
       <Options2 Include="*" DesktopId="%(Desktop.Identity)" Desktop="%(Desktop.Value)" />
       <Options1 Include="@(Options2)" VersionId="%(RhinoVersion.Identity)" Version="%(RhinoVersion.Identity)" />

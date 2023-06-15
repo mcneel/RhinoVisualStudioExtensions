@@ -2,17 +2,17 @@
 <PackageManifest Version="2.0.0" xmlns="http://schemas.microsoft.com/developer/vsx-schema/2011" xmlns:d="http://schemas.microsoft.com/developer/vsx-schema-design/2011">
     <Metadata>
         <Identity Id="F9D86CA0-D45A-42B6-ABA4-77AE7471C34F" Version="7.28.0.0" Language="en-US" Publisher="McNeel" />
-        <DisplayName>RhinoCommon and Grasshopper templates for Rhino 7</DisplayName>
-        <Description xml:space="preserve">Adds plug-in, command and zoo wizards for RhinoCommon and Grasshopper projects. This includes digitizer, render, import and export plug-ins. Makes setting up debugging easier and automatically references RhinoCommon.dll. Rhino 7 is a requirement for this wizard to operate correctly.
+        <DisplayName>Project templates for Rhino 3D</DisplayName>
+        <Description xml:space="preserve">Adds plug-in, command and zoo wizards for C++, RhinoCommon and Grasshopper projects. This includes digitizer, render, import and export plug-ins. Makes setting up debugging easier and automatically references RhinoCommon. Rhino is a requirement for this wizard to operate correctly.
 
 For more information about RhinoCommon, see the Rhino wiki website at
-http://www.rhino3d.com/go/rhinocommon_guide .
+https://developer.rhino3d.com/guides/ .
 
 For support about this wizard, write on the McNeel Discourse website at http://discourse.mcneel.com/ 
 
-Copyright (c) 2016-2022 Robert McNeel and Associates. All rights reserved.</Description>
+Copyright (c) 2016-2023 Robert McNeel and Associates. All rights reserved.</Description>
         <License>license.rtf</License>
-        <GettingStartedGuide>http://www.rhino3d.com/go/rhinocommon_guide</GettingStartedGuide>
+        <GettingStartedGuide>https://developer.rhino3d.com/guides/</GettingStartedGuide>
         <Icon>icon.ico</Icon>
         <PreviewImage>rhino.png</PreviewImage>
         <Tags>rhinocommon grasshopper</Tags>

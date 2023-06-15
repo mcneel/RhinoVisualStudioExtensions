@@ -3,7 +3,7 @@
     "author": "McNeel",
     "classifications": [ "Rhino", "RhinoCommon" ],
     "name": "RhinoCommon Plug-In",
-    "description": "A new RhinoCommon plug-in that can be easily debugged and automatically launch Rhino.",
+    "description": "A new RhinoCommon plug-in that can be easily debugged in Rhino.",
     "identity": "Rhino.Plugin.VB",
     "groupIdentity": "Rhino.Plugin",
     "shortName": "rhino",
