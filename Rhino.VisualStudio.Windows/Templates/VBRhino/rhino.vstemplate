@@ -2,7 +2,7 @@
 <VSTemplate Version="3.0.0" Type="ProjectGroup" xmlns="http://schemas.microsoft.com/developer/vstemplate/2005" xmlns:sdk="http://schemas.microsoft.com/developer/vstemplate-sdkextension/2010">
     <TemplateData>
         <Name>RhinoCommon Plug-In for Rhino 3D (VB)</Name>
-        <Description>A new RhinoCommon plug-in that can be easily debugged in Rhino</Description>
+        <Description>Build plug-ins for Rhino 3D with RhinoCommon in VB.NET</Description>
         <NumberOfParentCategoriesToRollUp>1</NumberOfParentCategoriesToRollUp>
 
         <SortOrder>20</SortOrder>

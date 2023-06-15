@@ -28,6 +28,6 @@ namespace Rhino.VisualStudio
         public static IPlatformHelpers Helpers => Platform.Instance.CreateShared<IPlatformHelpers>();
 
         public static int LatestSdkRelease { get; internal set; } = 7;
-        public static readonly int[] VersionsToCheck = { 9, 8, 7, 6 };
+        public static readonly int[] VersionsToCheck = { 8, 7, 6 };
     }
 }

@@ -2,8 +2,8 @@
     "$schema": "http://json.schemastore.org/template",
     "author": "McNeel",
     "classifications": [ "Rhino", "RhinoCommon" ],
-    "name": "RhinoCommon Plug-In",
-    "description": "A new RhinoCommon plug-in that can be easily debugged in Rhino.",
+    "name": "RhinoCommon Plug-In for Rhino 3D",
+    "description": "Build plug-ins for Rhino 3D with RhinoCommon in VB.NET",
     "identity": "Rhino.Plugin.VB",
     "groupIdentity": "Rhino.Plugin",
     "shortName": "rhino",
@@ -70,9 +70,13 @@
             ]
         },
         "RhinoLocation": {
-            "type": "parameter",
-            "description": "Location of Rhino.exe, usually C:\\Program Files\\Rhino 7\\System\\Rhino.exe",
-            "replaces": "C:\\Program Files\\Rhino 7\\System\\Rhino.exe"
+          "type": "parameter",
+          "description": "Location of Rhino.exe, usually C:\\Program Files\\Rhino 7\\System\\Rhino.exe",
+          "replaces": "MyExecutablePath",
+          "forms": {
+            "global": [ "JsonStringEncode" ]
+          },
+          "defaultValue": "C:\\Program Files\\Rhino 7\\System\\Rhino.exe"
         },
         "CommandClassName": {
             "type": "parameter",
@@ -142,6 +146,13 @@
             "type": "bind",
             "binding": "HostIdentifier"
         }
+    },
+    "forms": {
+      "JsonStringEncode": {
+        "identifier": "replace",
+        "pattern": "\\\\",      
+        "replacement": "\\\\"  
+      }    
     },
     "sources": [
         {

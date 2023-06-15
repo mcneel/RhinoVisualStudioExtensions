@@ -13,7 +13,7 @@ namespace Rhino.VisualStudio
         string _commandClassName;
         public string CommandClassName
         {
-            get => _commandClassName ?? Utility.GetSafeName(ProjectName, "Command", "Plugin");
+            get => _commandClassName ?? Utility.GetSafeName(ProjectName, "Command", "Plugin", "Addin");
             set
             {
                 if (Set(ref _commandClassName, value))
@@ -42,7 +42,7 @@ namespace Rhino.VisualStudio
         string _pluginClassName;
         public string PluginClassName
         {
-            get => _pluginClassName ?? Utility.GetSafeName(ProjectName, "Plugin", "Command");
+            get => _pluginClassName ?? Utility.GetSafeName(ProjectName, "Plugin", "Command", "Addin");
             set
             {
                 if (Set(ref _pluginClassName, value))

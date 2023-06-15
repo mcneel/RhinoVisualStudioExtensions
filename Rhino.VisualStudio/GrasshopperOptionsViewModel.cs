@@ -12,7 +12,7 @@ namespace Rhino.VisualStudio
 
         public string ComponentClassName
         {
-            get => _componentClassName ?? Utility.GetSafeName(ProjectName, "Component", "Component", "Components", "Plugin");
+            get => _componentClassName ?? Utility.GetSafeName(ProjectName, "Component", "Component", "Components", "Plugin", "Addin");
             set
             {
                 if (Set(ref _componentClassName, value))

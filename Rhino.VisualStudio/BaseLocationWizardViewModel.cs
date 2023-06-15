@@ -84,6 +84,8 @@ namespace Rhino.VisualStudio
             if (Host == null)
                 return;
 
+            Host.SetParameter("RhinoVersion", RhinoVersion.ToString());
+
             if (ShowExecutableLocation)
             {
                 Host.SetParameter("RhinoLocation", ExecutableLocation);

@@ -1,7 +1,8 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>net5.0;net47</TargetFrameworks>
+    <TargetFrameworks Condition="$(VSVersion) == '2019'">net5.0;net47</TargetFrameworks>
+    <TargetFrameworks Condition="$(VSVersion) != '2019'">net7.0;net47</TargetFrameworks>
   </PropertyGroup>
 
   <PropertyGroup>

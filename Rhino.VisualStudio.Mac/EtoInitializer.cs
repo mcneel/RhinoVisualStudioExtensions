@@ -1,4 +1,5 @@
 using System;
+using System.Diagnostics;
 using Eto;
 using Eto.Forms;
 
@@ -44,7 +45,7 @@ namespace Rhino.VisualStudio.Mac
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"{ex}");
+                Debug.WriteLine($"{ex}");
             }
         }
     }

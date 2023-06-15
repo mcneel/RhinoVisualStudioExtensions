@@ -2,7 +2,7 @@
   "profiles": {
     "MyGrasshopper.1": {
       "commandName": "Executable",
-      "executablePath": "C:\\Program Files\\Rhino 7\\System\\Rhino.exe",
+      "executablePath": "MyExecutablePath",
       "commandLineArgs": ""
     }
   }

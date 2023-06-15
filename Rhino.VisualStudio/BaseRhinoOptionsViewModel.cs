@@ -67,7 +67,6 @@ namespace Rhino.VisualStudio
             if (Host == null)
                 return;
             Host.SetParameter("PluginType", PluginType);
-            Host.SetParameter("RhinoVersion", RhinoVersion.ToString());
             if (CanProvideSample)
             {
                 Host.SetParameter("IncludeSample", IncludeSample.ToString());

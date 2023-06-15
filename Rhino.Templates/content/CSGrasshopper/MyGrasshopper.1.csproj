@@ -6,7 +6,8 @@
 	
   <PropertyGroup>
     <TargetFramework Condition="$(RhinoVersion) == '6'">net45</TargetFramework>
-    <TargetFramework Condition="$(RhinoVersion) != '6'">net48</TargetFramework>
+    <TargetFramework Condition="$(RhinoVersion) == '7'">net48</TargetFramework>
+    <TargetFrameworks Condition="$(RhinoVersion) == '8'">net7.0;net48</TargetFrameworks>
     <Version>1.0</Version>
     <Title>MyGrasshopper.1</Title>
     <Description>Description of MyGrasshopper.1</Description>
@@ -18,7 +19,7 @@
   <ItemGroup>
     <PackageReference Include="Grasshopper" Version="6.35.21222.17001" Condition="$(RhinoVersion) == '6'" IncludeAssets="compile;build" />
     <PackageReference Include="Grasshopper" Version="7.13.21348.13001" Condition="$(RhinoVersion) == '7'" IncludeAssets="compile;build" />
-    <PackageReference Include="Grasshopper" Version="8.0.21348.12305-wip" Condition="$(RhinoVersion) == '8'" IncludeAssets="compile;build" />
+    <PackageReference Include="Grasshopper" Version="8.0.23164.14305-wip" Condition="$(RhinoVersion) == '8'" IncludeAssets="compile;build" />
   </ItemGroup>
 
 </Project>

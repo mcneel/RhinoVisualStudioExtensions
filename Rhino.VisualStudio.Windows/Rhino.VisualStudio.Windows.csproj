@@ -81,6 +81,7 @@
     </Content>
     <Content Include="$(ArtifactsDir)bin\Rhino.Templates\$(Configuration)\Rhino.Templates.$(Version).nupkg">
       <Link>Rhino.Templates.$(Version).nupkg</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       <IncludeInVSIX>true</IncludeInVSIX>
     </Content>
     <Content Include="template.pkgdef">
