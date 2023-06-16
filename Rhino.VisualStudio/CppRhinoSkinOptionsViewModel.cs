@@ -4,22 +4,9 @@ using Microsoft.Win32;
 
 namespace Rhino.VisualStudio
 {
-    public class CppRhinoPluginOptionsViewModel : BaseRhinoOptionsViewModel
+    public class CppRhinoSkinOptionsViewModel : BaseRhinoOptionsViewModel
     {
-        public override string ProjectTitle => "New Rhino C++ Plug-In";
-
-        string _commandName;
-        public string CommandName
-        {
-            get => _commandName ?? Utility.GetSafeNamePrefixSuffix(ProjectName, null, null, "PlugIn", "Command");
-            set
-            {
-                if (Set(ref _commandName, value))
-                {
-                    OnPropertyChanged(nameof(IsValid));
-                }
-            }
-        }
+        public override string ProjectTitle => "New Rhino C++ Skin";
 
         string _projectName;
         public override string ProjectName
@@ -29,7 +16,6 @@ namespace Rhino.VisualStudio
             {
                 if (Set(ref _projectName, value))
                 {
-                    OnPropertyChanged(nameof(CommandName));
                     OnPropertyChanged(nameof(IsValid));
                     OnPropertyChanged(nameof(IsProjectNameInvalid));
                 }
@@ -43,27 +29,15 @@ namespace Rhino.VisualStudio
             set => Set(ref _useSDL, value);
         }
 
-        bool _useAutomation;
-        public bool UseAutomation
+        bool _useCustomMenus = true;
+        public bool UseCustomMenus
         {
-            get => _useAutomation;
-            set => Set(ref _useAutomation, value);
-        }
-
-        bool _useSockets;
-        public bool UseSockets
-        {
-            get => _useSockets;
-            set => Set(ref _useSockets, value);
-        }
-
-        public CppRhinoPluginOptionsViewModel()
-        {
+            get => _useCustomMenus;
+            set => Set(ref _useCustomMenus, value);
         }
 
         public override bool IsValid =>
           !IsProjectNameInvalid
-          && Utility.IsValidIdentifier(CommandName)
           && !IsLocationInvalid
           && IsRhinoVersionValid;
 
@@ -73,9 +47,7 @@ namespace Rhino.VisualStudio
             if (Host == null)
                 return;
 
-            Host.SetParameter("CommandName", CommandName);
-            Host.SetParameter("Automation", UseAutomation.ToString());
-            Host.SetParameter("Sockets", UseSockets.ToString());
+            Host.SetParameter("CustomMenus", UseCustomMenus.ToString());
             Host.SetParameter("SDL", UseSDL.ToString());
         }
 

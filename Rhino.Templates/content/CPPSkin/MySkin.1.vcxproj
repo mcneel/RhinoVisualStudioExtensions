@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|x64">
@@ -11,55 +11,34 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="cmdMyRhino__1Command.cpp" />
-    <ClCompile Include="MyRhino.1App.cpp" />
-    <ClCompile Include="MyRhino.1PlugIn.cpp" />
-<!--#if (TypeRender)-->
-    <ClCompile Include="MyRhino.1RdkPlugIn.cpp" />
-    <ClCompile Include="MyRhino.1EventWatcher.cpp" />
-    <ClCompile Include="MyRhino.1Material.cpp" />
-    <ClCompile Include="MyRhino.1MaterialSection.cpp" />
-    <ClCompile Include="MyRhino.1SdkRender.cpp" />
-<!--#endif-->
+    <ClCompile Include="MySkin.1App.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="MyRhino.1App.h" />
-    <ClInclude Include="MyRhino.1PlugIn.h" />
-<!--#if (TypeRender)-->
-    <ClInclude Include="MyRhino.1RdkPlugIn.h" />
-    <ClInclude Include="MyRhino.1EventWatcher.h" />
-    <ClInclude Include="MyRhino.1Material.h" />
-    <ClInclude Include="MyRhino.1MaterialSection.h" />
-    <ClInclude Include="MyRhino.1SdkRender.h" />
-<!--#endif-->
+    <ClInclude Include="MySkin.1App.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="MyRhino.1.def" />
-    <None Include="res\MyRhino.1.rc2" />
-  </ItemGroup>
-<!--#if (Automation)-->
-  <ItemGroup>
-    <Midl Include="MyRhino.1.idl" />
-  </ItemGroup>
-<!--#endif-->
-  <ItemGroup>
-    <ResourceCompile Include="MyRhino.1.rc" />
+    <None Include="MySkin.1.def" />
+    <None Include="res\MySkin.1.rc2" />
   </ItemGroup>
   <ItemGroup>
-    <Image Include="res\MyRhino.1.ico" />
+    <ResourceCompile Include="MySkin.1.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="res\MySkin.1.bmp" />
+    <Image Include="res\MySkin.1.ico" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
     <Keyword>MFCDLLProj</Keyword>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
-    <ProjectGuid>{FDA47E8B-9A7C-4E36-A91A-62347D5828FA}</ProjectGuid>
+    <ProjectGuid>{991D78A0-49C9-47D6-B7AD-C7B10433ECF6}</ProjectGuid>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
@@ -89,11 +68,11 @@
   </PropertyGroup>
   <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="PropertySheets">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
-    <Import Project="$(RhinoSdkPath)PropertySheets\Rhino.Cpp.PlugIn.props" />
+    <Import Project="$(RhinoSdkPath)PropertySheets\Rhino.Cpp.PlugInComponent.props" />
   </ImportGroup>
   <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="PropertySheets">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
-    <Import Project="$(RhinoSdkPath)PropertySheets\Rhino.Cpp.PlugIn.props" />
+    <Import Project="$(RhinoSdkPath)PropertySheets\Rhino.Cpp.PlugInComponent.props" />
   </ImportGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>

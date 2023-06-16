@@ -2,7 +2,7 @@
   <PropertyGroup>
     <AssemblyTitle>Rhino.VisualStudio.Mac</AssemblyTitle>
     <Company>Robert McNeel &amp; Associates</Company>
-    <Copyright>2022 Robert McNeel and Associates</Copyright>
+    <Copyright>2023 Robert McNeel and Associates</Copyright>
     <CreatePackage>True</CreatePackage>
     <DefineConstants>MAC;VS$(VSVersion)</DefineConstants>
 

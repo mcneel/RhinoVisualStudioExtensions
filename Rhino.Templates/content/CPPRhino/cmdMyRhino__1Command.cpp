@@ -1,4 +1,4 @@
-// cmdMyRhino.1.cpp : command file
+// cmdMyRhino__1Command.cpp : command file
 //
 
 #include "stdafx.h"
@@ -7,33 +7,33 @@
 ////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////
 //
-// BEGIN MyRhino__1 command
+// BEGIN MyRhino__1Command command
 //
 
-#pragma region MyRhino__1 command
+#pragma region MyRhino__1Command command
 
-// Do NOT put the definition of class CCommandMyRhino__1 in a header
-// file. There is only ONE instance of a CCommandMyRhino__1 class
-// and that instance is the static theMyRhino__1Command that appears
+// Do NOT put the definition of class CCommandMyRhino__1Command in a header
+// file. There is only ONE instance of a CCommandMyRhino__1Command class
+// and that instance is the static theMyRhino__1CommandCommand that appears
 // immediately below the class definition.
 
-class CCommandMyRhino__1 : public CRhinoCommand
+class CCommandMyRhino__1Command : public CRhinoCommand
 {
 public:
-  // The one and only instance of CCommandMyRhino__1 is created below.
+  // The one and only instance of CCommandMyRhino__1Command is created below.
   // No copy constructor or operator= is required.
   // Values of member variables persist for the duration of the application.
 
-  // CCommandMyRhino__1::CCommandMyRhino__1()
-  // is called exactly once when static theMyRhino__1Command is created.
-  CCommandMyRhino__1() = default;
+  // CCommandMyRhino__1Command::CCommandMyRhino__1Command()
+  // is called exactly once when static theMyRhino__1CommandCommand is created.
+  CCommandMyRhino__1Command() = default;
 
-  // CCommandMyRhino__1::~CCommandMyRhino__1()
-  // is called exactly once when static theMyRhino__1Command is destroyed.
+  // CCommandMyRhino__1Command::~CCommandMyRhino__1Command()
+  // is called exactly once when static theMyRhino__1CommandCommand is destroyed.
   // The destructor should not make any calls to the Rhino SDK. 
   // If your command has persistent settings, then override 
   // CRhinoCommand::SaveProfile and CRhinoCommand::LoadProfile.
-  ~CCommandMyRhino__1() = default;
+  ~CCommandMyRhino__1Command() = default;
 
   // Returns a unique UUID for this command.
   // If you try to use an id that is already being used, then
@@ -41,28 +41,28 @@ public:
   UUID CommandUUID() override
   {
     // {80A47E60-E77D-4299-BA1F-F84B53304756}
-    static const GUID MyRhino__1Command_UUID = 
+    static const GUID MyRhino__1CommandCommand_UUID = 
     { 0x80a47e60, 0xe77d, 0x4299, { 0xba, 0x1f, 0xf8, 0x4b, 0x53, 0x30, 0x47, 0x56 } };
-    return MyRhino__1Command_UUID;
+    return MyRhino__1CommandCommand_UUID;
   }
 
   // Returns the English command name.
   // If you want to provide a localized command name, then override 
   // CRhinoCommand::LocalCommandName.
-  const wchar_t* EnglishCommandName() override { return L"MyRhino__1"; }
+  const wchar_t* EnglishCommandName() override { return L"MyRhino__1Command"; }
 
   // Rhino calls RunCommand to run the command.
   CRhinoCommand::result RunCommand(const CRhinoCommandContext& context) override;
 };
 
-// The one and only CCommandMyRhino__1 object
-// Do NOT create any other instance of a CCommandMyRhino__1 class.
-static class CCommandMyRhino__1 theMyRhino__1Command;
+// The one and only CCommandMyRhino__1Command object
+// Do NOT create any other instance of a CCommandMyRhino__1Command class.
+static class CCommandMyRhino__1Command theMyRhino__1CommandCommand;
 
-CRhinoCommand::result CCommandMyRhino__1::RunCommand(const CRhinoCommandContext& context)
+CRhinoCommand::result CCommandMyRhino__1Command::RunCommand(const CRhinoCommandContext& context)
 {
-  // CCommandMyRhino__1::RunCommand() is called when the user
-  // runs the "MyRhino__1".
+  // CCommandMyRhino__1Command::RunCommand() is called when the user
+  // runs the "MyRhino__1Command".
 
   // TODO: Add command code here.
 
@@ -92,7 +92,7 @@ CRhinoCommand::result CCommandMyRhino__1::RunCommand(const CRhinoCommandContext&
 #pragma endregion
 
 //
-// END MyRhino__1 command
+// END MyRhino__1Command command
 //
 ////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////

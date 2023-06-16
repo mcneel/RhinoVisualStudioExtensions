@@ -25,9 +25,9 @@
     <TemplateContent>
         <ProjectCollection/>
         <CustomParameters>
-            <CustomParameter Name = "$language$" Value="VB" />
-            <CustomParameter Name = "$uistyle$" Value="none"/>
-            <CustomParameter Name = "$groupid$" Value="Grasshopper.Component" />
+            <CustomParameter Name="$language$" Value="VB" />
+            <CustomParameter Name="$uistyle$" Value="none"/>
+            <CustomParameter Name="$groupid$" Value="Grasshopper.Component" />
             <CustomParameter Name="SideWaffleNewProjNode" Value="Project\VisualBasic\Rhino"/>
             <CustomParameter Name="SupportedParameters" Value="ExecutableLocation;WindowsDesktop"/>
         </CustomParameters>

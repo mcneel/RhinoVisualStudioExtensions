@@ -134,7 +134,7 @@ public:
 private:
   ON_wString m_plugin_version;
 #if TypeRender
-  CMyRhino.1EventWatcher m_event_watcher;
+  CMyRhino__1EventWatcher m_event_watcher;
   CMyRhino__1RdkPlugIn* m_pRdkPlugIn;
 #endif
 

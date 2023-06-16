@@ -47,7 +47,7 @@ RHINO_PLUG_IN_ICON_RESOURCE_ID(IDI_ICON);
 // must be present or your plug-in will not load.
 //
 // When completed, delete the following #error directive.
-// #error Developer declarations block is incomplete!
+#error Developer declarations block is incomplete!
 RHINO_PLUG_IN_DEVELOPER_ORGANIZATION(L"My Company Name");
 RHINO_PLUG_IN_DEVELOPER_ADDRESS(L"123 Developer Street\r\nCity State 12345-6789");
 RHINO_PLUG_IN_DEVELOPER_COUNTRY(L"My Country");

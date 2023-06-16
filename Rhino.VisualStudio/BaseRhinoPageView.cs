@@ -8,7 +8,8 @@ namespace Rhino.VisualStudio
     public class BaseRhinoPageView : BasePageView
     {
         public Size DefaultSpacing { get; set; } = new Size(6, 6);
-
+        public Padding DefaultPadding { get; set; } = new Padding(8);
+        
         protected virtual void AddProjectName(DynamicLayout layout)
         {
             var projectNameTextBox = new TextBox();

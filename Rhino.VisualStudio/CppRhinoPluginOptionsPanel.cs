@@ -6,18 +6,12 @@ using Rhino.VisualStudio.Controls;
 
 namespace Rhino.VisualStudio
 {
-    public class CppRhinoPluginOptionsPanel : BaseRhinoPageView
+    public class CppRhinoPluginOptionsPanel : BaseCppRhinoOptionsPageView
     {
         public CppRhinoPluginOptionsPanel(bool showProjectName)
         {
-            var padding = new Padding(8);
-
-
-            var pluginClassNameTextBox = new TextBox();
-            pluginClassNameTextBox.TextBinding.BindDataContext((CppRhinoPluginOptionsViewModel m) => m.PluginClassName);
-
             var commandClassNameTextBox = new TextBox();
-            commandClassNameTextBox.TextBinding.BindDataContext((CppRhinoPluginOptionsViewModel m) => m.CommandClassName);
+            commandClassNameTextBox.TextBinding.BindDataContext((CppRhinoPluginOptionsViewModel m) => m.CommandName);
 
             // var provideCommandSampleCheckBox = new CheckBox { Text = "Provide command sample", ToolTip = "Check to provide a sample implementation for the command" };
             // provideCommandSampleCheckBox.CheckedBinding.BindDataContext((CppRhinoPluginOptionsViewModel m) => m.IncludeSample);
@@ -32,32 +26,8 @@ namespace Rhino.VisualStudio
             var useSDLCheckBox = new CheckBox { Text = "Security Development Lifecycle (SDL) checks", ToolTip = "Enable additional Security Development Lifecycle (SDL) checks." };
             useSDLCheckBox.CheckedBinding.BindDataContext((CppRhinoPluginOptionsViewModel m) => m.UseSDL);
 
-            Styles.Add<GroupBox>(null, g => g.Padding = padding);
-
-
-            // Link to download the Rhino SDK
-            var rhinoSdkDownloadLabel = new Label { TextAlignment = TextAlignment.Center };
-            rhinoSdkDownloadLabel.BindDataContext(c => c.Text,
-                Binding.Property((CppRhinoPluginOptionsViewModel m) => m.RhinoVersion)
-                .Convert(v => v > 0 ? $"This project requires the\nC++ SDK for Rhino {v} to be installed." : "This project requires the Rhino C++ SDK to be installed."));
-            var rhinoSdkDownload = new LinkButton { Text = "Click here to download the C++ SDK" };
-            rhinoSdkDownload.Click += (sender, e) =>
-            {
-                var version = ((CppRhinoPluginOptionsViewModel)DataContext).RhinoVersion;
-                if (version == 0)
-                    version = Global.LatestSdkRelease;
-                Application.Instance.Open($"https://www.rhino3d.com/download/Rhino-SDK/{version}.0/latest/");
-            };
-
-            var rhinoSdkInfo = new TableLayout(
-                rhinoSdkDownloadLabel,
-                TableLayout.AutoSized(rhinoSdkDownload, centered: true)
-            );
-
-            rhinoSdkInfo.BindDataContext(c => c.Visible, Binding.Property((CppRhinoPluginOptionsViewModel m) => m.IsSdkPathValid).Convert(v => !v));
-
             // layout
-            var layout = new DynamicLayout { DefaultSpacing = DefaultSpacing, Padding = padding };
+            var layout = new DynamicLayout { DefaultSpacing = DefaultSpacing, Padding = DefaultPadding };
 
             // top
             layout.BeginVertical();
@@ -65,8 +35,7 @@ namespace Rhino.VisualStudio
             {
                 AddProjectName(layout);
             }
-            layout.AddRow("Plug-in class name", pluginClassNameTextBox);
-            layout.AddRow("Command class name", commandClassNameTextBox);
+            layout.AddRow("Command name", commandClassNameTextBox);
             layout.EndVertical();
 
             AddPluginType(layout);
@@ -88,7 +57,7 @@ namespace Rhino.VisualStudio
             var information = new DynamicLayout();
             information.AddSpace();
             AddRhinoDownloadInfo(information);
-            information.Add(rhinoSdkInfo);
+            AddCPPSdkDownloadInfo(information);
 
             information.AddSpace();
 

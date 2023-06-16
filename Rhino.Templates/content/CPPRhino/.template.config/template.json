@@ -5,7 +5,7 @@
   "name": "Rhino 3D C++ Plug-In (Windows only)",
   "description": "Build plug-ins for Rhino 3D using the C++ SDK",
   "identity": "Rhino.Plugin.CPP",
-  "groupIdentity": "Rhino.Plugin.Cpp",
+  "groupIdentity": "Rhino.Plugin.CPP",
   "shortName": "cpprhino",
   "tags": {
     "language": "cpp",
@@ -14,6 +14,29 @@
   "sourceName": "MyRhino.1",
   "preferNameDirectory": true,
   "symbols": {
+    /* If the command name isn't specified, use the project name */
+    "commandNameDefault":{
+      "type": "generated",
+      "generator": "regex",
+      "parameters": {
+        "source": "name",
+        "steps": [
+          {
+            "regex": "[ .]",
+            "replacement": "_"
+          },
+          {
+            "regex": "(.+)",
+            "replacement": "$1"
+          }
+        ]
+      },
+      "replaces":"MyRhino__1Command",
+      "fileRename": "MyRhino__1Command"
+    },
+
+
+
     "PluginType": {
       "type": "parameter",
       "datatype": "choice",
@@ -42,12 +65,6 @@
           "description": "A file export plug-in"
         }
       ]
-    },
-    "IncludeSample": {
-      "type": "parameter",
-      "description": "Include code sample (for utility plugins only).",
-      "dataType": "bool",
-      "defaultValue": "false"
     },
     "RhinoVersion": {
       "type": "parameter",
@@ -83,18 +100,12 @@
       "datatype": "bool",
       "defaultValue": "true"
     },
-    "CommandClassName": {
+    "CommandName": {
       "type": "parameter",
-      "description": "Name of the command class.",
+      "description": "Name of the command.",
       "datatype": "text",
-      "replaces": "CommandMyRhino__1"
-    },
-    "PluginClassName": {
-      "type": "parameter",
-      "description": "Name of the plugin class.",
-      "datatype": "text",
-      "replaces": "MyRhino__1PlugIn",
-      "fileRename": "MyRhino__1PlugIn"
+      "replaces": "MyRhino__1Command",
+      "fileRename": "MyRhino__1Command"
     },
     "FileExtension": {
       "type": "parameter",
@@ -210,7 +221,7 @@
     }
   ],
   "primaryOutputs": [
-    { "path": "cmdMyRhino.1.cpp" },
+    { "path": "cmdMyRhino.1Command.cpp" },
     { "path": "MyRhino.1.vcxproj" }
   ],
   "guids": [
@@ -228,7 +239,7 @@
       "manualInstructions": [],
       "actionId": "84C0DA21-51C8-4541-9940-6CA19AF04EE6",
       "args": {
-        "files": "1"
+        "files": "0"
       },
       "continueOnError": true
     }

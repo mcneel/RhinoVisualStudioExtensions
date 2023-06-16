@@ -5,19 +5,12 @@
       "longName": "pluginType",
       "shortName": "pt"
     },
-    "IncludeSample": {
-      "longName": "include-sample",
-      "shortName": "sample"
-    },
     "RhinoVersion": {
       "longName": "version",
       "shortName": "version"
     },
-    "CommandClassName": {
+    "CommandName": {
       "shortName": "command"
-    },
-    "PluginClassName": {
-      "shortName": "plugin"
     },
     "FileDescription": {
       "longName": "file-description",
