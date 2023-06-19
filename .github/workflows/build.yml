@@ -58,15 +58,19 @@ jobs:
         submodules: true
 
     - name: Setup .NET Core
+      id: setup-dotnet
       uses: actions/setup-dotnet@v1
       with:
-        dotnet-version: 5.0.400
+        dotnet-version: 5.0.408
 
     - name: Setup msbuild
       uses: microsoft/setup-msbuild@v1
       with:
         vs-version: '[16.10,17.0)'
 
+    - name: Create global.json for the version we are using
+      run: del global.json || echo '{"sdk":{"version":"${{ steps.setup-dotnet.outputs.dotnet-version }}"}}' > global.json
+      
     - name: Build VS2019
       run: msbuild /restore ${{ env.BuildParameters }} /p:VSVersion=2019 Rhino.VisualStudio.Windows\Rhino.VisualStudio.Windows.csproj /bl:artifacts/log/Build.Windows.2019.binlog
 
@@ -98,7 +102,7 @@ jobs:
         dotnet-version: ${{ env.DotNetVersion }}
 
     - name: Install macos workload
-      run: sudo dotnet workload install macos
+      run: sudo dotnet workload install macos --from-rollback-file dotnet-workloads.json
         
     - name: Setup Xamarin and XCode
       uses: maxim-lobanov/setup-xamarin@v1
@@ -111,7 +115,7 @@ jobs:
     #   run: msbuild /restore ${{ env.BuildParameters }} /t:PackageAddin /p:VSVersion=2019 src/Eto.DevExtension.VisualStudio.Mac/Eto.DevExtension.VisualStudio.Mac.csproj /bl:artifacts/log/Build.Mac.2019.binlog
 
     - name: Build VS2022
-      run: dotnet build ${{ env.BuildParameters }} /p:VSVersion=2022 /t:PackageAddin Rhino.VisualStudio.Mac\Rhino.VisualStudio.Mac.csproj /bl:artifacts/log/Build.Mac.2022.binlog
+      run: dotnet build ${{ env.BuildParameters }} /p:VSVersion=2022 Rhino.VisualStudio.Mac/Rhino.VisualStudio.Mac.csproj /bl:artifacts/log/Build.Mac.2022.binlog
 
     - name: Upload extensions
       uses: actions/upload-artifact@v2
