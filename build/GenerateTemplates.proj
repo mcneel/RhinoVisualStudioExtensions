@@ -10,7 +10,7 @@
   <ItemGroup>
     <!-- <RhinoVersion Include="6" /> -->
     <RhinoVersion Include="7" />
-    <RhinoVersion Include="8" />
+    <!-- <RhinoVersion Include="8" /> -->
 
     <Language Include="CS" Value="" />
     <Language Include="VB" Value="-lang VB" />
@@ -74,7 +74,7 @@
       <CppOptions Update="@(CppOptions)" OutputDir="CppRhino/%(TypeId).%(VersionId)%(FeaturesId)%(PathSuffix)/" />
 
       <!-- Commands to generate then build -->
-      <CppOptions Update="@(CppOptions)" GenerateCommand="dotnet new cpprhino %(CppOptions.Type) %(Version) %(Features) %(CustomName) -o &quot;$(TemplateDir)%(OutputDir)&quot;" />
+      <CppOptions Update="@(CppOptions)" GenerateCommand="dotnet new rhino -lang cpp %(CppOptions.Type) %(Version) %(Features) %(CustomName) -o &quot;$(TemplateDir)%(OutputDir)&quot;" />
       <CppOptions Update="@(CppOptions)" BuildCommand="&amp;&amp; cd &quot;$(TemplateDir)%(OutputDir)&quot; &amp;&amp; $(VSMSBuild) /p:Platform=x64" />
       <CppOptions Update="@(CppOptions)" Command="%(CppOptions.GenerateCommand) %(CppOptions.BuildCommand)" />
       
@@ -100,7 +100,7 @@
       <CppSkinOptions Update="@(CppSkinOptions)" OutputDir="CppSkin/Skin.%(VersionId)%(FeaturesId)/" />
 
       <!-- Commands to generate then build -->
-      <CppSkinOptions Update="@(CppSkinOptions)" GenerateCommand="dotnet new cpprhinoskin %(Version) %(Features) -o &quot;$(TemplateDir)%(OutputDir)&quot;" />
+      <CppSkinOptions Update="@(CppSkinOptions)" GenerateCommand="dotnet new rhinoskin %(Version) %(Features) -o &quot;$(TemplateDir)%(OutputDir)&quot;" />
       <CppSkinOptions Update="@(CppSkinOptions)" BuildCommand="&amp;&amp; cd &quot;$(TemplateDir)%(OutputDir)&quot; &amp;&amp; $(VSMSBuild) /p:Platform=x64" />
       <CppSkinOptions Update="@(CppSkinOptions)" Command="%(CppSkinOptions.GenerateCommand) %(CppSkinOptions.BuildCommand)" />
       

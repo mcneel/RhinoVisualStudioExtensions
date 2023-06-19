@@ -81,23 +81,19 @@
     </Content>
     <Content Include="$(ArtifactsDir)bin\Rhino.Templates\$(Configuration)\Rhino.Templates.$(Version).nupkg">
       <Link>Rhino.Templates.$(Version).nupkg</Link>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       <IncludeInVSIX>true</IncludeInVSIX>
     </Content>
     <Content Include="template.pkgdef">
       <IncludeInVSIX>true</IncludeInVSIX>
     </Content>
     <None Include="Properties\wafflebuilder.targets" />
-    
+    <Content Include="Templates\CPPCommand\cmdMyCommand.cpp" />
     <Content Include="Templates\CSCommand\command.vstemplate" />
     <Resource Include="Templates\CSCommand\icon.ico" />
-    
     <Content Include="Templates\CSComponent\component.vstemplate" />
     <Resource Include="Templates\CSComponent\icon.ico" />
-    
     <Content Include="Templates\CSGrasshopper\grasshopper.vstemplate" />
     <Resource Include="Templates\CSGrasshopper\icon.ico" />
-    
     <Resource Include="Templates\CSRhino\icon.ico" />
     <Content Include="Templates\CSRhino\rhino.vstemplate" />
     <Resource Include="Templates\CSZooPlugin\icon.ico" />
@@ -112,13 +108,12 @@
     <Content Include="Templates\VBRhino\rhino.vstemplate" />
     <Resource Include="Templates\VBZooPlugin\icon.ico" />
     <Content Include="Templates\VBZooPlugin\zooplugin.vstemplate" />
-    
-    <Content Include="Templates\CppRhino\cpprhino.vstemplate" />
-    <Resource Include="Templates\CppRhino\icon.ico" />
-    
-    <Content Include="Templates\CppSkin\cppskin.vstemplate" />
-    <Resource Include="Templates\CppSkin\icon.ico" />
-    
+    <Content Include="Templates\CPPCommand\command.vstemplate" />
+    <Resource Include="Templates\CPPCommand\icon.ico" />
+    <Content Include="Templates\CPPRhino\rhino.vstemplate" />
+    <Resource Include="Templates\CPPRhino\icon.ico" />
+    <Content Include="Templates\CPPSkin\skin.vstemplate" />
+    <Resource Include="Templates\CPPSkin\icon.ico" />
     <None Include="..\build\rhinocommonsignature.snk" Link="rhinocommonsignature.snk" />
   </ItemGroup>
   <ItemGroup Condition="$(VSVersion) == '2019'">
@@ -215,6 +210,7 @@
     <Compile Include="Services.cs" />
     <Compile Include="Wizard\EtoWizard.cs" />
     <Compile Include="Wizard\GrasshopperWizard.cs" />
+    <Compile Include="Wizard\LegacyTemplateWizard.cs" />
     <Compile Include="Wizard\RhinoWizard.cs" />
     <Compile Include="Wizard\WizardHost.cs" />
     <Compile Include="Wizard\ZooPluginWizard.cs" />
@@ -228,10 +224,10 @@
   </PropertyGroup>
   <Import Project="$(WaffleBuilderTargetsPath)" Condition="Exists('$(WaffleBuilderTargetsPath)')" />
   <Target Name="ClearTemplateCache" AfterTargets="AfterBuild">
-    <RemoveDir Directories="$(LOCALAPPDATA)\Microsoft\VisualStudio\16.0_aa19621cExp\TemplateEngineHost" Condition="$(VSVersion) == '2022'" />
-    <RemoveDir Directories="$(LOCALAPPDATA)\Microsoft\VisualStudio\17.0_a362fd17Exp\TemplateEngineHost" Condition="$(VSVersion) == '2019'" />
+    <RemoveDir Directories="$(LOCALAPPDATA)\Microsoft\VisualStudio\16.0_aa19621cExp\TemplateEngineHost" Condition="$(VSVersion) == '2019'" />
+    <RemoveDir Directories="$(LOCALAPPDATA)\Microsoft\VisualStudio\17.0_cf5e1df9Exp\TemplateEngineHost" Condition="$(VSVersion) == '2022'" />
   </Target>
-  <Target Name="CreateDirectory for vsix" BeforeTargets="CreateVsixContainer" >
-    <MakeDir Directories="$([System.IO.Path]::GetDirectoryName($(TargetVsixContainer)))"/>
-  </Target>  
+  <Target Name="CreateDirectory for vsix" BeforeTargets="CreateVsixContainer">
+    <MakeDir Directories="$([System.IO.Path]::GetDirectoryName($(TargetVsixContainer)))" />
+  </Target>
 </Project>

@@ -1,6 +1,6 @@
 {
   "sdk": {
-    // "version": "5.0.100", // required for VS 2019
+    // "version": "5.0.400", // required for VS 2019
     "version": "7.0.100", // required to build on Mac
     "rollForward": "latestPatch"
   }

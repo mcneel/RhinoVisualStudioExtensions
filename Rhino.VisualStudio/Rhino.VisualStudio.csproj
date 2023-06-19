@@ -3,6 +3,7 @@
   <PropertyGroup>
     <TargetFrameworks Condition="$(VSVersion) == '2019'">net5.0;net47</TargetFrameworks>
     <TargetFrameworks Condition="$(VSVersion) != '2019'">net7.0;net47</TargetFrameworks>
+    <LangVersion>8.0</LangVersion>
   </PropertyGroup>
 
   <PropertyGroup>

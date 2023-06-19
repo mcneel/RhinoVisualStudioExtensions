@@ -2,11 +2,11 @@
   "$schema": "http://json.schemastore.org/template",
   "author": "McNeel",
   "classifications": [ "Rhino" ],
-  "name": "Rhino 3D C++ Plug-In (Windows only)",
+  "name": "Rhino 3D Plug-In",
   "description": "Build plug-ins for Rhino 3D using the C++ SDK",
   "identity": "Rhino.Plugin.CPP",
-  "groupIdentity": "Rhino.Plugin.CPP",
-  "shortName": "cpprhino",
+  "groupIdentity": "Rhino.Plugin",
+  "shortName": "rhino",
   "tags": {
     "language": "cpp",
     "type": "project"
@@ -14,29 +14,6 @@
   "sourceName": "MyRhino.1",
   "preferNameDirectory": true,
   "symbols": {
-    /* If the command name isn't specified, use the project name */
-    "commandNameDefault":{
-      "type": "generated",
-      "generator": "regex",
-      "parameters": {
-        "source": "name",
-        "steps": [
-          {
-            "regex": "[ .]",
-            "replacement": "_"
-          },
-          {
-            "regex": "(.+)",
-            "replacement": "$1"
-          }
-        ]
-      },
-      "replaces":"MyRhino__1Command",
-      "fileRename": "MyRhino__1Command"
-    },
-
-
-
     "PluginType": {
       "type": "parameter",
       "datatype": "choice",
@@ -99,6 +76,22 @@
       "description": "Enable additional Security Development Lifecycle (SDL) checks.",
       "datatype": "bool",
       "defaultValue": "true"
+    },
+    /* If the command name isn't specified, use the project name */
+    "commandNameDefault":{
+      "type": "generated",
+      "generator": "regex",
+      "parameters": {
+        "source": "name",
+        "steps": [
+          {
+            "regex": "[ .]",
+            "replacement": "_"
+          }
+        ]
+      },
+      "replaces":"MyRhino__1Command",
+      "fileRename": "MyRhino__1Command"
     },
     "CommandName": {
       "type": "parameter",
@@ -216,13 +209,20 @@
         {
           "condition": "PluginType == 'render'",
           "rename": { "res/Render.ico": "res/MyRhino.1.ico" }
+        },
+        {
+          "condition": "CommandName == 'MyRhino__1Command'",
+          "rename": {
+            // this allows us to find it via the primary output below..
+            "cmdMyRhino__1Command.cpp": "cmdMyRhino__1Command.cpp"
+          }
         }
       ]
     }
   ],
   "primaryOutputs": [
-    { "path": "cmdMyRhino.1Command.cpp" },
-    { "path": "MyRhino.1.vcxproj" }
+    { "path": "MyRhino.1.vcxproj" },
+    { "path": "cmdMyRhino__1Command.cpp" }
   ],
   "guids": [
     "4FFB7B14-A8B1-4E8B-B431-671248EA137B",
@@ -239,7 +239,7 @@
       "manualInstructions": [],
       "actionId": "84C0DA21-51C8-4541-9940-6CA19AF04EE6",
       "args": {
-        "files": "0"
+        "files": "1"
       },
       "continueOnError": true
     }
