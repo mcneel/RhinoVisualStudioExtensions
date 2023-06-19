@@ -17,5 +17,18 @@
             get => _useWinForms;
             set => Set(ref _useWinForms, value);
         }
+
+        public override void Finish()
+        {
+            base.Finish();
+            if (Host == null)
+                return;
+                
+            if (ShowWindowsDesktop)
+            {
+                Host.SetParameter("UseWpf", UseWpf.ToString());
+                Host.SetParameter("UseWinForms", UseWinForms.ToString());
+            }
+        }
     }
 }

@@ -232,6 +232,9 @@ namespace Rhino.VisualStudio.Mac
             cmd.ExternalConsole = rhinoRunConfiguration?.ExternalConsole ?? false;
             cmd.PauseConsoleOutput = rhinoRunConfiguration?.PauseConsoleOutput ?? false;
 
+#if VS2019
+            return cmd;
+#else
             // Rhino 7 uses mono, so we can use this command directly to use our own debugger implementation
             var rhinoLaunchVersion = Helpers.GetVersionOfAppBundle(cmd.ApplicationPath);
             if (rhinoLaunchVersion.Major <= 7)
@@ -246,6 +249,7 @@ namespace Rhino.VisualStudio.Mac
             hostedCmd.PauseConsoleOutput = cmd.PauseConsoleOutput;
             
             return hostedCmd;
+#endif
         }
 
         protected override async Task<BuildResult> OnClean(ProgressMonitor monitor, ConfigurationSelector configuration, OperationContext operationContext)

@@ -12,7 +12,7 @@ namespace Rhino.VisualStudio
 
         public string ComponentClassName
         {
-            get => _componentClassName ?? Utility.GetSafeName(ProjectName, "Component", "Component", "Components", "Plugin");
+            get => _componentClassName ?? Utility.GetSafeName(ProjectName, "Component", "Component", "Components", "Plugin", "Addin");
             set
             {
                 if (Set(ref _componentClassName, value))
@@ -106,7 +106,7 @@ namespace Rhino.VisualStudio
             }
         }
 
-        protected override string GetDefaultLocation() => RhinoFinder.FindRhino(RhinoVersion);
+        protected override string FindLocation(int version) => Global.Helpers.FindRhino(version);
 
         public GrasshopperOptionsViewModel()
         {
@@ -131,7 +131,6 @@ namespace Rhino.VisualStudio
             if (Host == null)
                 return;
 
-            Host.SetParameter("RhinoVersion", RhinoVersion.ToString());
             Host.SetParameter("ComponentClassName", ComponentClassName);
             Host.SetParameter("AddonDisplayName", AddonDisplayName);
             Host.SetParameter("IncludeSample", IncludeSample.ToString());
@@ -140,8 +139,6 @@ namespace Rhino.VisualStudio
             Host.SetParameter("ComponentCategory", ComponentCategory);
             Host.SetParameter("ComponentSubcategory", ComponentSubcategory);
             Host.SetParameter("ComponentDescription", ComponentDescription);
-            Host.SetParameter("UseWpf", UseWpf.ToString());
-            Host.SetParameter("UseWinForms", UseWinForms.ToString());
         }
 
     }

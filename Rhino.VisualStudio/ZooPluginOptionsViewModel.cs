@@ -7,6 +7,8 @@ namespace Rhino.VisualStudio
 {
     public class ZooPluginOptionsViewModel : BaseLocationWizardViewModel
     {
+        public override string ProjectTitle => "New Zoo Plug-In";
+        
         string _pluginClassName;
         public string PluginClassName
         {
@@ -79,6 +81,6 @@ namespace Rhino.VisualStudio
             Host.SetParameter("PluginClassName", PluginClassName);
         }
 
-        protected override string GetDefaultLocation() => ZooFinder.FindZooDll(RhinoVersion);
+        protected override string FindLocation(int version) => ZooFinder.FindZooDll(version);
     }
 }

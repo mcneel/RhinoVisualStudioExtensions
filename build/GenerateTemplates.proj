@@ -8,9 +8,9 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <RhinoVersion Include="6" />
+    <!-- <RhinoVersion Include="6" /> -->
     <RhinoVersion Include="7" />
-    <RhinoVersion Include="8" />
+    <!-- <RhinoVersion Include="8" /> -->
 
     <Language Include="CS" Value="" />
     <Language Include="VB" Value="-lang VB" />
@@ -19,38 +19,122 @@
     <Desktop Include="Wpf" Value="-wpf" />
     <Desktop Include="WinForms" Value="-wf" />
 
-    <TeplatePackage Include="$(ArtifactsDir)bin\Rhino.Templates\Debug\Rhino.Templates.$(PackageVersion).nupkg" />
+    <TemplatePackage Include="$(ArtifactsDir)bin\Rhino.Templates\Debug\Rhino.Templates.$(PackageVersion).nupkg" />
   </ItemGroup>
+  
+  <Target Name="GetVSMSBuild">
+    <Exec Command="&quot;%ProgramFiles(x86)%\Microsoft Visual Studio\Installer\vswhere.exe&quot; -version &quot;[16,17)&quot; -latest -products * -requires Microsoft.Component.MSBuild -find MSBuild\**\Bin\MSBuild.exe"
+          ConsoleToMSBuild="true">
+      <Output TaskParameter="ConsoleOutput" PropertyName="VSMSBuild" />
+    </Exec>
+    <PropertyGroup>
+      <VSMSBuild>&quot;$(VSMSBuild)&quot;</VSMSBuild>
+    </PropertyGroup>
+  </Target>
 
   <Target Name="CleanTemplates">
     <RemoveDir Directories="$(TemplateDir)"/>
     
     <!-- install the current version of the templates -->
-    <Exec Command="dotnet new -i @(TeplatePackage)" />
+    <Exec Command="dotnet new uninstall Rhino.Templates" IgnoreExitCode="True" />
+    <Exec Command="dotnet new install @(TemplatePackage)" />
   </Target>
 
-  <Target Name="GenerateTemplates" DependsOnTargets="CleanTemplates;GrasshopperTemplates;ZooTemplates;RhinoCommonTemplates;" > 
+  <Target Name="GenerateTemplates" DependsOnTargets="CleanTemplates;CppRhinoTemplates;CppSkinTemplates;RhinoCommonTemplates;GrasshopperTemplates;ZooTemplates" > 
   </Target>
+  
+  <Target Name="CppRhinoTemplates" DependsOnTargets="GetVSMSBuild">
+    <!-- generate Rhino C++ templates -->
+    <ItemGroup>
+
+      <CppPluginType Include="Digitize" Value="-pt digitize" />
+      <CppPluginType Include="Export" Value="-pt export" />
+      <CppPluginType Include="Import" Value="-pt import" />
+      <CppPluginType Include="Render" Value="-pt render" />
+      <CppPluginType Include="Utility" Value="-pt utility" />
+
+      <!-- Test all the different options -->
+      <CppPluginFeatures Include="Default" Value="" />
+      <CppPluginFeatures Include="Automation" Value="--automation" />
+      <CppPluginFeatures Include="Sockets" Value="--sockets" />
+      <CppPluginFeatures Include="NoSDL" Value="--sdl=false" />
+      <CppPluginFeatures Include="AutomationSockets" Value="--automation --sockets" />
+
+      <!-- Test using a different custom command and plugin name -->
+      <CppCustomName Include="DefaultName" Value="" PathSuffix="" />
+      <CppCustomName Include="CustomName" Value="-command SomeCommand" PathSuffix="_CustomName" />
+
+      <!-- Stitch everything together -->
+      <CppOptions1 Include="*" TypeId="%(CppPluginType.Identity)" Type="%(CppPluginType.Value)" />
+      <CppOptions2 Include="@(CppOptions1)" FeaturesId="%(CppPluginFeatures.Identity)" Features="%(CppPluginFeatures.Value)" />
+      <CppOptions3 Include="@(CppOptions2)" VersionId="%(RhinoVersion.Identity)" Version="--version %(RhinoVersion.Identity)" />
+      <CppOptions Include="@(CppOptions3)" CustomNameId="%(CppCustomName.Identity)" CustomName="%(CppCustomName.Value)" PathSuffix="%(CppCustomName.PathSuffix)" />
+      
+      <!-- Set the output directory -->
+      <CppOptions Update="@(CppOptions)" OutputDir="CppRhino/%(TypeId).%(VersionId)%(FeaturesId)%(PathSuffix)/" />
+
+      <!-- Commands to generate then build -->
+      <CppOptions Update="@(CppOptions)" GenerateCommand="dotnet new rhino -lang cpp %(CppOptions.Type) %(Version) %(Features) %(CustomName) -o &quot;$(TemplateDir)%(OutputDir)&quot;" />
+      <CppOptions Update="@(CppOptions)" BuildCommand="&amp;&amp; cd &quot;$(TemplateDir)%(OutputDir)&quot; &amp;&amp; $(VSMSBuild) /p:Platform=x64" />
+      <CppOptions Update="@(CppOptions)" Command="%(CppOptions.GenerateCommand) %(CppOptions.BuildCommand)" />
+      
+    </ItemGroup>
+
+    <Exec Command="%(CppOptions.Command)" />
+    
+  </Target>
+
+  <Target Name="CppSkinTemplates" DependsOnTargets="GetVSMSBuild">
+    <!-- generate Rhino C++ skin templates -->
+    <ItemGroup>
+      <!-- Test all the different options -->
+      <CppSkinFeatures Include="Default" Value="" />
+      <CppSkinFeatures Include="NoMenus" Value="--menus=false" />
+      <CppSkinFeatures Include="NoSDL" Value="--sdl=false" />
+
+      <!-- Stitch everything together -->
+      <CppSkinOptions1 Include="*" FeaturesId="%(CppSkinFeatures.Identity)" Features="%(CppSkinFeatures.Value)" />
+      <CppSkinOptions Include="@(CppSkinOptions1)" VersionId="%(RhinoVersion.Identity)" Version="--version %(RhinoVersion.Identity)" />
+      
+      <!-- Set the output directory -->
+      <CppSkinOptions Update="@(CppSkinOptions)" OutputDir="CppSkin/Skin.%(VersionId)%(FeaturesId)/" />
+
+      <!-- Commands to generate then build -->
+      <CppSkinOptions Update="@(CppSkinOptions)" GenerateCommand="dotnet new rhinoskin %(Version) %(Features) -o &quot;$(TemplateDir)%(OutputDir)&quot;" />
+      <CppSkinOptions Update="@(CppSkinOptions)" BuildCommand="&amp;&amp; cd &quot;$(TemplateDir)%(OutputDir)&quot; &amp;&amp; $(VSMSBuild) /p:Platform=x64" />
+      <CppSkinOptions Update="@(CppSkinOptions)" Command="%(CppSkinOptions.GenerateCommand) %(CppSkinOptions.BuildCommand)" />
+      
+    </ItemGroup>
+
+    <Exec Command="%(CppSkinOptions.Command)" />
+    
+  </Target>
+  
 
   <Target Name="RhinoCommonTemplates">
     <!-- generate RhinoCommon templates -->
     <ItemGroup>
-      <PluginType Include="Digitize" Value="-t digitize" />
-      <PluginType Include="Export" Value="-t export" />
-      <PluginType Include="Import" Value="-t import" />
-      <PluginType Include="Render" Value="-t render" />
-      <PluginType Include="Utility-Sample" Value="-t utility --include-sample" />
-      <PluginType Include="Utility" Value="-t utility" />
+      <PluginType Include="Digitize" Value="-pt digitize" />
+      <PluginType Include="Export" Value="-pt export" />
+      <PluginType Include="Import" Value="-pt import" />
+      <PluginType Include="Render" Value="-pt render" />
+      <PluginType Include="Utility-Sample" Value="-pt utility --include-sample" />
+      <PluginType Include="Utility" Value="-pt utility" />
 
-      <Options2 Include="*" DesktopId="%(Desktop.Identity)" Desktop="%(Desktop.Value)" />
-      <Options1 Include="@(Options2)" VersionId="%(RhinoVersion.Identity)" Version="%(RhinoVersion.Identity)" />
-      <Options Include="@(Options1)" TypeId="%(PluginType.Identity)" Type="%(PluginType.Value)" />
+      <RhinoOptions1 Include="*" DesktopId="%(Desktop.Identity)" Desktop="%(Desktop.Value)" />
+      <RhinoOptions2 Include="@(RhinoOptions1)" VersionId="%(RhinoVersion.Identity)" Version="--version %(RhinoVersion.Identity)" />
+      <RhinoOptions Include="@(RhinoOptions2)" TypeId="%(PluginType.Identity)" Type="%(PluginType.Value)" />
       
-      <Options Update="@(Options)" OutputDir="RhinoCommon/%(TypeId)%(VersionId)%(DesktopId)/" />
+      <RhinoOptions Update="@(RhinoOptions)" OutputDir="RhinoCommon/%(TypeId).%(VersionId)%(DesktopId)/" />
+      
+      <!-- generate template -->
+      <RhinoOptions Update="@(RhinoOptions)" Command="dotnet new rhino %(Type) %(Version) %(Desktop) -o $(TemplateDir)%(OutputDir)" />
+      <!-- build template-->
+      <RhinoOptions Update="@(RhinoOptions)" Command="%(Command) &amp;&amp; cd $(TemplateDir)%(OutputDir) &amp;&amp; dotnet build" />
     </ItemGroup>
 
     <!-- <Message Text="dotnet new rhino %(Options.Type) -v %(Options.Version) -o $(TemplateDir)%(OutputDir)" Importance="high" /> -->
-    <Exec Command="dotnet new rhino %(Options.Type) -v %(Version) %(Desktop) -o $(TemplateDir)%(OutputDir)" />
+    <Exec Command="%(RhinoOptions.Command)" />
     
     <!-- Test specifying class names for command and plugin -->
     <Exec Command="dotnet new rhino -command SomeCommand -plugin AwesomePlugin -o $(TemplateDir)RhinoCommon/CustomNames" />
@@ -67,16 +151,20 @@
       <WithName Include="CustonName" Value='-component MyComponentClassName -cname "MyComponent Name" -nick MyNickname -desc MyDescription -cat MyCategory -sub MySubcategory --addon-display-name="My Addon Name"' />
 
       <GHOptions4 Include="*" DesktopId="%(Desktop.Identity)" Desktop="%(Desktop.Value)" />
-      <GHOptions3 Include="@(GHOptions4)" VersionId="%(RhinoVersion.Identity)" Version="%(RhinoVersion.Identity)" />
+      <GHOptions3 Include="@(GHOptions4)" VersionId="%(RhinoVersion.Identity)" Version="--version %(RhinoVersion.Identity)" />
       <GHOptions2 Include="@(GHOptions3)" WithNameId="%(WithName.Identity)" WithName="%(WithName.Value)" />
       <GHOptions1 Include="@(GHOptions2)" LanguageId="%(Language.Identity)" Language="%(Language.Value)" />
       <GHOptions Include="@(GHOptions1)" SampleId="%(IncludeSample.Identity)" Sample="%(IncludeSample.Value)" />
       
-      <GHOptions Update="@(GHOptions)" OutputDir="Grasshopper/%(SampleId)%(WithNameId)%(LanguageId)%(VersionId)%(DesktopId)/" />
+      <GHOptions Update="@(GHOptions)" OutputDir="Grasshopper/%(SampleId).%(WithNameId)%(LanguageId)%(VersionId)%(DesktopId)/" />
+
+      <!-- generate template -->
+      <GHOptions Update="@(GHOptions)" Command="dotnet new grasshopper %(GHOptions.Sample) %(WithName) %(Version) %(Desktop) %(Language) -o $(TemplateDir)%(OutputDir)" />
+      <!-- build template-->
+      <GHOptions Update="@(GHOptions)" Command="%(Command) &amp;&amp; cd $(TemplateDir)%(OutputDir) &amp;&amp; dotnet build" />
     </ItemGroup>
 
-    <!-- <Message Text="dotnet new grasshopper %(GHOptions.Sample) -v %(Version) -o $(TemplateDir)%(OutputDir)" Importance="high" /> -->
-    <Exec Command="dotnet new grasshopper %(GHOptions.Sample) %(WithName) -v %(Version) %(Desktop) %(Language) -o $(TemplateDir)%(OutputDir)" />
+    <Exec Command="%(GHOptions.Command)" />
 
   </Target>
 
@@ -93,10 +181,14 @@
       <ZooOptions2 Include="@(ZooOptions1)" WithPathId="%(WithPath.Identity)" WithPath="%(WithPath.Value)" />
       
       <ZooOptions Include="@(ZooOptions2)" OutputDir="ZooPlugin/MyZoo%(WithGuidId)%(WithPathId)/" />
+
+      <!-- generate template -->
+      <ZooOptions Update="@(ZooOptions)" Command="dotnet new zooplugin %(ZooOptions.WithGuid) %(WithPath) -o $(TemplateDir)%(OutputDir)" />
+      <!-- build template-->
+      <ZooOptions Update="@(ZooOptions)" Command="%(Command) &amp;&amp; cd $(TemplateDir)%(OutputDir) &amp;&amp; dotnet build" Condition="%(WithPathId) == 'DefaultPath'"/>
     </ItemGroup>
 
-    <!-- <Message Text="dotnet new zooplugin %(ZooOptions.WithGuid) %(WithPath) -o $(TemplateDir)%(OutputDir)" Importance="high" /> -->
-    <Exec Command="dotnet new zooplugin %(ZooOptions.WithGuid) %(WithPath) -o $(TemplateDir)%(OutputDir)" />
+    <Exec Command="%(ZooOptions.Command)" />
   </Target>
 
 </Project>

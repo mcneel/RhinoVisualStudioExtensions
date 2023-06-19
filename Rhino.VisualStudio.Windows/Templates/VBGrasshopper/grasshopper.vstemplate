@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <VSTemplate Version="3.0.0" Type="ProjectGroup" xmlns="http://schemas.microsoft.com/developer/vstemplate/2005" xmlns:sdk="http://schemas.microsoft.com/developer/vstemplate-sdkextension/2010">
     <TemplateData>
-        <Name>Grasshopper Assembly for Rhino 7 (VB)</Name>
-        <Description>A new Grasshopper Assembly that can be easily debugged and automatically launch Rhino.</Description>
+        <Name>Grasshopper Assembly for Rhino 3D (VB)</Name>
+        <Description>Build Grasshopper components for Rhino 3D in VB.NET</Description>
         <NumberOfParentCategoriesToRollUp>1</NumberOfParentCategoriesToRollUp>
 
         <SortOrder>20</SortOrder>
@@ -25,15 +25,15 @@
     <TemplateContent>
         <ProjectCollection/>
         <CustomParameters>
-            <CustomParameter Name = "$language$" Value="VB" />
-            <CustomParameter Name = "$uistyle$" Value="none"/>
-            <CustomParameter Name = "$groupid$" Value="Grasshopper.Component" />
+            <CustomParameter Name="$language$" Value="VB" />
+            <CustomParameter Name="$uistyle$" Value="none"/>
+            <CustomParameter Name="$groupid$" Value="Grasshopper.Component" />
             <CustomParameter Name="SideWaffleNewProjNode" Value="Project\VisualBasic\Rhino"/>
             <CustomParameter Name="SupportedParameters" Value="ExecutableLocation;WindowsDesktop"/>
         </CustomParameters>
     </TemplateContent>
     <WizardExtension>
-        <Assembly>Rhino.VisualStudio.Windows, Version=7.28.0.0, Culture=neutral, PublicKeyToken=null</Assembly>
+        <Assembly>Rhino.VisualStudio.Windows, Version=8.0.0.0, Culture=neutral, PublicKeyToken=null</Assembly>
         <FullClassName>Rhino.VisualStudio.Windows.Wizard.GrasshopperWizard</FullClassName>
     </WizardExtension>
     <WizardExtension>

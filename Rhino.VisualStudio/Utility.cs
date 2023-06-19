@@ -48,11 +48,57 @@ namespace Rhino.VisualStudio
             return projectName;
         }
 
+        public static string GetPrefixedSuffixedName(string projectName, string prefix = null, string suffix = null, params string[] suffixesToRemove)
+        {
+            if (projectName == null)
+                return string.Empty;
+
+            var comparison = StringComparison.OrdinalIgnoreCase;
+
+            // MyFunPlugin3 -> MyFun3
+            var numericSuffix = projectName.Reverse().TakeWhile(char.IsDigit).Reverse().ToArray();
+            if (numericSuffix.Length > 0)
+                projectName = projectName.Substring(0, projectName.Length - numericSuffix.Length);
+
+            if (suffixesToRemove?.Length > 0)
+            {
+                foreach (var removeSuffix in suffixesToRemove)
+                {
+                    if (projectName.EndsWith(removeSuffix, comparison))
+                        projectName = projectName.Substring(0, projectName.Length - removeSuffix.Length);
+                }
+            }
+            
+            var dotIndex = projectName.IndexOf('.');
+            if (dotIndex > 0 && dotIndex < projectName.Length - 1)
+                projectName = projectName.Substring(dotIndex + 1);
+
+            if (!string.IsNullOrEmpty(suffix) && !projectName.EndsWith(suffix, comparison))
+                projectName += suffix;
+
+            if (!string.IsNullOrEmpty(prefix) && !projectName.StartsWith(prefix, comparison))
+                projectName = prefix + projectName;
+
+            if (numericSuffix.Length > 0)
+                projectName += new string(numericSuffix);
+
+            return projectName;
+        }
+
         public static string GetSafeName(string projectName, string suffix = null, params string[] suffixesToRemove)
         {
             if (projectName == null)
                 return string.Empty;
             projectName = GetSuffixedName(projectName, suffix, suffixesToRemove);
+
+            return Regex.Replace(projectName, @"[ \-\.]", "_");
+        }
+
+        public static string GetSafeNamePrefixSuffix(string projectName, string prefix = null, string suffix = null, params string[] suffixesToRemove)
+        {
+            if (projectName == null)
+                return string.Empty;
+            projectName = GetPrefixedSuffixedName(projectName, prefix, suffix, suffixesToRemove);
 
             return Regex.Replace(projectName, @"[ \-\.]", "_");
         }

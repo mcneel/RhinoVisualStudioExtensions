@@ -10,7 +10,7 @@ namespace Rhino.VisualStudio
 {
     public class BasePageView : Panel
     {
-        Panel content = new Panel();
+        Scrollable content = new Scrollable { Border = BorderType.None };
         Panel information = new Panel();
 
         public new Control Content

@@ -6,7 +6,7 @@
         "Grasshopper"
     ],
     "name": "Grasshopper Assembly",
-    "description": "A new Grasshopper Assembly that can be easily debugged and automatically launch Rhino.",
+    "description": "Build Grasshopper components for Rhino 3D in VB.NET",
     "identity": "Grasshopper.Component.VB",
     "groupIdentity": "Grasshopper.Component",
     "shortName": "grasshopper",
@@ -42,6 +42,15 @@
                     "description": "Version 8 (WIP)"
                 }
             ]
+        },
+        "RhinoLocation": {
+          "type": "parameter",
+          "description": "Location of Rhino.exe, usually C:\\Program Files\\Rhino 7\\System\\Rhino.exe",
+          "replaces": "MyExecutablePath",
+          "forms": {
+            "global": [ "JsonStringEncode" ]
+          },
+          "defaultValue": "C:\\Program Files\\Rhino 7\\System\\Rhino.exe"
         },
         "AddonDisplayName": {
             "type": "parameter",
@@ -108,6 +117,13 @@
             "type": "bind",
             "binding": "HostIdentifier"
         }
+    },
+    "forms": {
+      "JsonStringEncode": {
+        "identifier": "replace",
+        "pattern": "\\\\",      
+        "replacement": "\\\\"  
+      }    
     },
     "sources": [
         {

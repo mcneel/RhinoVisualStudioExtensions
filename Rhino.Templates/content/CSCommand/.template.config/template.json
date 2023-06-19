@@ -2,7 +2,7 @@
     "$schema": "http://json.schemastore.org/template",
     "author": "McNeel",
     "classifications": [ "Rhino", "RhinoCommon" ],
-    "name": "RhinoCommon Command",
+    "name": "Rhino Command",
     "identity": "Rhino.Plugin.File.CS",
     "groupIdentity": "Rhino.Plugin.File",
     "shortName": "rhinocommand",

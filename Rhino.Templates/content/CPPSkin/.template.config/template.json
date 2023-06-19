@@ -1,0 +1,88 @@
+﻿{
+  "$schema": "http://json.schemastore.org/template",
+  "author": "McNeel",
+  "classifications": [ "Rhino" ],
+  "name": "Rhino 3D Skin",
+  "description": "Build skin DLLs for Rhino 3D using the C++ SDK",
+  "identity": "Rhino.Skin.CPP",
+  "groupIdentity": "Rhino.Skin",
+  "shortName": "rhinoskin",
+  "tags": {
+    "language": "cpp",
+    "type": "project"
+  },
+  "sourceName": "MySkin.1",
+  "preferNameDirectory": true,
+  "symbols": {
+    "RhinoVersion": {
+      "type": "parameter",
+      "description": "Version of Rhino",
+      "datatype": "choice",
+      "defaultValue": "7",
+      "choices": [
+        {
+          "choice": "7",
+          "description": "Version 7"
+        },
+        {
+          "choice": "8",
+          "description": "Version 8 (WIP)"
+        }
+      ]
+    },
+    "CustomMenus": {
+      "type": "parameter",
+      "description": "Enables support for custom menus.",
+      "datatype": "bool",
+      "defaultValue": "true"
+    },
+    "SDL": {
+      "type": "parameter",
+      "description": "Enable additional Security Development Lifecycle (SDL) checks.",
+      "datatype": "bool",
+      "defaultValue": "true"
+    },
+    "HostIdentifier": {
+      "type": "bind",
+      "binding": "HostIdentifier"
+    },
+    "copyrightYear": {
+      "type": "generated",
+      "generator": "now",
+      "replaces": "2023",
+      "parameters": {
+        "format": "yyyy"
+      }
+    }
+  },
+  "sources": [
+    {
+      "modifiers": [
+        {
+          "rename": {
+            "MySkin.1.vcxproj.user_file": "MySkin.1.vcxproj.user"
+          }
+        }
+      ]
+    }
+  ],
+  "primaryOutputs": [
+    { "path": "MySkin.1App.cpp" },
+    { "path": "MySkin.1.vcxproj" }
+  ],
+  "guids": [
+    "991D78A0-49C9-47D6-B7AD-C7B10433ECF6"
+  ],
+  "postActions": [
+    {
+      "condition": "(HostIdentifier != \"dotnetcli\" && HostIdentifier != \"dotnetcli-preview\")",
+      "description": "Opens the command in the editor",
+      "manualInstructions": [],
+      "actionId": "84C0DA21-51C8-4541-9940-6CA19AF04EE6",
+      "args": {
+        "files": "0"
+      },
+      "continueOnError": true
+    }
+  ]
+}
