@@ -4,7 +4,7 @@ using Mono.Addins;
 [assembly: Addin(
     "Mac",
     Namespace = "Rhino.VisualStudio",
-    Version = "7.28.0.0"
+    Version = "8.0.0.0"
 )]
 
 // This controls the displayed name in the Xamarin Studio Add-In Manager...

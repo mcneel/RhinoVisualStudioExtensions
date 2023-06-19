@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PackageManifest Version="2.0.0" xmlns="http://schemas.microsoft.com/developer/vsx-schema/2011" xmlns:d="http://schemas.microsoft.com/developer/vsx-schema-design/2011">
     <Metadata>
-        <Identity Id="F9D86CA0-D45A-42B6-ABA4-77AE7471C34F" Version="7.28.0.0" Language="en-US" Publisher="McNeel" />
+        <Identity Id="F9D86CA0-D45A-42B6-ABA4-77AE7471C34F" Version="8.0.0.0" Language="en-US" Publisher="McNeel" />
         <DisplayName>Project templates for Rhino 3D</DisplayName>
         <Description xml:space="preserve">Adds plug-in, command and zoo wizards for C++, RhinoCommon and Grasshopper projects. This includes digitizer, render, import and export plug-ins. Makes setting up debugging easier and automatically references RhinoCommon. Rhino is a requirement for this wizard to operate correctly.
 
