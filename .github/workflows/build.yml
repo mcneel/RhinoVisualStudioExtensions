@@ -48,45 +48,6 @@ jobs:
         name: log
         path: artifacts/log/**/*
 
-  build-windows-2019:
-
-    runs-on: windows-2019
-
-    steps:
-    - uses: actions/checkout@v2
-      with:
-        submodules: true
-
-    - name: Setup .NET Core
-      id: setup-dotnet
-      uses: actions/setup-dotnet@v1
-      with:
-        dotnet-version: 5.0.408
-
-    - name: Setup msbuild
-      uses: microsoft/setup-msbuild@v1
-      with:
-        vs-version: '[16.10,17.0)'
-
-    - name: Create global.json for the version we are using
-      run: del global.json || echo '{"sdk":{"version":"${{ steps.setup-dotnet.outputs.dotnet-version }}"}}' > global.json
-      
-    - name: Build VS2019
-      run: msbuild /restore ${{ env.BuildParameters }} /p:VSVersion=2019 Rhino.VisualStudio.Windows\Rhino.VisualStudio.Windows.csproj /bl:artifacts/log/Build.Windows.2019.binlog
-
-    - name: Upload extensions
-      uses: actions/upload-artifact@v2
-      with:
-        name: extensions-windows
-        path: artifacts/Release/*.vsix
-
-    - name: Upload log files
-      if: ${{ failure() }}
-      uses: actions/upload-artifact@v2
-      with:
-        name: log
-        path: artifacts/log/**/*
-
   build-mac:
 
     runs-on: macos-11
@@ -132,7 +93,7 @@ jobs:
           artifacts/log/**/*
   
   publish:
-    needs: [ build-windows-2019, build-windows-2022, build-mac ]
+    needs: [ build-windows-2022, build-mac ]
     runs-on: ubuntu-latest
     if: (github.event_name == 'release' && github.event.action == 'published' && startsWith(github.ref, 'refs/tags/'))
     steps:
