@@ -18,7 +18,7 @@
             "type": "parameter",
             "description": "Path to ZooPlugin.dll",
             "datatype": "string",
-            "replaces": "C:\\Program Files (x86)\\Zoo 7\\ZooPlugin.dll"
+            "replaces": "C:\\Program Files (x86)\\Zoo 8\\ZooPlugin.dll"
         },
         "RhinoPluginId": {
             "type": "parameter",

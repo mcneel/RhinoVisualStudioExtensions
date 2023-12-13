@@ -7,6 +7,7 @@
 
   <!-- Set all control styles to match VS theme (dark/light/blue/etc) -->
     <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="Common.xaml" />
         <ResourceDictionary Source="ComboBox.xaml" />
         <ResourceDictionary Source="ComboBoxItem.xaml" />
     </ResourceDictionary.MergedDictionaries>

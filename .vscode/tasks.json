@@ -74,7 +74,7 @@
         "build",
         "/p:Configuration=${input:configuration}",
         "/p:GenerateFullPaths=true",
-        "/consoleloggerparameters:NoSummary",
+        "-clp:NoSummary",
         "${workspaceFolder}/Rhino.Templates/Rhino.Templates.csproj"
       ],
       "problemMatcher": "$msCompile",

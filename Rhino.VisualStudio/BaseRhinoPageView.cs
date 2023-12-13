@@ -48,7 +48,7 @@ namespace Rhino.VisualStudio
             var rhinoVersionInvalid = new Label { TextColor = Global.Theme.ErrorForeground };
             rhinoVersionInvalid.BindDataContext(c => c.Visible, Binding.Property((BaseRhinoOptionsViewModel m) => m.IsRhinoVersionValid).Convert(v => !v, v => !v));
             rhinoVersionInvalid.BindDataContext(c => c.Text, (BaseRhinoOptionsViewModel m) => m.RhinoVersionValidationText);
-            layout.AddSeparateRow("Target Version", TableLayout.AutoSized(rhinoVersionDropDown));
+            layout.AddSeparateRow("Minimum Target Version", TableLayout.AutoSized(rhinoVersionDropDown));
             layout.Add(rhinoVersionInvalid);
         }
          
@@ -87,9 +87,11 @@ namespace Rhino.VisualStudio
             layout.Add(new PanelSeparator("Windows UI"));
             layout.BeginVertical();
             layout.Add(useWinForms);
+            layout.Add("Note: Rhino on Mac has limited support for Windows Forms and System.Drawing.");
             layout.Add(useWpf);
+            layout.Add("Note: Using WPF will limit the project to only run/compile on Windows.");
             layout.EndVertical();
-            layout.Add("Note: These options will limit the project to only run/compile on Windows.\nEto.Forms is included by default for cross-platform UI.");
+            layout.Add("Eto.Forms is included by default for cross-platform UI and graphics.");
             layout.EndVertical();
 
             layout.Load += (sender, e) =>

@@ -1,0 +1,87 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Launch Rhino 8",
+      "type": "coreclr",
+      "request": "launch",
+      "preLaunchTask": "build",
+      "program": "",
+      "osx": {
+        "program": "/Applications/Rhino 8.app/Contents/MacOS/Rhinoceros"
+      },
+      "windows": {
+        "program": "C:\\Program Files\\Rhino 8\\System\\Rhino.exe",
+        "targetArchitecture": "x86_64",
+      },
+      "args": [],
+      "env": {
+        "RHINO_PACKAGE_DIRS": "${workspaceFolder}/bin/Debug"
+      },
+      "cwd": "${workspaceFolder}",
+      "stopAtEntry": false,
+      "console": "internalConsole"
+    },
+//#if (RhinoVersion <= '7')
+    {
+      "name": "Launch Rhino 7 Mac",
+      "type": "rhino",
+      "request": "launch",
+      "preLaunchTask": "build",
+      "program": "/Applications/Rhino 7.app/Contents/MacOS/Rhinoceros",
+      "args": [],
+      "env": {
+        // "RHINO_PLUGIN_PATH": "${workspaceFolder}/bin/Debug/net48/MyGrasshopper.1.rhp",
+        "GRASSHOPPER_PLUGINS": "${workspaceFolder}/bin/Debug/net48/MyGrasshopper.1.gha"
+      },
+      "cwd": "${workspaceFolder}",
+      "console": "internalConsole"
+    },
+    {
+      "name": "Launch Rhino 7 Windows",
+      "type": "clr",
+      "request": "launch",
+      "preLaunchTask": "build",
+      "program": "C:\\Program Files\\Rhino 7\\System\\Rhino.exe",
+      "targetArchitecture": "x86_64",
+      "args": [
+      ],
+      "env": {
+      },
+      "cwd": "${workspaceFolder}",
+      "console": "internalConsole"
+    },
+//#endif
+//#if (RhinoVersion <= '6')
+    {
+      "name": "Launch Rhino 6 Mac",
+      "type": "rhino",
+      "request": "launch",
+      "preLaunchTask": "build",
+      "program": "/Applications/Rhinoceros.app/Contents/MacOS/Rhinoceros",
+      "args": [],
+      "env": {
+        // "RHINO_PLUGIN_PATH": "${workspaceFolder}/bin/Debug/net45/MyGrasshopper.1.rhp",
+        "GRASSHOPPER_PLUGINS": "${workspaceFolder}/bin/Debug/net45/MyGrasshopper.1.gha"
+      },
+      "cwd": "${workspaceFolder}",
+      "console": "internalConsole"
+    },
+    {
+      "name": "Launch Rhino 6 Windows",
+      "type": "clr",
+      "request": "launch",
+      "preLaunchTask": "build",
+      "program": "C:\\Program Files\\Rhino 6\\System\\Rhino.exe",
+      "targetArchitecture": "x86_64",
+      "args": [
+      ],
+      "env": {
+      },
+      "cwd": "${workspaceFolder}",
+      "console": "internalConsole"
+    },
+//#endif
+  ],
+  "compounds": []
+}

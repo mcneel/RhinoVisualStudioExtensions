@@ -1,165 +1,168 @@
 ﻿{
-    "$schema": "http://json.schemastore.org/template",
-    "author": "McNeel",
-    "classifications": [
-        "Rhino",
-        "Grasshopper"
-    ],
-    "name": "Grasshopper Assembly",
-    "description": "Build Grasshopper components for Rhino 3D in VB.NET",
-    "identity": "Grasshopper.Component.VB",
-    "groupIdentity": "Grasshopper.Component",
-    "shortName": "grasshopper",
-    "tags": {
-        "language": "VB",
-        "type": "project"
-    },
-    "sourceName": "MyGrasshopper.1",
-    "preferNameDirectory": true,
-    "symbols": {
-        "IncludeSample": {
-            "type": "parameter",
-            "description": "Include code sample.",
-            "dataType": "bool",
-            "defaultValue": "false"
-        },
-        "RhinoVersion": {
-            "type": "parameter",
-            "description": "Version of Rhino",
-            "datatype": "choice",
-            "defaultValue": "7",
-            "choices": [
-                {
-                    "choice": "6",
-                    "description": "Version 6"
-                },
-                {
-                    "choice": "7",
-                    "description": "Version 7"
-                },
-                {
-                    "choice": "8",
-                    "description": "Version 8 (WIP)"
-                }
-            ]
-        },
-        "RhinoLocation": {
+  "$schema": "http://json.schemastore.org/template",
+  "author": "McNeel",
+  "classifications": [
+      "Rhino",
+      "Grasshopper"
+  ],
+  "name": "Grasshopper Assembly",
+  "description": "Build Grasshopper components for Rhino 3D in VB.NET",
+  "identity": "Grasshopper.Component.VB",
+  "groupIdentity": "Grasshopper.Component",
+  "shortName": "grasshopper",
+  "tags": {
+      "language": "VB",
+      "type": "project"
+  },
+  "sourceName": "MyGrasshopper.1",
+  "preferNameDirectory": true,
+  "symbols": {
+      "IncludeSample": {
           "type": "parameter",
-          "description": "Location of Rhino.exe, usually C:\\Program Files\\Rhino 7\\System\\Rhino.exe",
-          "replaces": "MyExecutablePath",
-          "forms": {
-            "global": [ "JsonStringEncode" ]
+          "description": "Include code sample.",
+          "dataType": "bool",
+          "defaultValue": "false"
+      },
+      "RhinoVersion": {
+          "type": "parameter",
+          "description": "Version of Rhino",
+          "datatype": "choice",
+          "defaultValue": "8",
+          "choices": [
+              {
+                  "choice": "6",
+                  "description": "Version 6"
+              },
+              {
+                  "choice": "7",
+                  "description": "Version 7"
+              },
+              {
+                  "choice": "8",
+                  "description": "Version 8"
+              }
+          ]
+      },
+      "BuildYak": {
+        "type": "parameter",
+        "description": "Include target to build yak package(s) for your plugin",
+        "datatype": "bool",
+        "defaultValue": "false"
+      },
+      "IncludeVSCode": {
+        "type": "parameter",
+        "description": "Include tasks.json and launch.json to build/debug in VS Code",
+        "datatype": "bool",
+        "defaultValue": "true"
+      },
+      "AddonDisplayName": {
+          "type": "parameter",
+          "description": "Display name of your Grasshopper assembly",
+          "datatype": "text",
+          "replaces": "MyGrasshopper.1 Info"
+      },
+      "ComponentClassName": {
+          "type": "parameter",
+          "description": "Name of the component class",
+          "datatype": "text",
+          "replaces": "MyGrasshopper__1Component",
+          "fileRename": "MyGrasshopper__1Component"
+      },
+      "ComponentName": {
+          "type": "parameter",
+          "description": "Display name of the component",
+          "datatype": "text",
+          "replaces": "MyGrasshopper.1 Component"
+      },
+      "ComponentNickname": {
+          "type": "parameter",
+          "description": "Nickname for the component",
+          "replaces": "ComponentNickname",
+          "defaultValue": "Nickname"
+      },
+      "ComponentDescription": {
+          "type": "parameter",
+          "description": "Description of the component",
+          "replaces": "ComponentDescription",
+          "defaultValue": "Description of component"
+      },
+      "ComponentCategory": {
+          "type": "parameter",
+          "description": "Category of the component",
+          "replaces": "ComponentCategory",
+          "defaultValue": "Category"
+      },
+      "ComponentSubcategory": {
+          "type": "parameter",
+          "description": "Subcategory of the component",
+          "replaces": "ComponentSubcategory",
+          "defaultValue": "Subcategory"
+      },
+      
+      "UseWpf": {
+        "type": "parameter",
+        "description": "Enable to use WPF (Windows only)",
+        "datatype": "bool",
+        "defaultValue": "false"
+      },
+      "UseWinForms": {
+        "type": "parameter",
+        "description": "Enable the use of Windows Forms",
+        "datatype": "bool",
+        "defaultValue": "true"
+      },
+      "UseWindowsDesktop": {
+        "type": "computed",
+        "value": "UseWpf || UseWinForms"
+      },
+  
+      "HostIdentifier": {
+          "type": "bind",
+          "binding": "HostIdentifier"
+      }
+  },
+  "forms": {
+    "JsonStringEncode": {
+      "identifier": "replace",
+      "pattern": "\\\\",      
+      "replacement": "\\\\"  
+    }    
+  },
+  "sources": [
+    {
+      "modifiers": [
+        {
+          "condition": "!IncludeVSCode",
+          "exclude": [ ".vscode/*.*" ]
+        },
+        {
+          "condition": "ComponentClassName == 'MyGrasshopper__1Component'",
+          "rename": {
+            "MyGrasshopper__1Component.vb": "MyGrasshopper.1Component.vb"
+          }
+        }
+      ]
+    }
+  ],
+  "primaryOutputs": [
+      { "path": "MyGrasshopper.1.vbproj" },
+      { "path": "MyGrasshopper__1Component.vb" }
+  ],
+  "guids": [
+      "ee4e2b39-d96b-4e4c-8f9d-9b6561e61b64",
+      "e79cd2b5-cb9c-4d08-93ec-446cc1f6d923",
+      "cd826b9b-8dbe-4c31-aac1-6fc7ea2bcfb7"
+  ],
+  "postActions": [
+      {
+          "condition": "(HostIdentifier != \"dotnetcli\" && HostIdentifier != \"dotnetcli-preview\")",
+          "description": "Opens the command in the editor",
+          "manualInstructions": [],
+          "actionId": "84C0DA21-51C8-4541-9940-6CA19AF04EE6",
+          "args": {
+              "files": "1"
           },
-          "defaultValue": "C:\\Program Files\\Rhino 7\\System\\Rhino.exe"
-        },
-        "AddonDisplayName": {
-            "type": "parameter",
-            "description": "Display name of your Grasshopper assembly",
-            "datatype": "text",
-            "replaces": "MyGrasshopper.1 Info"
-        },
-        "ComponentClassName": {
-            "type": "parameter",
-            "description": "Name of the component class",
-            "datatype": "text",
-            "replaces": "MyGrasshopper__1Component",
-            "fileRename": "MyGrasshopper__1Component"
-        },
-        "ComponentName": {
-            "type": "parameter",
-            "description": "Display name of the component",
-            "datatype": "text",
-            "replaces": "MyGrasshopper.1 Component"
-        },
-        "ComponentNickname": {
-            "type": "parameter",
-            "description": "Nickname for the component",
-            "replaces": "ComponentNickname",
-            "defaultValue": "Nickname"
-        },
-        "ComponentDescription": {
-            "type": "parameter",
-            "description": "Description of the component",
-            "replaces": "ComponentDescription",
-            "defaultValue": "Description of component"
-        },
-        "ComponentCategory": {
-            "type": "parameter",
-            "description": "Category of the component",
-            "replaces": "ComponentCategory",
-            "defaultValue": "Category"
-        },
-        "ComponentSubcategory": {
-            "type": "parameter",
-            "description": "Subcategory of the component",
-            "replaces": "ComponentSubcategory",
-            "defaultValue": "Subcategory"
-        },
-        
-        "UseWpf": {
-          "type": "parameter",
-          "description": "Enable to use WPF designer in VS (Windows only)",
-          "datatype": "bool",
-          "defaultValue": "false"
-        },
-        "UseWinForms": {
-          "type": "parameter",
-          "description": "Enable to use Windows Forms designer in VS (Windows only)",
-          "datatype": "bool",
-          "defaultValue": "false"
-        },
-        "UseWindowsDesktop": {
-          "type": "computed",
-          "value": "UseWpf || UseWinForms"
-        },
-        
-        "HostIdentifier": {
-            "type": "bind",
-            "binding": "HostIdentifier"
-        }
-    },
-    "forms": {
-      "JsonStringEncode": {
-        "identifier": "replace",
-        "pattern": "\\\\",      
-        "replacement": "\\\\"  
-      }    
-    },
-    "sources": [
-        {
-            "modifiers": [
-                {
-                    "condition": "ComponentClassName == 'MyGrasshopper__1Component'",
-                    "rename": {
-                        "MyGrasshopper__1Component.vb": "MyGrasshopper.1Component.vb"
-                    }
-                }
-            ]
-        }
-    ],
-    "primaryOutputs": [
-        {
-            "path": "MyGrasshopper.1.vbproj"
-        },
-        {
-            "path": "MyGrasshopper__1Component.vb"
-        }
-    ],
-    "guids": [
-        "ee4e2b39-d96b-4e4c-8f9d-9b6561e61b64",
-        "e79cd2b5-cb9c-4d08-93ec-446cc1f6d923",
-        "cd826b9b-8dbe-4c31-aac1-6fc7ea2bcfb7"
-    ],
-    "postActions": [
-        {
-            "condition": "(HostIdentifier != \"dotnetcli\" && HostIdentifier != \"dotnetcli-preview\")",
-            "description": "Opens the command in the editor",
-            "manualInstructions": [],
-            "actionId": "84C0DA21-51C8-4541-9940-6CA19AF04EE6",
-            "args": {
-                "files": "1"
-            },
-            "continueOnError": true
-        }
-    ]
+          "continueOnError": true
+      }
+  ]
 }

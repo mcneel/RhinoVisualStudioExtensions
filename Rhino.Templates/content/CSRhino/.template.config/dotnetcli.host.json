@@ -27,9 +27,6 @@
       "longName": "file-extension",
       "shortName": "ext"
     },
-    "RhinoLocation": {
-      "longName": "rhino-location"
-    },
     "UseWpf": {
       "longName": "include-wpf",
       "shortName": "wpf"
@@ -37,6 +34,14 @@
     "UseWinForms": {
       "longName": "include-winforms",
       "shortName": "wf"
+    },
+    "BuildYak": {
+      "longName": "build-yak",
+      "shortName": "yak"
+    },
+    "IncludeVSCode": {
+      "longName": "include-vscode-launch",
+      "shortName": "vscode"
     }
   }
 }

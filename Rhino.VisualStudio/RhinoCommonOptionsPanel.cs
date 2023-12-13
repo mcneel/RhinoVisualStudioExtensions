@@ -51,7 +51,7 @@ namespace Rhino.VisualStudio
 
             AddWindowsUI(layout);
 
-            AddRhinoLocation(layout);
+            // AddRhinoLocation(layout);
 
             Content = layout;
 

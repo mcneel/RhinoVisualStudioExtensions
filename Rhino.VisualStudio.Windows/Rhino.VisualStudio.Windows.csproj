@@ -149,6 +149,10 @@
     <PackageReference Include="Eto.Platform.Wpf" Version="2.7.5" />
   </ItemGroup>
   <ItemGroup>
+    <Page Include="themes\Common.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="themes\WindowStyles.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
