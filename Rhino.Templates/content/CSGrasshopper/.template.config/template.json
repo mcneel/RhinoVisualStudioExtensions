@@ -27,30 +27,31 @@
             "type": "parameter",
             "description": "Version of Rhino",
             "datatype": "choice",
-            "defaultValue": "7",
-            "choices": [
-                {
-                    "choice": "6",
-                    "description": "Version 6"
-                },
-                {
-                    "choice": "7",
-                    "description": "Version 7"
-                },
-                {
-                    "choice": "8",
-                    "description": "Version 8 (WIP)"
-                }
-            ]
+            "defaultValue": "8",
+          "choices": [
+            {
+              "choice": "6",
+              "description": "Version 6"
+            },
+            {
+              "choice": "7",
+              "description": "Version 7"
+            },
+            {
+              "choice": "8",
+              "description": "Version 8"
+            }
+          ],
+          "replaces" : "MyRhinoVersion"
         },
         "RhinoLocation": {
           "type": "parameter",
-          "description": "Location of Rhino.exe, usually C:\\Program Files\\Rhino 7\\System\\Rhino.exe",
+          "description": "Location of Rhino.exe, usually C:\\Program Files\\Rhino 8\\System\\Rhino.exe",
           "replaces": "MyExecutablePath",
           "forms": {
             "global": [ "JsonStringEncode" ]
           },
-          "defaultValue": "C:\\Program Files\\Rhino 7\\System\\Rhino.exe"
+          "defaultValue": "C:\\Program Files\\Rhino 8\\System\\Rhino.exe"
         },
         "AddonDisplayName": {
             "type": "parameter",

@@ -24,6 +24,7 @@
     <PackageReference Include="RhinoCommon" Version="6.35.21222.17001" Condition="$(RhinoVersion) == '6'" IncludeAssets="compile;build" />
     <PackageReference Include="RhinoCommon" Version="7.13.21348.13001" Condition="$(RhinoVersion) == '7'" IncludeAssets="compile;build" />
     <PackageReference Include="RhinoCommon" Version="8.0.23164.14305-wip" Condition="$(RhinoVersion) == '8'" IncludeAssets="compile;build" />
+    <PackageReference Include="System.Drawing.Common" Version="7.0.0" Condition="$(TargetFramework) == 'net7.0'" IncludeAssets="compile;build" />
   </ItemGroup>
   
 </Project>

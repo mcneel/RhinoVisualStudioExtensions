@@ -35,7 +35,7 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-    <None Include="rhinocommon.png" Pack="true" PackagePath=""/>
+    <None Include="rhinocommon.png" Pack="true" PackagePath="" />
 		<None Include="content\Directory.*" />
     <None Include="content\*\.template.config" />
     
@@ -51,5 +51,17 @@
 		<Content Remove="content\CSRhino\.template.config\.editorconfig" />
 		<Content Remove="content\NuGet.Config" />
 		<Content Remove="content\Directory.*" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Content Update="content\CSRhino\.vscode\launch.json">
+	    <PackagePath>%(RelativeDir)%(Filename)%(Extension)</PackagePath>
+	  </Content>
+	  <Content Update="content\CSRhino\.vscode\settings.json">
+	    <PackagePath>%(RelativeDir)%(Filename)%(Extension)</PackagePath>
+	  </Content>
+	  <Content Update="content\CSRhino\.vscode\tasks.json">
+	    <PackagePath>%(RelativeDir)%(Filename)%(Extension)</PackagePath>
+	  </Content>
 	</ItemGroup>
 </Project>

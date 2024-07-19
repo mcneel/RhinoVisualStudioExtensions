@@ -1,0 +1,42 @@
+﻿{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Run GH MyRhinoVersion (Mac)",
+      "type": "coreclr",
+      "request": "launch",
+      "preLaunchTask": "build-plugin-netcore",
+      // Launches Rhino for us
+      "program": "/Applications/Rhino MyRhinoVersion.app/Contents/MacOS/Rhinoceros",
+      // See : https://developer.rhino3d.com/guides/cpp/running-rhino-from-command-line/
+      "args": [ "-runscript=_Grasshopper" ],
+      "cwd": "${workspaceFolder}",
+      "stopAtEntry": false,
+      "console": "internalConsole",
+      // RHINO_PACKAGE_DIRS is required for Multi-Targeted plugins
+      // This is what enables Rhino to register our Plug-in
+      "env": {
+        "RHINO_PACKAGE_DIRS": "${workspaceFolder}/bin/Debug/"
+      }
+    },
+    {
+      "name": "Run GH MyRhinoVersion (Win)",
+      "type": "coreclr",
+      "request": "launch",
+      "preLaunchTask": "build-plugin-netcore",
+      // Launches Rhino for us
+      "program": "C:\\Program Files\\Rhino MyRhinoVersion\\System\\Rhino.exe",
+      // See : https://developer.rhino3d.com/guides/cpp/running-rhino-from-command-line/
+      "args": [ "/runscript=\"_Grasshopper\"" ],
+      "cwd": "${workspaceFolder}",
+      "stopAtEntry": false,
+      "console": "internalConsole",
+      // RHINO_PACKAGE_DIRS is required for Multi-Targeted plugins
+      // This is what enables Rhino to register our Plug-in
+      "env": {
+        "RHINO_PACKAGE_DIRS": "${workspaceFolder}/bin/Debug/"
+      }
+    }
+  ],
+  "compounds": []
+}
