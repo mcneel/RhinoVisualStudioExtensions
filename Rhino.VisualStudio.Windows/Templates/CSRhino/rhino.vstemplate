@@ -29,7 +29,7 @@
             <CustomParameter Name="$uistyle$" Value="none"/>
             <CustomParameter Name="$groupid$" Value="Rhino.Plugin" />
             <CustomParameter Name="SideWaffleNewProjNode" Value="Project\CSharp\Rhino"/>
-            <CustomParameter Name="SupportedParameters" Value="ExecutableLocation;WindowsDesktop"/>
+            <CustomParameter Name="SupportedParameters" Value="ExecutableLocation;WindowsDesktop;Yak;VSCode"/>
         </CustomParameters>
     </TemplateContent>
     <WizardExtension>

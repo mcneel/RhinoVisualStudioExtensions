@@ -26,9 +26,6 @@
 <!--#endif-->
 <!--#endif-->
     <EnableDynamicLoading>true</EnableDynamicLoading>
-    <Version>1.0</Version>
-    <Title>MyGrasshopper.1</Title>
-    <Description>Description of MyGrasshopper.1</Description>
     <TargetExt>.gha</TargetExt>
 <!--#if (UseWinForms)-->
     <NoWarn>NU1701;NETSDK1086</NoWarn>
@@ -36,6 +33,14 @@
     <NoWarn>NU1701</NoWarn>
 <!--#endif-->
     <EnableWindowsTargeting Condition="$(UseWindowsDesktop) == 'True'">true</EnableWindowsTargeting>
+  </PropertyGroup>
+  
+  <PropertyGroup>
+    <!-- Specifies information for Assembly and Yak -->
+    <Version>1.0</Version>
+    <Title>MyGrasshopper.1</Title>
+    <Company>MyGrasshopper.1 Authors</Company>
+    <Description>Description of MyGrasshopper.1</Description>
   </PropertyGroup>
   
   <ItemGroup>

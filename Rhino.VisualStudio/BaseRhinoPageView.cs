@@ -74,6 +74,23 @@ namespace Rhino.VisualStudio
             return executableLocationGroup;
         }
          
+        protected virtual void AddBuildYakPackage(DynamicLayout layout)
+        {
+            var buildYakPackage = new CheckBox { Text = "Build Yak package", ToolTip = "Adds a target to the project to build yak package(s) automatically" };
+            buildYakPackage.BindDataContext(c => c.Checked, (BaseDesktopWizardViewModel m) => m.BuildYak);
+            
+            layout.Add(buildYakPackage);
+        }
+
+        protected virtual void AddIncludeVSCode(DynamicLayout layout)
+        {
+            var includeVSCode = new CheckBox { Text = "Include VS Code launch/tasks json files", ToolTip = "This enables easy building and debugging of your plugin using VS Code on Mac and Windows" };
+            includeVSCode.BindDataContext(c => c.Checked, (BaseDesktopWizardViewModel m) => m.IncludeVSCode);
+            
+            layout.Add(includeVSCode);
+        }
+         
+         
         protected virtual DynamicTable AddWindowsUI(DynamicLayout layout)
         {
             // wpf/winforms desktop

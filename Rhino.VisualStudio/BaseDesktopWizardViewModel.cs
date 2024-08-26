@@ -3,6 +3,8 @@
     public abstract class BaseDesktopWizardViewModel : BaseLocationWizardViewModel
     {
         public bool ShowWindowsDesktop => Host.IsSupportedParameter("WindowsDesktop");
+        public bool SupportsYak => Host.IsSupportedParameter("Yak");
+        public bool SupportsVSCode => Host.IsSupportedParameter("VSCode");
 
         bool _useWpf;
         public bool UseWpf
@@ -18,6 +20,20 @@
             set => Set(ref _useWinForms, value);
         }
 
+        bool _buildYak;
+        public bool BuildYak
+        {
+            get => _buildYak;
+            set => Set(ref _buildYak, value);
+        }
+
+        bool _includeVSCode = true;
+        public bool IncludeVSCode
+        {
+            get => _includeVSCode;
+            set => Set(ref _includeVSCode, value);
+        }
+
         public override void Finish()
         {
             base.Finish();
@@ -28,6 +44,15 @@
             {
                 Host.SetParameter("UseWpf", UseWpf.ToString());
                 Host.SetParameter("UseWinForms", UseWinForms.ToString());
+            }
+
+            if (SupportsYak)
+            {
+                Host.SetParameter("BuildYak", BuildYak.ToString());
+            }
+            if (SupportsVSCode)
+            {
+                Host.SetParameter("IncludeVSCode", IncludeVSCode.ToString());
             }
         }
     }

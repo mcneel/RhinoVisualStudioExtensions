@@ -11,7 +11,7 @@ namespace MyNamespace
             Instance = this;
         }
 
-        ///<summary>The only instance of the MyCommand command.</summary>
+        ///<summary>The only instance of this command.</summary>
         public static MyCommand__1 Instance { get; private set; }
 
         public override string EnglishName => "MyCommand.1";

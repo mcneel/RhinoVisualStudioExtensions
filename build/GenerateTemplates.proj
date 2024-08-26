@@ -6,10 +6,12 @@
     <ArtifactsDir>$(MSBuildThisFileDirectory)\..\artifacts\</ArtifactsDir>
     <TemplateDir>$(ArtifactsDir)templates\</TemplateDir>
     
+    <BuildAllProjects>true</BuildAllProjects> <!-- Set to false to just generate templates without building them -->
+    
     <BuildOptions>$(BuildOptions) -clp:NoSummary</BuildOptions>
 
-    <BuildOptions Condition="$([MSBuild]::IsOSPlatform(windows))">$(BuildOptions) /p:YakExecutable=&quot;C:\Program Files\Rhino 8\System\yak.exe&quot;</BuildOptions>
-    <BuildOptions Condition="$([MSBuild]::IsOSPlatform(osx))">$(BuildOptions) /p:YakExecutable=&quot;/Applications/Rhino 8.app/Contents/Resources/bin/yak&quot;</BuildOptions>
+    <!-- <BuildOptions Condition="$([MSBuild]::IsOSPlatform(windows))">$(BuildOptions) /p:YakExecutable=&quot;C:\Program Files\Rhino 8\System\yak.exe&quot;</BuildOptions> -->
+    <!-- <BuildOptions Condition="$([MSBuild]::IsOSPlatform(osx))">$(BuildOptions) /p:YakExecutable=&quot;/Applications/Rhino 8.app/Contents/Resources/bin/yak&quot;</BuildOptions> -->
     <!-- For debugging local versions of yak
     <BuildOptions>&quot;/p:YakExecutable=/Users/curtis/Library/Developer/Xcode/DerivedData/MacRhino-dalqjlsjnqqsltdayygnhqhgntxb/Build/Products/Debug/Rhinoceros.app/Contents/Resources/bin/yak&quot;</BuildOptions>
     -->
@@ -102,8 +104,8 @@
 
       <!-- Commands to generate then build -->
       <CppOptions Update="@(CppOptions)" GenerateCommand="dotnet new rhino -lang cpp %(CppOptions.Type) %(Version) %(Features) %(CustomName) -o &quot;$(TemplateDir)%(OutputDir)&quot;" />
-      <CppOptions Update="@(CppOptions)" BuildCommand="&amp;&amp; cd &quot;$(TemplateDir)%(OutputDir)&quot; &amp;&amp; $(VSMSBuild2022) /p:Platform=x64" Condition="%(VersionId) >= '8'" />
-      <CppOptions Update="@(CppOptions)" BuildCommand="&amp;&amp; cd &quot;$(TemplateDir)%(OutputDir)&quot; &amp;&amp; $(VSMSBuild2019) /p:Platform=x64" Condition="%(VersionId) == '7'" />
+      <CppOptions Update="@(CppOptions)" BuildCommand="&amp;&amp; cd &quot;$(TemplateDir)%(OutputDir)&quot; &amp;&amp; $(VSMSBuild2022) /p:Platform=x64" Condition="%(VersionId) >= '8' and $(BuildAllProjects) == 'true'" />
+      <CppOptions Update="@(CppOptions)" BuildCommand="&amp;&amp; cd &quot;$(TemplateDir)%(OutputDir)&quot; &amp;&amp; $(VSMSBuild2019) /p:Platform=x64" Condition="%(VersionId) == '7' and $(BuildAllProjects) == 'true'" />
       <CppOptions Update="@(CppOptions)" Command="%(CppOptions.GenerateCommand) %(CppOptions.BuildCommand)" />
       
     </ItemGroup>
@@ -129,8 +131,8 @@
 
       <!-- Commands to generate then build -->
       <CppSkinOptions Update="@(CppSkinOptions)" GenerateCommand="dotnet new rhinoskin %(Version) %(Features) -o &quot;$(TemplateDir)%(OutputDir)&quot;" />
-      <CppSkinOptions Update="@(CppSkinOptions)" BuildCommand="&amp;&amp; cd &quot;$(TemplateDir)%(OutputDir)&quot; &amp;&amp; $(VSMSBuild2022) /p:Platform=x64" Condition="%(VersionId) >= '8'" />
-      <CppSkinOptions Update="@(CppSkinOptions)" BuildCommand="&amp;&amp; cd &quot;$(TemplateDir)%(OutputDir)&quot; &amp;&amp; $(VSMSBuild2019) /p:Platform=x64" Condition="%(VersionId) == '7'" />
+      <CppSkinOptions Update="@(CppSkinOptions)" BuildCommand="&amp;&amp; cd &quot;$(TemplateDir)%(OutputDir)&quot; &amp;&amp; $(VSMSBuild2022) /p:Platform=x64" Condition="%(VersionId) >= '8' and $(BuildAllProjects) == 'true'"  />
+      <CppSkinOptions Update="@(CppSkinOptions)" BuildCommand="&amp;&amp; cd &quot;$(TemplateDir)%(OutputDir)&quot; &amp;&amp; $(VSMSBuild2019) /p:Platform=x64" Condition="%(VersionId) == '7' and $(BuildAllProjects) == 'true'" />
       <CppSkinOptions Update="@(CppSkinOptions)" Command="%(CppSkinOptions.GenerateCommand) %(CppSkinOptions.BuildCommand)" />
       
     </ItemGroup>
@@ -160,7 +162,7 @@
       <!-- generate template -->
       <RhinoOptions Update="@(RhinoOptions)" Command="dotnet new rhino -yak %(Type) %(Version) %(Desktop) -o $(TemplateDir)%(OutputDir)" />
       <!-- build template-->
-      <RhinoOptions Update="@(RhinoOptions)" Command="%(Command) &amp;&amp; cd $(TemplateDir)%(OutputDir) &amp;&amp; dotnet build $(BuildOptions)" />
+      <RhinoOptions Update="@(RhinoOptions)" Command="%(Command) &amp;&amp; cd $(TemplateDir)%(OutputDir) &amp;&amp; dotnet build $(BuildOptions)" Condition="$(BuildAllProjects) == 'true'" />
     </ItemGroup>
 
     <!-- <Message Text="dotnet new rhino %(Options.Type) -v %(Options.Version) -o $(TemplateDir)%(OutputDir)" Importance="high" /> -->
@@ -178,7 +180,7 @@
       <IncludeSample Include="Sample" Value="-sample" />
 
       <WithName Include="DefaultName" Value="" />
-      <WithName Include="CustonName" Value='-component MyComponentClassName -cname "MyComponent Name" -nick MyNickname -desc MyDescription -cat MyCategory -sub MySubcategory --addon-display-name="My Addon Name"' />
+      <WithName Include="CustonName" Value='-component MyComponentClassName -cname "MyComponent Name" -nick MyNickname -desc MyDescription -cat MyCategory -sub MySubcategory --addon-display-name="My-Addon-Name"' />
 
       <GHOptions4 Include="*" DesktopId="%(Desktop.Identity)" Desktop="%(Desktop.Value)" />
       <GHOptions3 Include="@(GHOptions4)" VersionId="%(RhinoVersion.Identity)" Version="--version %(RhinoVersion.Identity)" />
@@ -191,7 +193,7 @@
       <!-- generate template -->
       <GHOptions Update="@(GHOptions)" Command="dotnet new grasshopper -yak %(GHOptions.Sample) %(WithName) %(Version) %(Desktop) %(Language) -o $(TemplateDir)%(OutputDir)" />
       <!-- build template-->
-      <GHOptions Update="@(GHOptions)" Command="%(Command) &amp;&amp; cd $(TemplateDir)%(OutputDir) &amp;&amp; dotnet build $(BuildOptions)" />
+      <GHOptions Update="@(GHOptions)" Command="%(Command) &amp;&amp; cd $(TemplateDir)%(OutputDir) &amp;&amp; dotnet build $(BuildOptions)" Condition="$(BuildAllProjects) == 'true'" />
     </ItemGroup>
 
     <Exec Command="%(GHOptions.Command)" />
@@ -215,7 +217,7 @@
       <!-- generate template -->
       <ZooOptions Update="@(ZooOptions)" Command="dotnet new zooplugin %(ZooOptions.WithGuid) %(WithPath) -o $(TemplateDir)%(OutputDir)" />
       <!-- build template-->
-      <ZooOptions Update="@(ZooOptions)" Command="%(Command) &amp;&amp; cd $(TemplateDir)%(OutputDir) &amp;&amp; dotnet build" Condition="%(WithPathId) == 'DefaultPath'"/>
+      <ZooOptions Update="@(ZooOptions)" Command="%(Command) &amp;&amp; cd $(TemplateDir)%(OutputDir) &amp;&amp; dotnet build" Condition="%(WithPathId) == 'DefaultPath' and $(BuildAllProjects) == 'true'" />
     </ItemGroup>
 
     <Exec Command="%(ZooOptions.Command)" />

@@ -91,6 +91,8 @@ namespace Rhino.VisualStudio
             layout.BeginVertical();
             layout.Add(new PanelSeparator("Options"));
             AddRhinoVersion(layout);
+            AddBuildYakPackage(layout);
+            AddIncludeVSCode(layout);
             layout.Add(provideCommandSampleCheckBox);
             layout.EndVertical();
 
