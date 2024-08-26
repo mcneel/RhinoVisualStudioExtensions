@@ -37,5 +37,5 @@ It makes setting up debugging easier and automatically references the RhinoCommo
 
 ---
 
-(c) 2012-2023 Robert McNeel & Associates
+(c) 2012-2024 Robert McNeel & Associates
 For questions, email curtis@mcneel.com
