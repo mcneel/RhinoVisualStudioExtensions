@@ -16,6 +16,7 @@
     <PackageProjectUrl>https://developer.rhino3d.com/guides/</PackageProjectUrl>
     <RepositoryType>git</RepositoryType>
     <RepositoryUrl>https://github.com/mcneel/RhinoVisualStudioExtensions.git</RepositoryUrl>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
 	
 		<TargetFramework>netstandard2.0</TargetFramework>
 		<ContentTargetFolders>content</ContentTargetFolders>
@@ -36,6 +37,7 @@
 
 	<ItemGroup>
     <None Include="rhinocommon.png" Pack="true" PackagePath=""/>
+    <None Include="README.md" Pack="true" PackagePath=""/>
 		<None Include="content\Directory.*" />
     <None Include="content\*\.template.config" />
     
