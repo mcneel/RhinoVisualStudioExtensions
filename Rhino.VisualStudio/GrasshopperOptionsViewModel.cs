@@ -123,6 +123,7 @@ namespace Rhino.VisualStudio
             ComponentCategory = "Category";
             ComponentSubcategory = "Subcategory";
             ComponentDescription = "Description";
+            UseWinForms = true;
         }
 
         public override void Finish()

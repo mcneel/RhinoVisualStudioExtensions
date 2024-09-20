@@ -23,20 +23,27 @@ Public Class MyGrasshopper__1Info
 	End Property
 	Public Overrides ReadOnly Property Id As System.Guid
 		Get
-      Return New System.Guid("cd826b9b-8dbe-4c31-aac1-6fc7ea2bcfb7")
+			Return New System.Guid("cd826b9b-8dbe-4c31-aac1-6fc7ea2bcfb7")
 		End Get
 	End Property
 
 	Public Overrides ReadOnly Property AuthorName As String
 		Get
 			'Return a string identifying you or your company.
-      Return ""
+			Return ""
 		End Get
 	End Property
 	Public Overrides ReadOnly Property AuthorContact As String
 		Get
 			'Return a string representing your preferred contact details.
-      Return ""
+			Return ""
+		End Get
+	End Property
+	Public Overrides ReadOnly Property AssemblyVersion As String
+		Get
+			'Return a string representing the version.  This returns the same version as the assembly.
+			Return [GetType]().Assembly.GetName().Version.ToString()
 		End Get
 	End Property
 End Class
+

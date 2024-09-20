@@ -44,6 +44,14 @@
     "UseWinForms": {
       "longName": "include-winforms",
       "shortName": "wf"
+    },
+    "BuildYak": {
+      "longName": "build-yak",
+      "shortName": "yak"
+    },
+    "IncludeVSCode": {
+      "longName": "include-vscode-launch",
+      "shortName": "vscode"
     }
   }
 }

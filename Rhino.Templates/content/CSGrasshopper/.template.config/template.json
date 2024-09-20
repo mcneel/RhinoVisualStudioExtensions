@@ -27,7 +27,7 @@
             "type": "parameter",
             "description": "Version of Rhino",
             "datatype": "choice",
-            "defaultValue": "7",
+            "defaultValue": "8",
             "choices": [
                 {
                     "choice": "6",
@@ -39,18 +39,21 @@
                 },
                 {
                     "choice": "8",
-                    "description": "Version 8 (WIP)"
+                    "description": "Version 8"
                 }
             ]
         },
-        "RhinoLocation": {
+        "BuildYak": {
           "type": "parameter",
-          "description": "Location of Rhino.exe, usually C:\\Program Files\\Rhino 7\\System\\Rhino.exe",
-          "replaces": "MyExecutablePath",
-          "forms": {
-            "global": [ "JsonStringEncode" ]
-          },
-          "defaultValue": "C:\\Program Files\\Rhino 7\\System\\Rhino.exe"
+          "description": "Include target to build yak package(s) for your plugin",
+          "datatype": "bool",
+          "defaultValue": "false"
+        },
+        "IncludeVSCode": {
+          "type": "parameter",
+          "description": "Include tasks.json and launch.json to build/debug in VS Code",
+          "datatype": "bool",
+          "defaultValue": "true"
         },
         "AddonDisplayName": {
             "type": "parameter",
@@ -98,21 +101,21 @@
         
         "UseWpf": {
           "type": "parameter",
-          "description": "Enable to use WPF designer in VS (Windows only)",
+          "description": "Enable to use WPF (Windows only)",
           "datatype": "bool",
           "defaultValue": "false"
         },
         "UseWinForms": {
           "type": "parameter",
-          "description": "Enable to use Windows Forms designer in VS (Windows only)",
+          "description": "Enable the use of Windows Forms",
           "datatype": "bool",
-          "defaultValue": "false"
+          "defaultValue": "true"
         },
         "UseWindowsDesktop": {
           "type": "computed",
           "value": "UseWpf || UseWinForms"
         },
-
+    
         "HostIdentifier": {
             "type": "bind",
             "binding": "HostIdentifier"
@@ -126,16 +129,20 @@
       }    
     },
     "sources": [
-        {
-            "modifiers": [
-                {
-                    "condition": "ComponentClassName == 'MyGrasshopper__1Component'",
-                    "rename": {
-                        "MyGrasshopper__1Component.cs": "MyGrasshopper.1Component.cs"
-                    }
-                }
-            ]
-        }
+      {
+        "modifiers": [
+          {
+            "condition": "!IncludeVSCode",
+            "exclude": [ ".vscode/*.*" ]
+          },
+          {
+            "condition": "ComponentClassName == 'MyGrasshopper__1Component'",
+            "rename": {
+              "MyGrasshopper__1Component.cs": "MyGrasshopper.1Component.cs"
+            }
+          }
+        ]
+      }
     ],
     "primaryOutputs": [
         { "path": "MyGrasshopper.1.csproj" },

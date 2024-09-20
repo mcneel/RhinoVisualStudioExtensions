@@ -48,7 +48,7 @@ namespace Rhino.VisualStudio
             var rhinoVersionInvalid = new Label { TextColor = Global.Theme.ErrorForeground };
             rhinoVersionInvalid.BindDataContext(c => c.Visible, Binding.Property((BaseRhinoOptionsViewModel m) => m.IsRhinoVersionValid).Convert(v => !v, v => !v));
             rhinoVersionInvalid.BindDataContext(c => c.Text, (BaseRhinoOptionsViewModel m) => m.RhinoVersionValidationText);
-            layout.AddSeparateRow("Target Version", TableLayout.AutoSized(rhinoVersionDropDown));
+            layout.AddSeparateRow("Minimum Target Version", TableLayout.AutoSized(rhinoVersionDropDown));
             layout.Add(rhinoVersionInvalid);
         }
          
@@ -74,6 +74,23 @@ namespace Rhino.VisualStudio
             return executableLocationGroup;
         }
          
+        protected virtual void AddBuildYakPackage(DynamicLayout layout)
+        {
+            var buildYakPackage = new CheckBox { Text = "Build Yak package", ToolTip = "Adds a target to the project to build yak package(s) automatically" };
+            buildYakPackage.BindDataContext(c => c.Checked, (BaseDesktopWizardViewModel m) => m.BuildYak);
+            
+            layout.Add(buildYakPackage);
+        }
+
+        protected virtual void AddIncludeVSCode(DynamicLayout layout)
+        {
+            var includeVSCode = new CheckBox { Text = "Include VS Code launch/tasks json files", ToolTip = "This enables easy building and debugging of your plugin using VS Code on Mac and Windows" };
+            includeVSCode.BindDataContext(c => c.Checked, (BaseDesktopWizardViewModel m) => m.IncludeVSCode);
+            
+            layout.Add(includeVSCode);
+        }
+         
+         
         protected virtual DynamicTable AddWindowsUI(DynamicLayout layout)
         {
             // wpf/winforms desktop
@@ -87,9 +104,11 @@ namespace Rhino.VisualStudio
             layout.Add(new PanelSeparator("Windows UI"));
             layout.BeginVertical();
             layout.Add(useWinForms);
+            layout.Add("Note: Rhino on Mac has limited support for Windows Forms and System.Drawing.");
             layout.Add(useWpf);
+            layout.Add("Note: Using WPF will limit the project to only run/compile on Windows.");
             layout.EndVertical();
-            layout.Add("Note: These options will limit the project to only run/compile on Windows.\nEto.Forms is included by default for cross-platform UI.");
+            layout.Add("Eto.Forms is included by default for cross-platform UI and graphics.");
             layout.EndVertical();
 
             layout.Load += (sender, e) =>

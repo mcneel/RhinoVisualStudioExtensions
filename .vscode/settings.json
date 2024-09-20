@@ -1,7 +1,7 @@
 {
-	"omnisharp.defaultLaunchSolution": "Rhino.VisualStudio.Mac.sln",
 	"var": {
 		"configuration" : "Debug",
 		"buildProperties" : "/v:Minimal /p:GenerateFullPaths=True /consoleLoggerParameters:NoSummary"
 	},
+	"dotnet.defaultSolution": "Rhino.VisualStudio.Mac.sln",
 }

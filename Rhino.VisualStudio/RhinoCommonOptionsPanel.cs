@@ -43,6 +43,8 @@ namespace Rhino.VisualStudio
             layout.Add(new PanelSeparator("Options"));
 
             AddRhinoVersion(layout);
+            AddBuildYakPackage(layout);
+            AddIncludeVSCode(layout);
             layout.Add(provideCommandSampleCheckBox);
 
             AddFileOptions(layout);
@@ -51,7 +53,7 @@ namespace Rhino.VisualStudio
 
             AddWindowsUI(layout);
 
-            AddRhinoLocation(layout);
+            // AddRhinoLocation(layout);
 
             Content = layout;
 

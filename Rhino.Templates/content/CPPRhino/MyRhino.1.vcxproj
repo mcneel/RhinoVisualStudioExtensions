@@ -65,14 +65,18 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
-    <PlatformToolset>v142</PlatformToolset>
+    <PlatformToolset Condition="$(RhinoVersion) == '6'">v142</PlatformToolset>
+    <PlatformToolset Condition="$(RhinoVersion) == '7'">v142</PlatformToolset>
+    <PlatformToolset Condition="$(RhinoVersion) == '8' || $(RhinoVersion) == ''">v143</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
     <UseOfMfc>Dynamic</UseOfMfc>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
-    <PlatformToolset>v142</PlatformToolset>
+    <PlatformToolset Condition="$(RhinoVersion) == '6'">v142</PlatformToolset>
+    <PlatformToolset Condition="$(RhinoVersion) == '7'">v142</PlatformToolset>
+    <PlatformToolset Condition="$(RhinoVersion) == '8' || $(RhinoVersion) == ''">v143</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
     <UseOfMfc>Dynamic</UseOfMfc>
   </PropertyGroup>
