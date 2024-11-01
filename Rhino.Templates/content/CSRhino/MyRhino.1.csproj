@@ -45,14 +45,14 @@
   
   <ItemGroup>
 <!--#if (RhinoVersion <= '6')-->
-    <PackageReference Include="Grasshopper" Version="6.35.21222.17001" Condition="$(TargetFramework) == 'net45'" ExcludeAssets="runtime" />
+    <PackageReference Include="RhinoCommon" Version="6.35.21222.17001" Condition="$(TargetFramework) == 'net45'" ExcludeAssets="runtime" />
 <!--#endif-->
 <!--#if (RhinoVersion <= '7')-->
-    <PackageReference Include="Grasshopper" Version="7.0.20314.3001" Condition="$(TargetFramework) == 'net48'" ExcludeAssets="runtime" />
-    <PackageReference Include="Grasshopper" Version="8.0.23304.9001" Condition="!$(TargetFramework.StartsWith('net4'))" ExcludeAssets="runtime" />
+    <PackageReference Include="RhinoCommon" Version="7.0.20314.3001" Condition="$(TargetFramework) == 'net48'" ExcludeAssets="runtime" />
+    <PackageReference Include="RhinoCommon" Version="8.0.23304.9001" Condition="!$(TargetFramework.StartsWith('net4'))" ExcludeAssets="runtime" />
 <!--#endif-->
 <!--#if (RhinoVersion == '8')-->
-    <PackageReference Include="Grasshopper" Version="8.0.23304.9001" ExcludeAssets="runtime" />
+    <PackageReference Include="RhinoCommon" Version="8.0.23304.9001" ExcludeAssets="runtime" />
 <!--#endif-->
   </ItemGroup>
   
