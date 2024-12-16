@@ -6,6 +6,8 @@
   "description": "Build plug-ins for Rhino 3D using the C++ SDK",
   "identity": "Rhino.Plugin.CPP",
   "groupIdentity": "Rhino.Plugin",
+  "precedence": 0,
+  "defaultName": "MyRhinoPlugin",
   "shortName": "rhino",
   "tags": {
     "language": "cpp",

@@ -5,6 +5,8 @@
     "name": "Grasshopper Component",
     "identity": "Grasshopper.Component.File.VB",
     "groupIdentity": "Grasshopper.Component.File",
+    "precedence": 0,
+    "defaultName": "MyComponent",
     "shortName": "ghcomponent",
     "tags": {
         "language": "VB",

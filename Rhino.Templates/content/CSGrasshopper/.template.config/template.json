@@ -9,6 +9,8 @@
     "description": "Build Grasshopper components for Rhino 3D in C#",
     "identity": "Grasshopper.Component.CS",
     "groupIdentity": "Grasshopper.Component",
+    "precedence": 100,
+    "defaultName": "MyGrasshopperComponents",
     "shortName": "grasshopper",
     "tags": {
         "language": "C#",

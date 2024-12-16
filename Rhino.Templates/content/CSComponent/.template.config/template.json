@@ -5,6 +5,8 @@
     "name": "Grasshopper Component",
     "identity": "Grasshopper.Component.File.CS",
     "groupIdentity": "Grasshopper.Component.File",
+    "precedence": 100,
+    "defaultName": "MyComponent",
     "shortName": "ghcomponent",
     "tags": {
         "language": "C#",

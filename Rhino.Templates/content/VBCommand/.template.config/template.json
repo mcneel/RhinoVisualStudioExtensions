@@ -5,6 +5,8 @@
     "name": "Rhino Command",
     "identity": "Rhino.Plugin.File.VB",
     "groupIdentity": "Rhino.Plugin.File",
+    "precedence": 0,
+    "defaultName": "MyCommand",
     "shortName": "rhinocommand",
     "tags": {
         "language": "VB",

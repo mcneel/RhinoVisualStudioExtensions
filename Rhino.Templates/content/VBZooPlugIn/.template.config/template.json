@@ -6,6 +6,8 @@
     "description": "A C# project to build a Rhino Zoo plugin.\n\nThis requires Zoo to be installed on your machine.\nAlso, remember to copy the ID from your Rhinoceros plug-in before continuing.",
     "identity": "Rhino.ZooPlugin.VB",
     "groupIdentity": "Rhino.ZooPlugin",
+    "precedence": 0,
+    "defaultName": "MyZooPlugin",
     "shortName": "zooplugin",
     "tags": {
         "language": "VB",

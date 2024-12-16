@@ -5,6 +5,8 @@
     "name": "Rhino Command",
     "identity": "Rhino.Plugin.File.CS",
     "groupIdentity": "Rhino.Plugin.File",
+    "precedence": 100,
+    "defaultName": "MyCommand",
     "shortName": "rhinocommand",
     "tags": {
         "language": "C#",

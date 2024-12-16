@@ -6,6 +6,8 @@
   "description": "Build plug-ins for Rhino 3D with RhinoCommon in C#",
   "identity": "Rhino.Plugin.CS",
   "groupIdentity": "Rhino.Plugin",
+  "precedence": 100,
+  "defaultName": "MyRhinoPlugin",
   "shortName": "rhino",
   "tags": {
     "language": "C#",

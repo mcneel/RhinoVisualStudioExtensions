@@ -9,6 +9,8 @@
   "description": "Build Grasshopper components for Rhino 3D in VB.NET",
   "identity": "Grasshopper.Component.VB",
   "groupIdentity": "Grasshopper.Component",
+  "precedence": 0,
+  "defaultName": "MyGrasshopperComponents",
   "shortName": "grasshopper",
   "tags": {
       "language": "VB",

@@ -6,6 +6,8 @@
   "description": "Build plug-ins for Rhino 3D with RhinoCommon in VB.NET",
   "identity": "Rhino.Plugin.VB",
   "groupIdentity": "Rhino.Plugin",
+  "precedence": 0,
+  "defaultName": "MyRhinoPlugin",
   "shortName": "rhino",
   "tags": {
     "language": "VB",
