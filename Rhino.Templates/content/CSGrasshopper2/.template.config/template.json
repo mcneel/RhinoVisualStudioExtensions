@@ -50,9 +50,9 @@
           "datatype": "bool",
           "defaultValue": "true"
         },
-        "AddonDisplayName": {
+        "PlugInDisplayName": {
             "type": "parameter",
-            "description": "Display name of your Grasshopper2 assembly",
+            "description": "Display name of your Grasshopper2 plug-in",
             "datatype": "text",
             "replaces": "MyGrasshopper.1 Info"
         },

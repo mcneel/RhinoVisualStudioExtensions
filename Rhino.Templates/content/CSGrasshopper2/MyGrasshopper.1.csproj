@@ -23,7 +23,7 @@
   </PropertyGroup>
   
   <PropertyGroup>
-    <!-- Specifies information for Assembly and Yak -->
+    <!-- Specifies information for Assembly, Yak, and GH2 PlugIn Info -->
     <Version>1.0</Version>
     <Title>MyGrasshopper.1</Title>
     <Company>MyGrasshopper.1 Authors</Company>
@@ -31,7 +31,7 @@
   </PropertyGroup>
   
   <ItemGroup>
-    <PackageReference Include="Grasshopper2" Version="2.0.9074-wip" ExcludeAssets="runtime" />
+    <PackageReference Include="Grasshopper2" Version="2.0.9114-wip.27439" ExcludeAssets="runtime" />
   </ItemGroup>
   
 <!--#if (UseWindowsDesktop)-->
@@ -48,6 +48,7 @@
 <!--#endif-->
   <ItemGroup>
     <EmbeddedResource Include="Icons\*.ghicon" />
+    <EmbeddedResource Include="Icons\*.ico" />
   </ItemGroup>
 <!--#if (UseWinForms)-->
   <!-- Reference WinForms for .NET 7.0 on macOS -->

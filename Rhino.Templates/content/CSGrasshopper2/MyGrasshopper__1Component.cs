@@ -26,9 +26,10 @@ namespace MyGrasshopper._1
         /// </summary>
         protected override void AddInputs(InputAdder inputs)
         {
-            inputs.AddPlane("Centre Point", "Cn", "Arc base plane.").Set(Plane.WorldXY);
-            inputs.AddPoint("Start Point", "Pa", "Arc start point.").Set(new Point3d(1, 0, 0));
-            inputs.AddPoint("End Point", "Pb", "Arc end point").Set(new Point3d(-2, 2, 0));
+            inputs.AddPlane("Plane", "P", "Base plane for spiral").Set(Plane.WorldXY);
+            inputs.AddNumber("Inner Radius", "R0", "Inner radius for spiral").Set(1.0);
+            inputs.AddNumber("Outer Radius", "R1", "Outer radius for spiral").Set(10.0);
+            inputs.AddInteger("Turns", "T", "Number of turns between radii").Set(10);
         }
 
         /// <summary>
@@ -36,8 +37,7 @@ namespace MyGrasshopper._1
         /// </summary>
         protected override void AddOutputs(OutputAdder outputs)
         {
-            outputs.AddArc("Clockwise Arc", "Cw", "Arc from start to end, travelling clockwise in the base plane.");
-            outputs.AddArc("Anti-clockwise Arc", "Aw", "Arc from start to end, travelling anti-clockwise in the base plane.");
+            outputs.AddCurve("Spiral", "S", "Spiral curve");
         }
 
         /// <summary>
@@ -47,29 +47,61 @@ namespace MyGrasshopper._1
         /// to store data in output parameters.</param>
         protected override void Process(IDataAccess access)
         {
-            access.GetItem(0, out Plane plane);
-            access.GetItem(1, out Point3d pa);
-            access.GetItem(2, out Point3d pb);
+            // First, we need to retrieve all data from the input parameters.
+            // When data cannot be extracted from a parameter, we should abort this method.
+            if (!access.GetItem(0, out Plane plane)) return;
+            if (!access.GetItem(1, out double radius0)) return;
+            if (!access.GetItem(2, out double radius1)) return;
+            if (!access.GetItem(3, out int turns)) return;
 
-            pa = plane.ClosestPoint(pa);
-            pb = plane.ClosestPoint(pb);
+            // We should now validate the data and warn the user if invalid data is supplied.
+            if (radius0 < 0.0)
+            {
+                access.AddError("Inner radius must be bigger than or equal to zero", "");
+                return;
+            }
+            if (radius1 <= radius0)
+            {
+                access.AddError("Outer radius must be bigger than the inner radius", "");
+                return;
+            }
+            if (turns <= 0)
+            {
+                access.AddError("Spiral turn count must be bigger than or equal to one", "");
+                return;
+            }
 
-            access.VerifyNonCoincident(plane.Origin, pa, "centre", "start point");
-            access.VerifyNonCoincident(plane.Origin, pb, "centre", "end point");
+            // We're set to create the spiral now. To keep the size of the SolveInstance() method small, 
+            // The actual functionality will be in a different method:
+            Curve spiral = CreateSpiral(plane, radius0, radius1, turns);
 
-            var radius = plane.Origin.DistanceTo(pa);
-            var sb = (pb - plane.Origin); sb.Unitize();
-            pb = plane.Origin + sb * radius;
+            // Finally assign the spiral to the output parameter.
+            access.SetItem(0, spiral);
+        }
 
-            plane.ClosestParameter(pa, out var ua, out var va);
-            var α = Math.Atan2(va, ua);
+        Curve CreateSpiral(Plane plane, double r0, double r1, Int32 turns)
+        {
+            Line l0 = new Line(plane.Origin + r0 * plane.XAxis, plane.Origin + r1 * plane.XAxis);
+            Line l1 = new Line(plane.Origin - r0 * plane.XAxis, plane.Origin - r1 * plane.XAxis);
 
-            var circle = new Circle(plane, radius);
-            var arc0 = new Arc(pa, -circle.TangentAt(α), pb);
-            var arc1 = new Arc(pa, circle.TangentAt(α), pb);
+            Point3d[] p0;
+            Point3d[] p1;
 
-            access.SetItem(0, arc0);
-            access.SetItem(1, arc1);
+            l0.ToNurbsCurve().DivideByCount(turns, true, out p0);
+            l1.ToNurbsCurve().DivideByCount(turns, true, out p1);
+
+            PolyCurve spiral = new PolyCurve();
+
+            for (int i = 0; i < p0.Length - 1; i++)
+            {
+                Arc arc0 = new Arc(p0[i], plane.YAxis, p1[i + 1]);
+                Arc arc1 = new Arc(p1[i + 1], -plane.YAxis, p0[i + 1]);
+
+                spiral.Append(arc0);
+                spiral.Append(arc1);
+            }
+
+            return spiral;
         }
 #else
         /// <summary>

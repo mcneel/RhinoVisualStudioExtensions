@@ -9,9 +9,9 @@
       "longName": "version",
       "shortName": "v"
     },
-    "AddonDisplayName": {
-      "longName": "addon-display-name",
-      "shortName": "addon-name"
+    "PlugInDisplayName": {
+      "longName": "plugin-display-name",
+      "shortName": "plugin-name"
     },
     "ComponentClassName": {
       "longName": "component-class",
