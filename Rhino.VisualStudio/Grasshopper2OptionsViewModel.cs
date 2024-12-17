@@ -111,8 +111,9 @@ namespace Rhino.VisualStudio
 
         void SetDefaults()
         {
-            ComponentChapter = "Category";
-            ComponentSection = "Subcategory";
+            ComponentChapter = "Chapter";
+            ComponentSection = "Section";
+
             ComponentInfo = "Description";
         }
 
