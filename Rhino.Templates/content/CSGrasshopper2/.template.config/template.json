@@ -127,7 +127,9 @@
           {
             "condition": "ComponentClassName == 'MyGrasshopper__1Component'",
             "rename": {
-              "MyGrasshopper__1Component.cs": "MyGrasshopper.1Component.cs"
+              "MyGrasshopper__1Component.cs": "MyGrasshopper.1Component.cs",
+              "MyGrasshopper__1Component.3dm": "MyGrasshopper.1Component.3dm",
+              "MyGrasshopper__1Component.ghicon": "MyGrasshopper.1Component.ghicon"
             }
           }
         ]

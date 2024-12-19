@@ -16,7 +16,7 @@ namespace MyGrasshopper._1
                 GetAttribute<AssemblyDescriptionAttribute>()?.Description),
              typeof(MyGrasshopper__1PluginInfo).Assembly.GetName().Version)
     { 
-      Icon = AbstractIcon.FromResource("MyGrasshopper__1Plugin", typeof(MyGrasshopper__1PluginInfo));
+      Icon = AbstractIcon.FromResource("MyGrasshopper.1Plugin", typeof(MyGrasshopper__1PluginInfo));
     }
     
     public override string Author => GetAttribute<AssemblyCompanyAttribute>()?.Company;
