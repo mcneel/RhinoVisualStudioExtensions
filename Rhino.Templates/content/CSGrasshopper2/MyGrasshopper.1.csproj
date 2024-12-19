@@ -1,0 +1,89 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+	
+  <PropertyGroup>
+    <!-- Select the framework(s) you wish to target.
+        Rhino 8 Windows: net48, net7.0, net7.0-windows, net7.0-windows10.0.22000.0, etc
+        Rhino 8 Mac: net7.0, net7.0-macos, net7.0-macos12.0, etc
+    -->
+<!--#if (UseWpf)-->
+    <TargetFrameworks>net7.0-windows;net48</TargetFrameworks>
+<!--#elif (UseWindowsDesktop)-->
+    <TargetFrameworks>net7.0-windows;net7.0;net48</TargetFrameworks>
+<!--#else-->
+    <TargetFrameworks>net7.0;net48</TargetFrameworks>
+<!--#endif-->
+    <EnableDynamicLoading>true</EnableDynamicLoading>
+    <TargetExt>.rhp</TargetExt>
+<!--#if (UseWinForms)-->
+    <NoWarn>NU1701;NETSDK1086</NoWarn>
+<!--#else-->
+    <NoWarn>NU1701</NoWarn>
+<!--#endif-->
+    <EnableWindowsTargeting Condition="$(UseWindowsDesktop) == 'True'">true</EnableWindowsTargeting>
+  </PropertyGroup>
+  
+  <PropertyGroup>
+    <!-- Specifies information for Assembly, Yak, and GH2 PlugIn Info -->
+    <Version>1.0</Version>
+    <Title>MyGrasshopper.1</Title>
+    <Company>MyGrasshopper.1 Authors</Company>
+    <Description>Description of MyGrasshopper.1</Description>
+  </PropertyGroup>
+  
+  <ItemGroup>
+    <PackageReference Include="Grasshopper2" Version="2.0.9114-wip.27439" ExcludeAssets="runtime" />
+  </ItemGroup>
+  
+<!--#if (UseWindowsDesktop)-->
+  <!-- For Windows only builds -->
+  <PropertyGroup Condition="$(TargetFramework.Contains('-windows')) or $(TargetFramework.StartsWith('net4'))">
+<!--#if (UseWinForms)-->
+    <UseWindowsForms>true</UseWindowsForms>
+<!--#endif-->
+<!--#if (UseWpf)-->
+    <UseWpf>true</UseWpf>
+<!--#endif-->
+  </PropertyGroup>
+
+<!--#endif-->
+  <ItemGroup>
+    <EmbeddedResource Include="Icons\*.ghicon" />
+    <EmbeddedResource Include="Icons\*.ico" />
+  </ItemGroup>
+<!--#if (UseWinForms)-->
+  <!-- Reference WinForms for .NET 7.0 on macOS -->
+  <ItemGroup Condition="!($(TargetFramework.Contains('-windows')) or $(TargetFramework.StartsWith('net4')))">
+    <FrameworkReference Include="Microsoft.WindowsDesktop.App.WindowsForms" />
+  </ItemGroup>
+
+<!--#endif-->
+<!--#if (RhinoVersion < '8')-->
+  <Target Name="CopyPdbForMonoDebugging" AfterTargets="AfterBuild">
+    <!-- Enable debugging in Rhino 6/7 on Mac -->
+    <Copy SourceFiles="$(TargetDir)$(TargetName).pdb" DestinationFiles="$(TargetDir)$(TargetName).gha.pdb" Condition="$([MSBuild]::IsOSPlatform(OSX)) and $(TargetFramework.StartsWith('net4')) and Exists('$(TargetDir)$(TargetName).pdb')" />
+  </Target>
+
+<!--#endif-->
+<!--#if (BuildYak)-->
+  <Target Name="BuildYakPackage" AfterTargets="DispatchToInnerBuilds">
+    <PropertyGroup>
+      <YakExecutable Condition="$(YakExecutable) == '' and $([MSBuild]::IsOSPlatform(windows)) and Exists('C:\Program Files\Rhino 8\System\Yak.exe')">C:\Program Files\Rhino 8\System\Yak.exe</YakExecutable>
+      <YakExecutable Condition="$(YakExecutable) == '' and $([MSBuild]::IsOSPlatform(macos)) and Exists('/Applications/Rhino 8.app/Contents/Resources/bin/yak')">/Applications/Rhino 8.app/Contents/Resources/bin/yak</YakExecutable>
+      
+      <BuildYakPackage Condition="$(BuildYakPackage) == '' and $(YakExecutable) != '' and Exists($(YakExecutable))">True</BuildYakPackage>
+    </PropertyGroup>
+    
+    <Warning Text="Could not find Yak executable" Condition="$(YakExecutable) == ''" />
+
+    <ItemGroup>
+      <YakPackagesToDelete Include="$(OutputPath)\*.yak;$(OutputPath)\**\manifest.yml" />
+    </ItemGroup>
+    
+    <Delete Files="@(YakPackagesToDelete)" />
+
+    <Exec Command="&quot;$(YakExecutable)&quot; spec" WorkingDirectory="$(OutputPath)" Condition="$(BuildYakPackage) == 'True'" />
+    <Exec Command="&quot;$(YakExecutable)&quot; build" WorkingDirectory="$(OutputPath)" Condition="$(BuildYakPackage) == 'True'" />
+  </Target>
+
+<!--#endif-->
+</Project>

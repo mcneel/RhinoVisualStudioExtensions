@@ -69,7 +69,7 @@
           Condition="!Exists($(MyTextFile))" />
   </Target>
 
-  <Target Name="GenerateTemplates" DependsOnTargets="CleanTemplates;CreateDirectoryProps;GrasshopperTemplates;RhinoCommonTemplates;CppRhinoTemplates;CppSkinTemplates;ZooTemplates" > 
+  <Target Name="GenerateTemplates" DependsOnTargets="CleanTemplates;CreateDirectoryProps;Grasshopper2Templates;GrasshopperTemplates;RhinoCommonTemplates;CppRhinoTemplates;CppSkinTemplates;ZooTemplates" > 
   </Target>
   
   <Target Name="CppRhinoTemplates" DependsOnTargets="GetVSMSBuild" Condition="$([MSBuild]::IsOSPlatform(Windows))">
@@ -197,6 +197,31 @@
     </ItemGroup>
 
     <Exec Command="%(GHOptions.Command)" />
+
+  </Target>
+
+  <Target Name="Grasshopper2Templates">
+    <!-- generate Grasshopper templates -->
+    <ItemGroup>
+      <GH2IncludeSample Include="Plain" Value="" />
+      <GH2IncludeSample Include="Sample" Value="-sample" />
+
+      <GH2WithName Include="DefaultName" Value="" />
+      <GH2WithName Include="CustonName" Value='-component MyComponentClassName -cname "MyComponent Name" -info MyDescription -ch MyChapter -sec MySection --plugin-display-name="My-Plugin-Name"' />
+
+      <GH2Options2 Include="*" DesktopId="%(Desktop.Identity)" Desktop="%(Desktop.Value)" />
+      <GH2Options1 Include="@(GH2Options2)" WithNameId="%(GH2WithName.Identity)" WithName="%(GH2WithName.Value)" />
+      <GH2Options Include="@(GH2Options1)" SampleId="%(GH2IncludeSample.Identity)" Sample="%(GH2IncludeSample.Value)" />
+      
+      <GH2Options Update="@(GH2Options)" OutputDir="GH2/%(SampleId).%(WithNameId)%(DesktopId)/" />
+
+      <!-- generate template -->
+      <GH2Options Update="@(GH2Options)" Command="dotnet new gh2 -yak %(GH2Options.Sample) %(WithName) %(Desktop) -o $(TemplateDir)%(OutputDir)" />
+      <!-- build template-->
+      <GH2Options Update="@(GH2Options)" Command="%(Command) &amp;&amp; cd $(TemplateDir)%(OutputDir) &amp;&amp; dotnet build $(BuildOptions)" Condition="$(BuildAllProjects) == 'true'" />
+    </ItemGroup>
+
+    <Exec Command="%(GH2Options.Command)" />
 
   </Target>
 

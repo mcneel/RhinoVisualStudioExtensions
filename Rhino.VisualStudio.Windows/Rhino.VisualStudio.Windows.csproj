@@ -94,6 +94,8 @@
     <Resource Include="Templates\CSComponent\icon.ico" />
     <Content Include="Templates\CSGrasshopper\grasshopper.vstemplate" />
     <Resource Include="Templates\CSGrasshopper\icon.ico" />
+    <Content Include="Templates\CSGrasshopper2\grasshopper2.vstemplate" />
+    <Resource Include="Templates\CSGrasshopper2\icon.ico" />
     <Resource Include="Templates\CSRhino\icon.ico" />
     <Content Include="Templates\CSRhino\rhino.vstemplate" />
     <Resource Include="Templates\CSZooPlugin\icon.ico" />
@@ -214,6 +216,7 @@
     <Compile Include="Services.cs" />
     <Compile Include="Wizard\EtoWizard.cs" />
     <Compile Include="Wizard\GrasshopperWizard.cs" />
+    <Compile Include="Wizard\Grasshopper2Wizard.cs" />
     <Compile Include="Wizard\LegacyTemplateWizard.cs" />
     <Compile Include="Wizard\RhinoWizard.cs" />
     <Compile Include="Wizard\WizardHost.cs" />

@@ -1,0 +1,52 @@
+{
+  "$schema": "http://json.schemastore.org/dotnetcli.host",
+  "symbolInfo": {
+    "IncludeSample": {
+      "longName": "include-sample",
+      "shortName": "sample"
+    },
+    "RhinoVersion": {
+      "longName": "version",
+      "shortName": "v"
+    },
+    "PlugInDisplayName": {
+      "longName": "plugin-display-name",
+      "shortName": "plugin-name"
+    },
+    "ComponentClassName": {
+      "longName": "component-class",
+      "shortName": "component"
+    },
+    "ComponentName": {
+      "longName": "component-name",
+      "shortName": "cname"
+    },
+    "ComponentInfo": {
+      "shortName": "info"
+    },
+    "ComponentChapter": {
+      "longName": "chapter",
+      "shortName": "ch"
+    },
+    "ComponentSection": {
+      "longName": "section",
+      "shortName": "sec"
+    },
+    "UseWpf": {
+      "longName": "include-wpf",
+      "shortName": "wpf"
+    },
+    "UseWinForms": {
+      "longName": "include-winforms",
+      "shortName": "wf"
+    },
+    "BuildYak": {
+      "longName": "build-yak",
+      "shortName": "yak"
+    },
+    "IncludeVSCode": {
+      "longName": "include-vscode-launch",
+      "shortName": "vscode"
+    }
+  }
+}
