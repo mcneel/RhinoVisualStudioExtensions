@@ -13,12 +13,12 @@
     "language": "C#",
     "type": "project"
   },
-  "sourceName": "MyRhinoTest.1",
+  "sourceName": "MyRhino.1",
   "preferNameDirectory": true,
   "symbols": {
     "IncludeSample": {
       "type": "parameter",
-      "description": "Include code sample (for utility plugins only).",
+      "description": "Include a test code sample",
       "dataType": "bool",
       "defaultValue": "false"
     },
@@ -41,12 +41,19 @@
       "datatype": "bool",
       "defaultValue": "true"
     },
-    "CommandClassName": {
+    "TestClassName": {
       "type": "parameter",
-      "description": "Name of the command class.",
+      "description": "Name of the test class.",
       "datatype": "text",
-      "replaces": "MyRhinoTest__1Command",
-      "fileRename": "MyRhinoTest__1Command"
+      "replaces": "MyRhino__1Test",
+      "fileRename": "MyRhino__1Test"
+    },
+    "ProjectClassName": {
+      "type": "parameter",
+      "description": "Name of the project class.",
+      "datatype": "text",
+      "replaces": "MyRhino__1Project",
+      "fileRename": "MyRhino__1Project"
     }
   },
   "forms": {
@@ -60,31 +67,33 @@
     {
       "modifiers": [
         {
-          "condition": "!IncludeVSCode",
-          "exclude": [ ".vscode/*.*" ]
+          "condition": "TestClassName == 'MyRhino__1Test'",
+          "rename": {
+            "MyRhino__1Test.cs": "MyRhino.1Test.cs"
+          }
         },
         {
-          "condition": "CommandClassName == 'MyRhinoTest__1Command'",
+          "condition": "ProjectClassName == 'MyRhino__1Project'",
           "rename": {
-            "MyRhinoTest__1Command.cs": "MyRhinoTest.1Command.cs"
+            "MyRhino__1Project.cs": "MyRhino.1Project.cs"
           }
         }
       ]
     }
   ],
   "primaryOutputs": [
-    { "path": "MyRhinoTest.1.csproj" },
-    { "path": "MyRhinoTest__1Command.cs" }
+    { "path": "MyRhino.1.csproj" },
+    { "path": "MyRhino__1Test.cs" }
   ],
   "guids": [
-    "ee4e2b39-d96b-4e4c-8f9d-9b6561e61b64"
+    "2529cd5e-54f8-4556-a013-bc1ac315a247"
   ],
   "postActions": [
     {
       "condition": "(HostIdentifier != \"dotnetcli\" && HostIdentifier != \"dotnetcli-preview\")",
-      "description": "Opens the command in the editor",
+      "description": "Opens the Test in the editor",
       "manualInstructions": [],
-      "actionId": "84C0DA21-51C8-4541-9940-6CA19AF04EE6",
+      "actionId": "ee690a9f-636e-49ff-813e-c05c11c57e29",
       "args": {
         "files": "1"
       },

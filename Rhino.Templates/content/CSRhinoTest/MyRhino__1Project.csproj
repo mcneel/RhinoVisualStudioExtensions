@@ -10,9 +10,9 @@
   
   <PropertyGroup>
     <Version>1.0</Version>
-    <Title>MyRhinoTest.1</Title>
-    <Company>MyRhinoTest.1 Authors</Company>
-    <Description>Description of MyRhinoTest.1</Description>
+    <Title>MyRhino.1</Title>
+    <Company>MyRhino.1 Authors</Company>
+    <Description>Description of MyRhino.1</Description>
 
     <NoWarn>NU1701;MSB3277</NoWarn>
   </PropertyGroup>

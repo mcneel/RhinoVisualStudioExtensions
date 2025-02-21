@@ -9,10 +9,10 @@ using Rhino.Geometry;
 using Rhino.Testing;
 using Rhino.Testing.Fixtures;
 
-namespace MyRhinoTest._1;
+namespace MyRhino._1;
 
 [RhinoTestFixture]
-public class TestExample
+public class MyRhino__1Test
 {
 
     [Test]
