@@ -9,8 +9,11 @@
       "longName": "version",
       "shortName": "v"
     },
-    "PluginClassName": {
-      "shortName": "plugin"
+    "TestClassName": {
+      "shortName": "test"
+    },
+    "ProjectClassName": {
+      "shortName": "project"
     },
     "FileDescription": {
       "longName": "file-description",

@@ -67,6 +67,10 @@
     {
       "modifiers": [
         {
+          "condition": "!IncludeVSCode",
+          "exclude": [ ".vscode/*.*" ]
+        },
+        {
           "condition": "TestClassName == 'MyRhino__1Test'",
           "rename": {
             "MyRhino__1Test.cs": "MyRhino.1Test.cs"
@@ -87,17 +91,5 @@
   ],
   "guids": [
     "2529cd5e-54f8-4556-a013-bc1ac315a247"
-  ],
-  "postActions": [
-    {
-      "condition": "(HostIdentifier != \"dotnetcli\" && HostIdentifier != \"dotnetcli-preview\")",
-      "description": "Opens the Test in the editor",
-      "manualInstructions": [],
-      "actionId": "ee690a9f-636e-49ff-813e-c05c11c57e29",
-      "args": {
-        "files": "1"
-      },
-      "continueOnError": true
-    }
   ]
 }
