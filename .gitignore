@@ -7,3 +7,5 @@ packages
 Thumbs.db
 artifacts
 *.user
+
+.DS_Store

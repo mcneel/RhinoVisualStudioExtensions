@@ -1,0 +1,29 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+	
+  <PropertyGroup>
+    <!-- Select the framework(s) you wish to target.
+        Rhino 8 Windows: net48, net7.0-windows, net7.0-windows10.0.22000.0, etc
+    -->
+    <TargetFrameworks>net7.0-windows;net48</TargetFrameworks>
+    <LangVersion>11</LangVersion>
+  </PropertyGroup>
+  
+  <PropertyGroup>
+    <Version>1.0</Version>
+    <Title>MyRhinoTest.1</Title>
+    <Company>MyRhinoTest.1 Authors</Company>
+    <Description>Description of MyRhinoTest.1</Description>
+  </PropertyGroup>
+  
+  <ItemGroup>
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.9.0" />
+    <PackageReference Include="NUnit3TestAdapter" Version="4.5.0" />
+    <PackageReference Include="NUnit" Version="3.14.0" />
+    <PackageReference Include="Rhino.Testing" Version="8.0.*-beta" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="Rhino.Testing.Configs.xml" CopyToOutputDirectory="always" />
+  </ItemGroup>
+
+</Project>

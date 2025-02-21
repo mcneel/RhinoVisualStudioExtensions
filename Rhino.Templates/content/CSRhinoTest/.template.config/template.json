@@ -1,0 +1,224 @@
+﻿{
+  "$schema": "http://json.schemastore.org/template",
+  "author": "McNeel",
+  "classifications": [ "Rhino", "RhinoCommon" ],
+  "name": "Rhino 3D Plug-In",
+  "description": "Build plug-ins for Rhino 3D with RhinoCommon in C#",
+  "identity": "Rhino.Plugin.CS",
+  "groupIdentity": "Rhino.Plugin",
+  "precedence": 100,
+  "defaultName": "MyRhinoTestPlugin",
+  "shortName": "rhino",
+  "tags": {
+    "language": "C#",
+    "type": "project"
+  },
+  "sourceName": "MyRhinoTest.1",
+  "preferNameDirectory": true,
+  "symbols": {
+    "PluginType": {
+      "type": "parameter",
+      "datatype": "choice",
+      "description": "Type of plugin to create",
+      "defaultValue": "utility",
+      "replaces": "utility",
+      "choices": [
+        {
+          "choice": "utility",
+          "description": "A generic utility plug-in"
+        },
+        {
+          "choice": "digitize",
+          "description": "A digitizer plug-in"
+        },
+        {
+          "choice": "render",
+          "description": "A rendering plug-in"
+        },
+        {
+          "choice": "import",
+          "description": "A file import plug-in"
+        },
+        {
+          "choice": "export",
+          "description": "A file export plug-in"
+        }
+      ]
+    },
+    "IncludeSample": {
+      "type": "parameter",
+      "description": "Include code sample (for utility plugins only).",
+      "dataType": "bool",
+      "defaultValue": "false"
+    },
+    "RhinoVersion": {
+      "type": "parameter",
+      "description": "Version of Rhino",
+      "datatype": "choice",
+      "defaultValue": "8",
+      "choices": [
+        {
+          "choice": "6",
+          "description": "Version 6"
+        },
+        {
+          "choice": "7",
+          "description": "Version 7"
+        },
+        {
+          "choice": "8",
+          "description": "Version 8"
+        }
+      ],
+      "replaces": "MyRhinoTestVersion"
+    },
+    "BuildYak": {
+      "type": "parameter",
+      "description": "Include target to build yak package(s) for your plugin",
+      "datatype": "bool",
+      "defaultValue": "false"
+    },
+    "IncludeVSCode": {
+      "type": "parameter",
+      "description": "Include tasks.json and launch.json to build/debug in VS Code",
+      "datatype": "bool",
+      "defaultValue": "true"
+    },
+    "CommandClassName": {
+      "type": "parameter",
+      "description": "Name of the command class.",
+      "datatype": "text",
+      "replaces": "MyRhinoTest__1Command",
+      "fileRename": "MyRhinoTest__1Command"
+    },
+    "PluginClassName": {
+      "type": "parameter",
+      "description": "Name of the plugin class.",
+      "datatype": "text",
+      "replaces": "MyRhinoTest__1Plugin",
+      "fileRename": "MyRhinoTest__1Plugin"
+    },
+    "FileExtension": {
+      "type": "parameter",
+      "description": "Extension for file import/export plugin types (e.g. 'myext')",
+      "datatype": "text",
+      "replaces": "myext"
+    },
+    "FileDescription": {
+      "type": "parameter",
+      "description": "Description of the file for import/export types",
+      "datatype": "text",
+      "replaces": "MyFileDescription"
+    },
+    
+    "UseWpf": {
+      "type": "parameter",
+      "description": "Enable to use WPF designer in VS (Windows only)",
+      "datatype": "bool",
+      "defaultValue": "false"
+    },
+    "UseWinForms": {
+      "type": "parameter",
+      "description": "Enable to use Windows Forms designer in VS (Windows only)",
+      "datatype": "bool",
+      "defaultValue": "false"
+    },
+    "UseWindowsDesktop": {
+      "type": "computed",
+      "value": "UseWpf || UseWinForms"
+    },
+
+    "TypeUtility": {
+      "type": "computed",
+      "value": "PluginType == \"utility\""
+    },
+    "TypeDigitize": {
+      "type": "computed",
+      "value": "PluginType == \"digitize\""
+    },
+    "TypeRender": {
+      "type": "computed",
+      "value": "PluginType == \"render\""
+    },
+    "TypeImport": {
+      "type": "computed",
+      "value": "PluginType == \"import\""
+    },
+    "TypeExport": {
+      "type": "computed",
+      "value": "PluginType == \"export\""
+    },
+    "HostIdentifier": {
+      "type": "bind",
+      "binding": "HostIdentifier"
+    }
+  },
+  "forms": {
+    "JsonStringEncode": {
+      "identifier": "replace",
+      "pattern": "\\\\",      
+      "replacement": "\\\\"  
+    }    
+  },
+  "sources": [
+    {
+      "modifiers": [
+        {
+          "condition": "!IncludeVSCode",
+          "exclude": [ ".vscode/*.*" ]
+        },
+        {
+          "condition": "PluginType != 'utility'",
+          "exclude": [ "EmbeddedResources/plugin-utility.ico" ]
+        },
+        {
+          "condition": "PluginType != 'digitize'",
+          "exclude": [ "EmbeddedResources/plugin-digitize.ico" ]
+        },
+        {
+          "condition": "PluginType != 'render'",
+          "exclude": [ "EmbeddedResources/plugin-render.ico" ]
+        },
+        {
+          "condition": "PluginType != 'import'",
+          "exclude": [ "EmbeddedResources/plugin-import.ico" ]
+        },
+        {
+          "condition": "PluginType != 'export'",
+          "exclude": [ "EmbeddedResources/plugin-export.ico" ]
+        },
+        {
+          "condition": "CommandClassName == 'MyRhinoTest__1Command'",
+          "rename": {
+            "MyRhinoTest__1Command.cs": "MyRhinoTest.1Command.cs"
+          }
+        },
+        {
+          "condition": "PluginClassName == 'MyRhinoTest__1Plugin'",
+          "rename": {
+            "MyRhinoTest__1Plugin.cs": "MyRhinoTest.1Plugin.cs"
+          }
+        }
+      ]
+    }
+  ],
+  "primaryOutputs": [
+    { "path": "MyRhinoTest.1.csproj" },
+    { "path": "MyRhinoTest__1Command.cs" }
+  ],
+  "guids": [
+    "ee4e2b39-d96b-4e4c-8f9d-9b6561e61b64"
+  ],
+  "postActions": [
+    {
+      "condition": "(HostIdentifier != \"dotnetcli\" && HostIdentifier != \"dotnetcli-preview\")",
+      "description": "Opens the command in the editor",
+      "manualInstructions": [],
+      "actionId": "84C0DA21-51C8-4541-9940-6CA19AF04EE6",
+      "args": {
+        "files": "1"
+      },
+      "continueOnError": true
+    }
+  ]
+}

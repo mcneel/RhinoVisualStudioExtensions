@@ -1,0 +1,24 @@
+{
+  "$schema": "http://json.schemastore.org/dotnetcli.host",
+  "symbolInfo": {
+    "IncludeSample": {
+      "longName": "include-sample",
+      "shortName": "sample"
+    },
+    "RhinoVersion": {
+      "longName": "version",
+      "shortName": "v"
+    },
+    "PluginClassName": {
+      "shortName": "plugin"
+    },
+    "FileDescription": {
+      "longName": "file-description",
+      "shortName": "desc"
+    },
+    "IncludeVSCode": {
+      "longName": "include-vscode-launch",
+      "shortName": "vscode"
+    }
+  }
+}
