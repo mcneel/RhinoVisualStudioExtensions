@@ -220,6 +220,7 @@
     <Compile Include="Wizard\GrasshopperWizard.cs" />
     <Compile Include="Wizard\Grasshopper2Wizard.cs" />
     <Compile Include="Wizard\LegacyTemplateWizard.cs" />
+    <Compile Include="Wizard\RhinoTestWizard.cs" />
     <Compile Include="Wizard\RhinoWizard.cs" />
     <Compile Include="Wizard\WizardHost.cs" />
     <Compile Include="Wizard\ZooPluginWizard.cs" />
