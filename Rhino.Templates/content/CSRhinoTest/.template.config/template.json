@@ -8,7 +8,7 @@
   "groupIdentity": "Rhino.Tests",
   "precedence": 100,
   "defaultName": "MyRhinoTests",
-  "shortName": "rhino",
+  "shortName": "rhinotest",
   "tags": {
     "language": "C#",
     "type": "project"

@@ -1,14 +1,20 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using NUnit.Framework;
 
 using Rhino;
-using Rhino.Commands;
 using Rhino.Geometry;
 
-[RhinoTestFixture] 
-namespace MyRhinoTest._1
+using Rhino.Testing;
+using Rhino.Testing.Fixtures;
+
+namespace MyRhinoTest._1;
+
+[RhinoTestFixture]
+public class TestExample
 {
-    
+
     [Test]
     [TestCaseSource(nameof(PointList))]
     public void Test(Point3d point)
@@ -24,5 +30,5 @@ namespace MyRhinoTest._1
         yield return new TestCaseData(new Point3d(4, 5, 6));
         yield return new TestCaseData(new Point3d(7, 8, 9));
     }
-    
+
 }

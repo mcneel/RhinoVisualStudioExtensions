@@ -13,13 +13,17 @@
     <Title>MyRhinoTest.1</Title>
     <Company>MyRhinoTest.1 Authors</Company>
     <Description>Description of MyRhinoTest.1</Description>
+
+    <NoWarn>NU1701;MSB3277</NoWarn>
   </PropertyGroup>
   
   <ItemGroup>
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.9.0" />
-    <PackageReference Include="NUnit3TestAdapter" Version="4.5.0" />
+    <PackageReference Include="NUnit3TestAdapter" Version="5.0.0" />
     <PackageReference Include="NUnit" Version="3.14.0" />
-    <PackageReference Include="Rhino.Testing" Version="8.0.*-beta" />
+    <PackageReference Include="Rhino.Testing" Version="8.0.23-beta" />
+
+    <PackageReference Include="RhinoCommon" Version="8.0.23304.9001" ExcludeAssets="runtime" />
   </ItemGroup>
 
   <ItemGroup>
