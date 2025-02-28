@@ -1,3 +1,4 @@
+//-:cnd:noEmit
 // stdafx.h : include file for standard system include files,
 // or project specific include files that are used frequently, but
 // are changed infrequently
@@ -76,3 +77,4 @@
 
 // Rhino SDK linking pragmas
 #include "rhinoSdkPlugInLinkingPragmas.h"
+//+:cnd:noEmit

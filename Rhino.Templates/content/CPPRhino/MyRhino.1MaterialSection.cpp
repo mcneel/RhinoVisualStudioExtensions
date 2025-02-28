@@ -5,6 +5,7 @@
 #include "MyRhino.1MaterialSection.h"
 #include "MyRhino.1Material.h"
 
+//-:cnd:noEmit
 #if defined (RHINO_SDK_MFC)
 CMyRhino__1MaterialSection::CMyRhino__1MaterialSection()
 	:
@@ -67,3 +68,4 @@ void CMyRhino__1MaterialSection::EnableDisableControls()
 	// TODO: enable and disable controls based on material state.
 }
 #endif
+//+:cnd:noEmit
