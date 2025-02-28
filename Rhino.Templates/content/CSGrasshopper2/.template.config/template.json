@@ -7,7 +7,7 @@
         "GH2"
     ],
     "name": "Grasshopper2 PlugIn (WIP)",
-    "description": "Build Grasshopper2 components for Rhino 3D in C#",
+    "description": "Build Grasshopper2 components for Rhino3D in C#",
     "identity": "Grasshopper2.Component.CS",
     "groupIdentity": "Grasshopper2.PlugIn",
     "precedence": 100,

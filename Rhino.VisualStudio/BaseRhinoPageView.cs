@@ -145,7 +145,7 @@ namespace Rhino.VisualStudio
             var rhinoDownloadLabel = new Label { TextAlignment = TextAlignment.Center };
             rhinoDownloadLabel.BindDataContext(c => c.Text,
                 Binding.Property((BaseLocationWizardViewModel m) => m.RhinoVersion)
-                .Convert(v => $"This project requires Rhino 3D to be installed."));
+                .Convert(v => $"This project requires Rhino3D to be installed."));
             var rhinoDownload = new LinkButton { Text = "Click here to download Rhino" };
             rhinoDownload.Click += (sender, e) =>
             {

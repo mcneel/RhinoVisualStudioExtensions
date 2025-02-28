@@ -32,7 +32,7 @@
     <TemplatePackage Include="$(ArtifactsDir)bin\Rhino.Templates\Debug\Rhino.Templates.$(PackageVersion).nupkg" />
   </ItemGroup>
   
-  <Target Name="GetVSMSBuild">
+  <Target Name="GetVSMSBuild" Condition="$([MSBuild]::IsOSPlatform(Windows))">
     <Exec Command="&quot;%ProgramFiles(x86)%\Microsoft Visual Studio\Installer\vswhere.exe&quot; -version &quot;[16,17)&quot; -latest -products * -requires Microsoft.Component.MSBuild -find MSBuild\**\Bin\MSBuild.exe"
           ConsoleToMSBuild="true">
       <Output TaskParameter="ConsoleOutput" PropertyName="VSMSBuild2019" />
@@ -69,10 +69,10 @@
           Condition="!Exists($(MyTextFile))" />
   </Target>
 
-  <Target Name="GenerateTemplates" DependsOnTargets="CleanTemplates;CreateDirectoryProps;Grasshopper2Templates;GrasshopperTemplates;RhinoCommonTemplates;CppRhinoTemplates;CppSkinTemplates;ZooTemplates" > 
+  <Target Name="GenerateTemplates" DependsOnTargets="CleanTemplates;CreateDirectoryProps;CppSkinTemplates;CppRhinoTemplates;Grasshopper2Templates;GrasshopperTemplates;RhinoCommonTemplates;ZooTemplates" > 
   </Target>
   
-  <Target Name="CppRhinoTemplates" DependsOnTargets="GetVSMSBuild" Condition="$([MSBuild]::IsOSPlatform(Windows))">
+  <Target Name="CppRhinoTemplates" DependsOnTargets="GetVSMSBuild">
     <!-- generate Rhino C++ templates -->
     <ItemGroup>
 
@@ -106,7 +106,8 @@
       <CppOptions Update="@(CppOptions)" GenerateCommand="dotnet new rhino -lang cpp %(CppOptions.Type) %(Version) %(Features) %(CustomName) -o &quot;$(TemplateDir)%(OutputDir)&quot;" />
       <CppOptions Update="@(CppOptions)" BuildCommand="&amp;&amp; cd &quot;$(TemplateDir)%(OutputDir)&quot; &amp;&amp; $(VSMSBuild2022) /p:Platform=x64" Condition="%(VersionId) >= '8' and $(BuildAllProjects) == 'true'" />
       <CppOptions Update="@(CppOptions)" BuildCommand="&amp;&amp; cd &quot;$(TemplateDir)%(OutputDir)&quot; &amp;&amp; $(VSMSBuild2019) /p:Platform=x64" Condition="%(VersionId) == '7' and $(BuildAllProjects) == 'true'" />
-      <CppOptions Update="@(CppOptions)" Command="%(CppOptions.GenerateCommand) %(CppOptions.BuildCommand)" />
+      <CppOptions Update="@(CppOptions)" Command="%(CppOptions.GenerateCommand)" />
+      <CppOptions Update="@(CppOptions)" Command="%(CppOptions.Command) %(CppOptions.BuildCommand)" Condition="$([MSBuild]::IsOSPlatform(Windows))" />
       
     </ItemGroup>
 
@@ -114,7 +115,7 @@
     
   </Target>
 
-  <Target Name="CppSkinTemplates" DependsOnTargets="GetVSMSBuild" Condition="$([MSBuild]::IsOSPlatform(Windows))">
+  <Target Name="CppSkinTemplates" DependsOnTargets="GetVSMSBuild">
     <!-- generate Rhino C++ skin templates -->
     <ItemGroup>
       <!-- Test all the different options -->
@@ -133,7 +134,8 @@
       <CppSkinOptions Update="@(CppSkinOptions)" GenerateCommand="dotnet new rhinoskin %(Version) %(Features) -o &quot;$(TemplateDir)%(OutputDir)&quot;" />
       <CppSkinOptions Update="@(CppSkinOptions)" BuildCommand="&amp;&amp; cd &quot;$(TemplateDir)%(OutputDir)&quot; &amp;&amp; $(VSMSBuild2022) /p:Platform=x64" Condition="%(VersionId) >= '8' and $(BuildAllProjects) == 'true'"  />
       <CppSkinOptions Update="@(CppSkinOptions)" BuildCommand="&amp;&amp; cd &quot;$(TemplateDir)%(OutputDir)&quot; &amp;&amp; $(VSMSBuild2019) /p:Platform=x64" Condition="%(VersionId) == '7' and $(BuildAllProjects) == 'true'" />
-      <CppSkinOptions Update="@(CppSkinOptions)" Command="%(CppSkinOptions.GenerateCommand) %(CppSkinOptions.BuildCommand)" />
+      <CppSkinOptions Update="@(CppSkinOptions)" Command="%(CppSkinOptions.GenerateCommand)" />
+      <CppSkinOptions Update="@(CppSkinOptions)" Command="%(CppSkinOptions.Command) %(CppSkinOptions.BuildCommand)" Condition="$([MSBuild]::IsOSPlatform(Windows))" />
       
     </ItemGroup>
 
