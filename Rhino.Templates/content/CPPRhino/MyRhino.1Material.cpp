@@ -59,10 +59,12 @@ void CMyRhino__1Material::SimulateMaterial(ON_Material& matOut, CRhRdkTexture::T
 
 void CMyRhino__1Material::AddUISections(IRhRdkExpandableContentUI& ui)
 {
+//-:cnd:noEmit
 #if defined (RHINO_SDK_MFC)
 	AFX_MANAGE_STATE(AfxGetStaticModuleState());
 	ui.AddSection(new CPlugIn1MaterialSection);
 #endif
+//+:cnd:noEmit
 
 	AddAutomaticUISection(ui, L"Parameters", L"Parameters");
 

@@ -4,8 +4,8 @@
 		<PackageType>Template</PackageType>
 		<PackageId>Rhino.Templates</PackageId>
 		<Authors>McNeel</Authors>
-    <Title>Project templates for Rhino 3D</Title>
-		<Description>RhinoCommon, Grasshopper and C++ SDK templates for Rhino 3D.
+    <Title>Project templates for Rhino3D</Title>
+		<Description>RhinoCommon, Grasshopper and C++ SDK templates for Rhino3D.
   
   To install the templates in this package, run 'dotnet new install Rhino.Templates'.
    </Description>
