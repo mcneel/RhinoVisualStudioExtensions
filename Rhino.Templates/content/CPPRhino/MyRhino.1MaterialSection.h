@@ -10,6 +10,7 @@
 // See MyRhino.1MaterialSection.cpp for the implementation of this class.
 //
 
+//-:cnd:noEmit
 #if defined (RHINO_SDK_MFC)
 class CMyRhino__1MaterialSection : public CRhRdkMaterialUISection_MFC
 {
@@ -35,3 +36,4 @@ protected:
 	DECLARE_MESSAGE_MAP()
 };
 #endif
+//+:cnd:noEmit

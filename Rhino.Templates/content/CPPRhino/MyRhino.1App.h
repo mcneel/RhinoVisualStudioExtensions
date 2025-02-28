@@ -3,9 +3,11 @@
 
 #pragma once
 
+//-:cnd:noEmit
 #ifndef __AFXWIN_H__
 	#error "include 'stdafx.h' before including this file for PCH"
 #endif
+//+:cnd:noEmit
 
 #include "resource.h" // main symbols
 

@@ -38,6 +38,7 @@
 
 // Next default values for new objects
 //
+//-:cnd:noEmit
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
 
@@ -47,3 +48,4 @@
 #define _APS_NEXT_COMMAND_VALUE		32771
 #endif
 #endif
+//+:cnd:noEmit
