@@ -6,7 +6,7 @@
       "Grasshopper"
   ],
   "name": "Grasshopper Assembly",
-  "description": "Build Grasshopper components for Rhino 3D in VB.NET",
+  "description": "Build Grasshopper components for Rhino3D in VB.NET",
   "identity": "Grasshopper.Component.VB",
   "groupIdentity": "Grasshopper.Component",
   "precedence": 0,

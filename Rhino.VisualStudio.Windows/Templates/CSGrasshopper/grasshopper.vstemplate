@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <VSTemplate Version="3.0.0" Type="ProjectGroup" xmlns="http://schemas.microsoft.com/developer/vstemplate/2005" xmlns:sdk="http://schemas.microsoft.com/developer/vstemplate-sdkextension/2010">
     <TemplateData>
-        <Name>Grasshopper Assembly for Rhino 3D (C#)</Name>
-        <Description>Build Grasshopper components for Rhino 3D in C#</Description>
+        <Name>Grasshopper Assembly for Rhino3D (C#)</Name>
+        <Description>Build Grasshopper components for Rhino3D in C#</Description>
         <NumberOfParentCategoriesToRollUp>1</NumberOfParentCategoriesToRollUp>
 
         <SortOrder>20</SortOrder>
