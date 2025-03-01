@@ -12,13 +12,6 @@
     "TestClassName": {
       "shortName": "test"
     },
-    "ProjectClassName": {
-      "shortName": "project"
-    },
-    "FileDescription": {
-      "longName": "file-description",
-      "shortName": "desc"
-    },
     "IncludeVSCode": {
       "longName": "include-vscode-launch",
       "shortName": "vscode"

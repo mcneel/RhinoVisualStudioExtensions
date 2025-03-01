@@ -8,7 +8,7 @@
       "args": [
         "build",
         "-clp:NoSummary",
-        "${workspaceFolder}/MyRhinoTest.1.csproj"
+        "${workspaceFolder}/MyRhino.1Tests.csproj"
       ],
       "problemMatcher": "$msCompile",
       "presentation": {
@@ -25,7 +25,7 @@
         "test",
         "-c:Release",
         "-clp:NoSummary",
-        "${workspaceFolder}/MyRhinoTest.1.csproj"
+        "${workspaceFolder}/MyRhino.1Tests.csproj"
       ],
       "problemMatcher": "$msCompile",
       "presentation": {

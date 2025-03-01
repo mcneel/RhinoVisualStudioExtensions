@@ -2,8 +2,8 @@
   "$schema": "http://json.schemastore.org/template",
   "author": "McNeel",
   "classifications": [ "Rhino", "RhinoCommon" ],
-  "name": "Rhino 3D Test",
-  "description": "Build tests for Rhino 3D Plug Ins with RhinoCommon in C#",
+  "name": "Rhino3D Test",
+  "description": "Build tests for Rhino3D Plug Ins with RhinoCommon in C#",
   "identity": "Rhino.Tests.CS",
   "groupIdentity": "Rhino.Tests",
   "precedence": 100,
@@ -13,7 +13,7 @@
     "language": "C#",
     "type": "project"
   },
-  "sourceName": "MyRhino.1",
+  "sourceName": "MyRhino.1Tests",
   "preferNameDirectory": true,
   "symbols": {
     "IncludeSample": {
@@ -45,15 +45,8 @@
       "type": "parameter",
       "description": "Name of the test class.",
       "datatype": "text",
-      "replaces": "MyRhino__1Test",
-      "fileRename": "MyRhino__1Test"
-    },
-    "ProjectClassName": {
-      "type": "parameter",
-      "description": "Name of the project class.",
-      "datatype": "text",
-      "replaces": "MyRhino__1Project",
-      "fileRename": "MyRhino__1Project"
+      "replaces": "UnitTest1",
+      "fileRename": "UnitTest1"
     }
   },
   "forms": {
@@ -69,25 +62,13 @@
         {
           "condition": "!IncludeVSCode",
           "exclude": [ ".vscode/*.*" ]
-        },
-        {
-          "condition": "TestClassName == 'MyRhino__1Test'",
-          "rename": {
-            "MyRhino__1Test.cs": "MyRhino.1Test.cs"
-          }
-        },
-        {
-          "condition": "ProjectClassName == 'MyRhino__1Project'",
-          "rename": {
-            "MyRhino__1Project.cs": "MyRhino.1Project.cs"
-          }
         }
       ]
     }
   ],
   "primaryOutputs": [
-    { "path": "MyRhino.1.csproj" },
-    { "path": "MyRhino__1Test.cs" }
+    { "path": "MyRhino.1Tests.csproj" },
+    { "path": "UnitTest1.cs" }
   ],
   "guids": [
     "2529cd5e-54f8-4556-a013-bc1ac315a247"

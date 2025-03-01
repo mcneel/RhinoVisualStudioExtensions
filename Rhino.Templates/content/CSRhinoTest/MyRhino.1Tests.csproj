@@ -10,17 +10,17 @@
   
   <PropertyGroup>
     <Version>1.0</Version>
-    <Title>MyRhino.1</Title>
-    <Company>MyRhino.1 Authors</Company>
-    <Description>Description of MyRhino.1</Description>
+    <Title>MyRhino.1Tests</Title>
+    <Company>MyRhino.1Tests Authors</Company>
+    <Description>Description of MyRhino.1Tests</Description>
 
     <NoWarn>NU1701;MSB3277</NoWarn>
   </PropertyGroup>
   
   <ItemGroup>
-    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.9.0" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.13.0" />
     <PackageReference Include="NUnit3TestAdapter" Version="5.0.0" />
-    <PackageReference Include="NUnit" Version="3.14.0" />
+    <PackageReference Include="NUnit" Version="4.3.2" />
     <PackageReference Include="Rhino.Testing" Version="8.0.23-beta" />
 
     <PackageReference Include="RhinoCommon" Version="8.0.23304.9001" ExcludeAssets="runtime" />

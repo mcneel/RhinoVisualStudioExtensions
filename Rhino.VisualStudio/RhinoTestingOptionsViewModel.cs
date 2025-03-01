@@ -13,7 +13,7 @@ namespace Rhino.VisualStudio
         string _testClassName;
         public string TestClassName
         {
-            get => _testClassName ?? Utility.GetSafeName(ProjectName, "Test", "Plugin", "Addin");
+            get => _testClassName ?? Utility.GetSafeName(ProjectName, "Test", "Plugin", "Addin", "Tests");
             set
             {
                 if (Set(ref _testClassName, value))
@@ -31,23 +31,9 @@ namespace Rhino.VisualStudio
             {
                 if (Set(ref _projectName, value))
                 {
-                    OnPropertyChanged(nameof(ProjectClassName));
                     OnPropertyChanged(nameof(TestClassName));
                     OnPropertyChanged(nameof(IsValid));
                     OnPropertyChanged(nameof(IsProjectNameInvalid));
-                }
-            }
-        }
-
-        string _projectClassName;
-        public string ProjectClassName
-        {
-            get => _projectClassName ?? Utility.GetSafeName(ProjectName, "Plugin", "Test", "Addin");
-            set
-            {
-                if (Set(ref _projectClassName, value))
-                {
-                    OnPropertyChanged(nameof(IsValid));
                 }
             }
         }
@@ -77,7 +63,6 @@ namespace Rhino.VisualStudio
         public override bool IsValid =>
           !IsProjectNameInvalid
           && Utility.IsValidIdentifier(TestClassName)
-          && Utility.IsValidIdentifier(ProjectClassName)
           && !IsLocationInvalid
           && IsRhinoVersionValid;
 
@@ -88,7 +73,6 @@ namespace Rhino.VisualStudio
                 return;
 
             Host.SetParameter("TestClassName", TestClassName);
-            Host.SetParameter("ProjectClassName", ProjectClassName);
         }
 
         protected override string FindLocation(int version) => Global.Helpers.FindRhino(version);

@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <VSTemplate Version="3.0.0" Type="ProjectGroup" xmlns="http://schemas.microsoft.com/developer/vstemplate/2005" xmlns:sdk="http://schemas.microsoft.com/developer/vstemplate-sdkextension/2010">
     <TemplateData>
-        <Name>RhinoCommon Tests for Rhino 3D (C#)</Name>
-        <Description>Build tests for Rhino 3D Plug Ins with RhinoCommon in C#</Description>
+        <Name>RhinoCommon Tests for Rhino3D (C#)</Name>
+        <Description>Build tests for Rhino3D Plug Ins with RhinoCommon in C#</Description>
         <NumberOfParentCategoriesToRollUp>1</NumberOfParentCategoriesToRollUp>
 
         <SortOrder>21</SortOrder>
@@ -26,7 +26,7 @@
         <CustomParameters>
             <CustomParameter Name="$language$" Value="C#" />
             <CustomParameter Name="$uistyle$" Value="none"/>
-            <CustomParameter Name="$groupid$" Value="Rhino.Test" />
+            <CustomParameter Name="$groupid$" Value="Rhino.Tests" />
             <CustomParameter Name="SideWaffleNewProjNode" Value="Project\CSharp\Rhino"/>
             <CustomParameter Name="SupportedParameters" Value="ExecutableLocation;WindowsDesktop;Yak;VSCode"/>
         </CustomParameters>

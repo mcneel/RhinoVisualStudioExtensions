@@ -23,9 +23,6 @@ namespace Rhino.VisualStudio
 
         private void InitLayout(bool showProjectName)
         {
-            var projectClassNameTextBox = new TextBox();
-            projectClassNameTextBox.TextBinding.BindDataContext((RhinoTestingOptionsViewModel m) => m.ProjectClassName);
-
             var testClassNameTextBox = new TextBox();
             testClassNameTextBox.TextBinding.BindDataContext((RhinoTestingOptionsViewModel m) => m.TestClassName);
 
@@ -44,7 +41,6 @@ namespace Rhino.VisualStudio
             if (showProjectName)
                 AddProjectName(layout);
 
-            layout.AddRow("Project class name", projectClassNameTextBox);
             layout.AddRow("Test class name", testClassNameTextBox);
             layout.EndVertical();
 
