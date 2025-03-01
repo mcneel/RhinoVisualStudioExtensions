@@ -97,6 +97,8 @@
     <Content Include="Templates\CSGrasshopper2\grasshopper2.vstemplate" />
     <Resource Include="Templates\CSGrasshopper2\icon.ico" />
     <Resource Include="Templates\CSRhino\icon.ico" />
+    <Resource Include="Templates\CSRhinoTest\icon.ico" />
+    <Content Include="Templates\CSRhinoTest\rhinotest.vstemplate" />
     <Content Include="Templates\CSRhino\rhino.vstemplate" />
     <Resource Include="Templates\CSZooPlugin\icon.ico" />
     <Content Include="Templates\CSZooPlugin\zooplugin.vstemplate" />
@@ -218,6 +220,7 @@
     <Compile Include="Wizard\GrasshopperWizard.cs" />
     <Compile Include="Wizard\Grasshopper2Wizard.cs" />
     <Compile Include="Wizard\LegacyTemplateWizard.cs" />
+    <Compile Include="Wizard\RhinoTestWizard.cs" />
     <Compile Include="Wizard\RhinoWizard.cs" />
     <Compile Include="Wizard\WizardHost.cs" />
     <Compile Include="Wizard\ZooPluginWizard.cs" />

@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--https://www.nuget.org/packages/Rhino.Testing/8.0.23-beta-->
+<Settings>
+  <!--<CreateRhinoDoc>false</CreateRhinoDoc>-->
+  <!--<CreateRhinoView>false</CreateRhinoView>-->
+  <RhinoSystemDirectory>C:\Program Files\Rhino 8\System</RhinoSystemDirectory>
+</Settings>

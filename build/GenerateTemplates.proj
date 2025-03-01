@@ -69,7 +69,7 @@
           Condition="!Exists($(MyTextFile))" />
   </Target>
 
-  <Target Name="GenerateTemplates" DependsOnTargets="CleanTemplates;CreateDirectoryProps;CppSkinTemplates;CppRhinoTemplates;Grasshopper2Templates;GrasshopperTemplates;RhinoCommonTemplates;ZooTemplates" > 
+  <Target Name="GenerateTemplates" DependsOnTargets="CleanTemplates;CreateDirectoryProps;TestingTemplates;CppSkinTemplates;CppRhinoTemplates;Grasshopper2Templates;GrasshopperTemplates;RhinoCommonTemplates;ZooTemplates" > 
   </Target>
   
   <Target Name="CppRhinoTemplates" DependsOnTargets="GetVSMSBuild">
@@ -104,8 +104,8 @@
 
       <!-- Commands to generate then build -->
       <CppOptions Update="@(CppOptions)" GenerateCommand="dotnet new rhino -lang cpp %(CppOptions.Type) %(Version) %(Features) %(CustomName) -o &quot;$(TemplateDir)%(OutputDir)&quot;" />
-      <CppOptions Update="@(CppOptions)" BuildCommand="&amp;&amp; cd &quot;$(TemplateDir)%(OutputDir)&quot; &amp;&amp; $(VSMSBuild2022) /p:Platform=x64" Condition="%(VersionId) >= '8' and $(BuildAllProjects) == 'true'" />
-      <CppOptions Update="@(CppOptions)" BuildCommand="&amp;&amp; cd &quot;$(TemplateDir)%(OutputDir)&quot; &amp;&amp; $(VSMSBuild2019) /p:Platform=x64" Condition="%(VersionId) == '7' and $(BuildAllProjects) == 'true'" />
+      <CppOptions Update="@(CppOptions)" BuildCommand="&amp;&amp; cd &quot;$(TemplateDir)%(OutputDir)&quot; &amp;&amp; $(VSMSBuild2022) /p:Platform=x64" Condition="$(BuildAllProjects) == 'true'" />
+      <!-- <CppOptions Update="@(CppOptions)" BuildCommand="&amp;&amp; cd &quot;$(TemplateDir)%(OutputDir)&quot; &amp;&amp; $(VSMSBuild2019) /p:Platform=x64" Condition="%(VersionId) == '7' and $(BuildAllProjects) == 'true'" /> -->
       <CppOptions Update="@(CppOptions)" Command="%(CppOptions.GenerateCommand)" />
       <CppOptions Update="@(CppOptions)" Command="%(CppOptions.Command) %(CppOptions.BuildCommand)" Condition="$([MSBuild]::IsOSPlatform(Windows))" />
       
@@ -132,8 +132,8 @@
 
       <!-- Commands to generate then build -->
       <CppSkinOptions Update="@(CppSkinOptions)" GenerateCommand="dotnet new rhinoskin %(Version) %(Features) -o &quot;$(TemplateDir)%(OutputDir)&quot;" />
-      <CppSkinOptions Update="@(CppSkinOptions)" BuildCommand="&amp;&amp; cd &quot;$(TemplateDir)%(OutputDir)&quot; &amp;&amp; $(VSMSBuild2022) /p:Platform=x64" Condition="%(VersionId) >= '8' and $(BuildAllProjects) == 'true'"  />
-      <CppSkinOptions Update="@(CppSkinOptions)" BuildCommand="&amp;&amp; cd &quot;$(TemplateDir)%(OutputDir)&quot; &amp;&amp; $(VSMSBuild2019) /p:Platform=x64" Condition="%(VersionId) == '7' and $(BuildAllProjects) == 'true'" />
+      <CppSkinOptions Update="@(CppSkinOptions)" BuildCommand="&amp;&amp; cd &quot;$(TemplateDir)%(OutputDir)&quot; &amp;&amp; $(VSMSBuild2022) /p:Platform=x64" Condition="$(BuildAllProjects) == 'true'"  />
+      <!-- <CppSkinOptions Update="@(CppSkinOptions)" BuildCommand="&amp;&amp; cd &quot;$(TemplateDir)%(OutputDir)&quot; &amp;&amp; $(VSMSBuild2019) /p:Platform=x64" Condition="%(VersionId) == '7' and $(BuildAllProjects) == 'true'" /> -->
       <CppSkinOptions Update="@(CppSkinOptions)" Command="%(CppSkinOptions.GenerateCommand)" />
       <CppSkinOptions Update="@(CppSkinOptions)" Command="%(CppSkinOptions.Command) %(CppSkinOptions.BuildCommand)" Condition="$([MSBuild]::IsOSPlatform(Windows))" />
       
@@ -226,6 +226,32 @@
     <Exec Command="%(GH2Options.Command)" />
 
   </Target>
+  
+  
+  <Target Name="TestingTemplates">
+    <!-- generate test templates -->
+    <ItemGroup>
+      <TestIncludeSample Include="Plain" Value="" />
+      <TestIncludeSample Include="Sample" Value="-sample" />
+
+      <TestWithName Include="DefaultName" Value="" />
+      <TestWithName Include="CustonName" Value='-test MyTestClass' />
+
+      <TestOptions1 Include="*" WithNameId="%(TestWithName.Identity)" WithName="%(TestWithName.Value)" />
+      <TestOptions Include="@(TestOptions1)" SampleId="%(TestIncludeSample.Identity)" Sample="%(TestIncludeSample.Value)" />
+      
+      <TestOptions Update="@(TestOptions)" OutputDir="Test/%(SampleId).%(WithNameId)/" />
+
+      <!-- generate template -->
+      <TestOptions Update="@(TestOptions)" Command="dotnet new rhinotest %(TestOptions.Sample) %(WithName) -o $(TemplateDir)%(OutputDir)" />
+      <!-- build template-->
+      <TestOptions Update="@(TestOptions)" Command="%(Command) &amp;&amp; cd $(TemplateDir)%(OutputDir) &amp;&amp; dotnet test -a x64 $(BuildOptions)" Condition="$(BuildAllProjects) == 'true'" />
+    </ItemGroup>
+
+    <Exec Command="%(TestOptions.Command)" />
+
+  </Target>
+  
 
   <Target Name="ZooTemplates" Condition="$([MSBuild]::IsOSPlatform(Windows))">
     <!-- generate Zoo templates -->

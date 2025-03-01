@@ -1,0 +1,76 @@
+﻿{
+  "$schema": "http://json.schemastore.org/template",
+  "author": "McNeel",
+  "classifications": [ "Rhino", "RhinoCommon" ],
+  "name": "Rhino3D Test",
+  "description": "Build tests for Rhino3D Plug Ins with RhinoCommon in C#",
+  "identity": "Rhino.Tests.CS",
+  "groupIdentity": "Rhino.Tests",
+  "precedence": 100,
+  "defaultName": "MyRhinoTests",
+  "shortName": "rhinotest",
+  "tags": {
+    "language": "C#",
+    "type": "project"
+  },
+  "sourceName": "MyRhino.1Tests",
+  "preferNameDirectory": true,
+  "symbols": {
+    "IncludeSample": {
+      "type": "parameter",
+      "description": "Include a test code sample",
+      "dataType": "bool",
+      "defaultValue": "false"
+    },
+    "RhinoVersion": {
+      "type": "parameter",
+      "description": "Version of Rhino",
+      "datatype": "choice",
+      "defaultValue": "8",
+      "choices": [
+        {
+          "choice": "8",
+          "description": "Version 8"
+        }
+      ],
+      "replaces": "MyRhinoTestVersion"
+    },
+    "IncludeVSCode": {
+      "type": "parameter",
+      "description": "Include tasks.json and launch.json to build/debug in VS Code",
+      "datatype": "bool",
+      "defaultValue": "true"
+    },
+    "TestClassName": {
+      "type": "parameter",
+      "description": "Name of the test class.",
+      "datatype": "text",
+      "replaces": "UnitTest1",
+      "fileRename": "UnitTest1"
+    }
+  },
+  "forms": {
+    "JsonStringEncode": {
+      "identifier": "replace",
+      "pattern": "\\\\",      
+      "replacement": "\\\\"  
+    }    
+  },
+  "sources": [
+    {
+      "modifiers": [
+        {
+          "condition": "!IncludeVSCode",
+          "exclude": [ ".vscode/*.*" ]
+        }
+      ]
+    }
+  ],
+  "primaryOutputs": [
+    { "path": "MyRhino.1Tests.csproj" },
+    { "path": "UnitTest1.cs" }
+  ],
+  "guids": [
+    "2529cd5e-54f8-4556-a013-bc1ac315a247"
+  ]
+}
