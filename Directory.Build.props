@@ -8,7 +8,7 @@
     <BaseOutputPath>$(ArtifactsDir)bin\$(MSBuildProjectName)\</BaseOutputPath>
     <BaseIntermediateOutputPath>$(ArtifactsDir)obj\$(OS)\$(MSBuildProjectName)\</BaseIntermediateOutputPath>
 
-    <Version>8.16.0</Version> <!-- PSST. Hey Curtis. Update all other files with this number too -->
+    <Version>8.16.1</Version> <!-- PSST. Hey Curtis. Update all other files with this number too -->
     <PackageVersion>$(Version)</PackageVersion>
   </PropertyGroup>
 </Project>
