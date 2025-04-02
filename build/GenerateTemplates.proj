@@ -244,8 +244,10 @@
 
       <!-- generate template -->
       <TestOptions Update="@(TestOptions)" Command="dotnet new rhinotest %(TestOptions.Sample) %(WithName) -o $(TemplateDir)%(OutputDir)" />
-      <!-- build template-->
-      <TestOptions Update="@(TestOptions)" Command="%(Command) &amp;&amp; cd $(TemplateDir)%(OutputDir) &amp;&amp; dotnet test -a x64 $(BuildOptions)" Condition="$(BuildAllProjects) == 'true'" />
+      <!-- build template (mac) -->
+      <TestOptions Update="@(TestOptions)" Command="%(Command) &amp;&amp; cd $(TemplateDir)%(OutputDir) &amp;&amp; dotnet build $(BuildOptions) /p:EnableWindowsTargeting=True" Condition="$(BuildAllProjects) == 'true' and !$([MSBuild]::IsOSPlatform(windows))" />
+      <!-- build then run tests (windows) -->
+      <TestOptions Update="@(TestOptions)" Command="%(Command) &amp;&amp; cd $(TemplateDir)%(OutputDir) &amp;&amp; dotnet test -a x64 $(BuildOptions)" Condition="$(BuildAllProjects) == 'true' and $([MSBuild]::IsOSPlatform(windows))" />
     </ItemGroup>
 
     <Exec Command="%(TestOptions.Command)" />
