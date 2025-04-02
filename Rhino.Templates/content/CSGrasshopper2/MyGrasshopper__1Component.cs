@@ -1,8 +1,8 @@
 using System;
 using Rhino.Geometry;
 using GrasshopperIO;
-using Grasshopper.UI;
-using Grasshopper.Components;
+using Grasshopper2.UI;
+using Grasshopper2.Components;
 
 namespace MyGrasshopper._1
 {

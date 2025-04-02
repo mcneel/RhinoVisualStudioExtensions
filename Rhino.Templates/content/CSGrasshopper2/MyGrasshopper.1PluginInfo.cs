@@ -1,11 +1,11 @@
 using System;
 using System.Reflection;
-using Grasshopper.UI;
-using Grasshopper.UI.Icon;
+using Grasshopper2.UI;
+using Grasshopper2.UI.Icon;
 
 namespace MyGrasshopper._1
 {
-  public sealed class MyGrasshopper__1PluginInfo : Grasshopper.Framework.Plugin
+  public sealed class MyGrasshopper__1PluginInfo : Grasshopper2.Framework.Plugin
   {
     static T GetAttribute<T>() where T : Attribute => typeof(MyGrasshopper__1PluginInfo).Assembly.GetCustomAttribute<T>();
     
