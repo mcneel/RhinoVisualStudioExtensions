@@ -26,10 +26,11 @@ namespace MyGrasshopper._1
         /// </summary>
         protected override void AddInputs(InputAdder inputs)
         {
-            inputs.AddPlane("Plane", "P", "Base plane for spiral").Set(Plane.WorldXY);
+            // Set ensures a default value
+            inputs.AddPlane("Base Plane", "Bp", "Base plane for spiral").Set(Plane.WorldXY);
             inputs.AddNumber("Inner Radius", "R0", "Inner radius for spiral").Set(1.0);
             inputs.AddNumber("Outer Radius", "R1", "Outer radius for spiral").Set(10.0);
-            inputs.AddInteger("Turns", "T", "Number of turns between radii").Set(10);
+            inputs.AddInteger("Turn Count", "Tc", "Number of turns between radii").Set(10);
         }
 
         /// <summary>
@@ -37,7 +38,7 @@ namespace MyGrasshopper._1
         /// </summary>
         protected override void AddOutputs(OutputAdder outputs)
         {
-            outputs.AddCurve("Spiral", "S", "Spiral curve");
+            outputs.AddCurve("Spiral Curve", "S", "Generated spiral curve");
         }
 
         /// <summary>
@@ -48,28 +49,21 @@ namespace MyGrasshopper._1
         protected override void Process(IDataAccess access)
         {
             // First, we need to retrieve all data from the input parameters.
-            // When data cannot be extracted from a parameter, we should abort this method.
-            if (!access.GetItem(0, out Plane plane)) return;
-            if (!access.GetItem(1, out double radius0)) return;
-            if (!access.GetItem(2, out double radius1)) return;
-            if (!access.GetItem(3, out int turns)) return;
+            // Unlike GH1, there is no need to check the output result, if data isn't fed in, the component won't run.
+            access.GetItem(0, out Plane plane);
+            access.GetItem(1, out double radius0);
+            access.GetItem(2, out double radius1);
+            access.GetItem(3, out int turns);
 
-            // We should now validate the data and warn the user if invalid data is supplied.
-            if (radius0 < 0.0)
-            {
-                access.AddError("Inner radius must be bigger than or equal to zero", "");
-                return;
-            }
-            if (radius1 <= radius0)
-            {
-                access.AddError("Outer radius must be bigger than the inner radius", "");
-                return;
-            }
-            if (turns <= 0)
-            {
-                access.AddError("Spiral turn count must be bigger than or equal to one", "");
-                return;
-            }
+            // Second, we verify the data to check it against given conditions
+            // If verification fails, the component will not run
+            access.Verify(plane, (p) => p.IsValid, "Plane is Invalid", "Planes that are not valid cannot be used");
+
+            // Third, we rectify data to force it to match given conditions, rectify will attempt to fix the data
+            // If rectify fails, the component will not run
+            access.RectifyPositive(ref radius0, "first radius");
+            access.RectifyDomain(ref radius1, (radius0, double.MaxValue), "outer radius");
+            access.RectifyPositive(ref turns, "Turns");
 
             // We're set to create the spiral now. To keep the size of the SolveInstance() method small, 
             // The actual functionality will be in a different method:
