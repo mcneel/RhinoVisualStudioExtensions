@@ -4,7 +4,7 @@ Includes RhinoCommon, Grasshopper, Zoo, and Rhino C++ templates and wizards for 
 
 ## Manual Install Instructions (Visual Studio)
 
-1. Download [the latest .vsix release](https://github.com/mcneel/RhinoVisualStudioExtensions/releases).
+1. Download [the latest .vsix release](https://github.com/mcneel/RhinoVisualStudioExtensions/releases/latest).
 2. Close any instances of Visual Studio.
 3. Double click the .vsix in File Explorer.
 4. Run through the wizard to install the extension.
