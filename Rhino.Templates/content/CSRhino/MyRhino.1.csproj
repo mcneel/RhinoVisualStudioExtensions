@@ -39,7 +39,7 @@
     <!-- Specifies information for Assembly and Yak -->
     <Version>1.0</Version> <!-- Sets the Yak Version Attribute -->
     <Title>MyRhino.1</Title>
-    <Company>MyRhino.1 Authors</Company><!-- Sets the Yak Version Attribute -->
+    <Company>MyRhino.1 Authors</Company><!-- Sets the Yak Author Attribute -->
     <Description>Description of MyRhino.1</Description><!-- Sets the Yak Description Attribute -->
     <!--<AssemblyName>MyRhino.1</AssemblyName>--><!-- Sets the Yak Name Attribute -->
   </PropertyGroup>
