@@ -3,7 +3,7 @@
     "author": "McNeel",
     "classifications": [ "Rhino", "Zoo" ],
     "name": "Zoo Plug-In for Rhinoceros",
-    "description": "A C# project to build a Rhino Zoo plugin.\n\nThis requires Zoo to be installed on your machine.\nAlso, remember to copy the ID from your Rhinoceros plug-in before continuing.",
+    "description": "A VB.NET project to build a Rhino Zoo plugin.\n\nThis requires Zoo to be installed on your machine.\nAlso, remember to copy the ID from your Rhinoceros plug-in before continuing.",
     "identity": "Rhino.ZooPlugin.VB",
     "groupIdentity": "Rhino.ZooPlugin",
     "precedence": 0,

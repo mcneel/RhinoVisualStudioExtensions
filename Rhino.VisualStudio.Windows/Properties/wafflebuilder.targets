@@ -271,7 +271,7 @@ _vstemplatefullpath: $(_vstemplatefullpath)
                     Uri rootFolderUri = new Uri(RootFolder);
                     // add each input file to the zip
                     foreach (var file in FilesToAdd) {
-                        // get the relative path of the file to to add
+                        // get the relative path of the file to add
                         string filePath = file.GetMetadata("FullPath");
                         Uri fileUri = new Uri(filePath);
                         string relpath = Uri.UnescapeDataString(

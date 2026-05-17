@@ -3,7 +3,7 @@
   "author": "McNeel",
   "classifications": [ "Rhino", "RhinoCommon" ],
   "name": "Rhino3D Test",
-  "description": "Build tests for Rhino3D Plug Ins with RhinoCommon in C#",
+  "description": "Build tests for Rhino3D Plug-Ins with RhinoCommon in C#",
   "identity": "Rhino.Tests.CS",
   "groupIdentity": "Rhino.Tests",
   "precedence": 100,

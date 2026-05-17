@@ -16,7 +16,7 @@ To load the resulting .rhp file, open Rhino. Explore to the _bin/_ output folde
 
 Download the Grasshopper SDK with the Rhino `_GrasshopperGetSDKDocumentation` command, or obtain the .chm file from the Related links section below here.
 
-In order to load the result .gha file, you can use the `_GrasshopperDeveloperSettings` command. Add the bin/ folder as a looked-up folder.
+In order to load the resulting .gha file, you can use the `_GrasshopperDeveloperSettings` command. Add the bin/ folder as a looked-up folder.
 
 ## C++ SDK templates
 
@@ -24,7 +24,7 @@ In order to load the result .gha file, you can use the `_GrasshopperDeveloperSet
 
 ## Features
 
-This extension provides add-on and component wizards for RhinoCommon and Grasshopper projects in C# and VB.NET, and wizards for the Rhino C++ SDK. For RhinoCommon and C++ project templates, this includes utility, digitizier, import and export plug-ins. For Grasshopper project templates, this includes a spiral for an Archimedean spiral component.
+This extension provides add-on and component wizards for RhinoCommon and Grasshopper projects in C# and VB.NET, and wizards for the Rhino C++ SDK. For RhinoCommon and C++ project templates, this includes utility, digitizer, import and export plug-ins. For Grasshopper project templates, this includes a sample Archimedean spiral component.
 
 It makes setting up debugging easier and automatically references the RhinoCommon and/or Grasshopper NuGet packages. Rhino and Grasshopper are requirements for this wizard to operate correctly.
 
