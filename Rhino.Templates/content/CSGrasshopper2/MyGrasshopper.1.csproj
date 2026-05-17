@@ -51,7 +51,7 @@
     <EmbeddedResource Include="Icons\*.ico" />
   </ItemGroup>
 <!--#if (UseWinForms)-->
-  <!-- Reference WinForms for .NET 7.0 on macOS -->
+  <!-- Reference WinForms for .NET 8.0 on macOS -->
   <ItemGroup Condition="!($(TargetFramework.Contains('-windows')) or $(TargetFramework.StartsWith('net4')))">
     <FrameworkReference Include="Microsoft.WindowsDesktop.App.WindowsForms" />
   </ItemGroup>
@@ -67,8 +67,8 @@
 <!--#if (BuildYak)-->
   <Target Name="BuildYakPackage" AfterTargets="DispatchToInnerBuilds">
     <PropertyGroup>
-      <YakExecutable Condition="$(YakExecutable) == '' and $([MSBuild]::IsOSPlatform(windows)) and Exists('C:\Program Files\Rhino 8\System\Yak.exe')">C:\Program Files\Rhino 8\System\Yak.exe</YakExecutable>
-      <YakExecutable Condition="$(YakExecutable) == '' and $([MSBuild]::IsOSPlatform(macos)) and Exists('/Applications/Rhino 8.app/Contents/Resources/bin/yak')">/Applications/Rhino 8.app/Contents/Resources/bin/yak</YakExecutable>
+      <YakExecutable Condition="$(YakExecutable) == '' and $([MSBuild]::IsOSPlatform(windows)) and Exists('C:\Program Files\Rhino 9\System\Yak.exe')">C:\Program Files\Rhino 9\System\Yak.exe</YakExecutable>
+      <YakExecutable Condition="$(YakExecutable) == '' and $([MSBuild]::IsOSPlatform(macos)) and Exists('/Applications/Rhino 9.app/Contents/Resources/bin/yak')">/Applications/Rhino 9.app/Contents/Resources/bin/yak</YakExecutable>
       
       <BuildYakPackage Condition="$(BuildYakPackage) == '' and $(YakExecutable) != '' and Exists($(YakExecutable))">True</BuildYakPackage>
     </PropertyGroup>
