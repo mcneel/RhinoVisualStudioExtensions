@@ -86,8 +86,8 @@ Public Class MyZooPlugin__1 : Implements IZooPlugin3
 
     ''' <summary>
     ''' Returns the name, version, and/or type of the product that this plug-in
-    ''' validates. This string will appear in user interfaces were one can 
-    ''' choose type type of license to validate.
+    ''' validates. This string will appear in user interfaces where one can
+    ''' choose the type of license to validate.
     ''' </summary>
     Public Function ProductTitle() As String Implements ZooPlugin.IZooPlugin.ProductTitle
         Return "MyZooPlugin.1 1.0"
@@ -104,7 +104,7 @@ Public Class MyZooPlugin__1 : Implements IZooPlugin3
 
     ''' <summary>
     ''' Validates a product, or CD, key that was entered into the Zoo administrator
-    ''' onsole, and returns license data. This data will, in turn, be serialized,
+    ''' console, and returns license data. This data will, in turn, be serialized,
     ''' maintained, and distributed by the Zoo.
     ''' </summary>
     ''' <param name="productKey">
@@ -126,14 +126,14 @@ Public Class MyZooPlugin__1 : Implements IZooPlugin3
         ' This class contains information about your product's license.
         licenseData = New ZooPluginLicenseData()
 
-        ' If this example, we won't do much valiation...
+        ' In this example, we won't do much validation...
         If (String.IsNullOrEmpty(productKey)) Then
             Return -1
         End If
 
-        ' This value will never be display in any user interface.
+        ' This value will never be displayed in any user interface.
         ' When your plugin's ValidateProductKey member is called, it is
-        ' passed a a product, or CD, key that was entered into the Zoo
+        ' passed a product, or CD, key that was entered into the Zoo
         ' administrator console. Your ValidateProductKey will validate
         ' the product key and decode it into a product license. This is
         ' where you can store this license. This value will be passed
@@ -145,7 +145,7 @@ Public Class MyZooPlugin__1 : Implements IZooPlugin3
         ' is used to uniquely identify this license. Thus, it is
         ' critical that this value be unique per product key, entered
         ' by the administrator. No other license of this product, as
-        ' valided by this plugin, should return this value.
+        ' validated by this plugin, should return this value.
         '
         ' This example just scrambles the productKey...
         licenseData.SerialNumber = Scramble(productKey)
@@ -155,23 +155,23 @@ Public Class MyZooPlugin__1 : Implements IZooPlugin3
         ' (e.g. "Rhino 7.0", "Rhino 7.0 Commercial", etc.)
         licenseData.LicenseTitle = "MyZooPlugin.1 1.0 Educational"
 
-        ' The build of the product that this license work with.
+        ' The build of the product that this license works with.
         ' When your product requests a license from the Zoo, it
         ' will specify one of these build types.
         licenseData.BuildType = LicenseBuildType.Release
 
         ' Zoo licenses can be used by more than one instance of any application.
-        ' For example, a single Rhion Education Lab license can be used by up
-        ' to 30 systems simulaneously. If your license supports multiple instance,
+        ' For example, a single Rhino Education Lab license can be used by up
+        ' to 30 systems simultaneously. If your license supports multiple instances,
         ' then specify the number of supported instances here. Otherwise just
         ' specify a value of 1 for single instance use.
         licenseData.LicenseCount = 1
 
         ' The Zoo supports licenses that expire. If your licensing scheme
         ' is sophisticated enough to support this, then specify the
-        ' expiration date here. Note, this value must be speicified in
+        ' expiration date here. Note, this value must be specified in
         ' Coordinated Universal Time (UTC). If your license does not expire,
-        ' then just this value to null.
+        ' then just set this value to null.
         licenseData.DateToExpire = Nothing
 
         Return 0
@@ -261,7 +261,7 @@ Public Class MyZooPlugin__1 : Implements IZooPlugin3
     ''' </param>
     ''' <param name="clusterSerialNumbers">
     ''' If this license is linked with other licenses, then add those
-    ''' licence serial numbers to this list.
+    ''' license serial numbers to this list.
     ''' </param>
     ''' <returns>
     ''' Return 0 on success; the output Message is ignored.

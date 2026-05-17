@@ -145,7 +145,7 @@ BOOL CMyRhino__1PlugIn::OnLoadPlugIn()
 	// If this assert fires, it's likely that the RDK has not yet been loaded by Rhino.
 	// This can happen if you load your plug-in first, before the debug RDK and for some
 	// reason it actually manages to find rdk.rhp on the search path. If this happens,
-	// load protect your plug-in, restart Rhino and and load rdk.rhp using drag and drop
+	// load protect your plug-in, restart Rhino and load rdk.rhp using drag and drop
 	// or the plug-in manager. Then un-load protect your plug-in.
 	ASSERT(RhRdkIsAvailable());
 

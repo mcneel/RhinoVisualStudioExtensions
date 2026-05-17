@@ -21,7 +21,7 @@ namespace Rhino.VisualStudio.Controls
     class PanelSeparator : Panel
     {
         /// <summary>
-        /// Seporator styles
+        /// Separator styles
         /// </summary>
         public enum SeparatorStyle
         {
@@ -35,7 +35,7 @@ namespace Rhino.VisualStudio.Controls
             /// </summary>
             Top,
             /// <summary>
-            /// Draws lable to the left of the line on both Mac and Windows.
+            /// Draws label to the left of the line on both Mac and Windows.
             /// </summary>
             ForceSameRow
         }
@@ -64,7 +64,7 @@ namespace Rhino.VisualStudio.Controls
             var line = new TableCell(Line) { ScaleWidth = true };
             if (mac && style != SeparatorStyle.ForceSameRow)
             {
-                // Mac formatted as folows
+                // Mac formatted as follows
                 // -------------------------------------------------------------
                 // Text
                 Line.Size = new Size(20, 2);
