@@ -105,6 +105,21 @@ namespace Rhino.VisualStudio
             SetDefaults();
         }
 
+        public override IEnumerable<int> RhinoVersionsAvailable
+        {
+            get
+            {
+                // Grasshopper2 templates only support Rhino 9 and later
+                foreach (int version in Global.VersionsToCheck.Where(v => v > 8))
+                {
+                    if (!string.IsNullOrEmpty(FindLocation(version)))
+                    {
+                        yield return version;
+                    }
+                }
+            }
+        }
+
         public override bool IsValid =>
           !IsProjectNameInvalid
           && Utility.IsValidIdentifier(ComponentClassName);

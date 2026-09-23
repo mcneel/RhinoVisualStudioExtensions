@@ -1,14 +1,12 @@
-using System;
-using System.Reflection;
-using Grasshopper2.UI;
 using Grasshopper2.UI.Icon;
 
 namespace MyGrasshopper._1
 {
   public sealed class MyGrasshopper__1PluginInfo : Grasshopper2.Framework.Plugin
   {
-    static T GetAttribute<T>() where T : Attribute => typeof(MyGrasshopper__1PluginInfo).Assembly.GetCustomAttribute<T>();
-    
+    // Id, name, description, version, author and copyright are read from the assembly
+    // attributes in the project file and AssemblyInfo.cs. Override the matching
+    // properties here to supply them yourself.
     public MyGrasshopper__1PluginInfo()
     {
       Icon = AbstractIcon.FromResource("MyGrasshopper.1Plugin", typeof(MyGrasshopper__1PluginInfo));
@@ -23,6 +21,5 @@ namespace MyGrasshopper._1
     // public override sealed string Contact => "myemail@example.com";
 
     // public override sealed string LicenceAgreement => "license or URL";
-    
   }
 }

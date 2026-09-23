@@ -35,7 +35,10 @@
     <Image Include="res\MySkin.1.ico" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <VCProjectVersion>16.0</VCProjectVersion>
+    <VCProjectVersion Condition="$(RhinoVersion) == '6'">16.0</VCProjectVersion>
+    <VCProjectVersion Condition="$(RhinoVersion) == '7'">16.0</VCProjectVersion>
+    <VCProjectVersion Condition="$(RhinoVersion) == '8'">16.0</VCProjectVersion>
+    <VCProjectVersion Condition="$(RhinoVersion) == '9' || $(RhinoVersion) == ''">18.0</VCProjectVersion>
     <Keyword>MFCDLLProj</Keyword>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
     <ProjectGuid>{991D78A0-49C9-47D6-B7AD-C7B10433ECF6}</ProjectGuid>
@@ -44,14 +47,20 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
-    <PlatformToolset>v142</PlatformToolset>
+    <PlatformToolset Condition="$(RhinoVersion) == '6'">v142</PlatformToolset>
+    <PlatformToolset Condition="$(RhinoVersion) == '7'">v142</PlatformToolset>
+    <PlatformToolset Condition="$(RhinoVersion) == '8'">v143</PlatformToolset>
+    <PlatformToolset Condition="$(RhinoVersion) == '9' || $(RhinoVersion) == ''">v145</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
     <UseOfMfc>Dynamic</UseOfMfc>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
-    <PlatformToolset>v142</PlatformToolset>
+    <PlatformToolset Condition="$(RhinoVersion) == '6'">v142</PlatformToolset>
+    <PlatformToolset Condition="$(RhinoVersion) == '7'">v142</PlatformToolset>
+    <PlatformToolset Condition="$(RhinoVersion) == '8'">v143</PlatformToolset>
+    <PlatformToolset Condition="$(RhinoVersion) == '9' || $(RhinoVersion) == ''">v145</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
     <UseOfMfc>Dynamic</UseOfMfc>
   </PropertyGroup>
@@ -64,7 +73,8 @@
   <PropertyGroup>
     <RhinoSdkPath Condition="$(RhinoVersion) == '6'">$([MSBuild]::GetRegistryValueFromView('HKEY_LOCAL_MACHINE\SOFTWARE\McNeel\Rhinoceros\SDK\6.0', 'InstallPath', null, RegistryView.Registry64))</RhinoSdkPath>
     <RhinoSdkPath Condition="$(RhinoVersion) == '7'">$([MSBuild]::GetRegistryValueFromView('HKEY_LOCAL_MACHINE\SOFTWARE\McNeel\Rhinoceros\SDK\7.0', 'InstallPath', null, RegistryView.Registry64))</RhinoSdkPath>
-    <RhinoSdkPath Condition="$(RhinoVersion) == '8' || $(RhinoVersion) == ''">$([MSBuild]::GetRegistryValueFromView('HKEY_LOCAL_MACHINE\SOFTWARE\McNeel\Rhinoceros\SDK\8.0', 'InstallPath', null, RegistryView.Registry64))</RhinoSdkPath>
+    <RhinoSdkPath Condition="$(RhinoVersion) == '8'">$([MSBuild]::GetRegistryValueFromView('HKEY_LOCAL_MACHINE\SOFTWARE\McNeel\Rhinoceros\SDK\8.0', 'InstallPath', null, RegistryView.Registry64))</RhinoSdkPath>
+    <RhinoSdkPath Condition="$(RhinoVersion) == '9' || $(RhinoVersion) == ''">$([MSBuild]::GetRegistryValueFromView('HKEY_LOCAL_MACHINE\SOFTWARE\McNeel\Rhinoceros\SDK\9.0', 'InstallPath', null, RegistryView.Registry64))</RhinoSdkPath>
   </PropertyGroup>
   <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="PropertySheets">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
@@ -86,6 +96,7 @@
       <WarningLevel>Level4</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN64;_WINDOWS;NDEBUG;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <LanguageStandard Condition="$(RhinoVersion) == '9' || $(RhinoVersion) == ''">stdcpp20</LanguageStandard>
 <!--#if SDL-->
       <SDLCheck>true</SDLCheck>
 <!--#endif-->
@@ -112,6 +123,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>WIN64;_WINDOWS;NDEBUG;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <LanguageStandard Condition="$(RhinoVersion) == '9' || $(RhinoVersion) == ''">stdcpp20</LanguageStandard>
 <!--#if SDL-->
       <SDLCheck>true</SDLCheck>
 <!--#endif-->

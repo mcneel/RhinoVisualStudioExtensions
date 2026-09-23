@@ -1,6 +1,50 @@
 {
   "version": "0.2.0",
   "configurations": [
+//#if (RhinoVersion <= '9')
+    {
+      "name": "Rhino 9 - netcore",
+      "type": "coreclr",
+      "request": "launch",
+      "preLaunchTask": "build",
+      "program": "",
+      "osx": {
+        "program": "/Applications/Rhino 9.app/Contents/MacOS/Rhinoceros",
+        "args": [
+          "-runscript=_Grasshopper"
+        ]
+      },
+      "windows": {
+        "program": "C:\\Program Files\\Rhino 9\\System\\Rhino.exe",
+        "targetArchitecture": "x86_64",
+        "args": "/netcore /runscript=\"_Grasshopper\""
+      },
+      "env": {
+        "RHINO_PACKAGE_DIRS": "${workspaceFolder}/bin/Debug"
+      },
+      "cwd": "${workspaceFolder}",
+      "stopAtEntry": false,
+      "console": "internalConsole"
+    },
+    {
+      "name": "Rhino 9 Windows - netfx",
+      "type": "clr",
+      "request": "launch",
+      "preLaunchTask": "build",
+      "windows": {
+        "program": "C:\\Program Files\\Rhino 9\\System\\Rhino.exe",
+        "targetArchitecture": "x86_64",
+        "args": "/netfx /runscript=\"_Grasshopper\""
+      },
+      "env": {
+        "RHINO_PACKAGE_DIRS": "${workspaceFolder}/bin/Debug"
+      },
+      "cwd": "${workspaceFolder}",
+      "stopAtEntry": false,
+      "console": "internalConsole"
+    },
+//#endif
+//#if (RhinoVersion <= '8')
     {
       "name": "Rhino 8 - netcore",
       "type": "coreclr",
@@ -42,6 +86,7 @@
       "stopAtEntry": false,
       "console": "internalConsole"
     },
+//#endif
 //#if (RhinoVersion <= '7')
     {
       "name": "Rhino 7 Mac",

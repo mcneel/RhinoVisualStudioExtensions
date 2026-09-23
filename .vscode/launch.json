@@ -5,37 +5,6 @@
   "version": "0.2.0",
   "configurations": [
     {
-      "name": "Rhino.VisualStudio.Mac.2019",
-      "type": "mono",
-      "request": "launch",
-      "preLaunchTask": "build-2019",
-      "program": ".",
-      "runtimeExecutable": "/Applications/Visual Studio (2019).app/Contents/MacOS/VisualStudio",
-      "passDebugOptionsViaEnvironmentVariable": true,
-      "args": [
-        "--no-redirect"
-      ],
-      "env": {
-        "MONODEVELOP_CONSOLE_LOG_LEVEL": "All",
-        "MONODEVELOP_DEV_ADDINS": "${workspaceFolder}/artifacts/bin/Rhino.VisualStudio.Mac/2019/${config:var.configuration}/"
-      }
-    },
-    {
-      "name": "Rhino.VisualStudio.Mac.2022",
-      "type": "coreclr",
-      "request": "launch",
-      "preLaunchTask": "build-2022",
-      "program": "/Applications/Visual Studio.app/Contents/MacOS/VisualStudio",
-      "args": [
-        "--no-redirect"
-      ],
-      "env": {
-        "MONODEVELOP_CONSOLE_LOG_LEVEL": "All",
-        "MONODEVELOP_DEV_ADDINS": "${workspaceFolder}/artifacts/bin/Rhino.VisualStudio.Mac/2022/${config:var.configuration}/"
-      },
-      "justMyCode": false
-    },
-    {
       "name": "Rhino.VisualStudio.Windows.2019",
       "type": "clr",
       "request": "launch",
