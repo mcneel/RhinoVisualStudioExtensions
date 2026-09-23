@@ -2,21 +2,21 @@
   "version": "0.2.0",
   "configurations": [
     {
-      "name": "Rhino 8 - netcore",
+      "name": "Rhino 9 - netcore",
       "type": "coreclr",
       "request": "launch",
       "preLaunchTask": "build",
       "program": "",
       "osx": {
-        "program": "/Applications/Rhino 8.app/Contents/MacOS/Rhinoceros",
+        "program": "/Applications/RhinoBETA.app/Contents/MacOS/Rhinoceros",
         "args": [
-          "-runscript=_G2"
+          "-runscript=_GH2"
         ]
       },
       "windows": {
-        "program": "C:\\Program Files\\Rhino 8\\System\\Rhino.exe",
+        "program": "C:\\Program Files\\Rhino 9 WIP\\System\\Rhino.exe",
         "targetArchitecture": "x86_64",
-        "args": "/netcore /runscript=\"_G2\""
+        "args": "/netcore /runscript=\"_GH2\""
       },
       "env": {
         "RHINO_PACKAGE_DIRS": "${workspaceFolder}/bin/Debug"
@@ -26,14 +26,14 @@
       "console": "internalConsole"
     },
     {
-      "name": "Rhino 8 Windows - netfx",
+      "name": "Rhino 9 Windows - netfx",
       "type": "clr",
       "request": "launch",
       "preLaunchTask": "build",
       "windows": {
-        "program": "C:\\Program Files\\Rhino 8\\System\\Rhino.exe",
+        "program": "C:\\Program Files\\Rhino 9 WIP\\System\\Rhino.exe",
         "targetArchitecture": "x86_64",
-        "args": "/netfx /runscript=\"_G2\""
+        "args": "/netfx /runscript=\"_GH2\""
       },
       "env": {
         "RHINO_PACKAGE_DIRS": "${workspaceFolder}/bin/Debug"

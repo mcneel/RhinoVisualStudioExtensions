@@ -2,15 +2,15 @@
 	
   <PropertyGroup>
     <!-- Select the framework(s) you wish to target.
-        Rhino 8 Windows: net48, net7.0, net7.0-windows, net7.0-windows10.0.22000.0, etc
-        Rhino 8 Mac: net7.0, net7.0-macos, net7.0-macos12.0, etc
+        Rhino 9 Windows: net48, net8.0, net8.0-windows, net8.0-windows10.0.22000.0, etc
+        Rhino 9 Mac: net8.0, net8.0-macos, net8.0-macos12.0, etc
     -->
 <!--#if (UseWpf)-->
-    <TargetFrameworks>net7.0-windows;net48</TargetFrameworks>
+    <TargetFrameworks>net8.0-windows;net48</TargetFrameworks>
 <!--#elif (UseWindowsDesktop)-->
-    <TargetFrameworks>net7.0-windows;net7.0;net48</TargetFrameworks>
+    <TargetFrameworks>net8.0-windows;net8.0;net48</TargetFrameworks>
 <!--#else-->
-    <TargetFrameworks>net7.0;net48</TargetFrameworks>
+    <TargetFrameworks>net8.0;net48</TargetFrameworks>
 <!--#endif-->
     <EnableDynamicLoading>true</EnableDynamicLoading>
     <TargetExt>.rhp</TargetExt>
@@ -31,7 +31,7 @@
   </PropertyGroup>
   
   <ItemGroup>
-    <PackageReference Include="Grasshopper2" Version="2.0.9225-wip.14825" ExcludeAssets="runtime" />
+    <PackageReference Include="Grasshopper2" Version="9.0.26258.12303-beta" ExcludeAssets="runtime" />
   </ItemGroup>
   
 <!--#if (UseWindowsDesktop)-->
@@ -67,8 +67,8 @@
 <!--#if (BuildYak)-->
   <Target Name="BuildYakPackage" AfterTargets="DispatchToInnerBuilds">
     <PropertyGroup>
-      <YakExecutable Condition="$(YakExecutable) == '' and $([MSBuild]::IsOSPlatform(windows)) and Exists('C:\Program Files\Rhino 8\System\Yak.exe')">C:\Program Files\Rhino 8\System\Yak.exe</YakExecutable>
-      <YakExecutable Condition="$(YakExecutable) == '' and $([MSBuild]::IsOSPlatform(macos)) and Exists('/Applications/Rhino 8.app/Contents/Resources/bin/yak')">/Applications/Rhino 8.app/Contents/Resources/bin/yak</YakExecutable>
+      <YakExecutable Condition="$(YakExecutable) == '' and $([MSBuild]::IsOSPlatform(windows)) and Exists('C:\Program Files\Rhino 9 WIP\System\Yak.exe')">C:\Program Files\Rhino 9 WIP\System\Yak.exe</YakExecutable>
+      <YakExecutable Condition="$(YakExecutable) == '' and $([MSBuild]::IsOSPlatform(macos)) and Exists('/Applications/RhinoBETA.app/Contents/Resources/bin/yak')">/Applications/RhinoBETA.app/Contents/Resources/bin/yak</YakExecutable>
       
       <BuildYakPackage Condition="$(BuildYakPackage) == '' and $(YakExecutable) != '' and Exists($(YakExecutable))">True</BuildYakPackage>
     </PropertyGroup>
