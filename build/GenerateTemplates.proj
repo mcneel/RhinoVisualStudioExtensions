@@ -184,7 +184,7 @@
       <IncludeSample Include="Sample" Value="-sample" />
 
       <WithName Include="DefaultName" Value="" />
-      <WithName Include="CustonName" Value='-component MyComponentClassName -cname "MyComponent Name" -nick MyNickname -desc MyDescription -cat MyCategory -sub MySubcategory --addon-display-name="My-Addon-Name"' />
+      <WithName Include="CustomName" Value='-component MyComponentClassName -cname "MyComponent Name" -nick MyNickname -desc MyDescription -cat MyCategory -sub MySubcategory --addon-display-name="My-Addon-Name"' />
 
       <GHOptions4 Include="*" DesktopId="%(Desktop.Identity)" Desktop="%(Desktop.Value)" />
       <GHOptions3 Include="@(GHOptions4)" VersionId="%(RhinoVersion.Identity)" Version="--version %(RhinoVersion.Identity)" />
@@ -211,7 +211,7 @@
       <GH2IncludeSample Include="Sample" Value="-sample" />
 
       <GH2WithName Include="DefaultName" Value="" />
-      <GH2WithName Include="CustonName" Value='-component MyComponentClassName -cname "MyComponent Name" -info MyDescription -ch MyChapter -sec MySection --plugin-display-name="My-Plugin-Name"' />
+      <GH2WithName Include="CustomName" Value='-component MyComponentClassName -cname "MyComponent Name" -info MyDescription -ch MyChapter -sec MySection --plugin-display-name="My-Plugin-Name"' />
 
       <GH2Options2 Include="*" DesktopId="%(Desktop.Identity)" Desktop="%(Desktop.Value)" />
       <GH2Options1 Include="@(GH2Options2)" WithNameId="%(GH2WithName.Identity)" WithName="%(GH2WithName.Value)" />
@@ -237,7 +237,7 @@
       <TestIncludeSample Include="Sample" Value="-sample" />
 
       <TestWithName Include="DefaultName" Value="" />
-      <TestWithName Include="CustonName" Value='-test MyTestClass' />
+      <TestWithName Include="CustomName" Value='-test MyTestClass' />
 
       <TestOptions1 Include="*" WithNameId="%(TestWithName.Identity)" WithName="%(TestWithName.Value)" />
       <TestOptions Include="@(TestOptions1)" SampleId="%(TestIncludeSample.Identity)" Sample="%(TestIncludeSample.Value)" />
