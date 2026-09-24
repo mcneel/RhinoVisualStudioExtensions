@@ -1,0 +1,48 @@
+﻿{
+    "$schema": "http://json.schemastore.org/template",
+    "author": "McNeel",
+    "classifications": [ "Rhino", "Grasshopper2" ],
+    "name": "Grasshopper 2 Component",
+    "identity": "Grasshopper2.Component.File.CS",
+    "groupIdentity": "Grasshopper2.Component.File",
+    "precedence": 100,
+    "defaultName": "MyComponent",
+    "shortName": "gh2component",
+    "tags": {
+        "language": "C#",
+        "type": "item"
+    },
+    "sourceName": "MyComponent2.1",
+    "symbols": {
+        "Namespace": {
+            "description": "Namespace for the generated files",
+            "replaces": "MyNamespace",
+            "type": "parameter"
+        },
+
+        "HostIdentifier": {
+            "type": "bind",
+            "binding": "HostIdentifier"
+        }
+    },
+    "primaryOutputs": [
+        {
+            "path": "MyComponent2.1.cs"
+        }
+    ],
+    "guids": [
+        "b4cfdc9a-d6d2-4228-8158-8fc30298fef8"
+    ],
+    "postActions": [
+        {
+            "condition": "(HostIdentifier != \"dotnetcli\" && HostIdentifier != \"dotnetcli-preview\")",
+            "description": "Opens the command in the editor",
+            "manualInstructions": [],
+            "actionId": "84C0DA21-51C8-4541-9940-6CA19AF04EE6",
+            "args": {
+                "files": "0"
+            },
+            "continueOnError": true
+        }
+    ]
+}
