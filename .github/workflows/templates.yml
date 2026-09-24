@@ -24,6 +24,15 @@ jobs:
       with:
         dotnet-version: 8.0.x
 
+    - name: Download yak
+      shell: pwsh
+      run: |
+        $file = if ($IsWindows) { 'win-x64/yak.exe' } else { 'osx-universal/yak' }
+        $yak = Join-Path $env:RUNNER_TEMP (Split-Path $file -Leaf)
+        Invoke-WebRequest "https://files.mcneel.com/yak/tools/0.19.1/$file" -OutFile $yak
+        if (-not $IsWindows) { chmod +x $yak }
+        "YakExecutable=$yak" >> $env:GITHUB_ENV
+
     - name: Pack templates
       run: dotnet build Rhino.Templates/Rhino.Templates.csproj
 
