@@ -71,8 +71,15 @@
           Condition="!Exists($(MyTextFile))" />
   </Target>
 
-  <Target Name="GenerateTemplates" DependsOnTargets="CleanTemplates;CreateDirectoryProps;TestingTemplates;CppSkinTemplates;CppRhinoTemplates;Grasshopper2Templates;GrasshopperTemplates;RhinoCommonTemplates;ZooTemplates" > 
+  <ItemGroup>
+    <TemplateGroup Include="TestingTemplates;CppSkinTemplates;CppRhinoTemplates;Grasshopper2Templates;GrasshopperTemplates;RhinoCommonTemplates;ZooTemplates" AdditionalProperties="TemplateGroup=%(Identity)" />
+  </ItemGroup>
+
+  <Target Name="GenerateTemplates" DependsOnTargets="CleanTemplates;CreateDirectoryProps">
+    <MSBuild Projects="@(TemplateGroup->'$(MSBuildThisFileFullPath)')" Targets="GenerateTemplateGroup" BuildInParallel="true" />
   </Target>
+
+  <Target Name="GenerateTemplateGroup" DependsOnTargets="$(TemplateGroup)" />
   
   <Target Name="CppRhinoTemplates" DependsOnTargets="GetVSMSBuild">
     <!-- generate Rhino C++ templates -->
