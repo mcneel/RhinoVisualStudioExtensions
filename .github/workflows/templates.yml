@@ -29,3 +29,8 @@ jobs:
 
     - name: Generate and build every template
       run: dotnet msbuild build/GenerateTemplates.proj /p:RhinoInstalled=false
+
+    - name: Summary
+      if: ${{ always() }}
+      shell: pwsh
+      run: ./build/WriteTemplateSummary.ps1

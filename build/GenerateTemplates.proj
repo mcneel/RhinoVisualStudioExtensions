@@ -9,7 +9,8 @@
     <BuildAllProjects>true</BuildAllProjects> <!-- Set to false to just generate templates without building them -->
     <RhinoInstalled Condition="$(RhinoInstalled) == ''">true</RhinoInstalled> <!-- Set to false when Rhino, the Rhino C++ SDK and Zoo are not installed (e.g. CI) -->
     
-    <BuildOptions>$(BuildOptions) -clp:NoSummary</BuildOptions>
+    <LogOptions>&quot;-flp1:warningsonly;logfile=build.warnings.log&quot; &quot;-flp2:errorsonly;logfile=build.errors.log&quot;</LogOptions> <!-- Read by WriteTemplateSummary.ps1 -->
+    <BuildOptions>$(BuildOptions) -clp:NoSummary $(LogOptions)</BuildOptions>
 
     <!-- <BuildOptions Condition="$([MSBuild]::IsOSPlatform(windows))">$(BuildOptions) /p:YakExecutable=&quot;C:\Program Files\Rhino 8\System\yak.exe&quot;</BuildOptions> -->
     <!-- <BuildOptions Condition="$([MSBuild]::IsOSPlatform(osx))">$(BuildOptions) /p:YakExecutable=&quot;/Applications/Rhino 8.app/Contents/Resources/bin/yak&quot;</BuildOptions> -->
@@ -105,14 +106,14 @@
 
       <!-- Commands to generate then build -->
       <CppOptions Update="@(CppOptions)" GenerateCommand="dotnet new rhino -lang cpp %(CppOptions.Type) %(Version) %(Features) %(CustomName) -o &quot;$(TemplateDir)%(OutputDir)&quot;" />
-      <CppOptions Update="@(CppOptions)" BuildCommand="&amp;&amp; cd &quot;$(TemplateDir)%(OutputDir)&quot; &amp;&amp; $(VSMSBuild2022) /p:Platform=x64" Condition="$(BuildAllProjects) == 'true' and $(RhinoInstalled) == 'true'" />
+      <CppOptions Update="@(CppOptions)" BuildCommand="&amp;&amp; cd &quot;$(TemplateDir)%(OutputDir)&quot; &amp;&amp; $(VSMSBuild2022) /p:Platform=x64 $(LogOptions)" Condition="$(BuildAllProjects) == 'true' and $(RhinoInstalled) == 'true'" />
       <!-- <CppOptions Update="@(CppOptions)" BuildCommand="&amp;&amp; cd &quot;$(TemplateDir)%(OutputDir)&quot; &amp;&amp; $(VSMSBuild2019) /p:Platform=x64" Condition="%(VersionId) == '7' and $(BuildAllProjects) == 'true'" /> -->
       <CppOptions Update="@(CppOptions)" Command="%(CppOptions.GenerateCommand)" />
       <CppOptions Update="@(CppOptions)" Command="%(CppOptions.Command) %(CppOptions.BuildCommand)" Condition="$([MSBuild]::IsOSPlatform(Windows))" />
       
     </ItemGroup>
 
-    <Exec Command="%(CppOptions.Command)" />
+    <Exec Command="%(CppOptions.Command)" ContinueOnError="ErrorAndContinue" />
     
   </Target>
 
@@ -133,14 +134,14 @@
 
       <!-- Commands to generate then build -->
       <CppSkinOptions Update="@(CppSkinOptions)" GenerateCommand="dotnet new rhinoskin %(Version) %(Features) -o &quot;$(TemplateDir)%(OutputDir)&quot;" />
-      <CppSkinOptions Update="@(CppSkinOptions)" BuildCommand="&amp;&amp; cd &quot;$(TemplateDir)%(OutputDir)&quot; &amp;&amp; $(VSMSBuild2022) /p:Platform=x64" Condition="$(BuildAllProjects) == 'true' and $(RhinoInstalled) == 'true'"  />
+      <CppSkinOptions Update="@(CppSkinOptions)" BuildCommand="&amp;&amp; cd &quot;$(TemplateDir)%(OutputDir)&quot; &amp;&amp; $(VSMSBuild2022) /p:Platform=x64 $(LogOptions)" Condition="$(BuildAllProjects) == 'true' and $(RhinoInstalled) == 'true'"  />
       <!-- <CppSkinOptions Update="@(CppSkinOptions)" BuildCommand="&amp;&amp; cd &quot;$(TemplateDir)%(OutputDir)&quot; &amp;&amp; $(VSMSBuild2019) /p:Platform=x64" Condition="%(VersionId) == '7' and $(BuildAllProjects) == 'true'" /> -->
       <CppSkinOptions Update="@(CppSkinOptions)" Command="%(CppSkinOptions.GenerateCommand)" />
       <CppSkinOptions Update="@(CppSkinOptions)" Command="%(CppSkinOptions.Command) %(CppSkinOptions.BuildCommand)" Condition="$([MSBuild]::IsOSPlatform(Windows))" />
       
     </ItemGroup>
 
-    <Exec Command="%(CppSkinOptions.Command)" />
+    <Exec Command="%(CppSkinOptions.Command)" ContinueOnError="ErrorAndContinue" />
     
   </Target>
   
@@ -169,7 +170,7 @@
     </ItemGroup>
 
     <!-- <Message Text="dotnet new rhino %(Options.Type) -v %(Options.Version) -o $(TemplateDir)%(OutputDir)" Importance="high" /> -->
-    <Exec Command="%(RhinoOptions.Command)" />
+    <Exec Command="%(RhinoOptions.Command)" ContinueOnError="ErrorAndContinue" />
     
     <!-- Test specifying class names for command and plugin -->
     <Exec Command="dotnet new rhino -command SomeCommand -plugin AwesomePlugin -o $(TemplateDir)RhinoCommon8/CS/CustomNames" />
@@ -199,7 +200,7 @@
       <GHOptions Update="@(GHOptions)" Command="%(Command) &amp;&amp; cd $(TemplateDir)%(OutputDir) &amp;&amp; dotnet build $(BuildOptions)" Condition="$(BuildAllProjects) == 'true'" />
     </ItemGroup>
 
-    <Exec Command="%(GHOptions.Command)" />
+    <Exec Command="%(GHOptions.Command)" ContinueOnError="ErrorAndContinue" />
 
   </Target>
 
@@ -224,7 +225,7 @@
       <GH2Options Update="@(GH2Options)" Command="%(Command) &amp;&amp; cd $(TemplateDir)%(OutputDir) &amp;&amp; dotnet build $(BuildOptions)" Condition="$(BuildAllProjects) == 'true'" />
     </ItemGroup>
 
-    <Exec Command="%(GH2Options.Command)" />
+    <Exec Command="%(GH2Options.Command)" ContinueOnError="ErrorAndContinue" />
 
   </Target>
   
@@ -251,7 +252,7 @@
       <TestOptions Update="@(TestOptions)" Command="%(Command) &amp;&amp; cd $(TemplateDir)%(OutputDir) &amp;&amp; dotnet test -a x64 $(BuildOptions)" Condition="$(BuildAllProjects) == 'true' and $([MSBuild]::IsOSPlatform(windows)) and $(RhinoInstalled) == 'true'" />
     </ItemGroup>
 
-    <Exec Command="%(TestOptions.Command)" />
+    <Exec Command="%(TestOptions.Command)" ContinueOnError="ErrorAndContinue" />
 
   </Target>
   
@@ -273,10 +274,10 @@
       <!-- generate template -->
       <ZooOptions Update="@(ZooOptions)" Command="dotnet new zooplugin %(ZooOptions.WithGuid) %(WithPath) -o $(TemplateDir)%(OutputDir)" />
       <!-- build template-->
-      <ZooOptions Update="@(ZooOptions)" Command="%(Command) &amp;&amp; cd $(TemplateDir)%(OutputDir) &amp;&amp; dotnet build" Condition="%(WithPathId) == 'DefaultPath' and $(BuildAllProjects) == 'true' and $(RhinoInstalled) == 'true'" />
+      <ZooOptions Update="@(ZooOptions)" Command="%(Command) &amp;&amp; cd $(TemplateDir)%(OutputDir) &amp;&amp; dotnet build $(BuildOptions)" Condition="%(WithPathId) == 'DefaultPath' and $(BuildAllProjects) == 'true' and $(RhinoInstalled) == 'true'" />
     </ItemGroup>
 
-    <Exec Command="%(ZooOptions.Command)" />
+    <Exec Command="%(ZooOptions.Command)" ContinueOnError="ErrorAndContinue" />
   </Target>
 
 </Project>
