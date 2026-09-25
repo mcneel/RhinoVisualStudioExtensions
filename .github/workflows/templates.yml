@@ -1,0 +1,45 @@
+name: Templates
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+  workflow_dispatch:
+
+jobs:
+  build-templates:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ windows-latest, macos-latest ]
+
+    runs-on: ${{ matrix.os }}
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: 8.0.x
+
+    - name: Download yak
+      shell: pwsh
+      run: |
+        $file = if ($IsWindows) { 'win-x64/yak.exe' } else { 'osx-universal/yak' }
+        $yak = Join-Path $env:RUNNER_TEMP (Split-Path $file -Leaf)
+        Invoke-WebRequest "https://files.mcneel.com/yak/tools/0.19.1/$file" -OutFile $yak
+        if (-not $IsWindows) { chmod +x $yak }
+        "YakExecutable=$yak" >> $env:GITHUB_ENV
+
+    - name: Pack templates
+      run: dotnet build Rhino.Templates/Rhino.Templates.csproj
+
+    - name: Generate and build every template
+      run: dotnet msbuild build/GenerateTemplates.proj /p:RhinoInstalled=false
+
+    - name: Summary
+      if: ${{ always() }}
+      shell: pwsh
+      run: ./build/WriteTemplateSummary.ps1
