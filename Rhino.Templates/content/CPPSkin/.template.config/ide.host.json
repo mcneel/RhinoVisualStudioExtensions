@@ -1,5 +1,28 @@
 ﻿{
     "$schema": "http://json.schemastore.org/vs-2017.3.host",
+    "symbolInfo": [
+        {
+            "id": "RhinoVersion",
+            "name": {
+                "text": "Rhino version"
+            },
+            "isVisible": true
+        },
+        {
+            "id": "CustomMenus",
+            "name": {
+                "text": "Custom menus"
+            },
+            "isVisible": true
+        },
+        {
+            "id": "SDL",
+            "name": {
+                "text": "Security Development Lifecycle (SDL) checks"
+            },
+            "isVisible": true
+        }
+    ],
     "unsupportedHosts": [
         {
             "id": "vs"

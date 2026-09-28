@@ -1,5 +1,63 @@
 ﻿{
     "$schema": "http://json.schemastore.org/vs-2017.3.host",
+    "symbolInfo": [
+        {
+            "id": "PluginType",
+            "name": {
+                "text": "Plug-in type"
+            },
+            "isVisible": true
+        },
+        {
+            "id": "RhinoVersion",
+            "name": {
+                "text": "Rhino version"
+            },
+            "isVisible": true
+        },
+        {
+            "id": "CommandName",
+            "name": {
+                "text": "Command name"
+            },
+            "isVisible": true
+        },
+        {
+            "id": "FileExtension",
+            "name": {
+                "text": "File extension"
+            },
+            "isVisible": true
+        },
+        {
+            "id": "FileDescription",
+            "name": {
+                "text": "File description"
+            },
+            "isVisible": true
+        },
+        {
+            "id": "Automation",
+            "name": {
+                "text": "Automation"
+            },
+            "isVisible": true
+        },
+        {
+            "id": "Sockets",
+            "name": {
+                "text": "Windows Sockets"
+            },
+            "isVisible": true
+        },
+        {
+            "id": "SDL",
+            "name": {
+                "text": "Security Development Lifecycle (SDL) checks"
+            },
+            "isVisible": true
+        },
+    ],
     "unsupportedHosts": [
         {
             "id": "vs"

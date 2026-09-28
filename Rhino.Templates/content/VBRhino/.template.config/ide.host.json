@@ -1,5 +1,84 @@
 ﻿{
     "$schema": "http://json.schemastore.org/vs-2017.3.host",
+    "symbolInfo": [
+        {
+            "id": "PluginType",
+            "name": {
+                "text": "Plug-in type"
+            },
+            "isVisible": true
+        },
+        {
+            "id": "RhinoVersion",
+            "name": {
+                "text": "Rhino version"
+            },
+            "isVisible": true
+        },
+        {
+            "id": "PluginClassName",
+            "name": {
+                "text": "Plug-in class name"
+            },
+            "isVisible": true
+        },
+        {
+            "id": "CommandClassName",
+            "name": {
+                "text": "Command class name"
+            },
+            "isVisible": true
+        },
+        {
+            "id": "IncludeSample",
+            "name": {
+                "text": "Provide sample code"
+            },
+            "isVisible": true
+        },
+        {
+            "id": "FileExtension",
+            "name": {
+                "text": "File extension"
+            },
+            "isVisible": true
+        },
+        {
+            "id": "FileDescription",
+            "name": {
+                "text": "File description"
+            },
+            "isVisible": true
+        },
+        {
+            "id": "UseWinForms",
+            "name": {
+                "text": "Use Windows Forms"
+            },
+            "isVisible": true
+        },
+        {
+            "id": "UseWpf",
+            "name": {
+                "text": "Use WPF"
+            },
+            "isVisible": true
+        },
+        {
+            "id": "BuildYak",
+            "name": {
+                "text": "Build Yak package"
+            },
+            "isVisible": true
+        },
+        {
+            "id": "IncludeVSCode",
+            "name": {
+                "text": "Include VS Code launch/tasks json files"
+            },
+            "isVisible": true
+        }
+    ],
     "unsupportedHosts": [
         {
             "id": "vs"
