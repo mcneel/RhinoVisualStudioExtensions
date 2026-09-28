@@ -125,7 +125,7 @@ GUID CMyRhino__1PlugIn::PlugInID() const
 /////////////////////////////////////////////////////////////////////////////
 // Additional overrides
 
-BOOL CMyRhino__1PlugIn::OnLoadPlugIn()
+int CMyRhino__1PlugIn::OnLoadPlugIn()
 {
 	// Description:
 	//   Called after the plug-in is loaded and the constructor has been
@@ -285,7 +285,7 @@ void CMyRhino__1PlugIn::AddFileType(ON_ClassArray<CRhinoFileType>& extensions, c
 	// TODO: Add supported file extensions here.
 }
 
-BOOL CMyRhino__1PlugIn::WriteFile(const wchar_t* filename, int index, CRhinoDoc& doc, const CRhinoFileWriteOptions& options)
+int CMyRhino__1PlugIn::WriteFile(const wchar_t* filename, int index, CRhinoDoc& doc, const CRhinoFileWriteOptions& options)
 {
 	UNREFERENCED_PARAMETER(filename);
 	UNREFERENCED_PARAMETER(index);
@@ -339,7 +339,7 @@ void CMyRhino__1PlugIn::AddFileType(ON_ClassArray<CRhinoFileType>& extensions, c
 	// TODO: Add supported file extensions here.
 }
 
-BOOL CMyRhino__1PlugIn::ReadFile(const wchar_t* filename, int index, CRhinoDoc& doc, const CRhinoFileReadOptions& options)
+BOOL32 CMyRhino__1PlugIn::ReadFile(const wchar_t* filename, int index, CRhinoDoc& doc, const CRhinoFileReadOptions& options)
 {
 	UNREFERENCED_PARAMETER(filename);
 	UNREFERENCED_PARAMETER(index);
@@ -422,7 +422,7 @@ CRhinoCommand::result CMyRhino__1PlugIn::RenderQuiet(const CRhinoCommandContext&
 	return CRhinoCommand::failure;
 }
 
-BOOL CMyRhino__1PlugIn::SaveRenderedImage(ON_wString filename)
+BOOL32 CMyRhino__1PlugIn::SaveRenderedImage(ON_wString filename)
 {
 	// Description:
 	//   Message sent from a script to save the rendering to a file.
@@ -433,7 +433,7 @@ BOOL CMyRhino__1PlugIn::SaveRenderedImage(ON_wString filename)
 	return FALSE;
 }
 
-BOOL CMyRhino__1PlugIn::CloseRenderWindow()
+BOOL32 CMyRhino__1PlugIn::CloseRenderWindow()
 {
 	// Description:
 	//   Close render window notification. Called when rendering is done and render window
