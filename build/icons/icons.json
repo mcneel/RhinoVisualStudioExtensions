@@ -4,13 +4,15 @@
     "source": "sources/Grasshopper-2.svg",
     "piece": "puzzle-piece-diamond.svg",
     "outputs": [
-      "../../Rhino.VisualStudio.Windows/Templates/CSGrasshopper2/icon.ico"
+      "../../Rhino.VisualStudio.Windows/Templates/CSGrasshopper2/icon.ico",
+      "../../Rhino.VisualStudio.Windows/Templates/CSComponent2/icon.ico"
     ],
     "fill": {
       "cx": 40, "cy": 20, "r": 300,
       "stops": [[0, "#c5f6fa"], [0.35, "#99e9f2"], [0.7, "#3bc9db"], [1, "#1098ad"]]
     },
     "rim": { "width": 4, "color": "#c5f6fa" },
+    "outline": { "width": 1.5, "color": "#0b7285" },
     "layers": [
       { "select": "#Group", "x": 138, "y": 127, "size": 209 },
       { "select": "#Obj_Base > path:last-child", "x": 191, "y": 132, "size": 40 }
@@ -31,6 +33,7 @@
       "stops": [[0, "#e9fac8"], [0.35, "#d8f5a2"], [0.7, "#94d82d"], [1, "#5c940d"]]
     },
     "rim": { "width": 4, "color": "#e9fac8" },
+    "outline": { "width": 1.5, "color": "#5c940d" },
     "layers": [
       { "select": "#Group", "x": 138, "y": 127, "size": 209 }
     ]
@@ -53,6 +56,7 @@
       "stops": [[0, "#5c5f66"], [0.45, "#2c2e33"], [1, "#0b0b0c"]]
     },
     "rim": { "width": 4, "color": "#868e96" },
+    "outline": { "width": 1.5, "color": "#212529" },
     "layers": [
       { "select": "#Rhino_Logo", "x": 108, "y": 108, "size": 200 }
     ]
@@ -70,6 +74,7 @@
       "stops": [[0, "#ffffff"], [0.45, "#e9ecef"], [1, "#adb5bd"]]
     },
     "rim": { "width": 4, "color": "#ffffff" },
+    "outline": { "width": 1.5, "color": "#495057" },
     "layers": [
       { "select": "svg > g", "x": 128, "y": 120, "size": 96, "rotate": 0 }
     ]
@@ -86,6 +91,7 @@
       "stops": [[0, "#339af0"], [0.5, "#1c7ed6"], [1, "#1864ab"]]
     },
     "rim": { "width": 4, "color": "#a5d8ff" },
+    "outline": { "width": 1.5, "color": "#0b4a85" },
     "layers": [
       { "select": "#Rhino_Logo", "x": 108, "y": 108, "size": 200, "rotate": 0 },
       { "select": "#Test_Ring", "x": 136, "y": 162, "size": 195, "rotate": 0 }

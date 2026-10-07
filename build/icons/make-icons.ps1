@@ -12,6 +12,7 @@
     outputs  .ico files to write, relative to icons.json.
     fill     Radial gradient for the piece: centre cx/cy, radius r, and [offset, colour] stops.
     rim      Light edge inside the piece (width in px, colour), so dark artwork doesn't merge into dark themes. Width 0 turns it off.
+    outline  Thin line at the very edge (width in px, colour), so light pieces don't fade into light themes. SVG pieces only.
     shadow   Opacity of the soft shadow around the piece (default 0.45).
     layers   Artwork to place, in drawing order:
                select       CSS selector of the element(s) in the source SVG.
@@ -58,6 +59,8 @@ function New-IconPage($icon) {
   $stops = ($icon.fill.stops | ForEach-Object { "<stop offset='$($_[0])' stop-color='$($_[1])'/>" }) -join ''
   $rimWidth = if ($icon.rim) { [double]$icon.rim.width } else { 0 }
   $rimColor = if ($icon.rim) { $icon.rim.color } else { '#ffffff' }
+  $outlineWidth = if ($icon.outline) { [double]$icon.outline.width } else { 0 }
+  $outlineColor = if ($icon.outline) { $icon.outline.color } else { '#000000' }
   $shadow = if ($null -ne $icon.shadow) { $icon.shadow } else { 0.45 }
   $layers = ConvertTo-Json -InputObject @($icon.layers) -Depth 5 -Compress
   $pieceFile = Join-Path $baseDir $(if ($icon.piece) { $icon.piece } else { 'puzzle-piece.png' })
@@ -67,11 +70,12 @@ function New-IconPage($icon) {
     $pieceDefs = @"
   <clipPath id="icon-clip">$shape</clipPath>
   <filter id="icon-shadow" x="-10%" y="-10%" width="120%" height="120%"><feGaussianBlur stdDeviation="3"/><feOffset dy="1"/></filter>
-  <style>#icon-rim * { fill: none; stroke: $rimColor; stroke-width: $(2 * $rimWidth)px; }</style>
+  <style>#icon-rim * { fill: none; stroke: $rimColor; stroke-width: $(2 * $rimWidth)px; }
+  #icon-outline * { fill: none; stroke: $outlineColor; stroke-width: $(2 * $outlineWidth)px; }</style>
 "@
     $pieceBody = @"
  <g filter="url(#icon-shadow)" opacity="$shadow">$shape</g>
- <g clip-path="url(#icon-clip)"><rect width="256" height="256" fill="url(#icon-fill)"/><g id="icon-art"/>$(if ($rimWidth -gt 0) { "<g id=`"icon-rim`">$shape</g>" })</g>
+ <g clip-path="url(#icon-clip)"><rect width="256" height="256" fill="url(#icon-fill)"/><g id="icon-art"/>$(if ($rimWidth -gt 0) { "<g id=`"icon-rim`">$shape</g>" })$(if ($outlineWidth -gt 0) { "<g id=`"icon-outline`">$shape</g>" })</g>
 "@
   }
   else {
