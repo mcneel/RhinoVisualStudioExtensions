@@ -10,7 +10,7 @@ on:
 
 env:
   DotNetVersion: "10.0.x"
-  BuildParameters: "/v:Minimal /consoleLoggerParameters:NoSummary /p:Configuration=Release /p:BuildVersion=${{ github.run_id }} /p:BuildBranch=${{ github.ref }}"
+  BuildParameters: "/v:Minimal /consoleLoggerParameters:NoSummary /p:Configuration=Release /p:DeployExtension=false /p:BuildVersion=${{ github.run_id }} /p:BuildBranch=${{ github.ref }}"
 
 jobs:
   build-windows-2022:
@@ -30,7 +30,7 @@ jobs:
     - name: Setup msbuild
       uses: microsoft/setup-msbuild@v2
       with:
-        vs-version: '[17.0,18.0)'
+        vs-version: '[18.5,)'
 
     - name: Build VS2022
       run: msbuild /restore ${{ env.BuildParameters }} /p:VSVersion=2022 Rhino.VisualStudio.Windows\Rhino.VisualStudio.Windows.csproj /bl:artifacts/log/Build.Windows.2022.binlog

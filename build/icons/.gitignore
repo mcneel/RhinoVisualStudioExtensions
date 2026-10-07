@@ -1,0 +1,3 @@
+# -Preview output
+*.png
+!puzzle-piece.png

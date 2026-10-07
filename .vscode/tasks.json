@@ -113,6 +113,23 @@
       }
     },
     {
+      // Rebuilds the puzzle-piece template icons from build/icons/icons.json.
+      "label": "generate-icons",
+      "type": "process",
+      "command": "powershell.exe",
+      "args": [
+        "-NoProfile",
+        "-ExecutionPolicy",
+        "Bypass",
+        "-File",
+        "${workspaceFolder}/build/icons/make-icons.ps1"
+      ],
+      "problemMatcher": [],
+      "presentation": {
+        "clear": true
+      }
+    },
+    {
       "label": "build-all",
       "dependsOn": [
         "build-templates",
