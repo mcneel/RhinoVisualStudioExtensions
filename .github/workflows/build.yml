@@ -9,13 +9,13 @@ on:
     types: [ published ]
 
 env:
-  DotNetVersion: "8.0.401"
+  DotNetVersion: "10.0.x"
   BuildParameters: "/v:Minimal /consoleLoggerParameters:NoSummary /p:Configuration=Release /p:BuildVersion=${{ github.run_id }} /p:BuildBranch=${{ github.ref }}"
 
 jobs:
   build-windows-2022:
 
-    runs-on: windows-2022
+    runs-on: windows-latest
 
     steps:
     - uses: actions/checkout@v4
