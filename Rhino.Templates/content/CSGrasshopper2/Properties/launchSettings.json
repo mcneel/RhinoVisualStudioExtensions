@@ -2,7 +2,7 @@
   "profiles": {
     "Rhino 9 - netcore": {
       "commandName": "Executable",
-      "executablePath": "C:\\Program Files\\Rhino 9 WIP\\System\\Rhino.exe",
+      "executablePath": "C:\\Program Files\\Rhino 9\\System\\Rhino.exe",
       "commandLineArgs": "/netcore /runscript=\"_GH2\"",
       "environmentVariables": {
         "RHINO_PACKAGE_DIRS": "$(ProjectDir)$(OutputPath)\\"
@@ -10,7 +10,7 @@
     },
     "Rhino 9 - netfx": {
       "commandName": "Executable",
-      "executablePath": "C:\\Program Files\\Rhino 9 WIP\\System\\Rhino.exe",
+      "executablePath": "C:\\Program Files\\Rhino 9\\System\\Rhino.exe",
       "commandLineArgs": "/netfx /runscript=\"_GH2\"",
       "environmentVariables": {
         "RHINO_PACKAGE_DIRS": "$(ProjectDir)$(OutputPath)\\"

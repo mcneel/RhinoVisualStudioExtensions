@@ -31,7 +31,7 @@ namespace Rhino.VisualStudio.Mac
         public const string StandardInstallBetaPath = "/Applications/RhinoBETA.app";
         public const string GrasshopperReferenceName = "Grasshopper";
         public const string RhinoCommonReferenceName = "RhinoCommon";
-        public const int DefaultRhinoVersion = 7;
+        public const int DefaultRhinoVersion = 9;
 
         public const string RhinoPluginTypeProperty = "RhinoPluginType";
         public const string RhinoLauncherProperty = "RhinoMacLauncher";

@@ -60,8 +60,8 @@
 <!--#if (BuildYak)-->
   <Target Name="BuildYakPackage" AfterTargets="DispatchToInnerBuilds">
     <PropertyGroup>
-      <YakExecutable Condition="$(YakExecutable) == '' and $([MSBuild]::IsOSPlatform(windows)) and Exists('C:\Program Files\Rhino 9 WIP\System\Yak.exe')">C:\Program Files\Rhino 9 WIP\System\Yak.exe</YakExecutable>
-      <YakExecutable Condition="$(YakExecutable) == '' and $([MSBuild]::IsOSPlatform(macos)) and Exists('/Applications/RhinoBETA.app/Contents/Resources/bin/yak')">/Applications/RhinoBETA.app/Contents/Resources/bin/yak</YakExecutable>
+      <YakExecutable Condition="$(YakExecutable) == '' and $([MSBuild]::IsOSPlatform(windows)) and Exists('C:\Program Files\Rhino 9\System\Yak.exe')">C:\Program Files\Rhino 9\System\Yak.exe</YakExecutable>
+      <YakExecutable Condition="$(YakExecutable) == '' and $([MSBuild]::IsOSPlatform(macos)) and Exists('/Applications/Rhino 9.app/Contents/Resources/bin/yak')">/Applications/Rhino 9.app/Contents/Resources/bin/yak</YakExecutable>
       
       <BuildYakPackage Condition="$(BuildYakPackage) == '' and $(YakExecutable) != '' and Exists($(YakExecutable))">True</BuildYakPackage>
     </PropertyGroup>

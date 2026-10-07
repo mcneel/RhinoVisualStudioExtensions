@@ -20,9 +20,10 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <RhinoVersion Include="6" />
-    <RhinoVersion Include="7" />
+    <RhinoVersion Include="9" />
     <RhinoVersion Include="8" />
+    <!-- <RhinoVersion Include="7" />
+    <RhinoVersion Include="6" /> -->
 
     <Language Include="CS" Value="" />
     <Language Include="VB" Value="-lang VB" />

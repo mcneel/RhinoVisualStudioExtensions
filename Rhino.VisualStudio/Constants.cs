@@ -1,7 +1,7 @@
-namespace Rhino.VisualStudio
+﻿namespace Rhino.VisualStudio
 {
     public static class Constants
     {
-        public const int DefaultRhinoVersion = 7;
+        public const int DefaultRhinoVersion = 9;
     }
 }
