@@ -12,6 +12,9 @@ mkdir -p "$out/root"
 # Keep Finder metadata and extended attributes out of the payload.
 ditto --norsrc --noextattr --noqtn "$here/Templates" "$out/root"
 find "$out/root" -name .DS_Store -delete
+# Stored without the colon so the repo checks out on Windows.
+cmd="$out/root/File Templates/Rhino/Rhino Command.xctemplate"
+mv "$cmd/cmd___VARIABLE_productName___.cpp" "$cmd/cmd___VARIABLE_productName:identifier___.cpp"
 
 set -- ${1:+--sign "$1"}
 COPYFILE_DISABLE=1 pkgbuild \
