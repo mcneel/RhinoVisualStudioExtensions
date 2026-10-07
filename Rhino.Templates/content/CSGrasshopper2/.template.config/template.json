@@ -44,6 +44,12 @@
           "datatype": "bool",
           "defaultValue": "false"
         },
+        "IncludeRhinoPlugIn": {
+          "type": "parameter",
+          "description": "Include a Rhino plug-in class",
+          "datatype": "bool",
+          "defaultValue": "false"
+        },
         "IncludeVSCode": {
           "type": "parameter",
           "description": "Include tasks.json and launch.json to build/debug in VS Code",
@@ -123,6 +129,10 @@
           {
             "condition": "!IncludeVSCode",
             "exclude": [ ".vscode/*.*" ]
+          },
+          {
+            "condition": "!IncludeRhinoPlugIn",
+            "exclude": [ "MyGrasshopper.1Plugin.cs", "Icons/plugin.ico" ]
           },
           {
             "condition": "ComponentClassName == 'MyGrasshopper__1Component'",

@@ -79,6 +79,13 @@
             "isVisible": true
         },
         {
+            "id": "IncludeRhinoPlugIn",
+            "name": {
+                "text": "Include Rhino plug-in class"
+            },
+            "isVisible": true
+        },
+        {
             "id": "IncludeVSCode",
             "name": {
                 "text": "Include VS Code launch/tasks json files"

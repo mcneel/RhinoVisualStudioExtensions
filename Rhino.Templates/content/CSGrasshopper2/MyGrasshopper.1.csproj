@@ -48,7 +48,9 @@
 <!--#endif-->
   <ItemGroup>
     <EmbeddedResource Include="Icons\*.ghicon" />
+<!--#if (IncludeRhinoPlugIn)-->
     <EmbeddedResource Include="Icons\*.ico" />
+<!--#endif-->
   </ItemGroup>
 <!--#if (UseWinForms)-->
   <!-- Reference WinForms for .NET 8.0 on macOS -->
