@@ -125,6 +125,27 @@
       }
     },
     {
+      "label": "build-xcode-templates",
+      "type": "shell",
+      "command": "${workspaceFolder}/Rhino.Xcode/build-pkg.sh",
+      "problemMatcher": [],
+      "presentation": {
+        "clear": true
+      }
+    },
+    {
+      // Installs through the pkg so its install script is tested too. Restart Xcode afterwards.
+      "label": "install-xcode-templates",
+      "type": "shell",
+      "dependsOn": "build-xcode-templates",
+      "command": "sudo installer -pkg \"$(ls -t ${workspaceFolder}/artifacts/xcode/RhinoXcodeTemplates-*.pkg | head -1)\" -target /",
+      "problemMatcher": [],
+      "presentation": {
+        "clear": true,
+        "focus": true
+      }
+    },
+    {
       "label": "install-macos-workload",
       "type": "shell",
       "command": "sudo dotnet workload install macos --from-rollback-file dotnet-workloads.json",

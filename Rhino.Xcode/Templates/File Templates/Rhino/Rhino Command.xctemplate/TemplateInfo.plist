@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>Kind</key>
+	<string>Xcode.IDEFoundation.TextSubstitutionFileTemplateKind</string>
+	<key>Description</key>
+	<string>A Rhino command, run by typing its name in Rhino.</string>
+	<key>Summary</key>
+	<string>A Rhino command, run by typing its name in Rhino.</string>
+	<key>DefaultCompletionName</key>
+	<string>MyCommand</string>
+	<key>MainTemplateFile</key>
+	<string>cmd___VARIABLE_productName:identifier___.cpp</string>
+	<key>AllowedTypes</key>
+	<array>
+		<string>public.c-plus-plus-source</string>
+	</array>
+	<key>Platforms</key>
+	<array>
+		<string>com.apple.platform.macosx</string>
+	</array>
+	<key>Options</key>
+	<array>
+		<dict>
+			<key>Identifier</key>
+			<string>productName</string>
+			<key>Name</key>
+			<string>Name:</string>
+			<key>Description</key>
+			<string>The English name of the command</string>
+			<key>Type</key>
+			<string>text</string>
+			<key>Required</key>
+			<true/>
+			<key>NotPersisted</key>
+			<true/>
+		</dict>
+	</array>
+</dict>
+</plist>
