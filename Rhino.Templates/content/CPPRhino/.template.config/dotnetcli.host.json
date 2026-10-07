@@ -26,6 +26,12 @@
     "Sockets": {
       "longName": "sockets"
     },
+    "Mac": {
+      "longName": "mac"
+    },
+    "Debuggable": {
+      "longName": "debuggable"
+    },
     "SDL": {
       "longName": "sdl"
     }

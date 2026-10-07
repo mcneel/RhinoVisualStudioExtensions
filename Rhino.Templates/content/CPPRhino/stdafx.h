@@ -5,6 +5,24 @@
 
 #pragma once
 
+#if defined(__APPLE__)
+
+// Rhino SDK for macOS; the Windows headers below are MFC-only.
+#include "SDK/inc/rhinoSdkStdafxPreamble.h"
+#include "SDK/inc/rhinoSdk.h"
+#include "SDK/inc/RhRdkHeaders.h"
+#include "SDK/inc/rhinoSdkChecks.h"
+
+// Windows definitions the template code uses, which the Mac SDK does not declare.
+#ifndef MB_OK
+#define MB_OK 0x00000000L
+#endif
+#ifndef UNREFERENCED_PARAMETER
+#define UNREFERENCED_PARAMETER(P) (void)(P)
+#endif
+
+#else
+
 #ifndef VC_EXTRALEAN
 #define VC_EXTRALEAN                             // Exclude rarely-used stuff from Windows headers
 #endif
@@ -86,4 +104,6 @@
 
 // Rhino SDK linking pragmas
 #include "rhinoSdkPlugInLinkingPragmas.h"
+
+#endif
 //+:cnd:noEmit

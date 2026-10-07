@@ -77,6 +77,52 @@
       "datatype": "bool",
       "defaultValue": "false"
     },
+    "Mac": {
+      "type": "parameter",
+      "description": "Adds an Xcode project to build the plug-in on macOS. Rhino 9 only, and not available for render plug-ins.",
+      "datatype": "choice",
+      "defaultValue": "auto",
+      "defaultIfOptionWithoutValue": "true",
+      "choices": [
+        {
+          "choice": "auto",
+          "description": "Only when creating the project on macOS"
+        },
+        {
+          "choice": "true",
+          "description": "Always"
+        },
+        {
+          "choice": "false",
+          "description": "Never"
+        }
+      ]
+    },
+    "Debuggable": {
+      "type": "parameter",
+      "description": "Re-signs Rhino before each run from Xcode so the debugger can attach. Can be turned off later with the RHINO_MAKE_DEBUGGABLE build setting.",
+      "datatype": "bool",
+      "defaultValue": "true"
+    },
+    "DebuggableSetting": {
+      "type": "generated",
+      "generator": "switch",
+      "replaces": "MakeRhinoDebuggableDefault",
+      "parameters": {
+        "evaluator": "C++",
+        "datatype": "string",
+        "cases": [
+          { "condition": "(Debuggable)", "value": "YES" },
+          { "condition": "(!Debuggable)", "value": "NO" }
+        ]
+      }
+    },
+    /* Windows always sets OS=Windows_NT, so an empty value means another OS */
+    "HostOS": {
+      "type": "bind",
+      "binding": "env:OS",
+      "defaultValue": ""
+    },
     "SDL": {
       "type": "parameter",
       "description": "Enable additional Security Development Lifecycle (SDL) checks.",
@@ -119,6 +165,10 @@
       "replaces": "MyFileDescription"
     },
     
+    "MacProject": {
+      "type": "computed",
+      "value": "(Mac == \"true\" || (Mac == \"auto\" && HostOS != \"Windows_NT\")) && PluginType != \"render\" && RhinoVersion == \"9\""
+    },
     "TypeUtility": {
       "type": "computed",
       "value": "PluginType == \"utility\""
@@ -193,6 +243,10 @@
           "exclude": [ "res/Export.ico" ]
         },
         {
+          "condition": "!MacProject",
+          "exclude": [ "MyRhino.1.xcodeproj/**" ]
+        },
+        {
           "condition": "!Automation",
           "exclude": [ "MyRhino.1.idl" ]
         },
@@ -247,6 +301,17 @@
       "args": {
         "files": "1"
       },
+      "continueOnError": true
+    },
+    {
+      "condition": "MacProject",
+      "description": "Explains how to add the Rhino SDK for the Xcode project",
+      "manualInstructions": [
+        {
+          "text": "To build on macOS, add the Rhino C++ SDK as a submodule in the project folder:\n\n    git submodule add https://github.com/mcneel/rhino_sdk_cpp.git SDK\n\nSee README.md for next steps."
+        }
+      ],
+      "actionId": "AC1156F7-BB77-4DB8-B28F-24EEBCCA1E5C",
       "continueOnError": true
     }
   ]

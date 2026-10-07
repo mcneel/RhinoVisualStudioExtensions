@@ -57,6 +57,20 @@
             },
             "isVisible": true
         },
+        {
+            "id": "Mac",
+            "name": {
+                "text": "Xcode project for macOS"
+            },
+            "isVisible": true
+        },
+        {
+            "id": "Debuggable",
+            "name": {
+                "text": "Make Rhino debuggable from Xcode"
+            },
+            "isVisible": true
+        }
     ],
     "unsupportedHosts": [
         {

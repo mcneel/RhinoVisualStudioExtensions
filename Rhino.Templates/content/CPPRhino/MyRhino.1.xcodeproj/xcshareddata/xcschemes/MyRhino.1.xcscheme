@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Scheme
+   LastUpgradeVersion = "1600"
+   version = "1.7">
+   <BuildAction
+      parallelizeBuildables = "YES"
+      buildImplicitDependencies = "YES">
+      <BuildActionEntries>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "YES"
+            buildForArchiving = "YES"
+            buildForAnalyzing = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "A1B2C3D40000000000000071"
+               BuildableName = "MyRhino.1.rhp"
+               BlueprintName = "MyRhino.1"
+               ReferencedContainer = "container:MyRhino.1.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
+      </BuildActionEntries>
+   </BuildAction>
+   <TestAction
+      buildConfiguration = "Debug"
+      selectedDebuggerIdentifier = "Xcode.DebuggerFoundation.Debugger.LLDB"
+      selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
+      shouldUseLaunchSchemeArgsEnv = "YES">
+   </TestAction>
+   <LaunchAction
+      buildConfiguration = "Debug"
+      selectedDebuggerIdentifier = "Xcode.DebuggerFoundation.Debugger.LLDB"
+      selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
+      launchStyle = "0"
+      useCustomWorkingDirectory = "NO"
+      ignoresPersistentStateOnLaunch = "NO"
+      debugDocumentVersioning = "YES"
+      debugServiceExtension = "internal"
+      allowLocationSimulation = "YES">
+      <PreActions>
+         <ExecutionAction
+            ActionType = "Xcode.IDEStandardExecutionActionsCore.ExecutionActionType.ShellScriptAction">
+            <ActionContent
+               title = "Make Rhino debuggable"
+               scriptText = "# Rhino is not debuggable by default; this re-signs it once so Xcode can attach.&#10;# Turn off with the RHINO_MAKE_DEBUGGABLE build setting.&#10;[ &quot;$RHINO_MAKE_DEBUGGABLE&quot; = YES ] || exit 0&#10;# Xcode doesn&apos;t expose the Run executable to pre-actions, so read it from the scheme.&#10;scheme=&quot;$PROJECT_FILE_PATH/xcshareddata/xcschemes/$SCHEME_NAME.xcscheme&quot;&#10;[ -f &quot;$scheme&quot; ] || scheme=&quot;$PROJECT_FILE_PATH/xcuserdata/$USER.xcuserdatad/xcschemes/$SCHEME_NAME.xcscheme&quot;&#10;app=$(xmllint --xpath &quot;string(//LaunchAction/PathRunnable/@FilePath)&quot; &quot;$scheme&quot;)&#10;&quot;$SRCROOT/SDK/script/make_rhino_debuggable.sh&quot; &quot;$app&quot;&#10;">
+               <EnvironmentBuildable>
+                  <BuildableReference
+                     BuildableIdentifier = "primary"
+                     BlueprintIdentifier = "A1B2C3D40000000000000071"
+                     BuildableName = "MyRhino.1.rhp"
+                     BlueprintName = "MyRhino.1"
+                     ReferencedContainer = "container:MyRhino.1.xcodeproj">
+                  </BuildableReference>
+               </EnvironmentBuildable>
+            </ActionContent>
+         </ExecutionAction>
+      </PreActions>
+      <PathRunnable
+         runnableDebuggingMode = "0"
+         FilePath = "/Applications/Rhino 9.app">
+      </PathRunnable>
+      <MacroExpansion>
+         <BuildableReference
+            BuildableIdentifier = "primary"
+            BlueprintIdentifier = "A1B2C3D40000000000000071"
+            BuildableName = "MyRhino.1.rhp"
+            BlueprintName = "MyRhino.1"
+            ReferencedContainer = "container:MyRhino.1.xcodeproj">
+         </BuildableReference>
+      </MacroExpansion>
+      <EnvironmentVariables>
+         <EnvironmentVariable
+            key = "RHINO_PACKAGE_DIRS"
+            value = "$(BUILT_PRODUCTS_DIR)"
+            isEnabled = "YES">
+         </EnvironmentVariable>
+      </EnvironmentVariables>
+   </LaunchAction>
+   <ProfileAction
+      buildConfiguration = "Release"
+      shouldUseLaunchSchemeArgsEnv = "YES"
+      savedToolIdentifier = ""
+      useCustomWorkingDirectory = "NO"
+      debugDocumentVersioning = "YES">
+      <PathRunnable
+         runnableDebuggingMode = "0"
+         FilePath = "/Applications/RhinoBETA.app">
+      </PathRunnable>
+      <MacroExpansion>
+         <BuildableReference
+            BuildableIdentifier = "primary"
+            BlueprintIdentifier = "A1B2C3D40000000000000071"
+            BuildableName = "MyRhino.1.rhp"
+            BlueprintName = "MyRhino.1"
+            ReferencedContainer = "container:MyRhino.1.xcodeproj">
+         </BuildableReference>
+      </MacroExpansion>
+   </ProfileAction>
+   <AnalyzeAction
+      buildConfiguration = "Debug">
+   </AnalyzeAction>
+   <ArchiveAction
+      buildConfiguration = "Release"
+      revealArchiveInOrganizer = "YES">
+   </ArchiveAction>
+</Scheme>

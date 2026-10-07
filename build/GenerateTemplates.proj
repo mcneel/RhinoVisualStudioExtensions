@@ -86,11 +86,11 @@
     <!-- generate Rhino C++ templates -->
     <ItemGroup>
 
+      <CppPluginType Include="Utility" Value="-pt utility" />
       <CppPluginType Include="Digitize" Value="-pt digitize" />
       <CppPluginType Include="Export" Value="-pt export" />
       <CppPluginType Include="Import" Value="-pt import" />
       <CppPluginType Include="Render" Value="-pt render" />
-      <CppPluginType Include="Utility" Value="-pt utility" />
 
       <!-- Test all the different options -->
       <CppPluginFeatures Include="Default" Value="" />

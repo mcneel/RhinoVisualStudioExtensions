@@ -26,6 +26,10 @@ namespace Rhino.VisualStudio
             var useSDLCheckBox = new CheckBox { Text = "Security Development Lifecycle (SDL) checks", ToolTip = "Enable additional Security Development Lifecycle (SDL) checks." };
             useSDLCheckBox.CheckedBinding.BindDataContext((CppRhinoPluginOptionsViewModel m) => m.UseSDL);
 
+            var includeMacCheckBox = new CheckBox { Text = "Xcode project for macOS", ToolTip = "Adds an Xcode project to build the plug-in on macOS. Requires the Rhino C++ SDK as an SDK submodule. Rhino 9 only, and not available for render plug-ins." };
+            includeMacCheckBox.CheckedBinding.BindDataContext((CppRhinoPluginOptionsViewModel m) => m.IncludeMac);
+            includeMacCheckBox.BindDataContext(c => c.Enabled, (CppRhinoPluginOptionsViewModel m) => m.CanIncludeMac);
+
             // layout
             var layout = new DynamicLayout { DefaultSpacing = DefaultSpacing, Padding = DefaultPadding };
 
@@ -49,6 +53,7 @@ namespace Rhino.VisualStudio
             layout.Add(useAutomationCheckBox);
             layout.Add(useSocketsCheckBox);
             layout.Add(useSDLCheckBox);
+            layout.Add(includeMacCheckBox);
 
             AddFileOptions(layout);
 

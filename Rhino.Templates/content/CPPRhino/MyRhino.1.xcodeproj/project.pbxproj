@@ -1,0 +1,229 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 56;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		A1B2C3D40000000000000001 /* MyRhino.1PlugIn.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A1B2C3D40000000000000011 /* MyRhino.1PlugIn.cpp */; };
+		A1B2C3D40000000000000002 /* cmdMyRhino__1Command.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A1B2C3D40000000000000012 /* cmdMyRhino__1Command.cpp */; };
+		A1B2C3D40000000000000003 /* RhCore.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = A1B2C3D40000000000000021 /* RhCore.tbd */; };
+		A1B2C3D40000000000000004 /* OpenNURBS.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = A1B2C3D40000000000000022 /* OpenNURBS.tbd */; };
+		A1B2C3D40000000000000005 /* RhMaterialEditor.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = A1B2C3D40000000000000023 /* RhMaterialEditor.tbd */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		A1B2C3D40000000000000011 /* MyRhino.1PlugIn.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = "MyRhino.1PlugIn.cpp"; sourceTree = "<group>"; };
+		A1B2C3D40000000000000012 /* cmdMyRhino__1Command.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = "cmdMyRhino__1Command.cpp"; sourceTree = "<group>"; };
+		A1B2C3D40000000000000013 /* MyRhino.1PlugIn.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "MyRhino.1PlugIn.h"; sourceTree = "<group>"; };
+		A1B2C3D40000000000000014 /* stdafx.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = stdafx.h; sourceTree = "<group>"; };
+		A1B2C3D40000000000000015 /* Resource.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Resource.h; sourceTree = "<group>"; };
+		A1B2C3D40000000000000016 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
+		A1B2C3D40000000000000021 /* RhCore.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; path = SDK/lib/RhCore.tbd; sourceTree = SOURCE_ROOT; };
+		A1B2C3D40000000000000022 /* OpenNURBS.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; path = SDK/lib/OpenNURBS.tbd; sourceTree = SOURCE_ROOT; };
+		A1B2C3D40000000000000023 /* RhMaterialEditor.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; path = SDK/lib/RhMaterialEditor.tbd; sourceTree = SOURCE_ROOT; };
+		A1B2C3D40000000000000031 /* PluginDebug.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = SDK/XCConfig/PluginDebug.xcconfig; sourceTree = SOURCE_ROOT; };
+		A1B2C3D40000000000000032 /* PluginRelease.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = SDK/XCConfig/PluginRelease.xcconfig; sourceTree = SOURCE_ROOT; };
+		A1B2C3D40000000000000041 /* MyRhino.1.rhp */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "MyRhino.1.rhp"; sourceTree = BUILT_PRODUCTS_DIR; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		A1B2C3D40000000000000051 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A1B2C3D40000000000000003 /* RhCore.tbd in Frameworks */,
+				A1B2C3D40000000000000004 /* OpenNURBS.tbd in Frameworks */,
+				A1B2C3D40000000000000005 /* RhMaterialEditor.tbd in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		A1B2C3D40000000000000061 = {
+			isa = PBXGroup;
+			children = (
+				A1B2C3D40000000000000016 /* README.md */,
+				A1B2C3D40000000000000062 /* MyRhino.1 */,
+				A1B2C3D40000000000000063 /* SDK */,
+				A1B2C3D40000000000000064 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		A1B2C3D40000000000000062 /* MyRhino.1 */ = {
+			isa = PBXGroup;
+			children = (
+				A1B2C3D40000000000000011 /* MyRhino.1PlugIn.cpp */,
+				A1B2C3D40000000000000013 /* MyRhino.1PlugIn.h */,
+				A1B2C3D40000000000000012 /* cmdMyRhino__1Command.cpp */,
+				A1B2C3D40000000000000014 /* stdafx.h */,
+				A1B2C3D40000000000000015 /* Resource.h */,
+			);
+			name = "MyRhino.1";
+			sourceTree = "<group>";
+		};
+		A1B2C3D40000000000000063 /* SDK */ = {
+			isa = PBXGroup;
+			children = (
+				A1B2C3D40000000000000031 /* PluginDebug.xcconfig */,
+				A1B2C3D40000000000000032 /* PluginRelease.xcconfig */,
+				A1B2C3D40000000000000021 /* RhCore.tbd */,
+				A1B2C3D40000000000000022 /* OpenNURBS.tbd */,
+				A1B2C3D40000000000000023 /* RhMaterialEditor.tbd */,
+			);
+			name = SDK;
+			sourceTree = "<group>";
+		};
+		A1B2C3D40000000000000064 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				A1B2C3D40000000000000041 /* MyRhino.1.rhp */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		A1B2C3D40000000000000071 /* MyRhino.1 */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = A1B2C3D40000000000000091 /* Build configuration list for PBXNativeTarget "MyRhino.1" */;
+			buildPhases = (
+				A1B2C3D40000000000000081 /* Sources */,
+				A1B2C3D40000000000000051 /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "MyRhino.1";
+			productName = "MyRhino.1";
+			productReference = A1B2C3D40000000000000041 /* MyRhino.1.rhp */;
+			productType = "com.apple.product-type.bundle";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		A1B2C3D40000000000000072 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = YES;
+				LastUpgradeCheck = 1600;
+			};
+			buildConfigurationList = A1B2C3D40000000000000092 /* Build configuration list for PBXProject "MyRhino.1" */;
+			compatibilityVersion = "Xcode 14.0";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = A1B2C3D40000000000000061;
+			productRefGroup = A1B2C3D40000000000000064 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				A1B2C3D40000000000000071 /* MyRhino.1 */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXSourcesBuildPhase section */
+		A1B2C3D40000000000000081 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A1B2C3D40000000000000001 /* MyRhino.1PlugIn.cpp in Sources */,
+				A1B2C3D40000000000000002 /* cmdMyRhino__1Command.cpp in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		A1B2C3D400000000000000A1 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = A1B2C3D40000000000000031 /* PluginDebug.xcconfig */;
+			buildSettings = {
+			};
+			name = Debug;
+		};
+		A1B2C3D400000000000000A2 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = A1B2C3D40000000000000032 /* PluginRelease.xcconfig */;
+			buildSettings = {
+			};
+			name = Release;
+		};
+		A1B2C3D400000000000000A3 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = arm64;
+				CODE_SIGN_IDENTITY = "-";
+				CODE_SIGN_STYLE = Manual;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = "";
+				GCC_PREFIX_HEADER = "$(SRCROOT)/stdafx.h";
+				GENERATE_INFOPLIST_FILE = YES;
+				HEADER_SEARCH_PATHS = (
+					"$(SRCROOT)",
+					"$(SRCROOT)/SDK/inc",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 15.0;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.mycompany.$(PRODUCT_NAME:rfc1034identifier)";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				RHINO_MAKE_DEBUGGABLE = MakeRhinoDebuggableDefault;
+			};
+			name = Debug;
+		};
+		A1B2C3D400000000000000A4 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = arm64;
+				CODE_SIGN_IDENTITY = "-";
+				CODE_SIGN_STYLE = Manual;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = "";
+				GCC_PREFIX_HEADER = "$(SRCROOT)/stdafx.h";
+				GENERATE_INFOPLIST_FILE = YES;
+				HEADER_SEARCH_PATHS = (
+					"$(SRCROOT)",
+					"$(SRCROOT)/SDK/inc",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 15.0;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.mycompany.$(PRODUCT_NAME:rfc1034identifier)";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				RHINO_MAKE_DEBUGGABLE = MakeRhinoDebuggableDefault;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		A1B2C3D40000000000000091 /* Build configuration list for PBXNativeTarget "MyRhino.1" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				A1B2C3D400000000000000A3 /* Debug */,
+				A1B2C3D400000000000000A4 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		A1B2C3D40000000000000092 /* Build configuration list for PBXProject "MyRhino.1" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				A1B2C3D400000000000000A1 /* Debug */,
+				A1B2C3D400000000000000A2 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = A1B2C3D40000000000000072 /* Project object */;
+}
