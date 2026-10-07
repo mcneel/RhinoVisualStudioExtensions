@@ -44,8 +44,8 @@
     <Content Include="template.pkgdef">
       <IncludeInVSIX>true</IncludeInVSIX>
     </Content>
-    <Content Include="$(ArtifactsDir)bin\Rhino.Templates\$(Configuration)\Rhino.Templates.$(Version).nupkg">
-      <Link>Rhino.Templates.$(Version).nupkg</Link>
+    <Content Include="$(ArtifactsDir)bin\Rhino.Templates\$(Configuration)\vsix\Rhino.Templates.VisualStudio.$(Version).nupkg">
+      <Link>Rhino.Templates.VisualStudio.$(Version).nupkg</Link>
       <IncludeInVSIX>true</IncludeInVSIX>
     </Content>
     <Resource Include="Templates\**\icon.ico" />
@@ -75,7 +75,9 @@
 
   <ItemGroup>
     <!-- Pack, not Build: the templates project sets NoBuild, which the .NET SDK rejects when Build is invoked. -->
-    <ProjectReference Include="..\Rhino.Templates\Rhino.Templates.csproj" Targets="Pack" Private="false" ReferenceOutputAssembly="false" />
+    <!-- Kept apart from the nuget.org package so an older 'dotnet new install' of it can't override the bundled templates. -->
+    <ProjectReference Include="..\Rhino.Templates\Rhino.Templates.csproj" Targets="Pack" Private="false" ReferenceOutputAssembly="false"
+                      AdditionalProperties="ForVisualStudio=true;PackageOutputPath=$(ArtifactsDir)bin\Rhino.Templates\$(Configuration)\vsix\" />
     <ProjectReference Include="..\Rhino.VisualStudio\Rhino.VisualStudio.csproj" />
   </ItemGroup>
 

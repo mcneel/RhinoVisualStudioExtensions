@@ -32,6 +32,9 @@ jobs:
       with:
         vs-version: '[18.5,)'
 
+    - name: Pack templates
+      run: msbuild /restore ${{ env.BuildParameters }} /t:Pack Rhino.Templates\Rhino.Templates.csproj /bl:artifacts/log/Pack.Templates.binlog
+
     - name: Build VS2022
       run: msbuild /restore ${{ env.BuildParameters }} /p:VSVersion=2022 Rhino.VisualStudio.Windows\Rhino.VisualStudio.Windows.csproj /bl:artifacts/log/Build.Windows.2022.binlog
 
