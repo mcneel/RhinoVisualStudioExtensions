@@ -83,6 +83,25 @@
       }
     },
     {
+      // Installs the newest built package, whichever configuration it came from.
+      "label": "install-templates",
+      "type": "shell",
+      "dependsOn": "build-templates",
+      "osx": {
+        "command": "dotnet new uninstall Rhino.Templates; dotnet new install \"$(ls -t ${workspaceFolder}/artifacts/bin/Rhino.Templates/*/Rhino.Templates.*.nupkg | head -1)\" --force"
+      },
+      "linux": {
+        "command": "dotnet new uninstall Rhino.Templates; dotnet new install \"$(ls -t ${workspaceFolder}/artifacts/bin/Rhino.Templates/*/Rhino.Templates.*.nupkg | head -1)\" --force"
+      },
+      "windows": {
+        "command": "dotnet new uninstall Rhino.Templates; dotnet new install (Get-ChildItem '${workspaceFolder}/artifacts/bin/Rhino.Templates/*/Rhino.Templates.*.nupkg' | Sort-Object LastWriteTime -Descending | Select-Object -First 1).FullName --force"
+      },
+      "problemMatcher": [],
+      "presentation": {
+        "clear": true
+      }
+    },
+    {
       "label": "generate-templates",
       "type": "shell",
       "dependsOn": "build-templates",
