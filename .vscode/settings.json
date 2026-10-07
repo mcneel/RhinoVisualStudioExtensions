@@ -3,6 +3,6 @@
 		"configuration" : "Debug",
 		"buildProperties" : "/v:Minimal /p:GenerateFullPaths=True /consoleLoggerParameters:NoSummary"
 	},
-	"dotnet.defaultSolution": "Rhino.VisualStudio.Mac.sln",
+	"dotnet.defaultSolution": "Rhino.VisualStudio.Windows.sln",
 	"cmake.sourceDirectory": "/Users/curtis/Projects/McNeel/RhinoVisualStudioExtensions/Rhino.Templates/content/CPPRhino",
 }

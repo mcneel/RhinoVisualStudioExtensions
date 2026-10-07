@@ -6,17 +6,6 @@
     {
       "label": "build-2019",
       "type": "shell",
-      "osx": {
-        "command": "msbuild",
-        "args": [
-          "/restore",
-          "/v:Minimal",
-          "/p:Configuration=${input:configuration}",
-          "/p:VSVersion=2019",
-          "/bl:${workspaceFolder}/artifacts/log/Rhino.VisualStudio.Mac.2019.binlog",
-          "${workspaceFolder}/Rhino.VisualStudio.Mac/Rhino.VisualStudio.Mac.csproj",
-        ],
-      },
       "windows": {
         "command": "${input:msbuild2019}",
         "args": [
@@ -38,16 +27,6 @@
     {
       "label": "build-2022",
       "type": "shell",
-      "osx": {
-        "command": "dotnet",
-        "args": [
-          "build",
-          "/p:VSVersion=2022",
-          "/p:Configuration=${input:configuration}",
-          "/bl:${workspaceFolder}/artifacts/log/Rhino.VisualStudio.Mac.2022.binlog",
-          "${workspaceFolder}/Rhino.VisualStudio.Mac/Rhino.VisualStudio.Mac.csproj",
-        ],
-      },
       "windows": {
         "command": "${input:msbuild2022}",
         "args": [
