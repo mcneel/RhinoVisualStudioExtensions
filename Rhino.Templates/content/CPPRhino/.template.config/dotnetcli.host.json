@@ -29,6 +29,9 @@
     "Mac": {
       "longName": "mac"
     },
+    "CMake": {
+      "longName": "cmake"
+    },
     "Debuggable": {
       "longName": "debuggable"
     },

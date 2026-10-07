@@ -65,6 +65,13 @@
             "isVisible": true
         },
         {
+            "id": "CMake",
+            "name": {
+                "text": "CMake project for Windows and macOS"
+            },
+            "isVisible": true
+        },
+        {
             "id": "Debuggable",
             "name": {
                 "text": "Make Rhino debuggable from Xcode"

@@ -98,9 +98,15 @@
         }
       ]
     },
+    "CMake": {
+      "type": "parameter",
+      "description": "Adds a CMakeLists.txt that generates Visual Studio and Xcode projects, using the Rhino C++ SDK submodule. Rhino 9 only, and not available for render plug-ins.",
+      "datatype": "bool",
+      "defaultValue": "false"
+    },
     "Debuggable": {
       "type": "parameter",
-      "description": "Re-signs Rhino before each run from Xcode so the debugger can attach. Can be turned off later with the RHINO_MAKE_DEBUGGABLE build setting.",
+      "description": "Re-signs Rhino when running from Xcode so the debugger can attach. Can be turned off later with the RHINO_MAKE_DEBUGGABLE setting.",
       "datatype": "bool",
       "defaultValue": "true"
     },
@@ -169,6 +175,10 @@
       "type": "computed",
       "value": "(Mac == \"true\" || (Mac == \"auto\" && HostOS != \"Windows_NT\")) && PluginType != \"render\" && RhinoVersion == \"9\""
     },
+    "CMakeProject": {
+      "type": "computed",
+      "value": "CMake && PluginType != \"render\" && RhinoVersion == \"9\""
+    },
     "TypeUtility": {
       "type": "computed",
       "value": "PluginType == \"utility\""
@@ -200,6 +210,25 @@
       "parameters": {
         "format": "yyyy"
       }
+    }
+  },
+  // The template engine doesn't know CMake files, so give them #if conditionals.
+  "SpecialCustomOperations": {
+    "**/CMakeLists.txt": {
+      "operations": [
+        {
+          "type": "conditional",
+          "configuration": {
+            "if": [ "#if" ],
+            "else": [ "#else" ],
+            "elseif": [ "#elseif" ],
+            "endif": [ "#endif" ],
+            "trim": true,
+            "wholeLine": true,
+            "evaluator": "C++"
+          }
+        }
+      ]
     }
   },
   "sources": [
@@ -245,6 +274,10 @@
         {
           "condition": "!MacProject",
           "exclude": [ "MyRhino.1.xcodeproj/**" ]
+        },
+        {
+          "condition": "!CMakeProject",
+          "exclude": [ "CMakeLists.txt", "Info.plist.in" ]
         },
         {
           "condition": "!Automation",
@@ -304,11 +337,11 @@
       "continueOnError": true
     },
     {
-      "condition": "MacProject",
-      "description": "Explains how to add the Rhino SDK for the Xcode project",
+      "condition": "MacProject || CMakeProject",
+      "description": "Explains how to add the Rhino SDK submodule",
       "manualInstructions": [
         {
-          "text": "To build on macOS, add the Rhino C++ SDK as a submodule in the project folder:\n\n    git submodule add https://github.com/mcneel/rhino_sdk_cpp.git SDK\n\nSee README.md for next steps."
+          "text": "To build with the Xcode project or CMake, add the Rhino C++ SDK as a submodule in the project folder:\n\n    git submodule add https://github.com/mcneel/rhino_sdk_cpp.git SDK\n\nSee README.md for next steps."
         }
       ],
       "actionId": "AC1156F7-BB77-4DB8-B28F-24EEBCCA1E5C",
