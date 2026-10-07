@@ -27,6 +27,17 @@
         "/RootSuffix",
         "Exp"
       ],
+    },
+    {
+      "name": "Rhino.VisualStudio.Windows.2026",
+      "type": "clr",
+      "request": "launch",
+      "preLaunchTask": "build-2026",
+      "program": "C:\\Program Files\\Microsoft Visual Studio\\18\\Professional\\Common7\\IDE\\devenv.exe",
+      "args": [
+        "/RootSuffix",
+        "Exp"
+      ],
     }
   ]
 }
