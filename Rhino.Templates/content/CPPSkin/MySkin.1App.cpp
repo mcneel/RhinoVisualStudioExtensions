@@ -11,8 +11,14 @@ RHINO_PLUG_IN_DECLARE
 // Rhino developer declarations
 // TODO: fill in the following developer declarations 
 // with your company information. When completed,
-// delete the following #error directive.
+// delete the following warning.
+//-:cnd:noEmit
+#if defined(_MSC_VER)
+#pragma message(__FILE__ "(" _CRT_STRINGIZE(__LINE__) "): warning: Developer declarations block is incomplete!")
+#else
 #warning Developer declarations block is incomplete!
+#endif
+//+:cnd:noEmit
 RHINO_PLUG_IN_DEVELOPER_ORGANIZATION( L"My Company Name" );
 RHINO_PLUG_IN_DEVELOPER_ADDRESS( L"123 Developer Street\r\nCity State 12345-6789" );
 RHINO_PLUG_IN_DEVELOPER_COUNTRY( L"My Country" );
