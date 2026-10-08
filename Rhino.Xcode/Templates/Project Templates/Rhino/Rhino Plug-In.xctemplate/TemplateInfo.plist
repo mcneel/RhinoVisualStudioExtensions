@@ -1,0 +1,324 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>Kind</key>
+	<string>Xcode.Xcode3.ProjectTemplateUnitKind</string>
+	<key>Identifier</key>
+	<string>com.mcneel.rhino.cppPlugIn</string>
+	<key>Ancestors</key>
+	<array>
+		<string>com.apple.dt.unit.bundleBase</string>
+		<string>com.apple.dt.unit.osxBase</string>
+	</array>
+	<key>Concrete</key>
+	<true/>
+	<key>Description</key>
+	<string>A Rhino 9 plug-in written in C++, using the Rhino C++ SDK.</string>
+	<key>SortOrder</key>
+	<integer>1</integer>
+	<key>Options</key>
+	<array>
+		<dict>
+			<key>Identifier</key>
+			<string>pluginType</string>
+			<key>Name</key>
+			<string>Plug-in Type:</string>
+			<key>Description</key>
+			<string>The kind of Rhino plug-in to create</string>
+			<key>Type</key>
+			<string>popup</string>
+			<key>Default</key>
+			<string>Utility</string>
+			<key>Values</key>
+			<array>
+				<string>Utility</string>
+				<string>Digitizer</string>
+				<string>Import</string>
+				<string>Export</string>
+			</array>
+			<key>Units</key>
+			<dict>
+				<key>Utility</key>
+				<dict>
+					<key>Definitions</key>
+					<dict>
+						<key>___PACKAGENAMEASIDENTIFIER___PlugIn.h</key>
+						<dict>
+							<key>Path</key>
+							<string>Utility/PlugIn.h</string>
+						</dict>
+						<key>___PACKAGENAMEASIDENTIFIER___PlugIn.cpp</key>
+						<dict>
+							<key>Path</key>
+							<string>Utility/PlugIn.cpp</string>
+						</dict>
+					</dict>
+					<key>Nodes</key>
+					<array>
+						<string>___PACKAGENAMEASIDENTIFIER___PlugIn.h</string>
+						<string>___PACKAGENAMEASIDENTIFIER___PlugIn.cpp</string>
+					</array>
+				</dict>
+				<key>Digitizer</key>
+				<dict>
+					<key>Definitions</key>
+					<dict>
+						<key>___PACKAGENAMEASIDENTIFIER___PlugIn.h</key>
+						<dict>
+							<key>Path</key>
+							<string>Digitizer/PlugIn.h</string>
+						</dict>
+						<key>___PACKAGENAMEASIDENTIFIER___PlugIn.cpp</key>
+						<dict>
+							<key>Path</key>
+							<string>Digitizer/PlugIn.cpp</string>
+						</dict>
+					</dict>
+					<key>Nodes</key>
+					<array>
+						<string>___PACKAGENAMEASIDENTIFIER___PlugIn.h</string>
+						<string>___PACKAGENAMEASIDENTIFIER___PlugIn.cpp</string>
+					</array>
+				</dict>
+				<key>Import</key>
+				<dict>
+					<key>Definitions</key>
+					<dict>
+						<key>___PACKAGENAMEASIDENTIFIER___PlugIn.h</key>
+						<dict>
+							<key>Path</key>
+							<string>Import/PlugIn.h</string>
+						</dict>
+						<key>___PACKAGENAMEASIDENTIFIER___PlugIn.cpp</key>
+						<dict>
+							<key>Path</key>
+							<string>Import/PlugIn.cpp</string>
+						</dict>
+					</dict>
+					<key>Nodes</key>
+					<array>
+						<string>___PACKAGENAMEASIDENTIFIER___PlugIn.h</string>
+						<string>___PACKAGENAMEASIDENTIFIER___PlugIn.cpp</string>
+					</array>
+				</dict>
+				<key>Export</key>
+				<dict>
+					<key>Definitions</key>
+					<dict>
+						<key>___PACKAGENAMEASIDENTIFIER___PlugIn.h</key>
+						<dict>
+							<key>Path</key>
+							<string>Export/PlugIn.h</string>
+						</dict>
+						<key>___PACKAGENAMEASIDENTIFIER___PlugIn.cpp</key>
+						<dict>
+							<key>Path</key>
+							<string>Export/PlugIn.cpp</string>
+						</dict>
+					</dict>
+					<key>Nodes</key>
+					<array>
+						<string>___PACKAGENAMEASIDENTIFIER___PlugIn.h</string>
+						<string>___PACKAGENAMEASIDENTIFIER___PlugIn.cpp</string>
+					</array>
+				</dict>
+			</dict>
+		</dict>
+		<dict>
+			<key>Identifier</key>
+			<string>fileExtension</string>
+			<key>Name</key>
+			<string>File Extension:</string>
+			<key>Description</key>
+			<string>Extension of the files the plug-in reads or writes, without the dot</string>
+			<key>Type</key>
+			<string>text</string>
+			<key>Default</key>
+			<string>myext</string>
+			<key>Required</key>
+			<true/>
+			<key>RequiredOptions</key>
+			<dict>
+				<key>pluginType</key>
+				<array>
+					<string>Import</string>
+					<string>Export</string>
+				</array>
+			</dict>
+		</dict>
+		<dict>
+			<key>Identifier</key>
+			<string>fileDescription</string>
+			<key>Name</key>
+			<string>File Description:</string>
+			<key>Description</key>
+			<string>Name of the file type shown in Rhino's open and save dialogs</string>
+			<key>Type</key>
+			<string>text</string>
+			<key>Default</key>
+			<string>My File Type</string>
+			<key>Required</key>
+			<true/>
+			<key>RequiredOptions</key>
+			<dict>
+				<key>pluginType</key>
+				<array>
+					<string>Import</string>
+					<string>Export</string>
+				</array>
+			</dict>
+		</dict>
+	</array>
+	<key>Definitions</key>
+	<dict>
+		<key>stdafx.h</key>
+		<dict>
+			<key>Path</key>
+			<string>stdafx.h</string>
+		</dict>
+		<key>cmd___PACKAGENAMEASIDENTIFIER___.cpp</key>
+		<dict>
+			<key>Path</key>
+			<string>cmd.cpp</string>
+		</dict>
+		<key>README.md</key>
+		<dict>
+			<key>Path</key>
+			<string>README.md</string>
+		</dict>
+	</dict>
+	<key>Nodes</key>
+	<array>
+		<string>stdafx.h</string>
+		<string>cmd___PACKAGENAMEASIDENTIFIER___.cpp</string>
+		<string>README.md</string>
+	</array>
+	<key>Project</key>
+	<dict>
+		<key>SharedSettings</key>
+		<dict>
+			<!-- Rhino 9 for Mac is arm64 only. -->
+			<key>ARCHS</key>
+			<string>arm64</string>
+			<key>MACOSX_DEPLOYMENT_TARGET</key>
+			<string>15.0</string>
+		</dict>
+	</dict>
+	<key>Targets</key>
+	<array>
+		<dict>
+			<key>ProductType</key>
+			<string>com.apple.product-type.bundle</string>
+			<key>BuildPhases</key>
+			<array>
+				<dict>
+					<key>Class</key>
+					<string>Sources</string>
+				</dict>
+				<dict>
+					<key>Class</key>
+					<string>Frameworks</string>
+				</dict>
+				<dict>
+					<key>Class</key>
+					<string>ShellScript</string>
+					<key>Name</key>
+					<string>Make Rhino debuggable</string>
+					<key>ShellPath</key>
+					<string>/bin/sh</string>
+					<key>ShellScript</key>
+					<string># Rhino is not debuggable by default; this re-signs it once so Xcode can attach.
+# Turn off with the RHINO_MAKE_DEBUGGABLE build setting.
+[ "$RHINO_MAKE_DEBUGGABLE" = YES ] || exit 0
+touch "$SCRIPT_OUTPUT_FILE_0"
+debuggable() { codesign -d --entitlements - "$RHINO_APP" 2&gt;/dev/null | grep -q get-task-allow; }
+debuggable &amp;&amp; exit 0
+"$SRCROOT/SDK/script/make_rhino_debuggable.sh" "$RHINO_APP"
+debuggable || echo "warning: Could not make $RHINO_APP debuggable"
+</string>
+					<!-- Reruns only when Rhino's signature changes, e.g. after a Rhino update. -->
+					<key>InputFiles</key>
+					<array>
+						<string>$(RHINO_APP)/Contents/_CodeSignature/CodeResources</string>
+					</array>
+					<key>OutputFiles</key>
+					<array>
+						<string>$(DERIVED_FILE_DIR)/rhino-debuggable.stamp</string>
+					</array>
+				</dict>
+			</array>
+			<key>SharedSettings</key>
+			<dict>
+				<key>WRAPPER_EXTENSION</key>
+				<string>rhp</string>
+				<key>SKIP_INSTALL</key>
+				<string>YES</string>
+				<key>INFOPLIST_KEY_NSPrincipalClass</key>
+				<string></string>
+				<key>INFOPLIST_KEY_NSHumanReadableCopyright</key>
+				<string>___COPYRIGHT___</string>
+				<key>CODE_SIGN_STYLE</key>
+				<string>Manual</string>
+				<key>CODE_SIGN_IDENTITY</key>
+				<string>-</string>
+				<key>DEVELOPMENT_TEAM</key>
+				<string></string>
+				<!-- The SDK is a submodule in ./SDK; see README.md. -->
+				<key>HEADER_SEARCH_PATHS</key>
+				<array>
+					<string>$(SRCROOT)/___PACKAGENAME___</string>
+					<string>$(SRCROOT)/SDK/inc</string>
+				</array>
+				<key>GCC_PREFIX_HEADER</key>
+				<string>___PACKAGENAME___/stdafx.h</string>
+				<key>OTHER_LDFLAGS</key>
+				<array>
+					<string>$(inherited)</string>
+					<string>$(SRCROOT)/SDK/lib/RhCore.tbd</string>
+					<string>$(SRCROOT)/SDK/lib/OpenNURBS.tbd</string>
+					<string>$(SRCROOT)/SDK/lib/RhMaterialEditor.tbd</string>
+				</array>
+				<!-- The SDK headers are Objective-C++ on macOS. -->
+				<key>GCC_INPUT_FILETYPE</key>
+				<string>sourcecode.cpp.objcpp</string>
+				<!-- The SDK headers have many doc comments that clang can't match to declarations. -->
+				<key>CLANG_WARN_DOCUMENTATION_COMMENTS</key>
+				<string>NO</string>
+				<key>CLANG_ENABLE_OBJC_ARC</key>
+				<string>YES</string>
+				<key>CLANG_CXX_LANGUAGE_STANDARD</key>
+				<string>c++14</string>
+				<key>USE_HEADERMAP</key>
+				<string>NO</string>
+				<key>GCC_SYMBOLS_PRIVATE_EXTERN</key>
+				<string>NO</string>
+				<key>GCC_INLINES_ARE_PRIVATE_EXTERN</key>
+				<string>YES</string>
+				<key>OTHER_CFLAGS</key>
+				<string>$(inherited) -fno-operator-names -Wno-nonportable-include-path -Wno-deprecated-register -Wno-deprecated-declarations -Wno-documentation-deprecated-sync -Wno-ignored-attributes -Wno-undefined-bool-conversion -Wno-dynamic-class-memaccess -Wno-defaulted-function-deleted -Wno-#pragma-messages -DGL_DO_NOT_WARN_IF_MULTI_GL_VERSION_HEADERS_INCLUDED</string>
+				<!-- The debuggable script re-signs Rhino outside the project folder. -->
+				<key>ENABLE_USER_SCRIPT_SANDBOXING</key>
+				<string>NO</string>
+				<key>RHINO_APP</key>
+				<string>/Applications/Rhino 9.app</string>
+				<key>RHINO_MAKE_DEBUGGABLE</key>
+				<string>YES</string>
+			</dict>
+			<key>Configurations</key>
+			<dict>
+				<key>Debug</key>
+				<dict>
+					<key>GCC_PREPROCESSOR_DEFINITIONS</key>
+					<string>$(inherited) ON_COMPILER_CLANG ON_RUNTIME_APPLE RHINO_APPLE=1 _DEBUG=1 _GNU_SOURCE MY_ZCALLOC Z_PREFIX ON__DEBUG _UNICODE RHINO_V6_READY RHINO_THIRD_PARTY_OSX_PLUGIN_COMPILE</string>
+				</dict>
+				<key>Release</key>
+				<dict>
+					<key>GCC_PREPROCESSOR_DEFINITIONS</key>
+					<string>$(inherited) ON_COMPILER_CLANG ON_RUNTIME_APPLE RHINO_APPLE=1 _GNU_SOURCE MY_ZCALLOC Z_PREFIX NDEBUG=1 _UNICODE RHINO_V6_READY RHINO_THIRD_PARTY_OSX_PLUGIN_COMPILE</string>
+				</dict>
+			</dict>
+		</dict>
+	</array>
+</dict>
+</plist>

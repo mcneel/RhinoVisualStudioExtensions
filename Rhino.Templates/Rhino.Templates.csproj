@@ -54,4 +54,53 @@
 		<Content Remove="content\NuGet.Config" />
 		<Content Remove="content\Directory.*" />
 	</ItemGroup>
+
+	<!--
+		ForVisualStudio=true packs the copy bundled in the VS extension. VS drops a bundled package when one with the same
+		package ID or template identity is installed with 'dotnet new install', so this copy gets its own of both, plus a
+		precedence above any installed version so the extension's wizards always get the templates they were built for.
+	-->
+	<PropertyGroup Condition="'$(ForVisualStudio)' == 'true'">
+		<PackageId>Rhino.Templates.VisualStudio</PackageId>
+	</PropertyGroup>
+
+	<UsingTask TaskName="RewriteTemplateConfigForVisualStudio" TaskFactory="RoslynCodeTaskFactory" AssemblyFile="$(MSBuildToolsPath)\Microsoft.Build.Tasks.Core.dll">
+		<ParameterGroup>
+			<Files ParameterType="Microsoft.Build.Framework.ITaskItem[]" Required="true" />
+			<OutputDir Required="true" />
+			<Rewritten ParameterType="Microsoft.Build.Framework.ITaskItem[]" Output="true" />
+		</ParameterGroup>
+		<Task>
+			<Using Namespace="System.Text.RegularExpressions" />
+			<Code Type="Fragment" Language="cs"><![CDATA[
+				var rewritten = new List<ITaskItem>();
+				foreach (var file in Files)
+				{
+					var text = File.ReadAllText(file.ItemSpec);
+					text = Regex.Replace(text, "(\"identity\"\\s*:\\s*\")([^\"]+)\"", "$1$2.VisualStudio\"");
+					text = Regex.Replace(text, "(\"precedence\"\\s*:\\s*)(\\d+)", m => m.Groups[1].Value + (int.Parse(m.Groups[2].Value) + 1000000));
+					var path = Path.Combine(OutputDir, file.GetMetadata("PackagePath"));
+					Directory.CreateDirectory(Path.GetDirectoryName(path));
+					File.WriteAllText(path, text);
+					var item = new TaskItem(path);
+					file.CopyMetadataTo(item);
+					rewritten.Add(item);
+				}
+				Rewritten = rewritten.ToArray();
+			]]></Code>
+		</Task>
+	</UsingTask>
+
+	<Target Name="UseVisualStudioTemplateConfig" BeforeTargets="_GetPackageFiles" Condition="'$(ForVisualStudio)' == 'true'">
+		<ItemGroup>
+			<_TemplateConfig Include="@(Content)" Condition="'%(Filename)%(Extension)' == 'template.json'" />
+		</ItemGroup>
+		<RewriteTemplateConfigForVisualStudio Files="@(_TemplateConfig)" OutputDir="$(IntermediateOutputPath)VisualStudio\">
+			<Output TaskParameter="Rewritten" ItemName="_VisualStudioTemplateConfig" />
+		</RewriteTemplateConfigForVisualStudio>
+		<ItemGroup>
+			<Content Remove="@(_TemplateConfig)" />
+			<Content Include="@(_VisualStudioTemplateConfig)" />
+		</ItemGroup>
+	</Target>
 </Project>

@@ -122,17 +122,17 @@ CRhinoSdkRender::RenderReturnCodes CMyRhino__1SdkRender::RenderWindow(CRhinoView
 	return rc;
 }
 
-BOOL CMyRhino__1SdkRender::NeedToProcessGeometryTable()
+BOOL32 CMyRhino__1SdkRender::NeedToProcessGeometryTable()
 {
 	return ::MyRhino__1PlugIn().SceneChanged();
 }
 
-BOOL CMyRhino__1SdkRender::NeedToProcessLightTable()
+BOOL32 CMyRhino__1SdkRender::NeedToProcessLightTable()
 {
 	return ::MyRhino__1PlugIn().LightingChanged();
 }
 
-BOOL CMyRhino__1SdkRender::RenderPreCreateWindow()
+BOOL32 CMyRhino__1SdkRender::RenderPreCreateWindow()
 {
 	::MyRhino__1PlugIn().SetSceneChanged(FALSE);
 	::MyRhino__1PlugIn().SetLightingChanged(FALSE);
@@ -140,7 +140,7 @@ BOOL CMyRhino__1SdkRender::RenderPreCreateWindow()
 	return TRUE;
 }
 
-BOOL CMyRhino__1SdkRender::RenderContinueModal()
+BOOL32 CMyRhino__1SdkRender::RenderContinueModal()
 {
 	return m_bContinueModal;
 }
@@ -160,7 +160,7 @@ void CMyRhino__1SdkRender::StartRendering()
 	m_hRenderThread = ::CreateThread(NULL, 0, (LPTHREAD_START_ROUTINE)RenderThread, this, 0, NULL);
 }
 
-BOOL CMyRhino__1SdkRender::StartRenderingInWindow(CRhinoView*, const LPCRECT)
+BOOL32 CMyRhino__1SdkRender::StartRenderingInWindow(CRhinoView*, const LPCRECT)
 {
 	m_hRenderThread = ::CreateThread(NULL, 0, (LPTHREAD_START_ROUTINE)RenderThread, this, 0, NULL);
 

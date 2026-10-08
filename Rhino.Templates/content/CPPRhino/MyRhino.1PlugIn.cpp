@@ -46,8 +46,14 @@ RHINO_PLUG_IN_ICON_RESOURCE_ID(IDI_ICON);
 // your company information. Note, all of these declarations
 // must be present or your plug-in will not load.
 //
-// When completed, delete the following #error directive.
-#error Developer declarations block is incomplete!
+// When completed, delete the following warning.
+//-:cnd:noEmit
+#if defined(_MSC_VER)
+#pragma message(__FILE__ "(" _CRT_STRINGIZE(__LINE__) "): warning: Developer declarations block is incomplete!")
+#else
+#warning Developer declarations block is incomplete!
+#endif
+//+:cnd:noEmit
 RHINO_PLUG_IN_DEVELOPER_ORGANIZATION(L"My Company Name");
 RHINO_PLUG_IN_DEVELOPER_ADDRESS(L"123 Developer Street\r\nCity State 12345-6789");
 RHINO_PLUG_IN_DEVELOPER_COUNTRY(L"My Country");
@@ -125,7 +131,7 @@ GUID CMyRhino__1PlugIn::PlugInID() const
 /////////////////////////////////////////////////////////////////////////////
 // Additional overrides
 
-BOOL CMyRhino__1PlugIn::OnLoadPlugIn()
+int CMyRhino__1PlugIn::OnLoadPlugIn()
 {
 	// Description:
 	//   Called after the plug-in is loaded and the constructor has been
@@ -285,7 +291,7 @@ void CMyRhino__1PlugIn::AddFileType(ON_ClassArray<CRhinoFileType>& extensions, c
 	// TODO: Add supported file extensions here.
 }
 
-BOOL CMyRhino__1PlugIn::WriteFile(const wchar_t* filename, int index, CRhinoDoc& doc, const CRhinoFileWriteOptions& options)
+int CMyRhino__1PlugIn::WriteFile(const wchar_t* filename, int index, CRhinoDoc& doc, const CRhinoFileWriteOptions& options)
 {
 	UNREFERENCED_PARAMETER(filename);
 	UNREFERENCED_PARAMETER(index);
@@ -339,7 +345,7 @@ void CMyRhino__1PlugIn::AddFileType(ON_ClassArray<CRhinoFileType>& extensions, c
 	// TODO: Add supported file extensions here.
 }
 
-BOOL CMyRhino__1PlugIn::ReadFile(const wchar_t* filename, int index, CRhinoDoc& doc, const CRhinoFileReadOptions& options)
+BOOL32 CMyRhino__1PlugIn::ReadFile(const wchar_t* filename, int index, CRhinoDoc& doc, const CRhinoFileReadOptions& options)
 {
 	UNREFERENCED_PARAMETER(filename);
 	UNREFERENCED_PARAMETER(index);
@@ -422,7 +428,7 @@ CRhinoCommand::result CMyRhino__1PlugIn::RenderQuiet(const CRhinoCommandContext&
 	return CRhinoCommand::failure;
 }
 
-BOOL CMyRhino__1PlugIn::SaveRenderedImage(ON_wString filename)
+BOOL32 CMyRhino__1PlugIn::SaveRenderedImage(ON_wString filename)
 {
 	// Description:
 	//   Message sent from a script to save the rendering to a file.
@@ -433,7 +439,7 @@ BOOL CMyRhino__1PlugIn::SaveRenderedImage(ON_wString filename)
 	return FALSE;
 }
 
-BOOL CMyRhino__1PlugIn::CloseRenderWindow()
+BOOL32 CMyRhino__1PlugIn::CloseRenderWindow()
 {
 	// Description:
 	//   Close render window notification. Called when rendering is done and render window

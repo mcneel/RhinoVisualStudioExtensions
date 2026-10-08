@@ -6,6 +6,8 @@
         Rhino 7: net48
         Rhino 8 Windows: net48, net7.0, net7.0-windows, net7.0-windows10.0.22000.0, etc
         Rhino 8 Mac: net7.0, net7.0-macos, net7.0-macos12.0, etc
+        Rhino 9 Windows: net48, net8.0, net8.0-windows, net8.0-windows10.0.22000.0, etc
+        Rhino 9 Mac: net8.0, net8.0-macos, net8.0-macos12.0, etc
     -->
 <!--#if (RhinoVersion == '6')-->
 <!--#if (UseWpf)-->
@@ -16,13 +18,22 @@
     <TargetFrameworks>net7.0;net48;net45</TargetFrameworks>
 <!--#endif-->
 <!--#endif-->
-<!--#if (RhinoVersion >= '7')-->
+<!--#if (RhinoVersion == '7' || RhinoVersion == '8')-->
 <!--#if (UseWpf)-->
     <TargetFrameworks>net7.0-windows;net48</TargetFrameworks>
 <!--#elif (UseWindowsDesktop)-->
     <TargetFrameworks>net7.0-windows;net7.0;net48</TargetFrameworks>
 <!--#else-->
     <TargetFrameworks>net7.0;net48</TargetFrameworks>
+<!--#endif-->
+<!--#endif-->
+<!--#if (RhinoVersion >= '9')-->
+<!--#if (UseWpf)-->
+    <TargetFrameworks>net8.0-windows;net48</TargetFrameworks>
+<!--#elif (UseWindowsDesktop)-->
+    <TargetFrameworks>net8.0-windows;net8.0;net48</TargetFrameworks>
+<!--#else-->
+    <TargetFrameworks>net8.0;net48</TargetFrameworks>
 <!--#endif-->
 <!--#endif-->
     <EnableDynamicLoading>true</EnableDynamicLoading>
@@ -53,6 +64,9 @@
 <!--#if (RhinoVersion == '8')-->
     <PackageReference Include="Grasshopper" Version="8.0.23304.9001" ExcludeAssets="runtime" />
 <!--#endif-->
+<!--#if (RhinoVersion == '9')-->
+    <PackageReference Include="Grasshopper" Version="9.0.26258.12303-beta" ExcludeAssets="runtime" />
+<!--#endif-->
   </ItemGroup>
   
 <!--#if (UseWindowsDesktop)-->
@@ -70,13 +84,7 @@
 <!--#if (UseWinForms)-->
   <!-- Reference WinForms for .NET 7.0 on macOS -->
   <ItemGroup Condition="!($(TargetFramework.Contains('-windows')) or $(TargetFramework.StartsWith('net4')))">
-    <!-- Rhino 8.11 and later you can use this -->
-    <!-- <FrameworkReference Include="Microsoft.WindowsDesktop.App.WindowsForms" /> -->
-    
-    <!-- Rhino 8.10 and earlier -->
-    <PackageReference Include="Microsoft.NETFramework.ReferenceAssemblies.net48" Version="1.0.3" ExcludeAssets="all" GeneratePathProperty="true" />
-    <Reference Include="$(PkgMicrosoft_NETFramework_ReferenceAssemblies_net48)\build\.NETFramework\v4.8\System.Windows.Forms.dll" Private="False" />
-    <PackageReference Include="System.Drawing.Common" Version="7.0.0" ExcludeAssets="runtime" />
+    <FrameworkReference Include="Microsoft.WindowsDesktop.App.WindowsForms" />
   </ItemGroup>
 
 <!--#endif-->
@@ -91,8 +99,13 @@
 <!--#if (BuildYak)-->
   <Target Name="BuildYakPackage" AfterTargets="DispatchToInnerBuilds">
     <PropertyGroup>
+<!--#if (RhinoVersion >= '9')-->
+      <YakExecutable Condition="$(YakExecutable) == '' and $([MSBuild]::IsOSPlatform(windows)) and Exists('C:\Program Files\Rhino 9\System\Yak.exe')">C:\Program Files\Rhino 9\System\Yak.exe</YakExecutable>
+      <YakExecutable Condition="$(YakExecutable) == '' and $([MSBuild]::IsOSPlatform(macos)) and Exists('/Applications/Rhino 9.app/Contents/Resources/bin/yak')">/Applications/Rhino 9.app/Contents/Resources/bin/yak</YakExecutable>
+<!--#else-->
       <YakExecutable Condition="$(YakExecutable) == '' and $([MSBuild]::IsOSPlatform(windows)) and Exists('C:\Program Files\Rhino 8\System\Yak.exe')">C:\Program Files\Rhino 8\System\Yak.exe</YakExecutable>
       <YakExecutable Condition="$(YakExecutable) == '' and $([MSBuild]::IsOSPlatform(macos)) and Exists('/Applications/Rhino 8.app/Contents/Resources/bin/yak')">/Applications/Rhino 8.app/Contents/Resources/bin/yak</YakExecutable>
+<!--#endif-->
       
       <BuildYakPackage Condition="$(BuildYakPackage) == '' and $(YakExecutable) != '' and Exists($(YakExecutable))">True</BuildYakPackage>
     </PropertyGroup>

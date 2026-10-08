@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="256" height="256" viewBox="0 0 256 256">
+  <!-- Square body (half-width 86, corner radius 10) with tabs on its right and bottom edges (neck 52 wide, head radius 36), turned 45° so the tabs point up-right and down-right. -->
+  <path transform="translate(128 128) rotate(-45)" fill="#000" d="
+    M -76,-86 L 76,-86 Q 86,-86 86,-76
+    L 86,-26 L 101.1,-26 A 36 36 0 1 1 101.1,26 L 86,26
+    L 86,76 Q 86,86 76,86
+    L 26,86 L 26,101.1 A 36 36 0 1 1 -26,101.1 L -26,86
+    L -76,86 Q -86,86 -86,76
+    L -86,-76 Q -86,-86 -76,-86 Z"/>
+</svg>

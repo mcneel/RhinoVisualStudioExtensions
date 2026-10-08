@@ -12,6 +12,9 @@
     <LogOptions>&quot;-flp1:warningsonly;logfile=build.warnings.log&quot; &quot;-flp2:errorsonly;logfile=build.errors.log&quot;</LogOptions> <!-- Read by WriteTemplateSummary.ps1 -->
     <BuildOptions>$(BuildOptions) -clp:NoSummary $(LogOptions)</BuildOptions>
 
+    <!-- Rhino C++ SDK linked into the Xcode and CMake C++ projects as their SDK submodule -->
+    <RhinoSdkCppDir Condition="$(RhinoSdkCppDir) == ''">$([System.IO.Path]::Combine($([MSBuild]::NormalizeDirectory($(MSBuildThisFileDirectory), '..', 'artifacts')), 'rhino_sdk_cpp'))</RhinoSdkCppDir>
+
     <!-- <BuildOptions Condition="$([MSBuild]::IsOSPlatform(windows))">$(BuildOptions) /p:YakExecutable=&quot;C:\Program Files\Rhino 8\System\yak.exe&quot;</BuildOptions> -->
     <!-- <BuildOptions Condition="$([MSBuild]::IsOSPlatform(osx))">$(BuildOptions) /p:YakExecutable=&quot;/Applications/Rhino 8.app/Contents/Resources/bin/yak&quot;</BuildOptions> -->
     <!-- For debugging local versions of yak
@@ -20,9 +23,10 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <RhinoVersion Include="6" />
-    <RhinoVersion Include="7" />
+    <RhinoVersion Include="9" />
     <RhinoVersion Include="8" />
+    <!-- <RhinoVersion Include="7" />
+    <RhinoVersion Include="6" /> -->
 
     <Language Include="CS" Value="" />
     <Language Include="VB" Value="-lang VB" />
@@ -81,15 +85,19 @@
 
   <Target Name="GenerateTemplateGroup" DependsOnTargets="$(TemplateGroup)" />
   
-  <Target Name="CppRhinoTemplates" DependsOnTargets="GetVSMSBuild">
+  <Target Name="GetRhinoSdkCpp" Condition="!Exists('$(RhinoSdkCppDir)')">
+    <Exec Command="git clone --depth 1 https://github.com/mcneel/rhino_sdk_cpp.git &quot;$(RhinoSdkCppDir)&quot;" />
+  </Target>
+
+  <Target Name="CppRhinoTemplates" DependsOnTargets="GetVSMSBuild;GetRhinoSdkCpp">
     <!-- generate Rhino C++ templates -->
     <ItemGroup>
 
+      <CppPluginType Include="Utility" Value="-pt utility" />
       <CppPluginType Include="Digitize" Value="-pt digitize" />
       <CppPluginType Include="Export" Value="-pt export" />
       <CppPluginType Include="Import" Value="-pt import" />
       <CppPluginType Include="Render" Value="-pt render" />
-      <CppPluginType Include="Utility" Value="-pt utility" />
 
       <!-- Test all the different options -->
       <CppPluginFeatures Include="Default" Value="" />
@@ -102,22 +110,34 @@
       <CppCustomName Include="DefaultName" Value="" PathSuffix="" />
       <CppCustomName Include="CustomName" Value="-command SomeCommand" PathSuffix="_CustomName" />
 
+      <!-- Build with the generated .vcxproj/.xcodeproj, or generate projects with CMake first -->
+      <CppBuildSystem Include="Native" Value="" PathSuffix="" />
+      <CppBuildSystem Include="CMake" Value="--cmake --debuggable false" PathSuffix=".CMake" />
+
       <!-- Stitch everything together -->
       <CppOptions1 Include="*" TypeId="%(CppPluginType.Identity)" Type="%(CppPluginType.Value)" />
       <CppOptions2 Include="@(CppOptions1)" FeaturesId="%(CppPluginFeatures.Identity)" Features="%(CppPluginFeatures.Value)" />
       <CppOptions3 Include="@(CppOptions2)" VersionId="%(RhinoVersion.Identity)" Version="--version %(RhinoVersion.Identity)" Condition="%(RhinoVersion.Identity) > '6'" />
-      <CppOptions Include="@(CppOptions3)" CustomNameId="%(CppCustomName.Identity)" CustomName="%(CppCustomName.Value)" PathSuffix="%(CppCustomName.PathSuffix)" />
-      
+      <CppOptions4 Include="@(CppOptions3)" CustomNameId="%(CppCustomName.Identity)" CustomName="%(CppCustomName.Value)" PathSuffix="%(CppCustomName.PathSuffix)" />
+      <CppOptions5 Include="@(CppOptions4)" BuildSystemId="%(CppBuildSystem.Identity)" BuildSystem="%(CppBuildSystem.Value)" BuildSystemSuffix="%(CppBuildSystem.PathSuffix)" MacSupported="false" BuildSteps="" />
+
+      <!-- The Xcode project and CMake are Rhino 9 only, and not available for render plug-ins -->
+      <CppOptions5 Update="@(CppOptions5)" MacSupported="true" Condition="'%(VersionId)' == '9' and '%(TypeId)' != 'Render'" />
+      <CppOptions Include="@(CppOptions5)" Condition="'%(BuildSystemId)' == 'Native' or '%(MacSupported)' == 'true'" />
+
       <!-- Set the output directory -->
-      <CppOptions Update="@(CppOptions)" OutputDir="CppRhino%(VersionId)/%(TypeId).%(FeaturesId)%(PathSuffix)/" />
+      <CppOptions Update="@(CppOptions)" OutputDir="CppRhino%(VersionId)/%(TypeId).%(FeaturesId)%(PathSuffix)%(BuildSystemSuffix)/" />
+
+      <!-- Commands to build each kind of project, run from its folder -->
+      <CppOptions Update="@(CppOptions)" BuildSteps="$(VSMSBuild2022) /p:Platform=x64 $(LogOptions)" Condition="'%(BuildSystemId)' == 'Native' and $([MSBuild]::IsOSPlatform(Windows)) and $(RhinoInstalled) == 'true'" />
+      <CppOptions Update="@(CppOptions)" BuildSteps="ln -s &quot;$(RhinoSdkCppDir)&quot; SDK &amp;&amp; xcodebuild -configuration Debug -quiet build" Condition="'%(BuildSystemId)' == 'Native' and '%(MacSupported)' == 'true' and !$([MSBuild]::IsOSPlatform(Windows))" />
+      <CppOptions Update="@(CppOptions)" BuildSteps="mklink /J SDK &quot;$(RhinoSdkCppDir)&quot; &amp;&amp; cmake -A x64 -S . -B build &amp;&amp; cmake --build build --config Debug" Condition="'%(BuildSystemId)' == 'CMake' and $([MSBuild]::IsOSPlatform(Windows))" />
+      <CppOptions Update="@(CppOptions)" BuildSteps="ln -s &quot;$(RhinoSdkCppDir)&quot; SDK &amp;&amp; cmake -G Xcode -S . -B build &amp;&amp; cmake --build build --config Debug -- -quiet" Condition="'%(BuildSystemId)' == 'CMake' and !$([MSBuild]::IsOSPlatform(Windows))" />
 
       <!-- Commands to generate then build -->
-      <CppOptions Update="@(CppOptions)" GenerateCommand="dotnet new rhino -lang cpp %(CppOptions.Type) %(Version) %(Features) %(CustomName) -o &quot;$(TemplateDir)%(OutputDir)&quot;" />
-      <CppOptions Update="@(CppOptions)" BuildCommand="&amp;&amp; cd &quot;$(TemplateDir)%(OutputDir)&quot; &amp;&amp; $(VSMSBuild2022) /p:Platform=x64 $(LogOptions)" Condition="$(BuildAllProjects) == 'true' and $(RhinoInstalled) == 'true'" />
-      <!-- <CppOptions Update="@(CppOptions)" BuildCommand="&amp;&amp; cd &quot;$(TemplateDir)%(OutputDir)&quot; &amp;&amp; $(VSMSBuild2019) /p:Platform=x64" Condition="%(VersionId) == '7' and $(BuildAllProjects) == 'true'" /> -->
-      <CppOptions Update="@(CppOptions)" Command="%(CppOptions.GenerateCommand)" />
-      <CppOptions Update="@(CppOptions)" Command="%(CppOptions.Command) %(CppOptions.BuildCommand)" Condition="$([MSBuild]::IsOSPlatform(Windows))" />
-      
+      <CppOptions Update="@(CppOptions)" Command="dotnet new rhino -lang cpp %(Type) %(Version) %(Features) %(CustomName) %(BuildSystem) -o &quot;$(TemplateDir)%(OutputDir)&quot;" />
+      <CppOptions Update="@(CppOptions)" Command="%(Command) &amp;&amp; cd &quot;$(TemplateDir)%(OutputDir)&quot; &amp;&amp; %(BuildSteps)" Condition="$(BuildAllProjects) == 'true' and '%(BuildSteps)' != ''" />
+
     </ItemGroup>
 
     <Exec Command="%(CppOptions.Command)" ContinueOnError="ErrorAndContinue" />

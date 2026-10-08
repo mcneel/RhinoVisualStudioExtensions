@@ -1,4 +1,6 @@
-﻿namespace Rhino.VisualStudio
+﻿using System.Runtime.CompilerServices;
+
+namespace Rhino.VisualStudio
 {
 
     public class CppRhinoPluginOptionsViewModel : BaseCppRhinoOptionsViewModel
@@ -54,6 +56,26 @@
             set => Set(ref _useSockets, value);
         }
 
+        bool _includeMac;
+        public bool IncludeMac
+        {
+            get => _includeMac && CanIncludeMac;
+            set => Set(ref _includeMac, value);
+        }
+
+        // The Mac SDK is Rhino 9 only, and render plug-ins use Windows-only code.
+        public bool CanIncludeMac => PluginType != "render" && RhinoVersion == 9;
+
+        protected override void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        {
+            base.OnPropertyChanged(propertyName);
+            if (propertyName == nameof(PluginType) || propertyName == nameof(RhinoVersion))
+            {
+                OnPropertyChanged(nameof(CanIncludeMac));
+                OnPropertyChanged(nameof(IncludeMac));
+            }
+        }
+
         public CppRhinoPluginOptionsViewModel()
         {
         }
@@ -74,6 +96,7 @@
             Host.SetParameter("Automation", UseAutomation.ToString());
             Host.SetParameter("Sockets", UseSockets.ToString());
             Host.SetParameter("SDL", UseSDL.ToString());
+            Host.SetParameter("Mac", IncludeMac ? "true" : "false");
         }
 
     }

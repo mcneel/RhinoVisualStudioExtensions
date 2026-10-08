@@ -98,11 +98,33 @@ namespace Rhino.VisualStudio
             }
         }
 
+        bool _includeRhinoPlugIn;
+        public bool IncludeRhinoPlugIn
+        {
+            get => _includeRhinoPlugIn;
+            set => Set(ref _includeRhinoPlugIn, value);
+        }
+
         protected override string FindLocation(int version) => Global.Helpers.FindRhino(version);
 
         public Grasshopper2OptionsViewModel()
         {
             SetDefaults();
+        }
+
+        public override IEnumerable<int> RhinoVersionsAvailable
+        {
+            get
+            {
+                // Grasshopper2 templates only support Rhino 9 and later
+                foreach (int version in Global.VersionsToCheck.Where(v => v > 8))
+                {
+                    if (!string.IsNullOrEmpty(FindLocation(version)))
+                    {
+                        yield return version;
+                    }
+                }
+            }
         }
 
         public override bool IsValid =>
@@ -126,6 +148,7 @@ namespace Rhino.VisualStudio
             Host.SetParameter("ComponentClassName", ComponentClassName);
             Host.SetParameter("AddonDisplayName", PlugInDisplayName);
             Host.SetParameter("IncludeSample", IncludeSample.ToString());
+            Host.SetParameter("IncludeRhinoPlugIn", IncludeRhinoPlugIn.ToString());
             Host.SetParameter("ComponentName", ComponentName);
             Host.SetParameter("ComponentChapter", ComponentChapter);
             Host.SetParameter("ComponentSsection", ComponentSection);

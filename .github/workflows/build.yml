@@ -9,13 +9,13 @@ on:
     types: [ published ]
 
 env:
-  DotNetVersion: "8.0.401"
-  BuildParameters: "/v:Minimal /consoleLoggerParameters:NoSummary /p:Configuration=Release /p:BuildVersion=${{ github.run_id }} /p:BuildBranch=${{ github.ref }}"
+  DotNetVersion: "10.0.x"
+  BuildParameters: "/v:Minimal /consoleLoggerParameters:NoSummary /p:Configuration=Release /p:DeployExtension=false /p:BuildVersion=${{ github.run_id }} /p:BuildBranch=${{ github.ref }}"
 
 jobs:
   build-windows-2022:
 
-    runs-on: windows-2022
+    runs-on: windows-latest
 
     steps:
     - uses: actions/checkout@v4
@@ -30,7 +30,10 @@ jobs:
     - name: Setup msbuild
       uses: microsoft/setup-msbuild@v2
       with:
-        vs-version: '[17.0,18.0)'
+        vs-version: '[18.5,)'
+
+    - name: Pack templates
+      run: msbuild /restore ${{ env.BuildParameters }} /t:Pack Rhino.Templates\Rhino.Templates.csproj /bl:artifacts/log/Pack.Templates.binlog
 
     - name: Build VS2022
       run: msbuild /restore ${{ env.BuildParameters }} /p:VSVersion=2022 Rhino.VisualStudio.Windows\Rhino.VisualStudio.Windows.csproj /bl:artifacts/log/Build.Windows.2022.binlog
@@ -54,8 +57,24 @@ jobs:
         name: log
         path: artifacts/log/**/*
 
+  build-xcode-templates:
+
+    runs-on: macos-latest
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Build Xcode templates installer
+      run: Rhino.Xcode/build-pkg.sh
+
+    - name: Upload Xcode templates
+      uses: actions/upload-artifact@v4
+      with:
+        name: xcode-templates
+        path: artifacts/xcode/*.pkg
+
   publish:
-    needs: [ build-windows-2022 ]
+    needs: [ build-windows-2022, build-xcode-templates ]
     runs-on: ubuntu-latest
     if: (github.event_name == 'release' && github.event.action == 'published' && startsWith(github.ref, 'refs/tags/'))
     steps:
@@ -73,3 +92,4 @@ jobs:
           files: |
             extensions-windows/*.vsix
             templates/*.nupkg
+            xcode-templates/*.pkg

@@ -3,8 +3,13 @@
   <PropertyGroup>
     <!-- Select the framework(s) you wish to target.
         Rhino 8 Windows: net48, net7.0-windows, net7.0-windows10.0.22000.0, etc
+        Rhino 9 Windows: net48, net8.0-windows, net8.0-windows10.0.22000.0, etc
     -->
+<!--#if (RhinoVersion >= '9')-->
+    <TargetFrameworks>net8.0-windows;net48</TargetFrameworks>
+<!--#else-->
     <TargetFrameworks>net7.0-windows;net48</TargetFrameworks>
+<!--#endif-->
     <LangVersion>11</LangVersion>
   </PropertyGroup>
   
@@ -21,9 +26,15 @@
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.13.0" />
     <PackageReference Include="NUnit3TestAdapter" Version="5.0.0" />
     <PackageReference Include="NUnit" Version="4.3.2" />
+<!--#if (RhinoVersion >= '9')-->
+    <PackageReference Include="Rhino.Testing" Version="9.0.8-beta" />
+
+    <PackageReference Include="RhinoCommon" Version="9.0.26258.12303-beta" ExcludeAssets="runtime" />
+<!--#else-->
     <PackageReference Include="Rhino.Testing" Version="8.0.23-beta" />
 
     <PackageReference Include="RhinoCommon" Version="8.0.23304.9001" ExcludeAssets="runtime" />
+<!--#endif-->
   </ItemGroup>
 
   <ItemGroup>

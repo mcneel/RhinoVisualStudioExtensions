@@ -55,7 +55,7 @@
       "type": "parameter",
       "description": "Version of Rhino",
       "datatype": "choice",
-      "defaultValue": "8",
+      "defaultValue": "9",
       "choices": [
         {
           "choice": "6",
@@ -68,6 +68,10 @@
         {
           "choice": "8",
           "description": "Version 8"
+        },
+        {
+          "choice": "9",
+          "description": "Version 9"
         }
       ],
       "replaces": "MyRhinoVersion"

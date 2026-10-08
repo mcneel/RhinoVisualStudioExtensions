@@ -1,5 +1,98 @@
 ﻿{
     "$schema": "http://json.schemastore.org/vs-2017.3.host",
+    "symbolInfo": [
+        {
+            "id": "RhinoVersion",
+            "name": {
+                "text": "Rhino version"
+            },
+            "isVisible": true
+        },
+        {
+            "id": "PlugInDisplayName",
+            "name": {
+                "text": "Plug-in display name"
+            },
+            "isVisible": true
+        },
+        {
+            "id": "ComponentClassName",
+            "name": {
+                "text": "Component class name"
+            },
+            "isVisible": true
+        },
+        {
+            "id": "ComponentName",
+            "name": {
+                "text": "Component name"
+            },
+            "isVisible": true
+        },
+        {
+            "id": "ComponentInfo",
+            "name": {
+                "text": "Component description"
+            },
+            "isVisible": true
+        },
+        {
+            "id": "ComponentChapter",
+            "name": {
+                "text": "Component chapter"
+            },
+            "isVisible": true
+        },
+        {
+            "id": "ComponentSection",
+            "name": {
+                "text": "Component section"
+            },
+            "isVisible": true
+        },
+        {
+            "id": "IncludeSample",
+            "name": {
+                "text": "Provide sample code"
+            },
+            "isVisible": true
+        },
+        {
+            "id": "UseWinForms",
+            "name": {
+                "text": "Use Windows Forms"
+            },
+            "isVisible": true
+        },
+        {
+            "id": "UseWpf",
+            "name": {
+                "text": "Use WPF"
+            },
+            "isVisible": true
+        },
+        {
+            "id": "BuildYak",
+            "name": {
+                "text": "Build Yak package"
+            },
+            "isVisible": true
+        },
+        {
+            "id": "IncludeRhinoPlugIn",
+            "name": {
+                "text": "Include Rhino plug-in class"
+            },
+            "isVisible": true
+        },
+        {
+            "id": "IncludeVSCode",
+            "name": {
+                "text": "Include VS Code launch/tasks json files"
+            },
+            "isVisible": true
+        }
+    ],
     "unsupportedHosts": [
         {
             "id": "vs"

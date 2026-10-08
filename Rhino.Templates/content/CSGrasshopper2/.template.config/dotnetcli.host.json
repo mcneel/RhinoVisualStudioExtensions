@@ -44,6 +44,10 @@
       "longName": "build-yak",
       "shortName": "yak"
     },
+    "IncludeRhinoPlugIn": {
+      "longName": "include-rhino-plugin",
+      "shortName": "rhp"
+    },
     "IncludeVSCode": {
       "longName": "include-vscode-launch",
       "shortName": "vscode"

@@ -1,0 +1,18 @@
+#!/bin/sh
+# Xcode only reads templates from the user's own Library, so copy them there for the logged-in user.
+src="/Library/Application Support/McNeel/Rhino Xcode Templates"
+user=$(stat -f %Su /dev/console)
+if [ -z "$user" ] || [ "$user" = root ] || [ "$user" = loginwindow ]; then
+  echo "No logged-in user; templates left in $src"
+  exit 0
+fi
+home=$(dscl . -read "/Users/$user" NFSHomeDirectory | awk '{print $2}')
+dest="$home/Library/Developer/Xcode/Templates"
+
+for kind in "Project Templates" "File Templates"; do
+  rm -rf "$dest/$kind/Rhino"
+  mkdir -p "$dest/$kind"
+  ditto "$src/$kind/Rhino" "$dest/$kind/Rhino"
+done
+chown -R "$user" "$dest"
+exit 0

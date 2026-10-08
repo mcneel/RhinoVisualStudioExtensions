@@ -48,27 +48,22 @@
 <!--#endif-->
   <ItemGroup>
     <EmbeddedResource Include="Icons\*.ghicon" />
+<!--#if (IncludeRhinoPlugIn)-->
     <EmbeddedResource Include="Icons\*.ico" />
+<!--#endif-->
   </ItemGroup>
 <!--#if (UseWinForms)-->
-  <!-- Reference WinForms for .NET 7.0 on macOS -->
+  <!-- Reference WinForms for .NET 8.0 on macOS -->
   <ItemGroup Condition="!($(TargetFramework.Contains('-windows')) or $(TargetFramework.StartsWith('net4')))">
     <FrameworkReference Include="Microsoft.WindowsDesktop.App.WindowsForms" />
   </ItemGroup>
 
 <!--#endif-->
-<!--#if (RhinoVersion < '8')-->
-  <Target Name="CopyPdbForMonoDebugging" AfterTargets="AfterBuild">
-    <!-- Enable debugging in Rhino 6/7 on Mac -->
-    <Copy SourceFiles="$(TargetDir)$(TargetName).pdb" DestinationFiles="$(TargetDir)$(TargetName).gha.pdb" Condition="$([MSBuild]::IsOSPlatform(OSX)) and $(TargetFramework.StartsWith('net4')) and Exists('$(TargetDir)$(TargetName).pdb')" />
-  </Target>
-
-<!--#endif-->
 <!--#if (BuildYak)-->
   <Target Name="BuildYakPackage" AfterTargets="DispatchToInnerBuilds">
     <PropertyGroup>
-      <YakExecutable Condition="$(YakExecutable) == '' and $([MSBuild]::IsOSPlatform(windows)) and Exists('C:\Program Files\Rhino 9 WIP\System\Yak.exe')">C:\Program Files\Rhino 9 WIP\System\Yak.exe</YakExecutable>
-      <YakExecutable Condition="$(YakExecutable) == '' and $([MSBuild]::IsOSPlatform(macos)) and Exists('/Applications/RhinoBETA.app/Contents/Resources/bin/yak')">/Applications/RhinoBETA.app/Contents/Resources/bin/yak</YakExecutable>
+      <YakExecutable Condition="$(YakExecutable) == '' and $([MSBuild]::IsOSPlatform(windows)) and Exists('C:\Program Files\Rhino 9\System\Yak.exe')">C:\Program Files\Rhino 9\System\Yak.exe</YakExecutable>
+      <YakExecutable Condition="$(YakExecutable) == '' and $([MSBuild]::IsOSPlatform(macos)) and Exists('/Applications/Rhino 9.app/Contents/Resources/bin/yak')">/Applications/Rhino 9.app/Contents/Resources/bin/yak</YakExecutable>
       
       <BuildYakPackage Condition="$(BuildYakPackage) == '' and $(YakExecutable) != '' and Exists($(YakExecutable))">True</BuildYakPackage>
     </PropertyGroup>

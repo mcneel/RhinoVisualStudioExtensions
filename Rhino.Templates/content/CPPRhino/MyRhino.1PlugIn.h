@@ -62,7 +62,7 @@ public:
   // run. This is a good place to perform any significant initialization,
   // license checking, and so on.  This function must return TRUE for
   // the plug-in to continue to load.  
-  BOOL OnLoadPlugIn() override;
+  int OnLoadPlugIn() override;
   
   // Called one time when plug-in is about to be unloaded. By this time,
   // Rhino's mainframe window has been destroyed, and some of the SDK
@@ -93,7 +93,7 @@ public:
   void AddFileType(ON_ClassArray<CRhinoFileType>& extensions, const CRhinoFileReadOptions& options) override;
   
   // Called by Rhino to read document geometry from an external file.
-  BOOL ReadFile(const wchar_t* filename, int index, CRhinoDoc& doc, const CRhinoFileReadOptions& options) override;
+  BOOL32 ReadFile(const wchar_t* filename, int index, CRhinoDoc& doc, const CRhinoFileReadOptions& options) override;
 #endif
 #if TypeExport
 
@@ -104,7 +104,7 @@ public:
   void AddFileType(ON_ClassArray<CRhinoFileType>& extensions, const CRhinoFileWriteOptions& options) override;
   
   // Called by Rhino to write document geometry to an external file.
-  BOOL WriteFile(const wchar_t* filename, int index, CRhinoDoc& doc, const CRhinoFileWriteOptions& options) override;
+  int WriteFile(const wchar_t* filename, int index, CRhinoDoc& doc, const CRhinoFileWriteOptions& options) override;
 #endif
 #if TypeRender
 
@@ -119,8 +119,8 @@ public:
     bool bBlowUp
     ) override;
 
-  BOOL SaveRenderedImage(ON_wString filename) override;
-  BOOL CloseRenderWindow() override;
+  BOOL32 SaveRenderedImage(ON_wString filename) override;
+  BOOL32 CloseRenderWindow() override;
 
   // Render methods
   CRhinoCommand::result RenderQuiet( const CRhinoCommandContext& context, bool bPreview);

@@ -27,16 +27,16 @@ public:
 	CRhinoSdkRender::RenderReturnCodes RenderWindow(CRhinoView* pView, const LPRECT pRect, bool bInPopupWindow) override;
 
 	// CRhRdkSdkRender overrides.
-	virtual BOOL RenderSceneWithNoMeshes() override { return TRUE; }
-	virtual BOOL IgnoreRhinoObject(const CRhinoObject*) override { return FALSE; }
-	virtual BOOL RenderPreCreateWindow() override;
-	virtual BOOL RenderEnterModalLoop() override { return TRUE; }
-	virtual BOOL RenderContinueModal() override;
-	virtual BOOL RenderExitModalLoop() override { return TRUE; }
+	virtual BOOL32 RenderSceneWithNoMeshes() override { return TRUE; }
+	virtual BOOL32 IgnoreRhinoObject(const CRhinoObject*) override { return FALSE; }
+	virtual BOOL32 RenderPreCreateWindow() override;
+	virtual BOOL32 RenderEnterModalLoop() override { return TRUE; }
+	virtual BOOL32 RenderContinueModal() override;
+	virtual BOOL32 RenderExitModalLoop() override { return TRUE; }
 	virtual bool ReuseRenderWindow(void) const override { return true; }
-	virtual BOOL NeedToProcessGeometryTable() override;
-	virtual BOOL NeedToProcessLightTable() override;
-	virtual BOOL StartRenderingInWindow(CRhinoView* pView, const LPCRECT pRect) override;
+	virtual BOOL32 NeedToProcessGeometryTable() override;
+	virtual BOOL32 NeedToProcessLightTable() override;
+	virtual BOOL32 StartRenderingInWindow(CRhinoView* pView, const LPCRECT pRect) override;
 	virtual void StopRendering() override;
 	virtual void StartRendering() override;
 

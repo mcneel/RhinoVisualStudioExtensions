@@ -1,0 +1,7 @@
+<Project>
+  <Import Project="..\Directory.Build.props" />
+  <PropertyGroup>
+    <!-- Separate restore/obj per VS version since each uses different package versions. -->
+    <BaseIntermediateOutputPath>$(BaseIntermediateOutputPath)$(VSVersion)\</BaseIntermediateOutputPath>
+  </PropertyGroup>
+</Project>

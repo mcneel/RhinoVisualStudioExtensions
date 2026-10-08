@@ -6,17 +6,6 @@
     {
       "label": "build-2019",
       "type": "shell",
-      "osx": {
-        "command": "msbuild",
-        "args": [
-          "/restore",
-          "/v:Minimal",
-          "/p:Configuration=${input:configuration}",
-          "/p:VSVersion=2019",
-          "/bl:${workspaceFolder}/artifacts/log/Rhino.VisualStudio.Mac.2019.binlog",
-          "${workspaceFolder}/Rhino.VisualStudio.Mac/Rhino.VisualStudio.Mac.csproj",
-        ],
-      },
       "windows": {
         "command": "${input:msbuild2019}",
         "args": [
@@ -38,18 +27,30 @@
     {
       "label": "build-2022",
       "type": "shell",
-      "osx": {
-        "command": "dotnet",
-        "args": [
-          "build",
-          "/p:VSVersion=2022",
-          "/p:Configuration=${input:configuration}",
-          "/bl:${workspaceFolder}/artifacts/log/Rhino.VisualStudio.Mac.2022.binlog",
-          "${workspaceFolder}/Rhino.VisualStudio.Mac/Rhino.VisualStudio.Mac.csproj",
-        ],
-      },
       "windows": {
         "command": "${input:msbuild2022}",
+        "args": [
+          "/restore",
+          "/v:Minimal",
+          "/p:Configuration=${input:configuration}",
+          "/p:VSVersion=2022",
+          "${workspaceFolder}/Rhino.VisualStudio.Windows/Rhino.VisualStudio.Windows.csproj",
+        ],
+      },
+      "args": [],
+      "problemMatcher": "$msCompile",
+      "presentation": {
+        "reveal": "always",
+        "clear": true
+      },
+      "group": "build"
+    },
+    {
+      // VS 2026 uses the 2022 extension; building with its MSBuild deploys to its Exp instance.
+      "label": "build-2026",
+      "type": "shell",
+      "windows": {
+        "command": "${input:msbuild2026}",
         "args": [
           "/restore",
           "/v:Minimal",
@@ -83,11 +84,47 @@
       }
     },
     {
+      // Installs the newest built package, whichever configuration it came from.
+      "label": "install-templates",
+      "type": "shell",
+      "dependsOn": "build-templates",
+      "osx": {
+        "command": "dotnet new uninstall Rhino.Templates; dotnet new install \"$(ls -t ${workspaceFolder}/artifacts/bin/Rhino.Templates/*/Rhino.Templates.*.nupkg | head -1)\" --force"
+      },
+      "linux": {
+        "command": "dotnet new uninstall Rhino.Templates; dotnet new install \"$(ls -t ${workspaceFolder}/artifacts/bin/Rhino.Templates/*/Rhino.Templates.*.nupkg | head -1)\" --force"
+      },
+      "windows": {
+        "command": "dotnet new uninstall Rhino.Templates; dotnet new install (Get-ChildItem '${workspaceFolder}/artifacts/bin/Rhino.Templates/*/Rhino.Templates.*.nupkg' | Sort-Object LastWriteTime -Descending | Select-Object -First 1).FullName --force"
+      },
+      "problemMatcher": [],
+      "presentation": {
+        "clear": true
+      }
+    },
+    {
       "label": "generate-templates",
       "type": "shell",
       "dependsOn": "build-templates",
       "command": "dotnet build ${workspaceFolder}/build/GenerateTemplates.proj",
       "problemMatcher": "$msCompile",
+      "presentation": {
+        "clear": true
+      }
+    },
+    {
+      // Rebuilds the puzzle-piece template icons from build/icons/icons.json.
+      "label": "generate-icons",
+      "type": "process",
+      "command": "powershell.exe",
+      "args": [
+        "-NoProfile",
+        "-ExecutionPolicy",
+        "Bypass",
+        "-File",
+        "${workspaceFolder}/build/icons/make-icons.ps1"
+      ],
+      "problemMatcher": [],
       "presentation": {
         "clear": true
       }
@@ -103,6 +140,27 @@
       "problemMatcher": "$msCompile",
       "presentation": {
         "clear": true
+      }
+    },
+    {
+      "label": "build-xcode-templates",
+      "type": "shell",
+      "command": "${workspaceFolder}/Rhino.Xcode/build-pkg.sh",
+      "problemMatcher": [],
+      "presentation": {
+        "clear": true
+      }
+    },
+    {
+      // Installs through the pkg so its install script is tested too. Restart Xcode afterwards.
+      "label": "install-xcode-templates",
+      "type": "shell",
+      "dependsOn": "build-xcode-templates",
+      "command": "sudo installer -pkg \"$(ls -t ${workspaceFolder}/artifacts/xcode/RhinoXcodeTemplates-*.pkg | head -1)\" -target /",
+      "problemMatcher": [],
+      "presentation": {
+        "clear": true,
+        "focus": true
       }
     },
     {
@@ -132,6 +190,15 @@
       "command": "shellCommand.execute",
       "args": {
         "command": "\"%ProgramFiles(x86)%\\Microsoft Visual Studio\\Installer\\vswhere.exe\" -version \"[17,18)\" -latest -products * -requires Microsoft.Component.MSBuild -find MSBuild\\**\\Bin\\MSBuild.exe",
+        "useFirstResult": "true"
+      }
+    },
+    {
+      "id": "msbuild2026",
+      "type": "command",
+      "command": "shellCommand.execute",
+      "args": {
+        "command": "\"%ProgramFiles(x86)%\\Microsoft Visual Studio\\Installer\\vswhere.exe\" -version \"[18,19)\" -latest -products * -requires Microsoft.Component.MSBuild -find MSBuild\\**\\Bin\\MSBuild.exe",
         "useFirstResult": "true"
       }
     },

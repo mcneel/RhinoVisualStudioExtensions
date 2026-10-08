@@ -1,7 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--#if (RhinoVersion >= '9')-->
+<!--https://www.nuget.org/packages/Rhino.Testing/9.0.8-beta-->
+<!--#else-->
 <!--https://www.nuget.org/packages/Rhino.Testing/8.0.23-beta-->
+<!--#endif-->
 <Settings>
   <!--<CreateRhinoDoc>false</CreateRhinoDoc>-->
   <!--<CreateRhinoView>false</CreateRhinoView>-->
+<!--#if (RhinoVersion >= '9')-->
+  <RhinoSystemDirectory>C:\Program Files\Rhino 9\System</RhinoSystemDirectory>
+<!--#else-->
   <RhinoSystemDirectory>C:\Program Files\Rhino 8\System</RhinoSystemDirectory>
+<!--#endif-->
 </Settings>

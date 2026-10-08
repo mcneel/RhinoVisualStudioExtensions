@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Eto;
 using Eto.Drawing;
 
@@ -27,7 +27,7 @@ namespace Rhino.VisualStudio
 
         public static IPlatformHelpers Helpers => Platform.Instance.CreateShared<IPlatformHelpers>();
 
-        public static int LatestSdkRelease { get; internal set; } = 7;
-        public static readonly int[] VersionsToCheck = { 8, 7, 6 };
+        public static int LatestSdkRelease { get; internal set; } = 8;
+        public static readonly int[] VersionsToCheck = { 9, 8, 7, 6 };
     }
 }

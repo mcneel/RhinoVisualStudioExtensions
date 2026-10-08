@@ -28,6 +28,9 @@ namespace Rhino.VisualStudio
             var provideCommandSampleCheckBox = new CheckBox { Text = "Provide sample code", ToolTip = "Check to provide a sample implementation for the component" };
             provideCommandSampleCheckBox.CheckedBinding.BindDataContext((Grasshopper2OptionsViewModel m) => m.IncludeSample);
 
+            var includeRhinoPlugInCheckBox = new CheckBox { Text = "Include Rhino plug-in class", ToolTip = "Check to add a Rhino plug-in class, e.g. to add Rhino commands or options pages" };
+            includeRhinoPlugInCheckBox.CheckedBinding.BindDataContext((Grasshopper2OptionsViewModel m) => m.IncludeRhinoPlugIn);
+
 
             var componentNameTextBox = new TextBox();
             componentNameTextBox.TextBinding.BindDataContext((Grasshopper2OptionsViewModel m) => m.ComponentName);
@@ -89,6 +92,7 @@ namespace Rhino.VisualStudio
             AddRhinoVersion(layout);
             AddBuildYakPackage(layout);
             AddIncludeVSCode(layout);
+            layout.Add(includeRhinoPlugInCheckBox);
             layout.Add(provideCommandSampleCheckBox);
             layout.EndVertical();
 

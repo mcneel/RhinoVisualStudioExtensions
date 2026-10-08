@@ -1,5 +1,28 @@
 ﻿{
     "$schema": "http://json.schemastore.org/vs-2017.3.host",
+    "symbolInfo": [
+        {
+            "id": "ZooPluginPath",
+            "name": {
+                "text": "ZooPlugin.dll location"
+            },
+            "isVisible": true
+        },
+        {
+            "id": "RhinoPluginId",
+            "name": {
+                "text": "Rhino plug-in ID"
+            },
+            "isVisible": true
+        },
+        {
+            "id": "PluginClassName",
+            "name": {
+                "text": "Plug-in class name"
+            },
+            "isVisible": true
+        }
+    ],
     "unsupportedHosts": [
         {
             "id": "vs"

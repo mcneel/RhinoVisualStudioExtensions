@@ -120,7 +120,7 @@ void CMyRhino__1EventWatcher::SetLightFlags(BOOL b /*= FALSE*/)
 // CRhinoEventWatcher overrides
 //
 
-void CMyRhino__1EventWatcher::OnEnableEventWatcher( BOOL b )
+void CMyRhino__1EventWatcher::OnEnableEventWatcher( BOOL32 b )
 {
 	UNREFERENCED_PARAMETER(b);
 	Defaults();
@@ -147,7 +147,7 @@ void CMyRhino__1EventWatcher::OnNewDocument( CRhinoDoc& doc )
 	Defaults( true);
 }
 
-void CMyRhino__1EventWatcher::OnBeginOpenDocument( CRhinoDoc& doc, const wchar_t* filename, BOOL bMerge, BOOL bReference )
+void CMyRhino__1EventWatcher::OnBeginOpenDocument( CRhinoDoc& doc, const wchar_t* filename, BOOL32 bMerge, BOOL32 bReference )
 {
 	UNREFERENCED_PARAMETER(doc);
 	UNREFERENCED_PARAMETER(filename);
@@ -156,7 +156,7 @@ void CMyRhino__1EventWatcher::OnBeginOpenDocument( CRhinoDoc& doc, const wchar_t
 	Defaults( true);
 }
 
-void CMyRhino__1EventWatcher::OnEndOpenDocument( CRhinoDoc& doc, const wchar_t* filename, BOOL bMerge, BOOL bReference )
+void CMyRhino__1EventWatcher::OnEndOpenDocument( CRhinoDoc& doc, const wchar_t* filename, BOOL32 bMerge, BOOL32 bReference )
 {
 	UNREFERENCED_PARAMETER(doc);
 	UNREFERENCED_PARAMETER(filename);
@@ -165,14 +165,14 @@ void CMyRhino__1EventWatcher::OnEndOpenDocument( CRhinoDoc& doc, const wchar_t* 
 	Defaults( true);
 }
 
-void CMyRhino__1EventWatcher::OnBeginSaveDocument( CRhinoDoc& doc, const wchar_t* filename, BOOL bExportSelected )
+void CMyRhino__1EventWatcher::OnBeginSaveDocument( CRhinoDoc& doc, const wchar_t* filename, BOOL32 bExportSelected )
 {
 	UNREFERENCED_PARAMETER(doc);
 	UNREFERENCED_PARAMETER(filename);
 	UNREFERENCED_PARAMETER(bExportSelected);
 }
 
-void CMyRhino__1EventWatcher::OnEndSaveDocument( CRhinoDoc& doc, const wchar_t* filename, BOOL bExportSelected )
+void CMyRhino__1EventWatcher::OnEndSaveDocument( CRhinoDoc& doc, const wchar_t* filename, BOOL32 bExportSelected )
 {
 	UNREFERENCED_PARAMETER(doc);
 	UNREFERENCED_PARAMETER(filename);

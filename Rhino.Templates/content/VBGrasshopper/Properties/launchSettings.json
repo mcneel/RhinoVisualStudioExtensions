@@ -1,5 +1,23 @@
 {
   "profiles": {
+//#if (RhinoVersion <= '9')
+    "Rhino 9 - netcore": {
+      "commandName": "Executable",
+      "executablePath": "C:\\Program Files\\Rhino 9\\System\\Rhino.exe",
+      "commandLineArgs": "/netcore /runscript=\"_Grasshopper\"",
+      "environmentVariables": {
+        "RHINO_PACKAGE_DIRS": "$(ProjectDir)$(OutputPath)\\"
+      }
+    },
+    "Rhino 9 - netfx": {
+      "commandName": "Executable",
+      "executablePath": "C:\\Program Files\\Rhino 9\\System\\Rhino.exe",
+      "commandLineArgs": "/netfx /runscript=\"_Grasshopper\"",
+      "environmentVariables": {
+        "RHINO_PACKAGE_DIRS": "$(ProjectDir)$(OutputPath)\\"
+      }
+    },
+//#endif
 //#if (RhinoVersion <= '8')
     "Rhino 8 - netcore": {
       "commandName": "Executable",
