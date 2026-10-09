@@ -3,9 +3,13 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LocalDebuggerCommand>$(RhinoExeDir)\Rhino.exe</LocalDebuggerCommand>
     <LocalDebuggerWorkingDirectory>$(RhinoExeDir)</LocalDebuggerWorkingDirectory>
+    <LocalDebuggerEnvironment>RHINO_PACKAGE_DIRS=$(OutDir)
+$(LocalDebuggerEnvironment)</LocalDebuggerEnvironment>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LocalDebuggerCommand>$(RhinoExeDir)\Rhino.exe</LocalDebuggerCommand>
     <LocalDebuggerWorkingDirectory>$(RhinoExeDir)</LocalDebuggerWorkingDirectory>
+    <LocalDebuggerEnvironment>RHINO_PACKAGE_DIRS=$(OutDir)
+$(LocalDebuggerEnvironment)</LocalDebuggerEnvironment>
   </PropertyGroup>
 </Project>
