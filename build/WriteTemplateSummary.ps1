@@ -19,10 +19,14 @@ function Get-Diagnostics([string]$logPath) {
 }
 
 $root = (Resolve-Path $TemplateDir).Path
-$projects = Get-ChildItem $root -Recurse -File -Include *.csproj, *.vbproj, *.vcxproj |
-  Where-Object { $_.FullName -notmatch '[\\/](bin|obj)[\\/]' } |
+# C++ folders hold a .vcxproj, .xcodeproj and/or CMakeLists.txt; count each folder once.
+# build and SDK hold CMake/Xcode output and the linked Rhino C++ SDK, which has its own samples.
+$projects = Get-ChildItem $root -Recurse -Include *.csproj, *.vbproj, *.vcxproj, *.xcodeproj, CMakeLists.txt |
+  Where-Object { [IO.Path]::GetRelativePath($root, $_.FullName) -notmatch '(^|[\\/])(bin|obj|build|SDK)[\\/]|\.xcodeproj[\\/]' } |
+  ForEach-Object { [IO.Path]::GetDirectoryName($_.FullName) } |
+  Sort-Object -Unique |
   ForEach-Object {
-    $dir = $_.Directory.FullName
+    $dir = $_
     $errorLog = Join-Path $dir 'build.errors.log'
     $warnings = @(Get-Diagnostics (Join-Path $dir 'build.warnings.log'))
     $errors = @(Get-Diagnostics $errorLog)

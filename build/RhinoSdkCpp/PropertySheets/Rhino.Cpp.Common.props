@@ -1,0 +1,23 @@
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <!--
+    Stands in for the installed Rhino C++ SDK's property sheets so .vcxproj templates can build
+    against a rhino_sdk_cpp checkout. Use with /p:RhinoSdkPath=<this folder's parent>\ /p:RhinoSdkCppDir=<checkout>
+  -->
+  <PropertyGroup>
+    <RhinoSdkDir>$([MSBuild]::EnsureTrailingSlash($(RhinoSdkCppDir)))</RhinoSdkDir>
+    <RhinoIncDir>$(RhinoSdkDir)inc</RhinoIncDir>
+    <RhinoLibDir>$(RhinoSdkDir)lib</RhinoLibDir>
+  </PropertyGroup>
+  <ItemDefinitionGroup>
+    <ClCompile>
+      <AdditionalIncludeDirectories>$(RhinoIncDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>RHINO_LIB_DIR="$(RhinoLibDir.Replace('\','/'))";%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <!-- Plug-ins link the release libs in every configuration -->
+      <PreprocessorDefinitions Condition="'$(Configuration)' == 'Debug'">RHINO_DEBUG_PLUGIN;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalOptions Condition="'$(Configuration)' == 'Release'">/d2Zi+ %(AdditionalOptions)</AdditionalOptions>
+    </ClCompile>
+    <ResourceCompile>
+      <AdditionalIncludeDirectories>$(RhinoIncDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+  </ItemDefinitionGroup>
+</Project>
