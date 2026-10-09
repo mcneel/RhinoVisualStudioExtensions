@@ -3,8 +3,18 @@ name: Templates
 on:
   push:
     branches: [ main ]
+    paths:
+      - 'Rhino.Templates/**'
+      - 'build/GenerateTemplates.proj'
+      - 'build/WriteTemplateSummary.ps1'
+      - '.github/workflows/templates.yml'
   pull_request:
     branches: [ main ]
+    paths:
+      - 'Rhino.Templates/**'
+      - 'build/GenerateTemplates.proj'
+      - 'build/WriteTemplateSummary.ps1'
+      - '.github/workflows/templates.yml'
   workflow_dispatch:
 
 jobs:
