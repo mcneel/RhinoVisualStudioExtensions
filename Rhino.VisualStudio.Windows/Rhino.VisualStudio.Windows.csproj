@@ -61,16 +61,16 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Eto.Platform.Wpf" Version="2.7.5" />
-    <PackageReference Include="Microsoft.VSSDK.BuildTools" Version="18.9.820" PrivateAssets="all" />
+    <PackageReference Include="Eto.Platform.Wpf" Version="2.12.0" />
+    <PackageReference Include="Microsoft.VSSDK.BuildTools" Version="18.5.40034" PrivateAssets="all" />
   </ItemGroup>
   <ItemGroup Condition="$(VSVersion) == '2019'">
     <PackageReference Include="Microsoft.VisualStudio.SDK" Version="16.10.31321.278" ExcludeAssets="runtime" />
     <PackageReference Include="Microsoft.VisualStudio.TemplateWizardInterface" Version="16.10.31320.204" />
   </ItemGroup>
   <ItemGroup Condition="$(VSVersion) == '2022'">
-    <PackageReference Include="Microsoft.VisualStudio.SDK" Version="17.5.33428.388" ExcludeAssets="runtime" />
-    <PackageReference Include="Microsoft.VisualStudio.TemplateWizardInterface" Version="17.0.31902.203" />
+    <PackageReference Include="Microsoft.VisualStudio.SDK" Version="17.14.40265" ExcludeAssets="runtime" />
+    <PackageReference Include="Microsoft.VisualStudio.TemplateWizardInterface" Version="17.10.40170" />
   </ItemGroup>
 
   <ItemGroup>
@@ -83,9 +83,14 @@
 
   <Import Project="Properties\wafflebuilder.targets" />
 
-  <Target Name="ClearTemplateCache" AfterTargets="AfterBuild">
-    <RemoveDir Directories="$(LOCALAPPDATA)\Microsoft\VisualStudio\16.0_aa19621cExp\TemplateEngineHost" Condition="$(VSVersion) == '2019'" />
-    <RemoveDir Directories="$(LOCALAPPDATA)\Microsoft\VisualStudio\17.0_cf5e1df9Exp\TemplateEngineHost" Condition="$(VSVersion) == '2022'" />
+  <!-- The Exp template cache otherwise keeps showing previously installed templates. VS 2026 uses the 2022 extension. -->
+  <Target Name="ClearTemplateCache" AfterTargets="AfterBuild" Condition="Exists('$(LOCALAPPDATA)\Microsoft\VisualStudio')">
+    <ItemGroup>
+      <_ExpInstance Include="$([System.IO.Directory]::GetDirectories('$(LOCALAPPDATA)\Microsoft\VisualStudio', '16.0_*Exp'))" Condition="$(VSVersion) == '2019'" />
+      <_ExpInstance Include="$([System.IO.Directory]::GetDirectories('$(LOCALAPPDATA)\Microsoft\VisualStudio', '17.0_*Exp'))" Condition="$(VSVersion) == '2022'" />
+      <_ExpInstance Include="$([System.IO.Directory]::GetDirectories('$(LOCALAPPDATA)\Microsoft\VisualStudio', '18.0_*Exp'))" Condition="$(VSVersion) == '2022'" />
+    </ItemGroup>
+    <RemoveDir Directories="@(_ExpInstance->'%(Identity)\TemplateEngineHost')" />
   </Target>
   <!-- The build tools' suppression list assumes current VS, which ships these; VS 2019 may not. -->
   <Target Name="KeepVS2019Dependencies" BeforeTargets="GetVsixSourceItems" Condition="$(VSVersion) == '2019'">
