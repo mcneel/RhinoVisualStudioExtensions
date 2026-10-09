@@ -51,6 +51,10 @@
       "../../Rhino.VisualStudio.Windows/Templates/VBCommand/icon.ico",
       "../../Rhino.VisualStudio.Windows/Templates/CPPCommand/icon.ico"
     ],
+    "plainOutputs": [
+      "../../Rhino.VisualStudio.Windows/icon.ico",
+      "../../Rhino.VisualStudio.Windows/rhino.png"
+    ],
     "fill": {
       "cx": 40, "cy": 20, "r": 300,
       "stops": [[0, "#5c5f66"], [0.45, "#2c2e33"], [1, "#0b0b0c"]]

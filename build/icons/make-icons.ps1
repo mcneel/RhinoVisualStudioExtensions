@@ -10,6 +10,7 @@
     piece    Piece shape, relative to icons.json (default puzzle-piece.png). A .png uses its alpha as the shape and shadow;
              an .svg is drawn as vector shapes (black, 256x256 canvas) and gets a generated shadow.
     outputs  .ico files to write, relative to icons.json.
+    plainOutputs  .ico or .png (256px) files without the dark-theme opt-out pixel, e.g. the extension's own icon (optional).
     fill     Radial gradient for the piece: centre cx/cy, radius r, and [offset, colour] stops.
     rim      Light edge inside the piece (width in px, colour), so dark artwork doesn't merge into dark themes. Width 0 turns it off.
     outline  Thin line at the very edge (width in px, colour), so light pieces don't fade into light themes. SVG pieces only.
@@ -203,8 +204,19 @@ foreach ($icon in $icons) {
     $b.SetPixel($size - 1, 0, [Drawing.Color]::FromArgb(255, 0, 255, 255))
     $b
   }
-  $full.Dispose()
   foreach ($o in $icon.outputs) { $path = Join-Path $baseDir $o; Write-Ico $path $frames; Write-Host "  wrote $(Resolve-Path $path)" }
   $frames | ForEach-Object { $_.Dispose() }
+
+  # Places VS doesn't theme would show the opt-out pixel, so these get clean frames.
+  if ($icon.plainOutputs) {
+    $frames = foreach ($size in $Sizes) { Resize $size }
+    foreach ($o in $icon.plainOutputs) {
+      $path = Join-Path $baseDir $o
+      if ($o -like '*.png') { $frames[0].Save($path, [Drawing.Imaging.ImageFormat]::Png) } else { Write-Ico $path $frames }
+      Write-Host "  wrote $(Resolve-Path $path)"
+    }
+    $frames | ForEach-Object { $_.Dispose() }
+  }
+  $full.Dispose()
 }
 Remove-Item -Recurse -Force $work -ErrorAction SilentlyContinue
