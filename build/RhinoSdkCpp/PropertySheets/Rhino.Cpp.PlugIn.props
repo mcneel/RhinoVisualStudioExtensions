@@ -1,0 +1,6 @@
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="Rhino.Cpp.Common.props" />
+  <PropertyGroup>
+    <TargetExt>.rhp</TargetExt>
+  </PropertyGroup>
+</Project>

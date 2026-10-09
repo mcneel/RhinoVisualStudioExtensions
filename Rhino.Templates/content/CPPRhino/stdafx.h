@@ -8,10 +8,10 @@
 #if defined(__APPLE__)
 
 // Rhino SDK for macOS; the Windows headers below are MFC-only.
-#include "SDK/inc/rhinoSdkStdafxPreamble.h"
-#include "SDK/inc/rhinoSdk.h"
-#include "SDK/inc/RhRdkHeaders.h"
-#include "SDK/inc/rhinoSdkChecks.h"
+#include "rhinoSdkStdafxPreamble.h"
+#include "rhinoSdk.h"
+#include "RhRdkHeaders.h"
+#include "rhinoSdkChecks.h"
 
 // Windows definitions the template code uses, which the Mac SDK does not declare.
 #ifndef MB_OK

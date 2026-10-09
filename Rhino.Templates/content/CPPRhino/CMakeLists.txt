@@ -46,7 +46,14 @@ endif()
 
 add_library(${PLUGIN_TARGET} MODULE ${SOURCES})
 set_target_properties(${PLUGIN_TARGET} PROPERTIES OUTPUT_NAME "${PLUGIN_NAME}")
-target_include_directories(${PLUGIN_TARGET} PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}" "${RHINO_SDK}/inc")
+target_include_directories(${PLUGIN_TARGET} PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}")
+if(APPLE)
+  # The SDK headers warn about their own include casing and deprecations; the Xcode
+  # project silences these with the SDK's xcconfig, here they're system headers instead.
+  target_include_directories(${PLUGIN_TARGET} SYSTEM PRIVATE "${RHINO_SDK}/inc")
+else()
+  target_include_directories(${PLUGIN_TARGET} PRIVATE "${RHINO_SDK}/inc")
+endif()
 
 if(WIN32)
   # Rhino plug-ins always link the release CRT and MFC, even when built with
