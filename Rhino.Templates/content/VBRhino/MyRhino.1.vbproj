@@ -65,7 +65,7 @@
     <PackageReference Include="RhinoCommon" Version="8.0.23304.9001" ExcludeAssets="runtime" />
 <!--#endif-->
 <!--#if (RhinoVersion == '9')-->
-    <PackageReference Include="RhinoCommon" Version="9.0.26258.12303-beta" ExcludeAssets="runtime" />
+    <PackageReference Include="RhinoCommon" Version="9.0.26279.6303-beta" ExcludeAssets="runtime" />
 <!--#endif-->
   </ItemGroup>
   

@@ -31,7 +31,7 @@
   </PropertyGroup>
   
   <ItemGroup>
-    <PackageReference Include="Grasshopper2" Version="9.0.26258.12303-beta" ExcludeAssets="runtime" />
+    <PackageReference Include="Grasshopper2" Version="9.0.26279.6303-beta" ExcludeAssets="runtime" />
   </ItemGroup>
   
 <!--#if (UseWindowsDesktop)-->

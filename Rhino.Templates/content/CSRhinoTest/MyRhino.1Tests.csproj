@@ -29,7 +29,7 @@
 <!--#if (RhinoVersion >= '9')-->
     <PackageReference Include="Rhino.Testing" Version="9.0.8-beta" />
 
-    <PackageReference Include="RhinoCommon" Version="9.0.26258.12303-beta" ExcludeAssets="runtime" />
+    <PackageReference Include="RhinoCommon" Version="9.0.26279.6303-beta" ExcludeAssets="runtime" />
 <!--#else-->
     <PackageReference Include="Rhino.Testing" Version="8.0.23-beta" />
 
