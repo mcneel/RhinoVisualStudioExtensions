@@ -3,7 +3,8 @@
     <TargetFramework>net472</TargetFramework>
     <UseWPF>true</UseWPF>
     <RootNamespace>Rhino.VisualStudio.Windows</RootNamespace>
-    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+    <AssemblyTitle>Rhino Visual Studio Extension</AssemblyTitle>
+    <Product>Rhino Visual Studio Extension</Product>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <DefineConstants>$(DefineConstants);VS$(VSVersion)</DefineConstants>
     <OutputPath>$(BaseOutputPath)$(VSVersion)\$(Configuration)\</OutputPath>
@@ -98,6 +99,8 @@
       <SuppressFromVsix Remove="Microsoft.Win32.Registry.dll;System.Security.AccessControl.dll;System.Security.Principal.Windows.dll" />
     </ItemGroup>
   </Target>
+  <!-- Called by the Identity Version token in source.extension.vsixmanifest. -->
+  <Target Name="GetVsixVersion" DependsOnTargets="GetAssemblyVersion" Returns="$(AssemblyVersion)" />
   <Target Name="CreateDirectory for vsix" BeforeTargets="CreateVsixContainer">
     <MakeDir Directories="$([System.IO.Path]::GetDirectoryName($(TargetVsixContainer)))" />
   </Target>

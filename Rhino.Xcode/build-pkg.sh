@@ -5,6 +5,8 @@ set -e
 here=$(cd "$(dirname "$0")" && pwd)
 out="$here/../artifacts/xcode"
 version=$(sed -n 's:.*<Version>\(.*\)</Version>.*:\1:p' "$here/../Directory.Build.props")
+# Release builds take the version from their tag, like the Windows build.
+if [ "$GITHUB_REF_TYPE" = tag ]; then version="$GITHUB_REF_NAME"; fi
 pkg="$out/RhinoXcodeTemplates-$version.pkg"
 
 rm -rf "$out"

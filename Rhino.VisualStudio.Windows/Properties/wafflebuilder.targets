@@ -169,7 +169,7 @@ _vstemplatefullpath: $(_vstemplatefullpath)
   </Target>
   
   <Target Name="BuildZipForVstemplateFiles"
-          Outputs="%(VsTemplateFiles.Identity)" DependsOnTargets="FindVstemplateFiles">
+          Outputs="%(VsTemplateFiles.Identity)" DependsOnTargets="FindVstemplateFiles;GetAssemblyVersion">
 
     <PropertyGroup>
       <_vstemplatefullpath>$([System.IO.Path]::GetFullPath('%(VsTemplateFiles.Fullpath)'))</_vstemplatefullpath>
@@ -215,6 +215,18 @@ _vstemplatefullpath: $(_vstemplatefullpath)
       FilesToAdd="@(_templatefilestoadd)"
       RootFolder="$(_vstemplatedir)"
       Condition=" '@(_templatefilestoadd)' != ' ' "/>
+
+    <!-- Replace the .vstemplate with one whose wizard reference matches this build's assembly version. -->
+    <PropertyGroup>
+      <_versionedvstemplatedir>$([System.IO.Path]::GetFullPath('$(IntermediateOutputPath)vstemplates\$(_npdNode)\$(_filename)\'))</_versionedvstemplatedir>
+      <_vstemplatetext>$([System.IO.File]::ReadAllText('$(_vstemplatefullpath)'))</_vstemplatetext>
+      <_vstemplatetext>$([System.Text.RegularExpressions.Regex]::Replace('$(_vstemplatetext)', '(Rhino\.VisualStudio\.Windows, Version=)[0-9.]+', '${1}$(AssemblyVersion)'))</_vstemplatetext>
+    </PropertyGroup>
+    <WriteLinesToFile File="$(_versionedvstemplatedir)%(VsTemplateFiles.Filename)%(VsTemplateFiles.Extension)" Lines="$([MSBuild]::Escape('$(_vstemplatetext)'))" Overwrite="true" WriteOnlyWhenDifferent="true" />
+    <AddToZipTask
+      ZipFilePath="$(_zipoutfile)"
+      FilesToAdd="$(_versionedvstemplatedir)%(VsTemplateFiles.Filename)%(VsTemplateFiles.Extension)"
+      RootFolder="$(_versionedvstemplatedir)" />
 
 
     <PropertyGroup>

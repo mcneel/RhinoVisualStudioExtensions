@@ -8,7 +8,9 @@
     <BaseOutputPath>$(ArtifactsDir)bin\$(MSBuildProjectName)\</BaseOutputPath>
     <BaseIntermediateOutputPath>$(ArtifactsDir)obj\$(OS)\$(MSBuildProjectName)\</BaseIntermediateOutputPath>
 
-    <Version>9.0.0</Version> <!-- PSST. Hey Curtis. Update all other files with this number too -->
+    <Version>9.0.0</Version>
+    <!-- Release builds take the version from their tag, e.g. refs/tags/9.0.1 -->
+    <Version Condition="$(BuildBranch.StartsWith('refs/tags/'))">$(BuildBranch.Substring(10))</Version>
     <PackageVersion>$(Version)</PackageVersion>
   </PropertyGroup>
 </Project>
