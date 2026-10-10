@@ -40,6 +40,7 @@ namespace Rhino.VisualStudio.Windows
     }
     private static void ThemeWindow(System.Windows.Window w)
     {
+      WindowTitleBar.Attach(w);
       w.Resources.MergedDictionaries.Add(new System.Windows.ResourceDictionary { Source = new Uri("pack://application:,,,/Rhino.VisualStudio.Windows;component/themes/WindowStyles.xaml", UriKind.RelativeOrAbsolute) });
     }
 
