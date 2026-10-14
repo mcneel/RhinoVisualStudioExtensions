@@ -1,40 +1,55 @@
-# RhinoCommon and Grasshopper template wizards for [Rhino3D](https://www.rhino3d.com)
+# Rhino and Grasshopper templates for Visual Studio
 
-## RhinoCommon templates
+Start a new [Rhino](https://www.rhino3d.com) or Grasshopper plug-in in seconds. Choose File › New › Project, search for **Rhino** or **Grasshopper**, and a wizard sets up the project, the SDK references and debugging for you.
 
-* **RhinoCommon Plugin** - Provides a project with a PlugIn-derived class and a Command-derived class.
-* **RhinoCommon Command** - Adds a single command class item.
+Press **F5** and Rhino starts with your plug-in already loaded. There's no need to drag files into Rhino or add folders to Grasshopper's settings.
 
-* **Zoo Plug-ins** - Adds a single project with a Zoo plug-in (requires Zoo to be installed).
+Templates target Rhino 9 by default, and Rhino 6, 7 and 8 are also supported.
 
-To load the resulting .rhp file, open Rhino. Explore to the _bin/_ output folder in the solution. Then, drag-and-drop that file onto Rhino.
+## Project templates
 
-## Grasshopper templates
+| Template | What you get | Languages |
+| --- | --- | --- |
+| **Rhino Plug-In** | A plug-in with one command. Choose a utility, digitizer, import, export or render plug-in, with optional sample code. | C#, VB.NET, C++ |
+| **Grasshopper Assembly** | A Grasshopper plug-in with one component, with an optional Archimedean spiral sample. | C#, VB.NET |
+| **Grasshopper 2 Plug-In** | A Grasshopper 2 plug-in with one component. | C# |
+| **Zoo Plug-In** | A plug-in for licensing your product with Zoo. Requires Zoo to be installed. | C#, VB.NET |
+| **Rhino Skin** | A custom-branded Rhino. | C++ |
+| **Rhino Test** | An NUnit test project that runs your tests inside Rhino, using Rhino.Testing. | C# |
 
-* **Grasshopper Assembly** - Provides a project with a GH_Component-derived class and a GH_AssemblyInfo-derived class.
-* **Grasshopper Component** - Adds a single component class item.
+The C++ plug-in can also include an Xcode project or a CMake build, so it builds on macOS too.
 
-Download the Grasshopper SDK with the Rhino `_GrasshopperGetSDKDocumentation` command, or obtain the .chm file from the Related links section below here.
+## Item templates
 
-In order to load the resulting .gha file, you can use the `_GrasshopperDeveloperSettings` command. Add the bin/ folder as a looked-up folder.
+Add these to an existing project:
 
-## C++ SDK templates
+* **Rhino Command** (C#, VB.NET, C++)
+* **Grasshopper Component** (C#, VB.NET)
+* **Grasshopper 2 Component** (C#)
 
-* **Rhino Plug-In** - Provides a PlugIn Project
+## What's new in 9.0
 
-## Features
+* Rhino 9 is now the default.
+* New Grasshopper 2 plug-in and component templates.
+* C++ plug-ins can include an Xcode project or CMake build, and load into Rhino automatically when debugging.
+* Supports Visual Studio 2026.
+* Refreshed wizards and icons, with dark mode support.
 
-This extension provides add-on and component wizards for RhinoCommon and Grasshopper projects in C# and VB.NET, and wizards for the Rhino C++ SDK. For RhinoCommon and C++ project templates, this includes utility, digitizer, import and export plug-ins. For Grasshopper project templates, this includes a sample Archimedean spiral component.
+## Requirements
 
-It makes setting up debugging easier and automatically references the RhinoCommon and/or Grasshopper NuGet packages. Rhino and Grasshopper are requirements for this wizard to operate correctly.
+* Visual Studio 2022 or 2026 on Windows.
+* Rhino installed, to run and debug your plug-in.
+* For C++ plug-ins, the [Rhino C++ SDK](https://developer.rhino3d.com/guides/cpp/).
 
-## Related Links
+On macOS or another editor, use the same templates from the command line with `dotnet new install Rhino.Templates`.
 
-* [Guides for our SDKs](https://developer.rhino3d.com/guides/)
-* [RhinoCommon API documentation](https://developer.rhino3d.com/api/rhinocommon/)
-* [Grasshopper API documentation](https://developer.rhino3d.com/api/grasshopper/)
+## Related links
+
+* [Getting started guides](https://developer.rhino3d.com/guides/)
+* [RhinoCommon API](https://developer.rhino3d.com/api/rhinocommon/)
+* [Grasshopper API](https://developer.rhino3d.com/api/grasshopper/)
+* [Source code and issues](https://github.com/mcneel/RhinoVisualStudioExtensions)
 
 ---
 
-(c) 2012-2025 Robert McNeel & Associates
-For questions, email curtis@mcneel.com
+© 2012–2026 Robert McNeel & Associates. Questions? Email [curtis@mcneel.com](mailto:curtis@mcneel.com).
