@@ -64,8 +64,16 @@ jobs:
     steps:
     - uses: actions/checkout@v7
 
+    - name: Import installer certificate
+      if: github.event_name == 'release'
+      uses: apple-actions/import-codesign-certs@v7
+      with:
+        p12-file-base64: ${{ secrets.MAC_INSTALLER_P12 }}
+        p12-password: ${{ secrets.MAC_INSTALLER_P12_PASSWORD }}
+
+    # pkgbuild picks the imported identity by its name prefix.
     - name: Build Xcode templates installer
-      run: Rhino.Xcode/build-pkg.sh
+      run: Rhino.Xcode/build-pkg.sh "${{ github.event_name == 'release' && 'Developer ID Installer' || '' }}"
 
     - name: Upload Xcode templates
       uses: actions/upload-artifact@v7
