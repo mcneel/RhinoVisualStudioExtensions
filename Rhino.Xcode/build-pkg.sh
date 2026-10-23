@@ -1,6 +1,6 @@
 #!/bin/sh
 # Builds the Xcode templates installer into artifacts/.
-# Usage: ./build-pkg.sh ["Developer ID Installer: Name (TEAMID)"]
+# Usage: ./build-pkg.sh ["Developer ID Installer: Name (TEAMID)" [notarytool-keychain-profile]]
 set -e
 here=$(cd "$(dirname "$0")" && pwd)
 out="$here/../artifacts/xcode"
@@ -18,6 +18,7 @@ find "$out/root" -name .DS_Store -delete
 cmd="$out/root/File Templates/Rhino/Rhino Command.xctemplate"
 mv "$cmd/cmd___VARIABLE_productName___.cpp" "$cmd/cmd___VARIABLE_productName:identifier___.cpp"
 
+profile="$2"
 set -- ${1:+--sign "$1"}
 COPYFILE_DISABLE=1 pkgbuild \
   --root "$out/root" \
@@ -28,4 +29,10 @@ COPYFILE_DISABLE=1 pkgbuild \
   "$@" \
   "$pkg"
 rm -rf "$out/root"
+
+if [ -n "$profile" ]; then
+  xcrun notarytool submit "$pkg" --keychain-profile "$profile" --wait
+  # Attach the ticket so Gatekeeper accepts the pkg offline.
+  xcrun stapler staple "$pkg"
+fi
 echo "Created $pkg"
